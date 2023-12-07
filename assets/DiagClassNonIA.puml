@@ -6,6 +6,9 @@ class Overcooked {
     + Etat etat
 }
 
+"Overcooked" --> "Joueur" : "joueurs"
+"Overcooked" --> "Etat" : "etat"
+
 interface Mouvable {
     + int[] coordonnees
     + getCoordonnees(): int[]
@@ -41,6 +44,14 @@ class TempsDeJeu {
     + demarrerTour(): void
     + terminerTour(): void
 }
+
+class Etat{
+    <a completer pour les données du jeu>
+    boolean estTerminal()
+    boolean equals(Etat etat)
+    int hashCode()
+}
+
 
 
 
