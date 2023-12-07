@@ -1,7 +1,23 @@
 @startuml
 
-class JoueurIACentralise
-class JoueurIANonCentralise
+interface Joueur {
+    + demanderAction(): Action
+}
+
+class JoueurHumain implements Joueur {
+    + demanderAction(): Action
+}
+
+class JoueurIA implements Joueur {
+    + demanderAction(): Action
+}
+
+class JoueurIACentralise extends JoueurIA {
+    + demanderAction(): Action
+}
+class JoueurIANonCentralise extends JoueurIA {
+    + demanderAction(): Action
+}
 class Algorithme{
     Noeud solve(Probleme probleme)
 }
@@ -12,7 +28,6 @@ Noeud <-- "frontiere / explored" Algorithme
 class Action{
     String nom
 }
-
 
 class Probleme{
     boolean estTerminal(Etat etat)
