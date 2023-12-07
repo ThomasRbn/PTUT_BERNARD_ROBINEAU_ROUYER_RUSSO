@@ -1,0 +1,40 @@
+@startuml
+
+class JoueurIACentralise
+class JoueurIANonCentralise
+class Algorithme{
+    Noeud solve(Probleme probleme)
+}
+Probleme <-- "probleme" Algorithme
+Etat <-- "etatInitial" Algorithme
+Noeud <-- "frontiere / explored" Algorithme
+
+class Action{
+    String nom
+}
+
+
+class Probleme{
+    boolean estTerminal(Etat etat)
+    List<Action> actions(Etat etat)
+    Etat resultat(Etat etat, Action action)
+    int cout(Etat etat, Action action)
+}
+Etat <-- "etatInitial" Probleme
+
+
+class Etat{
+    <a completer pour les données du jeu>
+    boolean estTerminal()
+    boolean equals(Etat etat)
+    int hashCode()
+}
+
+class Noeud{
+    int profondeur
+    int cout
+}
+Etat <-- "etat" Noeud
+Action <-- "action" Noeud
+Noeud <-- "parent" Noeud
+@enduml
