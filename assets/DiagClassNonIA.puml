@@ -1,0 +1,47 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Overcooked {
+    + List<Joueur> joueurs
+    + Etat etat
+}
+
+interface Mouvable {
+    + int[] coordonnees
+    + getCoordonnees(): int[]
+}
+
+interface Joueur {
+    + demanderAction(): Action
+}
+
+class JoueurHumain implements Joueur {
+    + demanderAction(): Action
+}
+
+class JoueurIA implements Joueur {
+    + demanderAction(): Action
+}
+
+class Personnage implements Mouvable {
+    + int[] coordonnees
+    + getCoordonnees(): int[]
+}
+
+class Aliment implements Mouvable {
+    + int[] coordonnees
+    + getCoordonnees(): int[]
+}
+
+class TempsDeJeu {
+    + int temps
+    + int intervalTemps
+    + demarrerJeu(): void
+    + terminerJeu(): void
+    + demarrerTour(): void
+    + terminerTour(): void
+}
+
+
+
+@enduml
