@@ -9,7 +9,7 @@ class Overcooked {
 "Overcooked" --> "Joueur" : "joueurs"
 "Overcooked" --> "Etat" : "etat"
 
-interface Mouvable {
+interface Movable {
     + int[] coordonnees
     + getCoordonnees(): int[]
 }
@@ -26,12 +26,12 @@ class JoueurIA implements Joueur {
     + demanderAction(): Action
 }
 
-class Personnage implements Mouvable {
+class Personnage implements Movable {
     + int[] coordonnees
     + getCoordonnees(): int[]
 }
 
-class Aliment implements Mouvable {
+class Aliment implements Movable {
     + int[] coordonnees
     + getCoordonnees(): int[]
 }
@@ -53,11 +53,15 @@ class Etat{
 }
 
 class DonneesJeu {
-    + Objet[] objetsFixes
-    + Objet[] objetsDeplacables
-    + Joueur[] Joueurs
     + lireFileDonneesJeu()
 }
+
+interface Block {
+    + int[] coordonnees
+    + getCoordonnees(): int[]
+}
+"Block" <-- "DonneesJeu" : "objetsFixes[]"
+"Movable" <-- "DonneesJeu" : "objetsDeplacables[]"
 "DonneesJeu" <-- "Overcooked" : "donnees"
 "TempsDeJeu" <-- "DonneesJeu" : "tempsDeJeu"
 
