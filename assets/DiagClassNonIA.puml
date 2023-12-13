@@ -52,6 +52,10 @@ class Etat{
     int hashCode()
 }
 
+class DonneesJeu {
+    + int[] coordonnees
+    + getCoordonnees(): int[]
+}
 
 
 
