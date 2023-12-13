@@ -53,9 +53,15 @@ class Etat{
 }
 
 class DonneesJeu {
-    + int[] coordonnees
-    + getCoordonnees(): int[]
+    + int temps
+    + int widthTerrain
+    + int heightTerrain
+    + Objet[] objetsFixes
+    + Objet[] objetsDeplacables
+    + Joueur[] Joueurs
+    + lireFileDonneesJeu()
 }
+"DonneesJeu" <-- "Overcooked" : "donnees"
 
 
 
