@@ -53,15 +53,13 @@ class Etat{
 }
 
 class DonneesJeu {
-    + int temps
-    + int widthTerrain
-    + int heightTerrain
     + Objet[] objetsFixes
     + Objet[] objetsDeplacables
     + Joueur[] Joueurs
     + lireFileDonneesJeu()
 }
 "DonneesJeu" <-- "Overcooked" : "donnees"
+"TempsDeJeu" <-- "DonneesJeu" : "tempsDeJeu"
 
 
 
