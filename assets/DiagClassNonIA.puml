@@ -15,6 +15,7 @@ interface Movable {
 interface Joueur {
     + demanderAction(): Action
 }
+"Personnage" <-- "Joueur" : "personnage"
 
 class JoueurHumain implements Joueur {
     + demanderAction(): Action

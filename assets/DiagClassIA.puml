@@ -18,12 +18,12 @@ class JoueurIACentralise extends JoueurIA {
 class JoueurIANonCentralise extends JoueurIA {
     + demanderAction(): Action
 }
-class Algorithme{
+class AlgorithmeRecherche{
     + solve(Probleme probleme) : Noeud
 }
-Probleme <-- "probleme" Algorithme
-Etat <-- "etatInitial" Algorithme
-Noeud <-- "frontiere / explored" Algorithme
+Probleme <-- "probleme" AlgorithmeRecherche
+Etat <-- "etatInitial" AlgorithmeRecherche
+Noeud <-- "frontiere / explored" AlgorithmeRecherche
 
 class Action{
     + String nom
@@ -40,8 +40,6 @@ Etat <-- "etatInitial" Probleme
 
 
 class Etat{
-    + <a completer pour les données du jeu>
-    + estTerminal() : boolean
     + equals(Etat etat) : boolean
     + hashCode() : int
 }
