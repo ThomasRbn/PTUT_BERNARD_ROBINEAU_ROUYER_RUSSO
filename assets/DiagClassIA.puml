@@ -32,14 +32,15 @@ class Action{
 class Probleme{
     + Objectif final
     + estTerminal(Etat etat) : boolean
-    + actions(Etat etat) : List<Action>
-    + resultat(Etat etat, Action action) : Etat
+    + getActions(Etat etat) : List<Action>
+    + faireAction(Etat etat, Action action) : Etat
     + cout(Etat etat, Action action) : int
 }
 Etat <-- "etatInitial" Probleme
 
 
 class Etat{
+    + estPermise(Action action) : boolean
     + equals(Etat etat) : boolean
     + hashCode() : int
 }
