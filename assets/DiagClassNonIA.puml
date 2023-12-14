@@ -2,12 +2,10 @@
 'https://plantuml.com/class-diagram
 
 class Overcooked {
-    + List<Joueur> joueurs
-    + Etat etat
++ jeu()
 }
 
-"Overcooked" --> "Joueur" : "joueurs"
-"Overcooked" --> "Etat" : "etat"
+"Overcooked" --> "Joueur" : "joueurs[]"
 
 interface Movable {
     + int[] coordonnees
@@ -43,13 +41,6 @@ class TempsDeJeu {
     + terminerJeu(): void
     + demarrerTour(): void
     + terminerTour(): void
-}
-
-class Etat{
-    <a completer pour les données du jeu>
-    boolean estTerminal()
-    boolean equals(Etat etat)
-    int hashCode()
 }
 
 class DonneesJeu {
