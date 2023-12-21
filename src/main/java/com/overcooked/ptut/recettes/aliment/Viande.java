@@ -1,4 +1,4 @@
-package com.overcooked.ptut.recettes.etat;
+package com.overcooked.ptut.recettes.aliment;
 
 import com.overcooked.ptut.recettes.aliment.Aliment;
 

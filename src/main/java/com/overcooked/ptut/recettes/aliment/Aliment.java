@@ -1,5 +1,7 @@
 package com.overcooked.ptut.recettes.aliment;
 
+import java.util.Objects;
+
 /**
  * Classe abstraite representant une boisson 
  * 
@@ -26,8 +28,28 @@ public abstract class Aliment {
 		return nom;
 	}
 
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public String toString(){
 		return this.getNom();
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Aliment aliment = (Aliment) o;
+		return aliment.nom.equals(nom) && aliment.description.equals(description);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(nom, description);
+	}
 }
