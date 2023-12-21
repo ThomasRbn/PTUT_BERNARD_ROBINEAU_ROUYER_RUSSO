@@ -3,18 +3,8 @@ package com.overcooked.ptut.recettes.etat;
 import com.overcooked.ptut.recettes.aliment.Aliment;
 
 public class Viande extends Aliment {
-    @Override
-    public double cout() {
-        return 1;
+    public Viande() {
+        nom = "Viande";
+        description = "Viande";
     }
-
-    @Override
-    public String getDescription() {
-        return "Viande";
-    }
-
-    public String toString() {
-        return getDescription() + " : " + cout() + " euros";
-    }
-
 }

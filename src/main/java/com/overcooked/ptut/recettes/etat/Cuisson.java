@@ -7,10 +7,6 @@ import com.overcooked.ptut.recettes.aliment.Aliment;
  */
 public class Cuisson extends DecorateurEtat {
     public Cuisson(Aliment aliment) {
-        super(0.55, " Chantilly", aliment);
-    }
-
-    public String getDescription() {
-        return composant.getDescription() + ",Chantilly";
+        super("Cuisson", "Cuit", aliment);
     }
 }

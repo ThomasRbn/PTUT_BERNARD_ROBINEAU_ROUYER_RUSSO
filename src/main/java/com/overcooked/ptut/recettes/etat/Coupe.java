@@ -7,7 +7,6 @@ import com.overcooked.ptut.recettes.aliment.Aliment;
  */
 public class Coupe extends DecorateurEtat {
     public Coupe(Aliment aliment) {
-        super("Coupe", "Etat coupé", aliment);
+        super("Coupe", "Coupé", aliment);
     }
-
 }

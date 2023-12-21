@@ -9,14 +9,8 @@ import com.overcooked.ptut.recettes.aliment.Aliment;
 public class Pain extends Aliment {
 	
 	public Pain(){
-		description = " Colombia";
-	}
-	
-	/**
-	 * @return prix de la boisson
-	 */
-	public double cout() {
-		return 1.3;
+		nom = "Pain";
+		description = "Pain";
 	}
 
 }

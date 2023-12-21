@@ -27,7 +27,7 @@ public abstract class Aliment {
 	}
 
 	public String toString(){
-		return this.getNom() + " " + this.getDescription();
+		return this.getNom();
 	}
 
 }
