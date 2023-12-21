@@ -1,22 +1,20 @@
 package com.overcooked.ptut.recettes.verificateur;
 
+import com.overcooked.ptut.recettes.ListeAliments;
 import com.overcooked.ptut.recettes.aliment.Aliment;
-import com.overcooked.ptut.recettes.aliment.Burger;
 import com.overcooked.ptut.recettes.aliment.Recette;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ListeAliments {
-    List<Recette> recettesPossibles;
+public class VerificationAliment {
+    ListeAliments listeAliments;
 
-    public ListeAliments() {
-        recettesPossibles = new ArrayList<>();
-        recettesPossibles.add(new Burger());
+    public VerificationAliment() {
+        this.listeAliments = new ListeAliments();
     }
 
     public Aliment verifiercompatibilite(List<Aliment> alimentsATraiter) {
-        for (Recette recette : recettesPossibles) {
+        for (Recette recette : listeAliments.getRecettesPossibles()) {
             boolean estPresent = true;
             for (Aliment alimentRecette : recette.getRecettesComposees()) {
                 System.out.println(alimentRecette);
