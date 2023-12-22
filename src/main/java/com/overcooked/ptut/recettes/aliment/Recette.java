@@ -8,6 +8,7 @@ public abstract class Recette extends Aliment {
     List<Aliment> recettesComposees;
 
     public Recette() {
+        super();
         this.recettesComposees = new ArrayList<>();
     }
 
