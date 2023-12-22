@@ -1,7 +1,7 @@
 package com.overcooked.ptut;
 
-import com.overcooked.ptut.Joueurs.Joueur;
-import com.overcooked.ptut.Joueurs.Utilitaire.Action;
+import com.overcooked.ptut.joueurs.Joueur;
+import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import java.util.ArrayList;
 

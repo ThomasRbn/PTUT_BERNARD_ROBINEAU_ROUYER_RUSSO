@@ -1,28 +1,28 @@
-package com.overcooked.ptut.Joueurs.Utilitaire;
+package com.overcooked.ptut.joueurs.utilitaire;
 
 /**
- * Représente une action 
- * 
+ * Représente une action
+ *
  */
 
 public class Action implements Comparable<Action> {
 
     /**
-     * Une action est juste une instance qui a un nom  
-     * pour mieux les lire :) 
+     * Une action est juste une instance qui a un nom
+     * pour mieux les lire :)
      */
-    
-    private final String name; 
+
+    private final String name;
 
     /**
-     * @param n le nom de l'action 
+     * @param n le nom de l'action
      */
     public Action(String n) {
         this.name = n;
     }
 
     /**
-     * @return le nom de l'action 
+     * @return le nom de l'action
      */
     public String getName(){
         return this.name;
@@ -32,7 +32,7 @@ public class Action implements Comparable<Action> {
      * Ca évitera les doublons de temps en temps
      *
      */
-    
+
     @Override
 	public boolean equals(Object o) {
 		if (o != null && getClass() == o.getClass()) {
@@ -44,15 +44,15 @@ public class Action implements Comparable<Action> {
 
     @Override
 	public String toString() {
-        return this.name; 
+        return this.name;
     }
 
     /**
-     * Pour comparer les actions 
+     * Pour comparer les actions
      * Quand il s'agit de les ordonner
-     * @param other l'autre instance de action 
+     * @param other l'autre instance de action
      */
-    
+
     @Override
     public int compareTo(Action other) {
         return this.name.compareTo(other.name);

@@ -1,9 +1,9 @@
-package com.overcooked.ptut.Joueurs.IA;
+package com.overcooked.ptut.joueurs.ia;
 
-import com.overcooked.ptut.Joueurs.Joueur;
-import com.overcooked.ptut.Joueurs.Utilitaire.Action;
+import com.overcooked.ptut.joueurs.Joueur;
+import com.overcooked.ptut.joueurs.utilitaire.Action;
 
-public class JoueurIA implements Joueur {
+public class JoueurIA extends Joueur {
 
     // Utilisera Problème
     @Override

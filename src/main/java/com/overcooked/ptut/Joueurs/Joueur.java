@@ -1,8 +1,26 @@
-package com.overcooked.ptut.Joueurs;
+package com.overcooked.ptut.joueurs;
 
-import com.overcooked.ptut.Joueurs.Utilitaire.Action;
+import com.overcooked.ptut.joueurs.utilitaire.Action;
+import com.overcooked.ptut.objet.Mouvable;
 
-public interface Joueur {
+public abstract class Joueur {
 
-    public Action demanderAction();
+    /**
+     * Position du joueur sur la carte
+     */
+    protected int[] position;
+
+    protected Mouvable inventaire;
+
+    protected void prendre(Mouvable objet) {
+        inventaire = objet;
+    }
+
+    protected Mouvable deposer() {
+        Mouvable objet = inventaire;
+        inventaire = null;
+        return objet;
+    }
+
+    public abstract Action demanderAction();
 }
