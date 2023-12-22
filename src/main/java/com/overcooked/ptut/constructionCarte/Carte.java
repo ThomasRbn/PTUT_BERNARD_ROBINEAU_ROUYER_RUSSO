@@ -1,9 +1,7 @@
 package com.overcooked.ptut.constructionCarte;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 
 public class Carte {
 
@@ -28,41 +26,94 @@ public class Carte {
     public static final String DROITE = "Droite";
     public static final String[] DIRECTION_TAB = {HAUT, BAS, GAUCHE, DROITE};
 
-    public static char[][] chargerCarte(String chemin) {
-        File fichier = new File(chemin);
+    /**
+     * carte du jeu
+     */
+    private char[][] carte;
+//    private List<Mur> murs;
+//    private Depot depot;
+//    private List<Couteau> couteaux;
+//    //private List<Poele> poeles;
+//    private List<Personnage> personnages;
+//    private List<Generateur> generateurs;
+
+    public Carte (String chemin) {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(fichier));
-            System.out.println(getLongueurFichier(fichier));
-            System.out.println(getHauteurFichier(fichier));
-            char[][] carte = new char[getHauteurFichier(fichier)][getLongueurFichier(fichier)];
-            System.out.println("longueur : " + carte.length);
-            System.out.println("hauteur : " + carte[0].length);
-            String ligne;
+            // ouvrir fichier
+            FileReader fichier = new FileReader(chemin);
+            BufferedReader bfRead = new BufferedReader(fichier);
 
-            int x = 0;
-            while ((ligne = br.readLine()) != null) {
-                for (int y = 0; y < carte[x].length; y++) {
-                    carte[x][y] = ligne.charAt(y);
+            int nbLignes, nbColonnes;
+            // lecture nblignes
+            nbLignes = Integer.parseInt(bfRead.readLine());
+            // lecture nbcolonnes
+            nbColonnes = Integer.parseInt(bfRead.readLine());
+
+            this.carte = new char[getHauteurFichier(fichier)][getLongueurFichier(fichier)];
+//            murs = new ArrayList<>();
+//            couteaux = new ArrayList<>();
+//            personnages = new ArrayList<>();
+
+            // lecture des cases
+            String ligne = bfRead.readLine();
+
+            // stocke les indices courants
+            int numeroLigne = 0;
+
+            // parcours le fichier
+            while (ligne != null) {
+                for (int i = 0; i < ligne.length(); i++) {
+                    char c = ligne.charAt(i);
+//                    switch (c) {
+//                        case MUR:
+//                            murs.add(new Mur(i, numeroLigne));
+//                            break;
+//                        case JOUEUR:
+//                            personnages.add(new Personnage(i, numeroLigne));
+//                            break;
+//                        case DEPOT:
+//                            depot = new Depot(i, numeroLigne);
+//                            break;
+//                        case COUTEAU:
+//                            couteaux.add(new Couteau(i, numeroLigne));
+//                            break;
+//                        case POELE:
+//                            //poeles.add(new Poele(i, numeroLigne));
+//                            break;
+//                        case GENERATEURTOMATE:
+//                            generateurs.add(new Generateur(i, numeroLigne, "tomate"));
+//                            break;
+//                        case GENERATEURPAIN:
+//                            generateurs.add(new Generateur(i, numeroLigne, "pain"));
+//                            break;
+//                        case GENERATEURSALADE:
+//                            generateurs.add(new Generateur(i, numeroLigne, "salade"));
+//                            break;
+//                        case GENERATEURSTEAK:
+//                            generateurs.add(new Generateur(i, numeroLigne, "steak"));
+//                            break;
+//                        case VIDE:
+//                            break;
+//                        default:
+//                            throw new Error("caractere inconnu");
+//                    }
                 }
-                x++;
+                numeroLigne++;
+                ligne = bfRead.readLine();
             }
-
-            br.close();
-            return carte;
         } catch (IOException e) {
-            System.out.println("Erreur lors de la lecture du fichier de chargement de la carte");
+            e.printStackTrace();
         }
-        throw new Error("Erreur lors de la lecture du fichier de chargement de la carte");
     }
 
-    /**
+        /**
      * retourne la longueur du fichier
      * @param f fichier
      * @return longueur
      * @throws IOException erreur
      */
-    public static int getLongueurFichier(File f) throws IOException {
-        BufferedReader cloned = new BufferedReader(new FileReader(f));
+    public int getLongueurFichier(FileReader f) throws IOException {
+        BufferedReader cloned = new BufferedReader(f);
         return cloned.readLine().length();
     }
 
@@ -72,8 +123,8 @@ public class Carte {
      * @return hauteur
      * @throws IOException erreur
      */
-    public static int getHauteurFichier(File f) throws IOException {
-        BufferedReader cloned = new BufferedReader(new FileReader(f));
+    public int getHauteurFichier(FileReader f) throws IOException {
+        BufferedReader cloned = new BufferedReader(f);
         int hauteur = 0;
         while (cloned.readLine() != null) {
             hauteur++;
@@ -112,4 +163,13 @@ public class Carte {
         }
         return new int[]{x, y};
     }
+
+    /**public void deplacerPerso(String action, Personnage pj) {
+        int[] chemin = Carte.getSuivant(pj.getX(), pj.getY(), action);
+        if (carte[chemin[0]][chemin[1]] == VIDE) {
+            pj = new Personnage(chemin[0], chemin[1], getPj().getPv());
+        }
+    }**/
+
+
 }
