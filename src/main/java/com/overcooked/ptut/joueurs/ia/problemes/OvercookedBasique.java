@@ -47,7 +47,7 @@ public class OvercookedBasique extends SearchProblem {
     @Override
     public boolean isGoalState(State s) {
         OvercookedBasiqueState o = (OvercookedBasiqueState) s;
-        return o.getPortePlat() || (o.getPositionSortie()[0] == o.getPositionPlat()[0] && o.getPositionSortie()[1] == o.getPositionPlat()[1]);
+        return (o.getPositionSortie()[0] == o.getPositionPlat()[0] && o.getPositionSortie()[1] == o.getPositionPlat()[1]);
     }
 
     @Override
