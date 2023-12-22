@@ -1,12 +1,12 @@
-package com.overcooked.ptut.Joueurs.IA.Algo;
+package com.overcooked.ptut.joueurs.ia.algo;
 
 
-import com.overcooked.ptut.Joueurs.IA.framework.common.ArgParse;
-import com.overcooked.ptut.Joueurs.IA.framework.common.State;
-import com.overcooked.ptut.Joueurs.IA.framework.recherche.SearchNode;
-import com.overcooked.ptut.Joueurs.IA.framework.recherche.SearchProblem;
-import com.overcooked.ptut.Joueurs.IA.framework.recherche.TreeSearch;
-import com.overcooked.ptut.Joueurs.Utilitaire.Action;
+import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
+import com.overcooked.ptut.joueurs.ia.framework.common.State;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNode;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.TreeSearch;
+import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import java.util.ArrayList;
 import java.util.Comparator;

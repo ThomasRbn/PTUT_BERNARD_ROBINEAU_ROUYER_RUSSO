@@ -1,4 +1,4 @@
-package com.overcooked.ptut.Joueurs.IA.framework.common;
+package com.overcooked.ptut.joueurs.ia.framework.common;
 
 /**
  * Un état générique une abstraction pour problème et jeux 

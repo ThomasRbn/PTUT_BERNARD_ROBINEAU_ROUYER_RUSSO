@@ -1,6 +1,6 @@
-package com.overcooked.ptut.Joueurs.IA.framework.common;
+package com.overcooked.ptut.joueurs.ia.framework.common;
 
-import com.overcooked.ptut.Joueurs.Utilitaire.Action;
+import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import java.util.ArrayList;
 

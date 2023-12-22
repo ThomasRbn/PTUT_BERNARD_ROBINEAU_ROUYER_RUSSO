@@ -1,12 +1,12 @@
-package com.overcooked.ptut.Joueurs.IA.problemes;
+package com.overcooked.ptut.joueurs.ia.problemes;
 
-import com.overcooked.ptut.Joueurs.IA.framework.common.State;
-import com.overcooked.ptut.Joueurs.IA.framework.recherche.HasHeuristic;
-import com.overcooked.ptut.Joueurs.Utilitaire.Action;
+import com.overcooked.ptut.joueurs.ia.framework.common.State;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.HasHeuristic;
+import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import java.util.Arrays;
 
-import static com.overcooked.ptut.Joueurs.IA.problemes.OvercookedBasique.*;
+import static com.overcooked.ptut.joueurs.ia.problemes.OvercookedBasique.*;
 
 public class OvercookedBasiqueState extends State implements HasHeuristic {
 
@@ -102,7 +102,7 @@ public class OvercookedBasiqueState extends State implements HasHeuristic {
             for (int j = 0; j < grille.length; j++) {
                 if (i == positionJoueur[0] && j == positionJoueur[1] && portePlat) {
                     s += "X ";
-                    //Si coordonnées Joueurs
+                    //Si coordonnées joueurs
                 }else if (i == positionJoueur[0] && j == positionJoueur[1]) s += "J ";
                     //Si coordonnées Plat
                 else if (i == positionPlat[0] && j == positionPlat[1]) s += "P ";

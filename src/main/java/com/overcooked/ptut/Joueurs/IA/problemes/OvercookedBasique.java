@@ -1,8 +1,8 @@
-package com.overcooked.ptut.Joueurs.IA.problemes;
+package com.overcooked.ptut.joueurs.ia.problemes;
 
-import com.overcooked.ptut.Joueurs.IA.framework.common.State;
-import com.overcooked.ptut.Joueurs.IA.framework.recherche.SearchProblem;
-import com.overcooked.ptut.Joueurs.Utilitaire.Action;
+import com.overcooked.ptut.joueurs.ia.framework.common.State;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
+import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.overcooked.ptut.Joueurs.IA.framework.common;
+package com.overcooked.ptut.joueurs.ia.framework.common;
 
 import java.util.Collection;
 import java.util.stream.Collectors;

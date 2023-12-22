@@ -1,4 +1,4 @@
-package com.overcooked.ptut.Joueurs.IA.framework.recherche;
+package com.overcooked.ptut.joueurs.ia.framework.recherche;
 
 /**
  * Ajoute la notion d'heuristique aux états de certains problèmes

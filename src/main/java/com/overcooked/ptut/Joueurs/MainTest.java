@@ -1,9 +1,9 @@
-package com.overcooked.ptut.Joueurs;
+package com.overcooked.ptut.joueurs;
 
-import com.overcooked.ptut.Joueurs.IA.framework.common.ArgParse;
-import com.overcooked.ptut.Joueurs.IA.framework.common.State;
-import com.overcooked.ptut.Joueurs.IA.framework.recherche.SearchProblem;
-import com.overcooked.ptut.Joueurs.IA.framework.recherche.TreeSearch;
+import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
+import com.overcooked.ptut.joueurs.ia.framework.common.State;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.TreeSearch;
 
 /**
  * Lance un algorithme de recherche  

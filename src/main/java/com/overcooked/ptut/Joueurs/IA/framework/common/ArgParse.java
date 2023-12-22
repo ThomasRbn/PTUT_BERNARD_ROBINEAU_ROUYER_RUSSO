@@ -1,10 +1,10 @@
-package com.overcooked.ptut.Joueurs.IA.framework.common;
+package com.overcooked.ptut.joueurs.ia.framework.common;
 
-import com.overcooked.ptut.Joueurs.IA.Algo.AStar;
-import com.overcooked.ptut.Joueurs.IA.framework.recherche.SearchProblem;
-import com.overcooked.ptut.Joueurs.IA.framework.recherche.TreeSearch;
-import com.overcooked.ptut.Joueurs.IA.problemes.OvercookedBasique;
-import com.overcooked.ptut.Joueurs.IA.problemes.OvercookedBasiqueState;
+import com.overcooked.ptut.joueurs.ia.algo.AStar;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.TreeSearch;
+import com.overcooked.ptut.joueurs.ia.problemes.OvercookedBasique;
+import com.overcooked.ptut.joueurs.ia.problemes.OvercookedBasiqueState;
 
 import java.util.Arrays;
 

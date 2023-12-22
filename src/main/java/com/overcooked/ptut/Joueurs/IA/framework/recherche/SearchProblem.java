@@ -1,8 +1,8 @@
-package com.overcooked.ptut.Joueurs.IA.framework.recherche;
+package com.overcooked.ptut.joueurs.ia.framework.recherche;
 
-import com.overcooked.ptut.Joueurs.IA.framework.common.BaseProblem;
-import com.overcooked.ptut.Joueurs.IA.framework.common.State;
-import com.overcooked.ptut.Joueurs.Utilitaire.Action;
+import com.overcooked.ptut.joueurs.ia.framework.common.BaseProblem;
+import com.overcooked.ptut.joueurs.ia.framework.common.State;
+import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 /**
 * Représente un problème de recherche. 
