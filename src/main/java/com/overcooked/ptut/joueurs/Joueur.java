@@ -49,7 +49,7 @@ public abstract class Joueur {
         }
     }
 
-    public int[] getTargetPosition(){
+    public int[] retournePositionCible(){
         int[] targetPosition = new int[2];
         targetPosition[0] = position[0];
         targetPosition[1] = position[1];
