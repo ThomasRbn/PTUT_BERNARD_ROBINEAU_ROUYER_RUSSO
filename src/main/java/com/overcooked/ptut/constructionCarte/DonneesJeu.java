@@ -3,7 +3,6 @@ package com.overcooked.ptut.constructionCarte;
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
-import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,10 +19,10 @@ public class DonneesJeu {
     public static final char DEPOT = 'D';
     public static final char COUTEAU = 'C';
     public static final char POELE = 'P';
-    public static final char GENERATEURTOMATE = 'T';
-    public static final char GENERATEURPAIN = 'G';
-    public static final char GENERATEURSALADE = 'S';
-    public static final char GENERATEURSTEAK = 'K';
+    public static final char GENERATEURTOMATE = 't';
+    public static final char GENERATEURPAIN = 'p';
+    public static final char GENERATEURSALADE = 's';
+    public static final char GENERATEURVIANDE = 'v';
 
     /**
      * carte du jeu
@@ -90,7 +89,7 @@ public class DonneesJeu {
                         case VIDE:
                             break;
                         default:
-                            throw new Error("caractere inconnu");
+                            throw new Error("caractere inconnu " + c);
                     }
                 }
                 indexLigne++;
