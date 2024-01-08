@@ -15,7 +15,7 @@ public class DonneesJeu {
 
     public static final char MUR = 'X';
     public static final char JOUEUR = 'J';
-    public static final char VIDE = '.';
+    public static final char SOL = '.';
     public static final char DEPOT = 'D';
     public static final char COUTEAU = 'C';
     public static final char POELE = 'P';
@@ -27,8 +27,9 @@ public class DonneesJeu {
     /**
      * carte du jeu
      */
-    private char[][] carte;
-    private List<int[]> murs;
+    private int longueur, hauteur;
+    private List<int[]> plansDeTravail;
+    private List<int[]> sols;
     private List<Joueur> joueurs;
     private Depot depot;
 //    private List<Couteau> couteaux;
@@ -42,13 +43,14 @@ public class DonneesJeu {
             FileReader reader = new FileReader(fichier);
             BufferedReader bfRead = new BufferedReader(reader);
 
-            this.carte = new char[getHauteurFichier(fichier)][getLongueurFichier(fichier)];
-            murs = new ArrayList<>();
+            plansDeTravail = new ArrayList<>();
             joueurs = new ArrayList<>();
+            sols = new ArrayList<>();
 //            couteaux = new ArrayList<>();
 
             // lecture des cases
             String ligne = bfRead.readLine();
+            longueur = ligne.length();
 
             // stocke les indices courants
             int indexLigne = 0;
@@ -57,13 +59,13 @@ public class DonneesJeu {
             while (ligne != null) {
                 for (int indexColonne = 0; indexColonne < ligne.length(); indexColonne++) {
                     char c = ligne.charAt(indexColonne);
-                    carte[indexLigne][indexColonne] = c;
                     switch (c) {
                         case MUR:
-                            murs.add(new int[]{indexLigne, indexColonne});
+                            plansDeTravail.add(new int[]{indexLigne, indexColonne});
                             break;
                         case JOUEUR:
                             joueurs.add(new JoueurIA(indexLigne, indexColonne));
+                            sols.add(new int[]{indexLigne, indexColonne});
                             break;
                         case DEPOT:
                             depot = new Depot(indexLigne, indexColonne);
@@ -86,7 +88,8 @@ public class DonneesJeu {
 //                        case GENERATEURSTEAK:
 //                            generateurs.add(new Generateur(i, numeroLigne, "steak"));
 //                            break;
-                        case VIDE:
+                        case SOL:
+                            sols.add(new int[]{indexLigne, indexColonne});
                             break;
                         default:
                             throw new Error("caractere inconnu " + c);
@@ -95,37 +98,11 @@ public class DonneesJeu {
                 indexLigne++;
                 ligne = bfRead.readLine();
             }
+            hauteur = indexLigne;
+            System.out.println(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * retourne la longueur du fichier
-     *
-     * @param f fichier
-     * @return longueur
-     * @throws IOException erreur
-     */
-    public int getLongueurFichier(File f) throws IOException {
-        BufferedReader cloned = new BufferedReader(new FileReader(f));
-        return cloned.readLine().length();
-    }
-
-    /**
-     * retourne la hauteur du fichier
-     *
-     * @param f fichier
-     * @return hauteur
-     * @throws IOException erreur
-     */
-    public int getHauteurFichier(File f) throws IOException {
-        BufferedReader cloned = new BufferedReader(new FileReader(f));
-        int hauteur = 0;
-        while (cloned.readLine() != null) {
-            hauteur++;
-        }
-        return hauteur;
     }
 
     /**
@@ -137,12 +114,41 @@ public class DonneesJeu {
      * }
      **/
 
+    public List<int[]> getPlansDeTravail() {
+        return plansDeTravail;
+    }
+
+    public List<Joueur> getJoueurs() {
+        return joueurs;
+    }
+
+    public List<int[]> getSols() {
+        return sols;
+    }
+
+    public Depot getDepot() {
+        return depot;
+    }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        for (char[] ligne : carte) {
-            for (char c : ligne) {
-                s.append(c);
+        int[] coordonnees = new int[]{0, 0};
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < longueur; j++) {
+                coordonnees[0] = i;
+                coordonnees[1] = j;
+                if (plansDeTravail.contains(coordonnees)) {
+                    s.append(MUR);
+                } else if (joueurs.contains(coordonnees)) {
+                    s.append(JOUEUR);
+                } else if (sols.contains(coordonnees)) {
+                    s.append(SOL);
+                } else if (coordonnees[0] == depot.getX() && coordonnees[1] == depot.getY()) {
+                    s.append(DEPOT);
+                } else {
+                    s.append(" ");
+                }
             }
             s.append("\n");
         }
