@@ -3,6 +3,11 @@ package com.overcooked.ptut.constructionCarte;
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
+import com.overcooked.ptut.recettes.aliment.Pain;
+import com.overcooked.ptut.recettes.aliment.Plat;
+import com.overcooked.ptut.recettes.aliment.Salade;
+import com.overcooked.ptut.recettes.etat.Coupe;
+import com.overcooked.ptut.recettes.etat.Cuisson;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -36,7 +41,15 @@ public class DonneesJeu {
 //    //private List<Poele> poeles;
 //    private List<Generateur> generateurs;
 
+    private List<Plat> platsBut;
+
     public DonneesJeu(String chemin) {
+        platsBut = new ArrayList<>();
+        Plat saladePain = new Plat();
+        saladePain.setNom("saladePain");
+        saladePain.ajouterAliment(new Coupe(new Salade()));
+        saladePain.ajouterAliment(new Pain());
+        platsBut.add(saladePain);
         try {
             // ouvrir fichier
             File fichier = new File(chemin);
@@ -109,7 +122,7 @@ public class DonneesJeu {
         }
     }
 
-    public DonneesJeu(DonneesJeu donneesJeu){
+    public DonneesJeu(DonneesJeu donneesJeu) {
         //TODO: Constructeur par copie, attention a n'avoir aucun effet de bord, réaliser des test unitaires.
     }
 
