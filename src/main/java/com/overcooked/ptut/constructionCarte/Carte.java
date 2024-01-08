@@ -1,5 +1,7 @@
 package com.overcooked.ptut.constructionCarte;
 
+import com.overcooked.ptut.joueurs.utilitaire.Action;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -20,11 +22,15 @@ public class Carte {
     /**
      * constantes actions possibles
      */
-    public static final String HAUT = "Haut";
-    public static final String BAS = "Bas";
-    public static final String GAUCHE = "Gauche";
-    public static final String DROITE = "Droite";
-    public static final String[] DIRECTION_TAB = {HAUT, BAS, GAUCHE, DROITE};
+    public static final Action HAUT = new Action("Haut");
+    public static final Action BAS = new Action("Bas");
+    public static final Action GAUCHE = new Action("Gauche");
+    public static final Action DROITE = new Action("Droite");
+    public static final Action PRENDRE = new Action("Prendre");
+    public static final Action POSER = new Action("Poser");
+    public static final Action COUPER = new Action("Couper");
+
+    public static final Action[] DIRECTION_TAB = {HAUT, BAS, GAUCHE, DROITE};
 
     /**
      * carte du jeu
@@ -130,38 +136,6 @@ public class Carte {
             hauteur++;
         }
         return hauteur;
-    }
-
-    /**
-     * retourne la case suivante selon une actions
-     *
-     * @param x      case depart
-     * @param y      case depart
-     * @param action action effectuee
-     * @return case suivante
-     */
-    static int[] getSuivant(int x, int y, String action) {
-        switch (action) {
-            case HAUT:
-                // on monte une ligne
-                y--;
-                break;
-            case BAS:
-                // on descend une ligne
-                y++;
-                break;
-            case DROITE:
-                // on augmente colonne
-                x++;
-                break;
-            case GAUCHE:
-                // on augmente colonne
-                x--;
-                break;
-            default:
-                throw new Error("action inconnue");
-        }
-        return new int[]{x, y};
     }
 
     /**public void deplacerPerso(String action, Personnage pj) {

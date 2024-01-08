@@ -30,7 +30,6 @@ public class AStar extends TreeSearch {
         System.out.println("Algo choisi: AStar");
         SearchNode node = SearchNode.makeRootSearchNode(intial_state);
         State state = node.getState();
-        System.out.println(state);
 
         // On commence à l'état initial
         frontier.add(node);
@@ -85,8 +84,6 @@ public class AStar extends TreeSearch {
         System.out.println("Pas de solution trouvée.");
         // Pas de solutions trouvées
         return false;
-
-
     }
 
     // Comparator par heuristique + cout
