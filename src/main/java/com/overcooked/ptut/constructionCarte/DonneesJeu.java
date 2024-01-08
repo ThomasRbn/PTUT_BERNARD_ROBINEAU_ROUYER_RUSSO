@@ -100,13 +100,22 @@ public class DonneesJeu {
             }
             hauteur = indexLigne;
             System.out.println(this);
+
+            for (int i = 0; i < joueurs.size(); i++) {
+                joueurs.get(i).setNumJoueur(i);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public DonneesJeu(DonneesJeu donneesJeu){
+        //TODO: Constructeur par copie, attention a n'avoir aucun effet de bord, réaliser des test unitaires.
+    }
+
     /**
-     * public void deplacerPerso(String action, Personnage pj) {
+     * public void deplacerPerso(String action, int numJoueur) {
+     * Joueur pj = joueurs.get(numJoueur);
      * int[] chemin = Carte.getSuivant(pj.getX(), pj.getY(), action);
      * if (carte[chemin[0]][chemin[1]] == VIDE) {
      * pj = new Personnage(chemin[0], chemin[1], getPj().getPv());

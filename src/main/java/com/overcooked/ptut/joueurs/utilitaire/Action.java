@@ -12,7 +12,8 @@ public enum Action {
     DROITE("Droite"),
     PRENDRE("Prendre"),
     POSER("Poser"),
-    COUPER("Couper");
+    COUPER("Couper"),
+    RIEN("Rien");
     /**
      * Une action est juste une instance qui a un nom
      * pour mieux les lire :)

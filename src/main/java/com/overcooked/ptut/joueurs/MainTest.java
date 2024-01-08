@@ -4,6 +4,9 @@ import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.TreeSearch;
+import com.overcooked.ptut.joueurs.utilitaire.Action;
+
+import java.util.ArrayList;
 
 /**
  * Lance un algorithme de recherche  
@@ -35,7 +38,10 @@ public class MainTest {
         TreeSearch algo = ArgParse.makeAlgo(algo_name, p, s);
         
         // résoudre
-        if( algo.solve() )
+        ArrayList<Action> solution =  algo.solve();
+        if( solution != null ) {
+            System.out.println(solution);
             algo.printSolution();
+        }
     }
 }

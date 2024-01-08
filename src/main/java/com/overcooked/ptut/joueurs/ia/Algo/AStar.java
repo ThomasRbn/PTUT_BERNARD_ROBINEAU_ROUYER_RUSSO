@@ -26,7 +26,7 @@ public class AStar extends TreeSearch {
     }
 
     @Override
-    public boolean solve() {
+    public ArrayList<Action> solve() {
         System.out.println("Algo choisi: AStar");
         SearchNode node = SearchNode.makeRootSearchNode(intial_state);
         State state = node.getState();
@@ -49,7 +49,7 @@ public class AStar extends TreeSearch {
                 // On enregistre le nœud final
                 end_node = node;
                 // On retourne vrai
-                return true;
+                return end_node.getPathFromRoot();
             } else {
                 // On ajoute l'état du nœud dans l'ensemble des nœuds explorés
                 explored.add(node.getState());
@@ -83,7 +83,7 @@ public class AStar extends TreeSearch {
         }
         System.out.println("Pas de solution trouvée.");
         // Pas de solutions trouvées
-        return false;
+        return null;
     }
 
     // Comparator par heuristique + cout

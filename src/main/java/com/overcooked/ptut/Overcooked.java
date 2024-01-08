@@ -21,9 +21,9 @@ public class Overcooked {
             ArrayList<Thread> threads = new ArrayList<>();
             for (Joueur joueur : joueurs) {
                 Thread thread = new Thread(() -> {
-                    Action action = joueur.demanderAction();
+//                    Action action = joueur.demanderAction(donneesJeu);
                     //Traitement de l'action
-                    System.out.println(action);
+
                 });
                 threads.add(thread);
             }
