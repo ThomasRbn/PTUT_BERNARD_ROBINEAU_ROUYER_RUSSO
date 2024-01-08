@@ -12,25 +12,35 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
 
     private int numJoueur;
 
-    // Constructeur par copie
+    /**
+     * Constructeur
+     * @param donneesJeu Données du jeu
+     * @param numJoueur Numéro du joueur courant
+     */
     public OvercookedUnJoueurIAState(DonneesJeu donneesJeu, int numJoueur) {
         this.numJoueur = numJoueur;
-        //TODO: constructeur par copie
-//        this.donnees = new DonneesJeu(donneesJeu);
+        //Constructeur par copie
+        this.donnees = new DonneesJeu(donneesJeu);
     }
 
     public DonneesJeu getDonnees() {
         return donnees;
     }
 
+    /**
+     * Retourne une copie de l'état
+     */
     @Override
     protected State cloneState() {
         return new OvercookedUnJoueurIAState(donnees, numJoueur);
     }
 
+    /**
+     * Retourne vrai si l'état o est égal à l'état courant
+     */
     @Override
     protected boolean equalsState(State o) {
-        // TODO: redéfinir methode equals dans donnes jeu
+        // TODO: redéfinir methode equals dans donnees jeu
         return donnees.equals(((OvercookedUnJoueurIAState) o).getDonnees());
     }
 
@@ -41,55 +51,24 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
 
     @Override
     public double getHeuristic() {
-        return 0;
+        return 0; // TODO: calcul de l'heuristie selon un objectif
     }
 
     public String toString() {
         return donnees.toString();
     }
 
+    /**
+     * Retourne vrai si l'action a est légale dans l'état courant
+     */
     public boolean isLegal(Action a) {
-        switch (a){
-            case HAUT -> {
-            }
-            case GAUCHE -> {
-            }
-            case BAS -> {
-            }
-            case DROITE -> {
-            }
-            case PRENDRE -> {
-            }
-            case POSER -> {
-            }
-            default -> throw new IllegalArgumentException("OvercookedBasuqyeState.isLegal, action invalide" + a);
-        }
-return false;
+        return donnees.isLegal(a, numJoueur);
     }
 
-    // Méthodes effectuant les actions
-
-    public void deplacementHaut() {
-
-    }
-
-    public void deplacementBas() {
-
-    }
-
-    public void deplacementGauche() {
-
-    }
-
-    public void deplacementDroite() {
-
-    }
-
-    public void prendre() {
-
-    }
-
-    public void poser() {
-
+    /**
+     * Applique l'action a dans l'état courant
+     */
+    public void faireAction(Action a) {
+        donnees.faireAction(a, numJoueur);
     }
 }

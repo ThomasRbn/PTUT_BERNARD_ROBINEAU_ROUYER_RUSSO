@@ -3,7 +3,6 @@ package com.overcooked.ptut.constructionCarte;
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.entites.Generateur;
 import com.overcooked.ptut.joueurs.Joueur;
-import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
@@ -17,6 +16,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
 
 public class DonneesJeu {
 
@@ -147,7 +148,105 @@ public class DonneesJeu {
                 }
             }
             case POSER -> objetsDeplacables.add(joueur.poser());
-            default -> throw new IllegalArgumentException("Invalid" + a);
+            default -> throw new IllegalArgumentException("DonneesJeu.faireAction, action invalide" + a);
+        }
+    }
+
+    /**
+     * Retourne vrai si l'action a est légale dans l'état courant pour le joueur numJoueur
+     */
+    public boolean isLegal(Action a, int numJoueur) {
+        Joueur joueur = joueurs.get(numJoueur);
+        int[] positionJoueur = joueur.getPosition();
+        Action direction = joueur.getDirection();
+        switch (a) {
+            case HAUT -> {
+                return positionJoueur[0] != 0 || direction != HAUT;
+            }
+            case GAUCHE -> {
+                return positionJoueur[1] != 0 || direction != GAUCHE;
+            }
+            case BAS -> {
+                return positionJoueur[0] != hauteur - 1 || direction != BAS;
+            }
+            case DROITE -> {
+                return positionJoueur[1] != longueur - 1 || direction != DROITE;
+            }
+            case PRENDRE -> {
+                //On vérifie que ses mains sont libres
+                if (joueur.getInventaire() == null) {
+                    return true;
+                }
+
+                // Calcul des coordonnes de la case devant le joueur
+                int[] caseDevant = new int[2];
+                switch (direction){
+                    case HAUT -> {
+                        caseDevant[0] = positionJoueur[0]-1;
+                        caseDevant[1] = positionJoueur[1];
+                    }
+                    case GAUCHE -> {
+                        caseDevant[0] = positionJoueur[0];
+                        caseDevant[1] = positionJoueur[1]-1;
+                    }
+                    case BAS -> {
+                        caseDevant[0] = positionJoueur[0]+1;
+                        caseDevant[1] = positionJoueur[1];
+                    }
+                    case DROITE -> {
+                        caseDevant[0] = positionJoueur[0];
+                        caseDevant[1] = positionJoueur[1] + 1;
+                    }
+                }
+                //TODO: vérifié si la case devant est un générateur
+
+                //Recherche dans objetDeplacable s'il y a un objet à prendre
+                for (Mouvable mouvable: objetsDeplacables){
+                    //On vérifie s'il y a un objet à prendre sous le joueur ou devant lui
+                    if ((mouvable.getCoordonnees()[0] == positionJoueur[0] && mouvable.getCoordonnees()[1] == positionJoueur[1])){
+                        return true;
+                    }
+                    if ((mouvable.getCoordonnees()[0] == caseDevant[0] && mouvable.getCoordonnees()[1] == caseDevant[1])){
+                        return true;
+                    }
+                }
+                return false;
+            }
+            case POSER -> {
+                // On vérifie si le joueur à quelque chose dans les mains
+                if (joueur.getInventaire() == null) {
+                    return false;
+                }
+                // Calcul des coordonnés de la case devant le joueur
+                int[] caseDevant = new int[2];
+                switch (direction){
+                    case HAUT -> {
+                        caseDevant[0] = positionJoueur[0]-1;
+                        caseDevant[1] = positionJoueur[1];
+                    }
+                    case GAUCHE -> {
+                        caseDevant[0] = positionJoueur[0];
+                        caseDevant[1] = positionJoueur[1]-1;
+                    }
+                    case BAS -> {
+                        caseDevant[0] = positionJoueur[0]+1;
+                        caseDevant[1] = positionJoueur[1];
+                    }
+                    case DROITE -> {
+                        caseDevant[0] = positionJoueur[0];
+                        caseDevant[1] = positionJoueur[1] + 1;
+                    }
+                }
+                //Recherche dans objetDeplacable s'il y a un objet devant le joueur
+                for (Mouvable mouvable: objetsDeplacables){
+                    if ((mouvable.getCoordonnees()[0] == caseDevant[0] && mouvable.getCoordonnees()[1] == caseDevant[1])){
+                        return false;
+                    }
+                }
+                //TODO: Vérifier que la case devant soit compatible avec l'objet à déplacer (ex: pas d'aliment sur le feu sans poele)
+                return true;
+            }
+            default -> throw new IllegalArgumentException("DonneesJeu.isLegal, action invalide" + a);
         }
     }
 

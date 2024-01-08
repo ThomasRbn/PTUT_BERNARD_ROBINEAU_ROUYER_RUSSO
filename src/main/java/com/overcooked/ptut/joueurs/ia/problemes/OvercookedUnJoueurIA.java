@@ -14,36 +14,38 @@ public class OvercookedUnJoueurIA extends SearchProblem {
         // La liste des actions possibles
         ACTIONS = new Action[]{HAUT, GAUCHE, BAS, DROITE, PRENDRE, POSER};
     }
+
+    /**
+     * Retourne la liste des actions possibles dans l'état s
+      */
     @Override
     public ArrayList<Action> getActions(State s) {
         ArrayList<Action> actions = new ArrayList<>();
         for (Action a : ACTIONS){
-            if (((OvercookedBasiqueState)s).isLegal(a)){
+            if (((OvercookedUnJoueurIAState)s).isLegal(a)){
                 actions.add(a);
             }
         }
         return actions;
     }
 
+    /**
+     * Retourne l'état résultant de l'application de l'action a dans l'état s
+     */
     @Override
     public State doAction(State s, Action a) {
-        OvercookedBasiqueState o = (OvercookedBasiqueState) s.clone();
-        switch (a) {
-            case HAUT -> o.deplacementHaut();
-            case GAUCHE -> o.deplacementGauche();
-            case BAS -> o.deplacementBas();
-            case DROITE -> o.deplacementDroite();
-            case PRENDRE -> o.prendre();
-            case POSER -> o.poser();
-            default -> throw new IllegalArgumentException("Invalid" + a);
-        }
+        OvercookedUnJoueurIAState o = (OvercookedUnJoueurIAState) s.clone();
+        o.faireAction(a);
         return o;
     }
 
+    /**
+     * Retourne vrai si l'état s est un état but
+     */
     @Override
     public boolean isGoalState(State s) {
-        OvercookedBasiqueState o = (OvercookedBasiqueState) s;
-        return (o.getPositionSortie()[0] == o.getPositionPlat()[0] && o.getPositionSortie()[1] == o.getPositionPlat()[1]);
+        OvercookedUnJoueurIAState o = (OvercookedUnJoueurIAState) s;
+        return false; // TODO
     }
 
     @Override

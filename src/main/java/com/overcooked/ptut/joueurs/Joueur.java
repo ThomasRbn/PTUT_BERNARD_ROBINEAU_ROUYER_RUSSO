@@ -79,4 +79,12 @@ public abstract class Joueur {
     public int[] getPosition() {
         return position;
     }
+
+    public Action getDirection() {
+        return direction;
+    }
+
+    public Mouvable getInventaire() {
+        return inventaire;
+    }
 }
