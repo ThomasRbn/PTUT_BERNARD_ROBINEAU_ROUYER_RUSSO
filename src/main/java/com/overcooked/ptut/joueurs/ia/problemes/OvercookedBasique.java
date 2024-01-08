@@ -6,25 +6,21 @@ import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import java.util.ArrayList;
 
+import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
+
 public class OvercookedBasique extends SearchProblem {
-    public static final Action UP = new Action("Up");
-    public static final Action LEFT = new Action("Left");
-    public static final Action DOWN = new Action("Down");
-    public static final Action RIGHT = new Action("Right");
-    public static final Action PICK = new Action("Pick");
-    public static final Action DROP = new Action("Drop");
 
     public OvercookedBasique() {
         // La liste des actions possibles
-        ACTIONS = new Action[]{UP, LEFT, DOWN, RIGHT, PICK, DROP};
+        ACTIONS = new Action[]{HAUT, GAUCHE, BAS, DROITE, PRENDRE, POSER};
     }
     @Override
     public ArrayList<Action> getActions(State s) {
-        ArrayList<Action> actions = new ArrayList<Action>();
+        ArrayList<Action> actions = new ArrayList<>();
         for (Action a : ACTIONS){
             if (((OvercookedBasiqueState)s).isLegal(a)){
                 actions.add(a);
-            };
+            }
         }
         return actions;
     }
@@ -32,13 +28,13 @@ public class OvercookedBasique extends SearchProblem {
     @Override
     public State doAction(State s, Action a) {
         OvercookedBasiqueState o = (OvercookedBasiqueState) s.clone();
-        switch (a.getName()) {
-            case "Up" -> o.deplacementHaut();
-            case "Left" -> o.deplacementGauche();
-            case "Down" -> o.deplacementBas();
-            case "Right" -> o.deplacementDroite();
-            case "Pick" -> o.prendre();
-            case "Drop" -> o.poser();
+        switch (a) {
+            case HAUT -> o.deplacementHaut();
+            case GAUCHE -> o.deplacementGauche();
+            case BAS -> o.deplacementBas();
+            case DROITE -> o.deplacementDroite();
+            case PRENDRE -> o.prendre();
+            case POSER -> o.poser();
             default -> throw new IllegalArgumentException("Invalid" + a);
         }
         return o;

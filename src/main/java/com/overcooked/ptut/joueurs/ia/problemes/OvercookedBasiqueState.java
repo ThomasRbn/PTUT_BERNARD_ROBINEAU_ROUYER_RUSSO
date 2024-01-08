@@ -6,8 +6,6 @@ import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import java.util.Arrays;
 
-import static com.overcooked.ptut.joueurs.ia.problemes.OvercookedBasique.*;
-
 public class OvercookedBasiqueState extends State implements HasHeuristic {
 
     //Données
@@ -97,48 +95,51 @@ public class OvercookedBasiqueState extends State implements HasHeuristic {
     }
 
     public String toString() {
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (int i = 0; i < grille.length; i++) {
             for (int j = 0; j < grille.length; j++) {
                 if (i == positionJoueur[0] && j == positionJoueur[1] && portePlat) {
-                    s += "X ";
+                    s.append("X ");
                     //Si coordonnées joueurs
-                }else if (i == positionJoueur[0] && j == positionJoueur[1]) s += "J ";
+                }else if (i == positionJoueur[0] && j == positionJoueur[1]) s.append("J ");
                     //Si coordonnées Plat
-                else if (i == positionPlat[0] && j == positionPlat[1]) s += "P ";
-                else if (i == positionSortie[0] && j == positionSortie[1]) s += "S ";
-                else s += grille[i][j] + " ";
+                else if (i == positionPlat[0] && j == positionPlat[1]) s.append("P ");
+                else if (i == positionSortie[0] && j == positionSortie[1]) s.append("S ");
+                else s.append(grille[i][j]).append(" ");
             }
-            s += "\n";
+            s.append("\n");
         }
-        return s;
+        return s.toString();
     }
 
     public boolean isLegal(Action a) {
-        if (a == UP) {
-            if (positionJoueur[0] == 0) return false;
-            else if (grille[positionJoueur[0] - 1][positionJoueur[1]] == 1) return false;
-            else return true;
-        } else if (a == LEFT) {
-            if (positionJoueur[1] == 0) return false;
-            else if (grille[positionJoueur[0]][positionJoueur[1] - 1] == 1) return false;
-            else return true;
-        } else if (a == DOWN) {
-            if (positionJoueur[0] == grille.length - 1) return false;
-            else if (grille[positionJoueur[0] + 1][positionJoueur[1]] == 1) return false;
-            else return true;
-        } else if (a == RIGHT) {
-            if (positionJoueur[1] == grille.length - 1) return false;
-            else if (grille[positionJoueur[0]][positionJoueur[1] + 1] == 1) return false;
-            else return true;
-        } else if (a == PICK) {
-            if (portePlat) return false;
-            else if (positionJoueur[0] == positionPlat[0] && positionJoueur[1] == positionPlat[1]) return true;
-            else return false;
-        } else if (a == DROP) {
-            return portePlat;
+        switch (a){
+            case HAUT -> {
+                if (positionJoueur[0] == 0) return false;
+                else return grille[positionJoueur[0] - 1][positionJoueur[1]] != 1;
+            }
+            case GAUCHE -> {
+                if (positionJoueur[1] == 0) return false;
+                else return grille[positionJoueur[0]][positionJoueur[1] - 1] != 1;
+            }
+            case BAS -> {
+                if (positionJoueur[0] == grille.length - 1) return false;
+                else return grille[positionJoueur[0] + 1][positionJoueur[1]] != 1;
+            }
+            case DROITE -> {
+                if (positionJoueur[1] == grille.length - 1) return false;
+                else return grille[positionJoueur[0]][positionJoueur[1] + 1] != 1;
+            }
+            case PRENDRE -> {
+                if (portePlat) return false;
+                else return positionJoueur[0] == positionPlat[0] && positionJoueur[1] == positionPlat[1];
+            }
+            case POSER -> {
+                return portePlat;
+            }
+            default -> throw new IllegalArgumentException("OvercookedBasuqyeState.isLegal, action invalide" + a);
         }
-        return false;
+
     }
 
     // Méthodes effectuant les actions

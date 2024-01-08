@@ -5,8 +5,14 @@ package com.overcooked.ptut.joueurs.utilitaire;
  *
  */
 
-public class Action implements Comparable<Action> {
-
+public enum Action {
+    HAUT("Haut"),
+    BAS("Bas"),
+    GAUCHE("Gauche"),
+    DROITE("Droite"),
+    PRENDRE("Prendre"),
+    POSER("Poser"),
+    COUPER("Couper");
     /**
      * Une action est juste une instance qui a un nom
      * pour mieux les lire :)
@@ -17,7 +23,7 @@ public class Action implements Comparable<Action> {
     /**
      * @param n le nom de l'action
      */
-    public Action(String n) {
+    Action(String n) {
         this.name = n;
     }
 
@@ -28,33 +34,4 @@ public class Action implements Comparable<Action> {
         return this.name;
     }
 
-    /**
-     * Ca évitera les doublons de temps en temps
-     *
-     */
-
-    @Override
-	public boolean equals(Object o) {
-		if (o != null && getClass() == o.getClass()) {
-            Action other = (Action) o;
-            return this.name.equals(other.name);
-        }
-        return false;
-    }
-
-    @Override
-	public String toString() {
-        return this.name;
-    }
-
-    /**
-     * Pour comparer les actions
-     * Quand il s'agit de les ordonner
-     * @param other l'autre instance de action
-     */
-
-    @Override
-    public int compareTo(Action other) {
-        return this.name.compareTo(other.name);
-    }
 }
