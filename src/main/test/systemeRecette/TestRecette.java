@@ -20,14 +20,8 @@ public class TestRecette {
     VerificationAliment vf;
     @BeforeEach
     public void setUp() {
-        painSalade = new Plat();
-        painSalade.setNom("PainSalade");
-        painSalade.ajouterAliment(new Salade());
-        painSalade.ajouterAliment(new Pain());
-        burger = new Plat();
-        burger.setNom("Burger");
-        burger.ajouterAliment(new Pain());
-        burger.ajouterAliment(new Cuisson(new Viande()));
+        painSalade = new Plat("PainSalade", new Pain(), new Salade());
+        burger = new Plat("Burger", new Pain(), new Cuisson(new Viande()));
         vf = new VerificationAliment(List.of(painSalade, burger));
     }
 
