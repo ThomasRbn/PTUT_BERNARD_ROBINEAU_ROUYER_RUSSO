@@ -3,11 +3,7 @@ package com.overcooked.ptut.constructionCarte;
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
-import com.overcooked.ptut.recettes.aliment.Pain;
-import com.overcooked.ptut.recettes.aliment.Plat;
-import com.overcooked.ptut.recettes.aliment.Salade;
-import com.overcooked.ptut.recettes.etat.Coupe;
-import com.overcooked.ptut.recettes.etat.Cuisson;
+import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,6 +11,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
 
 public class DonneesJeu {
 
@@ -41,15 +39,7 @@ public class DonneesJeu {
 //    //private List<Poele> poeles;
 //    private List<Generateur> generateurs;
 
-    private List<Plat> platsBut;
-
     public DonneesJeu(String chemin) {
-        platsBut = new ArrayList<>();
-        Plat saladePain = new Plat();
-        saladePain.setNom("saladePain");
-        saladePain.ajouterAliment(new Coupe(new Salade()));
-        saladePain.ajouterAliment(new Pain());
-        platsBut.add(saladePain);
         try {
             // ouvrir fichier
             File fichier = new File(chemin);
@@ -126,15 +116,17 @@ public class DonneesJeu {
         //TODO: Constructeur par copie, attention a n'avoir aucun effet de bord, réaliser des test unitaires.
     }
 
-    /**
-     * public void deplacerPerso(String action, int numJoueur) {
-     * Joueur pj = joueurs.get(numJoueur);
-     * int[] chemin = Carte.getSuivant(pj.getX(), pj.getY(), action);
-     * if (carte[chemin[0]][chemin[1]] == VIDE) {
-     * pj = new Personnage(chemin[0], chemin[1], getPj().getPv());
-     * }
-     * }
-     **/
+
+    public void faireAction(Action a, int numJoueur) {
+        Joueur joueur = joueurs.get(numJoueur);
+        switch (a) {
+            case DROITE, HAUT, BAS, GAUCHE -> joueur.deplacer(a);
+//            case PRENDRE -> joueur.prendre();
+//            case POSER -> joueur.poser();
+            default -> throw new IllegalArgumentException("Invalid" + a);
+        }
+    }
+
 
     public List<int[]> getPlansDeTravail() {
         return plansDeTravail;

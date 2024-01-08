@@ -23,7 +23,7 @@ public abstract class Joueur {
         inventaire = objet;
     }
 
-    protected Mouvable deposer() {
+    protected Mouvable poser() {
         Mouvable objet = inventaire;
         inventaire = null;
         return objet;
