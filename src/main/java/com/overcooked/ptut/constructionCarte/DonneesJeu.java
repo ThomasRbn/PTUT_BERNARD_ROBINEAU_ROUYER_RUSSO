@@ -1,10 +1,16 @@
 package com.overcooked.ptut.constructionCarte;
 
+import com.overcooked.ptut.entites.Depot;
+import com.overcooked.ptut.joueurs.Joueur;
+import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 
-import java.io.*;
-
-import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DonneesJeu {
 
@@ -19,59 +25,50 @@ public class DonneesJeu {
     public static final char GENERATEURSALADE = 'S';
     public static final char GENERATEURSTEAK = 'K';
 
-
-
-    public static final Action[] DIRECTION_TAB = {HAUT, BAS, GAUCHE, DROITE};
-
     /**
      * carte du jeu
      */
-    private int longueur;
-    private int hauteur;
-//    private List<Mur> murs;
-//    private Depot depot;
+    private char[][] carte;
+    private List<int[]> murs;
+    private List<Joueur> joueurs;
+    private Depot depot;
 //    private List<Couteau> couteaux;
 //    //private List<Poele> poeles;
-//    private List<Personnage> personnages;
 //    private List<Generateur> generateurs;
 
     public DonneesJeu(String chemin) {
         try {
             // ouvrir fichier
-            FileReader fichier = new FileReader(chemin);
-            BufferedReader bfRead = new BufferedReader(fichier);
+            File fichier = new File(chemin);
+            FileReader reader = new FileReader(fichier);
+            BufferedReader bfRead = new BufferedReader(reader);
 
-
-            // lecture nblignes
-            hauteur = Integer.parseInt(bfRead.readLine());
-            // lecture nbcolonnes
-            longueur = Integer.parseInt(bfRead.readLine());
-
-
-//            murs = new ArrayList<>();
+            this.carte = new char[getHauteurFichier(fichier)][getLongueurFichier(fichier)];
+            murs = new ArrayList<>();
+            joueurs = new ArrayList<>();
 //            couteaux = new ArrayList<>();
-//            personnages = new ArrayList<>();
 
             // lecture des cases
             String ligne = bfRead.readLine();
 
             // stocke les indices courants
-            int numeroLigne = 0;
+            int indexLigne = 0;
 
             // parcours le fichier
             while (ligne != null) {
-                for (int i = 0; i < ligne.length(); i++) {
-                    char c = ligne.charAt(i);
-//                    switch (c) {
-//                        case MUR:
-//                            murs.add(new Mur(i, numeroLigne));
-//                            break;
-//                        case JOUEUR:
-//                            personnages.add(new Personnage(i, numeroLigne));
-//                            break;
-//                        case DEPOT:
-//                            depot = new Depot(i, numeroLigne);
-//                            break;
+                for (int indexColonne = 0; indexColonne < ligne.length(); indexColonne++) {
+                    char c = ligne.charAt(indexColonne);
+                    carte[indexLigne][indexColonne] = c;
+                    switch (c) {
+                        case MUR:
+                            murs.add(new int[]{indexLigne, indexColonne});
+                            break;
+                        case JOUEUR:
+                            joueurs.add(new JoueurIA(indexLigne, indexColonne));
+                            break;
+                        case DEPOT:
+                            depot = new Depot(indexLigne, indexColonne);
+                            break;
 //                        case COUTEAU:
 //                            couteaux.add(new Couteau(i, numeroLigne));
 //                            break;
@@ -90,13 +87,13 @@ public class DonneesJeu {
 //                        case GENERATEURSTEAK:
 //                            generateurs.add(new Generateur(i, numeroLigne, "steak"));
 //                            break;
-//                        case VIDE:
-//                            break;
-//                        default:
-//                            throw new Error("caractere inconnu");
-//                    }
+                        case VIDE:
+                            break;
+                        default:
+                            throw new Error("caractere inconnu");
+                    }
                 }
-                numeroLigne++;
+                indexLigne++;
                 ligne = bfRead.readLine();
             }
         } catch (IOException e) {
@@ -104,28 +101,52 @@ public class DonneesJeu {
         }
     }
 
-        /**
+    /**
      * retourne la longueur du fichier
+     *
+     * @param f fichier
      * @return longueur
+     * @throws IOException erreur
      */
-    public int getLongueurFichier(){
-        return longueur;
+    public int getLongueurFichier(File f) throws IOException {
+        BufferedReader cloned = new BufferedReader(new FileReader(f));
+        return cloned.readLine().length();
     }
 
     /**
      * retourne la hauteur du fichier
+     *
+     * @param f fichier
      * @return hauteur
+     * @throws IOException erreur
      */
-    public int getHauteurFichier(){
+    public int getHauteurFichier(File f) throws IOException {
+        BufferedReader cloned = new BufferedReader(new FileReader(f));
+        int hauteur = 0;
+        while (cloned.readLine() != null) {
+            hauteur++;
+        }
         return hauteur;
     }
 
-    /**public void deplacerPerso(String action, Personnage pj) {
-        int[] chemin = Carte.getSuivant(pj.getX(), pj.getY(), action);
-        if (carte[chemin[0]][chemin[1]] == VIDE) {
-            pj = new Personnage(chemin[0], chemin[1], getPj().getPv());
+    /**
+     * public void deplacerPerso(String action, Personnage pj) {
+     * int[] chemin = Carte.getSuivant(pj.getX(), pj.getY(), action);
+     * if (carte[chemin[0]][chemin[1]] == VIDE) {
+     * pj = new Personnage(chemin[0], chemin[1], getPj().getPv());
+     * }
+     * }
+     **/
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (char[] ligne : carte) {
+            for (char c : ligne) {
+                s.append(c);
+            }
+            s.append("\n");
         }
-    }**/
-
-
+        return s.toString();
+    }
 }

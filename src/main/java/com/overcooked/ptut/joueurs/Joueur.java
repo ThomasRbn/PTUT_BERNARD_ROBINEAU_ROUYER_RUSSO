@@ -12,6 +12,10 @@ public abstract class Joueur {
 
     protected Movable inventaire;
 
+    public Joueur(int x, int y) {
+        position = new int[]{x, y};
+    }
+
     protected void prendre(Movable objet) {
         inventaire = objet;
     }

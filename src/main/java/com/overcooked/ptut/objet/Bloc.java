@@ -1,4 +1,4 @@
-package com.overcooked.ptut.positions;
+package com.overcooked.ptut.objet;
 
 public class Bloc {
     private int x;
