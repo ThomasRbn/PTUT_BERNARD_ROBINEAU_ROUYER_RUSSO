@@ -17,8 +17,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
-
 public class DonneesJeu {
 
     public static final char MUR = 'X';
@@ -50,10 +48,7 @@ public class DonneesJeu {
     public DonneesJeu(String chemin) {
         objetsDeplacables = new ArrayList<>();
         platsBut = new ArrayList<>();
-        Plat saladePain = new Plat();
-        saladePain.setNom("saladePain");
-        saladePain.ajouterAliment(new Coupe(new Salade()));
-        saladePain.ajouterAliment(new Pain());
+        Plat saladePain = new Plat("saladePain", new Coupe(new Salade()), new Pain());
         platsBut.add(saladePain);
         try {
             // ouvrir fichier
