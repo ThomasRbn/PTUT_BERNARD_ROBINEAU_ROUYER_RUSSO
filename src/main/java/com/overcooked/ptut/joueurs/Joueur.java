@@ -29,6 +29,23 @@ public abstract class Joueur {
         return objet;
     }
 
+    public void deplacer(Action action){
+        switch (action){
+            case HAUT:
+                position[1]--;
+                break;
+            case BAS:
+                position[1]++;
+                break;
+            case GAUCHE:
+                position[0]--;
+                break;
+            case DROITE:
+                position[0]++;
+                break;
+        }
+    }
+
     public abstract Action demanderAction(DonneesJeu donneesJeu);
 
     public int setNumJoueur(int numJoueur) {
