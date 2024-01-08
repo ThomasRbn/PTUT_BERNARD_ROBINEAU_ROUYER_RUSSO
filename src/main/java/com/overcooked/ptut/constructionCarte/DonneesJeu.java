@@ -2,24 +2,24 @@ package com.overcooked.ptut.constructionCarte;
 
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.joueurs.Joueur;
+import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
+import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.objet.Mouvable;
 import com.overcooked.ptut.recettes.aliment.Pain;
 import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Salade;
 import com.overcooked.ptut.recettes.etat.Coupe;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DonneesJeu {
 
-    public static final char MUR = 'X';
+    public static final char PLAN_DE_TRAVAIL = 'X';
     public static final char JOUEUR = 'J';
     public static final char SOL = '.';
     public static final char DEPOT = 'D';
@@ -30,14 +30,9 @@ public class DonneesJeu {
     public static final char GENERATEURSALADE = 's';
     public static final char GENERATEURVIANDE = 'v';
 
-    /**
-     * carte du jeu
-     */
+    private Bloc[][] objetsFixes;
     private int longueur, hauteur;
-    private List<int[]> plansDeTravail;
-    private List<int[]> sols;
     private List<Joueur> joueurs;
-    private Depot depot;
 //    private List<Couteau> couteaux;
 //    //private List<Poele> poeles;
 //    private List<Generateur> generateurs;
@@ -56,9 +51,8 @@ public class DonneesJeu {
             FileReader reader = new FileReader(fichier);
             BufferedReader bfRead = new BufferedReader(reader);
 
-            plansDeTravail = new ArrayList<>();
             joueurs = new ArrayList<>();
-            sols = new ArrayList<>();
+            objetsFixes = new Bloc[getHauteur(fichier)][getLongueur(fichier)];
 //            couteaux = new ArrayList<>();
 
             // lecture des cases
@@ -73,39 +67,20 @@ public class DonneesJeu {
                 for (int indexColonne = 0; indexColonne < ligne.length(); indexColonne++) {
                     char c = ligne.charAt(indexColonne);
                     switch (c) {
-                        case MUR:
-                            plansDeTravail.add(new int[]{indexLigne, indexColonne});
+                        case PLAN_DE_TRAVAIL:
+                            objetsFixes[indexLigne][indexColonne] = new Bloc(indexLigne, indexColonne);
+                            break;
+                        case DEPOT:
+                            objetsFixes[indexLigne][indexColonne] = new Depot(indexLigne, indexColonne);
                             break;
                         case JOUEUR:
                             joueurs.add(new JoueurIA(indexLigne, indexColonne));
-                            sols.add(new int[]{indexLigne, indexColonne});
+//                            joueurs.add(new JoueurHumain(indexLigne, indexColonne));
+                            objetsFixes[indexLigne][indexColonne] = null;
                             break;
-                        case DEPOT:
-                            depot = new Depot(indexLigne, indexColonne);
-                            break;
-//                        case PLANCHE:
-//                            couteaux.add(new Couteau(i, numeroLigne));
-//                            break;
-//                        case POELE:
-//                            //poeles.add(new Poele(i, numeroLigne));
-//                            break;
-//                        case GENERATEURTOMATE:
-//                            generateurs.add(new Generateur(i, numeroLigne, "tomate"));
-//                            break;
-//                        case GENERATEURPAIN:
-//                            generateurs.add(new Generateur(i, numeroLigne, "pain"));
-//                            break;
-//                        case GENERATEURSALADE:
-//                            generateurs.add(new Generateur(i, numeroLigne, "salade"));
-//                            break;
-//                        case GENERATEURSTEAK:
-//                            generateurs.add(new Generateur(i, numeroLigne, "steak"));
-//                            break;
-                        case SOL:
-                            sols.add(new int[]{indexLigne, indexColonne});
-                            break;
+                        //TODO faire les autres générateurs
                         default:
-                            throw new Error("caractere inconnu " + c);
+                            objetsFixes[indexLigne][indexColonne] = null;
                     }
                 }
                 indexLigne++;
@@ -133,9 +108,8 @@ public class DonneesJeu {
         platsBut.add(saladePain);
         this.longueur = donneesJeu.longueur;
         this.hauteur = donneesJeu.hauteur;
-        this.plansDeTravail = donneesJeu.plansDeTravail;
-        this.sols = donneesJeu.sols;
-        this.depot = donneesJeu.depot;
+        this.objetsFixes = donneesJeu.objetsFixes;
+
         this.joueurs = new ArrayList<>();
         System.out.println("Test");
 
@@ -171,20 +145,22 @@ public class DonneesJeu {
     }
 
 
-    public List<int[]> getPlansDeTravail() {
-        return plansDeTravail;
+    public int getLongueur(File f) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(f));
+        return br.readLine().length();
+    }
+
+    public int getHauteur(File f) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(f));
+        int hauteur = 0;
+        while (br.readLine() != null) {
+            hauteur++;
+        }
+        return hauteur;
     }
 
     public List<Joueur> getJoueurs() {
         return joueurs;
-    }
-
-    public List<int[]> getSols() {
-        return sols;
-    }
-
-    public Depot getDepot() {
-        return depot;
     }
 
     public int getLongueur() {
@@ -195,49 +171,37 @@ public class DonneesJeu {
         return hauteur;
     }
 
+    public Bloc[][] getObjetsFixes() {
+        return objetsFixes;
+    }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        int[] coordonneesAComparer = new int[]{0, 0};
-        List<int[]> coordonneesJoueurs = new ArrayList<>() {{
-            for (Joueur joueur : joueurs) {
-                add(joueur.getPosition());
-            }
-        }};
-
+        char[][] res = new char[hauteur][longueur];
         for (int i = 0; i < hauteur; i++) {
-            for (int j = 0; j < longueur; j++) {
-                coordonneesAComparer[0] = i;
-                coordonneesAComparer[1] = j;
-                System.out.println(coordonneesAComparer[0] + " " + coordonneesAComparer[1]);
-                boolean estJoueur = false;
+            Arrays.fill(res[i], '.');
+        }
+        for (Joueur joueur : joueurs) {
+            res[joueur.getPosition()[0]][joueur.getPosition()[1]] = JOUEUR;
+        }
 
-                for (int[] coordonnees : coordonneesJoueurs) {
-                    if (coordonnees[0] == coordonneesAComparer[0] && coordonnees[1] == coordonneesAComparer[1]) {
-                        s.append(JOUEUR);
-                        estJoueur = true;
-                    }
+        for (int i = 0; i < objetsFixes.length; i++) {
+            Bloc[] bloc = objetsFixes[i];
+            for (int j = 0; j < bloc.length; j++) {
+                if (bloc[j] == null) {
+                    res[i][j] = SOL;
+                } else if (bloc[j] instanceof Depot) {
+                    res[bloc[j].getX()][bloc[j].getY()] = DEPOT;
+                } else {
+                    res[bloc[j].getX()][bloc[j].getY()] = PLAN_DE_TRAVAIL;
+
                 }
-
-                for (int[] coordonnees : plansDeTravail) {
-                    if (coordonnees[0] == coordonneesAComparer[0] && coordonnees[1] == coordonneesAComparer[1]) {
-                        s.append(MUR);
-                    }
-                }
-
-                for (int[] coordonnees : sols) {
-                    if (!estJoueur && coordonnees[0] == coordonneesAComparer[0] && coordonnees[1] == coordonneesAComparer[1]) {
-                        s.append(SOL);
-                    }
-                }
-
-                if (depot.getX() == coordonneesAComparer[0] && depot.getY() == coordonneesAComparer[1]) {
-                    s.append(DEPOT);
-                }
-
-                s.append(" ");
             }
-            s.append("\n");
+        }
+
+        for (char[] re : res) {
+            s.append(Arrays.toString(re)).append("\n");
         }
         return s.toString();
     }
