@@ -27,4 +27,8 @@ public abstract class Joueur {
     }
 
     public abstract Action demanderAction();
+
+    public int[] getPosition() {
+        return position;
+    }
 }

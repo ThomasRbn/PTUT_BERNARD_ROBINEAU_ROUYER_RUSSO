@@ -130,25 +130,55 @@ public class DonneesJeu {
         return depot;
     }
 
+    public int getLongueur() {
+        return longueur;
+    }
+
+    public int getHauteur() {
+        return hauteur;
+    }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        int[] coordonnees = new int[]{0, 0};
+        int[] coordonneesAComparer = new int[]{0, 0};
+        List<int[]> coordonneesJoueurs = new ArrayList<>() {{
+            for (Joueur joueur : joueurs) {
+                add(joueur.getPosition());
+            }
+        }};
+
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < longueur; j++) {
-                coordonnees[0] = i;
-                coordonnees[1] = j;
-                if (plansDeTravail.contains(coordonnees)) {
-                    s.append(MUR);
-                } else if (joueurs.contains(coordonnees)) {
-                    s.append(JOUEUR);
-                } else if (sols.contains(coordonnees)) {
-                    s.append(SOL);
-                } else if (coordonnees[0] == depot.getX() && coordonnees[1] == depot.getY()) {
-                    s.append(DEPOT);
-                } else {
-                    s.append(" ");
+                coordonneesAComparer[0] = i;
+                coordonneesAComparer[1] = j;
+                System.out.println(coordonneesAComparer[0] + " " + coordonneesAComparer[1]);
+                boolean estJoueur = false;
+
+                for (int[] coordonnees : coordonneesJoueurs) {
+                    if (coordonnees[0] == coordonneesAComparer[0] && coordonnees[1] == coordonneesAComparer[1]) {
+                        s.append(JOUEUR);
+                        estJoueur = true;
+                    }
                 }
+
+                for (int[] coordonnees : plansDeTravail) {
+                    if (coordonnees[0] == coordonneesAComparer[0] && coordonnees[1] == coordonneesAComparer[1]) {
+                        s.append(MUR);
+                    }
+                }
+
+                for (int[] coordonnees : sols) {
+                    if (!estJoueur && coordonnees[0] == coordonneesAComparer[0] && coordonnees[1] == coordonneesAComparer[1]) {
+                        s.append(SOL);
+                    }
+                }
+
+                if (depot.getX() == coordonneesAComparer[0] && depot.getY() == coordonneesAComparer[1]) {
+                    s.append(DEPOT);
+                }
+
+                s.append(" ");
             }
             s.append("\n");
         }
