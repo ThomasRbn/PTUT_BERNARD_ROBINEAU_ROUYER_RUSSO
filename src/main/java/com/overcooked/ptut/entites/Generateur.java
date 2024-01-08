@@ -15,5 +15,9 @@ public class Generateur extends Bloc {
         this.aliment = aliment;
     }
 
+    public Aliment getAliment() {
+        return aliment;
+    }
+
 
 }
