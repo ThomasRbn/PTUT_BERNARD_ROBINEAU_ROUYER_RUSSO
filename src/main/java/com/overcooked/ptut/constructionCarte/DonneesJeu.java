@@ -4,6 +4,10 @@ import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
+import com.overcooked.ptut.recettes.aliment.Pain;
+import com.overcooked.ptut.recettes.aliment.Plat;
+import com.overcooked.ptut.recettes.aliment.Salade;
+import com.overcooked.ptut.recettes.etat.Coupe;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,7 +24,7 @@ public class DonneesJeu {
     public static final char JOUEUR = 'J';
     public static final char SOL = '.';
     public static final char DEPOT = 'D';
-    public static final char COUTEAU = 'C';
+    public static final char PLANCHE = 'C';
     public static final char POELE = 'P';
     public static final char GENERATEURTOMATE = 't';
     public static final char GENERATEURPAIN = 'p';
@@ -39,7 +43,15 @@ public class DonneesJeu {
 //    //private List<Poele> poeles;
 //    private List<Generateur> generateurs;
 
+    private List<Plat> platsBut;
+
     public DonneesJeu(String chemin) {
+        platsBut = new ArrayList<>();
+        Plat saladePain = new Plat();
+        saladePain.setNom("saladePain");
+        saladePain.ajouterAliment(new Coupe(new Salade()));
+        saladePain.ajouterAliment(new Pain());
+        platsBut.add(saladePain);
         try {
             // ouvrir fichier
             File fichier = new File(chemin);
@@ -73,7 +85,7 @@ public class DonneesJeu {
                         case DEPOT:
                             depot = new Depot(indexLigne, indexColonne);
                             break;
-//                        case COUTEAU:
+//                        case PLANCHE:
 //                            couteaux.add(new Couteau(i, numeroLigne));
 //                            break;
 //                        case POELE:
@@ -112,8 +124,31 @@ public class DonneesJeu {
         }
     }
 
+
     public DonneesJeu(DonneesJeu donneesJeu) {
         //TODO: Constructeur par copie, attention a n'avoir aucun effet de bord, réaliser des test unitaires.
+        this.longueur = donneesJeu.longueur;
+        this.hauteur = donneesJeu.hauteur;
+        this.plansDeTravail = donneesJeu.plansDeTravail;
+        this.sols = donneesJeu.sols;
+        this.depot = donneesJeu.depot;
+        this.joueurs = new ArrayList<>();
+
+        List<int[]> coordonneesJoueurs = new ArrayList<>() {{
+            for (Joueur joueur : joueurs) {
+                add(joueur.getPosition());
+            }
+        }};
+
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < longueur; j++) {
+                for (int[] coordonnees : coordonneesJoueurs) {
+                    if (coordonnees[0] == i && coordonnees[1] == j) {
+                        joueurs.add(new JoueurIA(i, j));
+                    }
+                }
+            }
+        }
     }
 
 
