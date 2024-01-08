@@ -13,23 +13,26 @@ public abstract class Joueur {
 
     protected Mouvable inventaire;
 
+    protected Action direction;
     protected int numJoueur;
 
     public Joueur(int x, int y) {
         position = new int[]{x, y};
+        direction = Action.HAUT;
     }
 
     protected void prendre(Mouvable objet) {
         inventaire = objet;
     }
 
-    protected Mouvable poser() {
+    public Mouvable poser() {
         Mouvable objet = inventaire;
         inventaire = null;
         return objet;
     }
 
     public void deplacer(Action action){
+        direction = action;
         switch (action){
             case HAUT:
                 position[1]--;
@@ -44,6 +47,27 @@ public abstract class Joueur {
                 position[0]++;
                 break;
         }
+    }
+
+    public int[] getTargetPosition(){
+        int[] targetPosition = new int[2];
+        targetPosition[0] = position[0];
+        targetPosition[1] = position[1];
+        switch (direction){
+            case HAUT:
+                targetPosition[1]--;
+                break;
+            case BAS:
+                targetPosition[1]++;
+                break;
+            case GAUCHE:
+                targetPosition[0]--;
+                break;
+            case DROITE:
+                targetPosition[0]++;
+                break;
+        }
+        return targetPosition;
     }
 
     public abstract Action demanderAction(DonneesJeu donneesJeu);

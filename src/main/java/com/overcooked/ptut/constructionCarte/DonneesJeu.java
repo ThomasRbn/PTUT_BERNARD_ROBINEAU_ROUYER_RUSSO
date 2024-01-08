@@ -4,6 +4,7 @@ import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
+import com.overcooked.ptut.objet.Mouvable;
 import com.overcooked.ptut.recettes.aliment.Pain;
 import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Salade;
@@ -43,9 +44,11 @@ public class DonneesJeu {
 //    //private List<Poele> poeles;
 //    private List<Generateur> generateurs;
 
+    private List<Mouvable> objetsDeplacables;
     private List<Plat> platsBut;
 
     public DonneesJeu(String chemin) {
+        objetsDeplacables = new ArrayList<>();
         platsBut = new ArrayList<>();
         Plat saladePain = new Plat();
         saladePain.setNom("saladePain");
@@ -156,8 +159,11 @@ public class DonneesJeu {
         Joueur joueur = joueurs.get(numJoueur);
         switch (a) {
             case DROITE, HAUT, BAS, GAUCHE -> joueur.deplacer(a);
-//            case PRENDRE -> joueur.prendre();
-//            case POSER -> joueur.poser();
+            case PRENDRE -> {
+                // Premier cas avec la position du joueur (sous le joueur, car il est possible de chevaucher un objet)
+                //joueur.prendre();
+            }
+            case POSER -> objetsDeplacables.add(joueur.poser());
             default -> throw new IllegalArgumentException("Invalid" + a);
         }
     }
