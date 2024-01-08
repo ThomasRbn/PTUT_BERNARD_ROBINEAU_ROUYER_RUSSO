@@ -3,11 +3,11 @@ package com.overcooked.ptut.recettes.aliment;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Recette extends Aliment {
+public abstract class Plat extends Aliment {
     // Liste des recettes qui composent la recette en question
     List<Aliment> recettesComposees;
 
-    public Recette() {
+    public Plat() {
         super();
         this.recettesComposees = new ArrayList<>();
     }

@@ -5,7 +5,7 @@ import com.overcooked.ptut.recettes.aliment.Aliment;
 
 import java.security.AlgorithmConstraints;
 
-public class Assiette extends Movable {
+public class Assiette extends Aliment {
     private Aliment aliment;
 
     public Assiette(Aliment aliment){

@@ -12,18 +12,20 @@ class Aliment implements Movable {
     + String description
 }
 
-class Assiette implements Movable {
+class Assiette extends Aliment {
     + getAliment(): Aliment
     + setAliment(Aliment): void
 }
 
-Aliment --> Assiette : aliment
+Aliment <-- Assiette : aliment
 
-class Recette extends Aliment {
+class Plat extends Aliment {
     + List<Aliment> recettesComposees
     + getIngredients(): Aliment[]
     + setIngredients(Aliment[]): void
 }
+
+Aliment "0..*" <-up- "1" Plat : recettesComposees
 
 abstract class DecorateurEtat extends Aliment {
     + toString(): String
@@ -31,7 +33,7 @@ abstract class DecorateurEtat extends Aliment {
     + hashCode(): int
 }
 
-Aliment --> DecorateurEtat : composant
+Aliment <-- DecorateurEtat : composant
 
 class Coupe extends DecorateurEtat {
     + toString(): String

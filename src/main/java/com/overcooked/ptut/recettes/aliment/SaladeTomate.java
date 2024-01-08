@@ -2,7 +2,7 @@ package com.overcooked.ptut.recettes.aliment;
 
 import com.overcooked.ptut.recettes.etat.Coupe;
 
-public class SaladeTomate extends Recette {
+public class SaladeTomate extends Plat {
 
     public SaladeTomate(){
         super();

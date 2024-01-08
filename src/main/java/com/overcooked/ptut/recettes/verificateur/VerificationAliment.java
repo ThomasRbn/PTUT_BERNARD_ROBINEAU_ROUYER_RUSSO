@@ -2,7 +2,7 @@ package com.overcooked.ptut.recettes.verificateur;
 
 import com.overcooked.ptut.recettes.ListeAliments;
 import com.overcooked.ptut.recettes.aliment.Aliment;
-import com.overcooked.ptut.recettes.aliment.Recette;
+import com.overcooked.ptut.recettes.aliment.Plat;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public class VerificationAliment {
     }
 
     public Aliment verifiercompatibilite(List<Aliment> alimentsATraiter) {
-        for (Recette recette : listeAliments.getRecettesPossibles()) {
+        for (Plat recette : listeAliments.getRecettesPossibles()) {
             boolean estPresent = true;
             for (Aliment alimentRecette : recette.getRecettesComposees()) {
                 System.out.println(alimentRecette);
