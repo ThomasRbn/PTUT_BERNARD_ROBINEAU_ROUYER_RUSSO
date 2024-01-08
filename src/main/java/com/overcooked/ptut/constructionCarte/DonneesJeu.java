@@ -127,15 +127,22 @@ public class DonneesJeu {
 
     public DonneesJeu(DonneesJeu donneesJeu) {
         //TODO: Constructeur par copie, attention a n'avoir aucun effet de bord, réaliser des test unitaires.
+        platsBut = new ArrayList<>();
+        Plat saladePain = new Plat();
+        saladePain.setNom("saladePain");
+        saladePain.ajouterAliment(new Coupe(new Salade()));
+        saladePain.ajouterAliment(new Pain());
+        platsBut.add(saladePain);
         this.longueur = donneesJeu.longueur;
         this.hauteur = donneesJeu.hauteur;
         this.plansDeTravail = donneesJeu.plansDeTravail;
         this.sols = donneesJeu.sols;
         this.depot = donneesJeu.depot;
         this.joueurs = new ArrayList<>();
+        System.out.println("Test");
 
         List<int[]> coordonneesJoueurs = new ArrayList<>() {{
-            for (Joueur joueur : joueurs) {
+            for (Joueur joueur : donneesJeu.joueurs) {
                 add(joueur.getPosition());
             }
         }};
