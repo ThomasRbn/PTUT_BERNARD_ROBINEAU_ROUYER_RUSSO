@@ -18,7 +18,7 @@ public abstract class Aliment extends Mouvable {
 	 */
 	protected String description = "Aliment inconnu";
 
-	public Aliment(int[][] coordonnees) {
+	public Aliment(int[] coordonnees) {
 		super(coordonnees);
 	}
 
