@@ -1,6 +1,6 @@
 package com.overcooked.ptut.recettes.aliment;
 
-import com.overcooked.ptut.objet.Movable;
+import com.overcooked.ptut.objet.Mouvable;
 
 import java.util.Objects;
 
@@ -8,7 +8,7 @@ import java.util.Objects;
  * Classe abstraite representant une boisson 
  * 
  */
-public abstract class Aliment extends Movable {
+public abstract class Aliment extends Mouvable {
 
 	protected String nom = "Aliment inconnu";
 

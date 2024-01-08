@@ -1,7 +1,7 @@
 package com.overcooked.ptut.joueurs;
 
 import com.overcooked.ptut.joueurs.utilitaire.Action;
-import com.overcooked.ptut.objet.Movable;
+import com.overcooked.ptut.objet.Mouvable;
 
 public abstract class Joueur {
 
@@ -10,18 +10,18 @@ public abstract class Joueur {
      */
     protected int[] position;
 
-    protected Movable inventaire;
+    protected Mouvable inventaire;
 
     public Joueur(int x, int y) {
         position = new int[]{x, y};
     }
 
-    protected void prendre(Movable objet) {
+    protected void prendre(Mouvable objet) {
         inventaire = objet;
     }
 
-    protected Movable deposer() {
-        Movable objet = inventaire;
+    protected Mouvable deposer() {
+        Mouvable objet = inventaire;
         inventaire = null;
         return objet;
     }
