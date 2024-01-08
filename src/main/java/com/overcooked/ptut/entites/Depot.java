@@ -1,18 +1,17 @@
 package com.overcooked.ptut.entites;
 
+import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Depot {
-
-    private int[] position;
+public class Depot extends Bloc {
 
     private List<Plat> platsDeposes;
 
     public Depot(int x, int y) {
-        this.position = new int[]{x, y};
+        super(x, y);
         platsDeposes = new ArrayList<>();
     }
 
