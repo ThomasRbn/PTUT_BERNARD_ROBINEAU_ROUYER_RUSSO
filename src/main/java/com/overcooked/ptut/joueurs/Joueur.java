@@ -21,7 +21,7 @@ public abstract class Joueur {
         direction = Action.HAUT;
     }
 
-    protected void prendre(Mouvable objet) {
+    public void prendre(Mouvable objet) {
         inventaire = objet;
     }
 

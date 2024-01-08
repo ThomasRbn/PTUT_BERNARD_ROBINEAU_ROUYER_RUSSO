@@ -1,6 +1,7 @@
 package com.overcooked.ptut.constructionCarte;
 
 import com.overcooked.ptut.entites.Depot;
+import com.overcooked.ptut.entites.Generateur;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
@@ -137,7 +138,13 @@ public class DonneesJeu {
             case DROITE, HAUT, BAS, GAUCHE -> joueur.deplacer(a);
             case PRENDRE -> {
                 // Premier cas avec la position du joueur (sous le joueur, car il est possible de chevaucher un objet)
-                //joueur.prendre();
+                int[] positionJoueur = joueur.getPosition();
+                Bloc objetsFix = objetsFixes[positionJoueur[0]][positionJoueur[1]];
+                if (objetsFix instanceof Generateur) {
+                    joueur.prendre(((Generateur) objetsFix).getAliment());
+                    objetsFixes[positionJoueur[0]][positionJoueur[1]] = null;
+                    return;
+                }
             }
             case POSER -> objetsDeplacables.add(joueur.poser());
             default -> throw new IllegalArgumentException("Invalid" + a);
