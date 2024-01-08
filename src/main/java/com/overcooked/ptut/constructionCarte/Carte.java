@@ -35,7 +35,8 @@ public class Carte {
     /**
      * carte du jeu
      */
-    private char[][] carte;
+    private int longueur;
+    private int hauteur;
 //    private List<Mur> murs;
 //    private Depot depot;
 //    private List<Couteau> couteaux;
@@ -49,13 +50,13 @@ public class Carte {
             FileReader fichier = new FileReader(chemin);
             BufferedReader bfRead = new BufferedReader(fichier);
 
-            int nbLignes, nbColonnes;
-            // lecture nblignes
-            nbLignes = Integer.parseInt(bfRead.readLine());
-            // lecture nbcolonnes
-            nbColonnes = Integer.parseInt(bfRead.readLine());
 
-            this.carte = new char[getHauteurFichier(fichier)][getLongueurFichier(fichier)];
+            // lecture nblignes
+            hauteur = Integer.parseInt(bfRead.readLine());
+            // lecture nbcolonnes
+            longueur = Integer.parseInt(bfRead.readLine());
+
+
 //            murs = new ArrayList<>();
 //            couteaux = new ArrayList<>();
 //            personnages = new ArrayList<>();
@@ -114,27 +115,17 @@ public class Carte {
 
         /**
      * retourne la longueur du fichier
-     * @param f fichier
      * @return longueur
-     * @throws IOException erreur
      */
-    public int getLongueurFichier(FileReader f) throws IOException {
-        BufferedReader cloned = new BufferedReader(f);
-        return cloned.readLine().length();
+    public int getLongueurFichier(){
+        return longueur;
     }
 
     /**
      * retourne la hauteur du fichier
-     * @param f fichier
      * @return hauteur
-     * @throws IOException erreur
      */
-    public int getHauteurFichier(FileReader f) throws IOException {
-        BufferedReader cloned = new BufferedReader(f);
-        int hauteur = 0;
-        while (cloned.readLine() != null) {
-            hauteur++;
-        }
+    public int getHauteurFichier(){
         return hauteur;
     }
 
