@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+interface Movable {
+    + int[] coordonnees
+    + getCoordonnees(): int[]
+}
+
+class Aliment implements Movable {
+    + String nom
+    + String description
+}
+
+class Assiette implements Movable {
+    + Aliment aliment
+    + getAliment(): Aliment
+    + setAliment(Aliment): void
+}
+
+class Recette extends Aliment {
+    + List<Aliment> recettesComposees
+    + getIngredients(): Aliment[]
+    + setIngredients(Aliment[]): void
+}
+
+@enduml
