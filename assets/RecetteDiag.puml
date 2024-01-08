@@ -13,15 +13,30 @@ class Aliment implements Movable {
 }
 
 class Assiette implements Movable {
-    + Aliment aliment
     + getAliment(): Aliment
     + setAliment(Aliment): void
 }
+
+Aliment --> Assiette : aliment
 
 class Recette extends Aliment {
     + List<Aliment> recettesComposees
     + getIngredients(): Aliment[]
     + setIngredients(Aliment[]): void
+}
+
+abstract class DecorateurEtat extends Aliment {
+    + toString(): String
+    + equals(Object): boolean
+    + hashCode(): int
+}
+
+Aliment --> DecorateurEtat : composant
+
+class Coupe extends DecorateurEtat {
+    + toString(): String
+    + equals(Object): boolean
+    + hashCode(): int
 }
 
 @enduml

@@ -13,7 +13,7 @@ public abstract class Aliment extends Movable {
 	protected String nom = "Aliment inconnu";
 
 	/**
-	 * Description de la  boisson 
+	 * Description de l'aliment
 	 * 
 	 */
 	protected String description = "Aliment inconnu";
