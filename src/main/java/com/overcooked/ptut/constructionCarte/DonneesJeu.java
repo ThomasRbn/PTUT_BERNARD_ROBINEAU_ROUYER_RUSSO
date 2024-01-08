@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Carte {
+public class DonneesJeu {
 
     public static final char MUR = 'X';
     public static final char JOUEUR = 'J';
@@ -25,20 +25,6 @@ public class Carte {
     public static final char GENERATEURSALADE = 'S';
     public static final char GENERATEURSTEAK = 'K';
 
-
-    /**
-     * constantes actions possibles
-     */
-    public static final Action HAUT = new Action("Haut");
-    public static final Action BAS = new Action("Bas");
-    public static final Action GAUCHE = new Action("Gauche");
-    public static final Action DROITE = new Action("Droite");
-    public static final Action PRENDRE = new Action("Prendre");
-    public static final Action POSER = new Action("Poser");
-    public static final Action COUPER = new Action("Couper");
-
-    public static final Action[] DIRECTION_TAB = {HAUT, BAS, GAUCHE, DROITE};
-
     /**
      * carte du jeu
      */
@@ -50,7 +36,7 @@ public class Carte {
 //    //private List<Poele> poeles;
 //    private List<Generateur> generateurs;
 
-    public Carte(String chemin) {
+    public DonneesJeu(String chemin) {
         try {
             // ouvrir fichier
             File fichier = new File(chemin);

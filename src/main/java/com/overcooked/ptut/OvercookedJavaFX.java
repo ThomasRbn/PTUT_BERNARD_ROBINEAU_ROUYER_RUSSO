@@ -1,6 +1,6 @@
 package com.overcooked.ptut;
 
-import com.overcooked.ptut.constructionCarte.Carte;
+import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -14,7 +14,7 @@ public class OvercookedJavaFX extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Carte carte = new Carte(chemin);
+        DonneesJeu carte = new DonneesJeu(chemin);
         System.out.println(carte);
     }
 }
