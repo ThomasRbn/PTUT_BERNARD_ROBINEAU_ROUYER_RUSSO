@@ -31,9 +31,13 @@ public abstract class Joueur {
         return objet;
     }
 
-    public void deplacer(Action action){
-        direction = action;
-        switch (action){
+    public void changeDirection(Action action) {
+        if (action != Action.RIEN && action != Action.PRENDRE && action != Action.POSER)
+            direction = action;
+    }
+
+    public void deplacer(Action action) {
+        switch (action) {
             case HAUT:
                 position[1]--;
                 break;
@@ -49,11 +53,11 @@ public abstract class Joueur {
         }
     }
 
-    public int[] retournePositionCible(){
+    public int[] retournePositionCible() {
         int[] targetPosition = new int[2];
         targetPosition[0] = position[0];
         targetPosition[1] = position[1];
-        switch (direction){
+        switch (direction) {
             case HAUT:
                 targetPosition[1]--;
                 break;
@@ -73,7 +77,7 @@ public abstract class Joueur {
     public abstract Action demanderAction(DonneesJeu donneesJeu);
 
     public int setNumJoueur(int numJoueur) {
-    	return this.numJoueur = numJoueur;
+        return this.numJoueur = numJoueur;
     }
 
     public int[] getPosition() {

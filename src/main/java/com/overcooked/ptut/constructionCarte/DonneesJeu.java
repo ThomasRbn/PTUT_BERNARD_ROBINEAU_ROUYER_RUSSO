@@ -133,8 +133,14 @@ public class DonneesJeu {
 
     public void faireAction(Action a, int numJoueur) {
         Joueur joueur = joueurs.get(numJoueur);
+        joueur.changeDirection(a);
+        int[] positionJoueurCible = joueur.retournePositionCible();
         switch (a) {
-            case DROITE, HAUT, BAS, GAUCHE -> joueur.deplacer(a);
+            case DROITE, GAUCHE, HAUT, BAS -> {
+                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] == null) {
+                    joueur.deplacer(a);
+                }
+            }
             case PRENDRE -> {
                 // Premier cas avec la position du joueur (sous le joueur, car il est possible de chevaucher un objet)
                 prendre(joueur);
