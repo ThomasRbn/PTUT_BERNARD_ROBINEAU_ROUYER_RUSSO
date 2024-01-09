@@ -7,9 +7,9 @@ import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.objet.Mouvable;
-import com.overcooked.ptut.recettes.aliment.Pain;
-import com.overcooked.ptut.recettes.aliment.Plat;
-import com.overcooked.ptut.recettes.aliment.Salade;
+import com.overcooked.ptut.objet.transformateur.Planche;
+import com.overcooked.ptut.objet.transformateur.Poele;
+import com.overcooked.ptut.recettes.aliment.*;
 import com.overcooked.ptut.recettes.etat.Coupe;
 
 import java.io.BufferedReader;
@@ -69,8 +69,10 @@ public class DonneesJeu {
 
             // parcours le fichier
             while (ligne != null) {
+                System.out.println("Ligne " + indexLigne + " : " + ligne);
                 for (indexColonne = 0; indexColonne < ligne.length(); indexColonne++) {
                     char c = ligne.charAt(indexColonne);
+                    System.out.println("Colonne " + indexColonne + " : " + c);
                     switch (c) {
                         case PLAN_DE_TRAVAIL:
                             objetsFixes[indexLigne][indexColonne] = new Bloc(indexLigne, indexColonne);
@@ -85,6 +87,15 @@ public class DonneesJeu {
                             break;
                         case GENERATEURSALADE:
                             objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Salade());
+                            break;
+                        case GENERATEURPAIN:
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Pain());
+                            break;
+                        case PLANCHE:
+                            objetsFixes[indexLigne][indexColonne] = new Planche(indexLigne, indexColonne);
+                            break;
+                        case POELE:
+                            objetsFixes[indexLigne][indexColonne] = new Poele(indexLigne, indexColonne);
                             break;
                         default:
                             objetsFixes[indexLigne][indexColonne] = null;
@@ -273,13 +284,23 @@ public class DonneesJeu {
         for (int i = 0; i < objetsFixes.length; i++) {
             Bloc[] bloc = objetsFixes[i];
             for (int j = 0; j < bloc.length; j++) {
-                if (bloc[j] == null) {
-                    res[i][j] = SOL;
-                } else if (bloc[j] instanceof Depot) {
-                    res[bloc[j].getX()][bloc[j].getY()] = DEPOT;
-                } else {
-                    res[bloc[j].getX()][bloc[j].getY()] = PLAN_DE_TRAVAIL;
-
+                switch (bloc[j]) {
+                    case null -> res[i][j] = SOL;
+                    case Depot ignored -> res[bloc[j].getX()][bloc[j].getY()] = DEPOT;
+                    case Generateur generateur -> {
+                        if (generateur.getAliment() instanceof Salade) {
+                            res[bloc[j].getX()][bloc[j].getY()] = GENERATEURSALADE;
+                        } else if (generateur.getAliment() instanceof Pain) {
+                            res[bloc[j].getX()][bloc[j].getY()] = GENERATEURPAIN;
+                        } else if (generateur.getAliment() instanceof Viande) {
+                            res[bloc[j].getX()][bloc[j].getY()] = GENERATEURVIANDE;
+                        } else if (generateur.getAliment() instanceof Tomate) {
+                            res[bloc[j].getX()][bloc[j].getY()] = GENERATEURTOMATE;
+                        }
+                    }
+                    case Planche ignored -> res[bloc[j].getX()][bloc[j].getY()] = PLANCHE;
+                    case Poele ignored -> res[bloc[j].getX()][bloc[j].getY()] = POELE;
+                    default -> res[bloc[j].getX()][bloc[j].getY()] = PLAN_DE_TRAVAIL;
                 }
             }
         }

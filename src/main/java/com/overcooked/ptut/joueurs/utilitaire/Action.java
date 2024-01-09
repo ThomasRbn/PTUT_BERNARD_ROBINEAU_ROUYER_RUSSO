@@ -6,14 +6,14 @@ package com.overcooked.ptut.joueurs.utilitaire;
  */
 
 public enum Action {
-    HAUT("Haut"),
-    BAS("Bas"),
-    GAUCHE("Gauche"),
-    DROITE("Droite"),
-    PRENDRE("Prendre"),
-    POSER("Poser"),
-    COUPER("Couper"),
-    RIEN("Rien");
+    HAUT("HAUT"),
+    BAS("BAS"),
+    GAUCHE("GAUCHE"),
+    DROITE("DROITE"),
+    PRENDRE("PRENDRE"),
+    POSER("POSER"),
+    COUPER("COUPER"),
+    RIEN("RIEN");
     /**
      * Une action est juste une instance qui a un nom
      * pour mieux les lire :)

@@ -80,6 +80,10 @@ public abstract class Joueur {
         return this.numJoueur = numJoueur;
     }
 
+    public int getNumJoueur() {
+        return numJoueur;
+    }
+
     public int[] getPosition() {
         return position;
     }
