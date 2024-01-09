@@ -13,30 +13,30 @@ public class TestEquals {
     DonneesJeu donneesJeu;
 
     @Test
-    public void testEqualsSansToucher(){
-        donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
+    public void testEqualsSansToucher() {
+        donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         assertTrue(donneesJeu.equals(clone));
     }
 
     @Test
-    public void testCopieNiveau(){
-        donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
-        DonneesJeu donneesJeu2 = new DonneesJeu("niveaux/niveau0.txt");
+    public void testCopieNiveau() {
+        donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
+        DonneesJeu donneesJeu2 = new DonneesJeu("niveaux/niveau0.txt", true);
         assertTrue(donneesJeu.equals(donneesJeu2));
     }
 
     @Test
-    public void testEqualsAvecDeplacement(){
-        donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
+    public void testEqualsAvecDeplacement() {
+        donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         clone.faireAction(BAS, 0);
         assertFalse(donneesJeu.equals(clone));
     }
 
     @Test
-    public void testEqualsAvecDeplacementImpossible(){
-        donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
+    public void testEqualsAvecDeplacementImpossible() {
+        donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         clone.faireAction(GAUCHE, 0);
         clone.faireAction(HAUT, 0);
@@ -44,8 +44,8 @@ public class TestEquals {
     }
 
     @Test
-    public void testAvecChangementInventaire(){
-        donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
+    public void testAvecChangementInventaire() {
+        donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         Joueur joueurClone = clone.getJoueurs().get(0);
         Tomate tomate = new Tomate();
@@ -54,22 +54,22 @@ public class TestEquals {
     }
 
     @Test
-    public void testMemeObject(){
-        donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
+    public void testMemeObject() {
+        donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         assertTrue(donneesJeu.equals(donneesJeu));
     }
 
     @Test
-    public void testChangementOrientation(){
-        donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
+    public void testChangementOrientation() {
+        donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         clone.faireAction(GAUCHE, 0);
         assertFalse(donneesJeu.equals(clone));
     }
 
     @Test
-    public void testAvecNull(){
-        donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
+    public void testAvecNull() {
+        donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         assertThrows(IllegalArgumentException.class, () -> donneesJeu.equals(null));
     }
 

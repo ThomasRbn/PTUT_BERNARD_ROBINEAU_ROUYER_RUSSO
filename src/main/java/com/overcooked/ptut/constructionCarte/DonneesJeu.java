@@ -42,7 +42,7 @@ public class DonneesJeu {
     private Mouvable[][] objetsDeplacables;
     private List<Plat> platsBut;
 
-    public DonneesJeu(String chemin) {
+    public DonneesJeu(String chemin, boolean... test) {
         platsBut = new ArrayList<>();
         Plat saladePain = new Plat("tomate", new Tomate());
         platsBut.add(saladePain);
@@ -77,6 +77,10 @@ public class DonneesJeu {
                             objetsFixes[indexLigne][indexColonne] = new Depot(indexLigne, indexColonne);
                             break;
                         case JOUEUR:
+                            if (test[0]){
+                                joueurs.add(new JoueurHumain(indexLigne, indexColonne));
+                                break;
+                            }
                             Scanner sc = new Scanner(System.in);
                             System.out.println("Entrez le type de joueur (HUMAIN, IA)");
                             String choix = "";

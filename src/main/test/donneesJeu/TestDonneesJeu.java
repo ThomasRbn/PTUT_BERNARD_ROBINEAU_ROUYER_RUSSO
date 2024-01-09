@@ -5,6 +5,8 @@ import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.recettes.aliment.Tomate;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.Arrays;
 
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
@@ -17,7 +19,7 @@ public class TestDonneesJeu {
 
     @Test
     public void testDeplacementCloneDonneesJeu(){
-        donneesJeu = new DonneesJeu("niveaux/niveau1.txt");
+        donneesJeu = new DonneesJeu("niveaux/niveau1.txt", true);
         Joueur joueur = donneesJeu.getJoueurs().get(0);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         clone.faireAction(BAS, 0);
@@ -27,7 +29,7 @@ public class TestDonneesJeu {
 
     @Test
     public void testPrendreCloneDonneesJeu(){
-        donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
+        donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         Joueur joueur = donneesJeu.getJoueurs().get(0);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         Joueur joueurClone = clone.getJoueurs().get(0);
@@ -38,7 +40,7 @@ public class TestDonneesJeu {
 
     @Test
     public void testPoserCloneDonneesJeu(){
-        donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
+        donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         Joueur joueur = donneesJeu.getJoueurs().get(0);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         Joueur joueurClone = clone.getJoueurs().get(0);
@@ -52,7 +54,7 @@ public class TestDonneesJeu {
 
     @Test
     public void testGenerateurObjectCloneDonneesJeu(){
-        donneesJeu = new DonneesJeu("niveaux/niveau1.txt");
+        donneesJeu = new DonneesJeu("niveaux/niveau1.txt" ,true);
         Joueur joueur = donneesJeu.getJoueurs().get(0);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         clone.faireAction(DROITE, 0);
@@ -66,7 +68,9 @@ public class TestDonneesJeu {
 
     @Test
     public void testMur(){
-        donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
+        donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
+        InputStream in = new ByteArrayInputStream("HUMAIN".getBytes());
+        System.setIn(in);
         Joueur joueur = donneesJeu.getJoueurs().get(0);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         clone.faireAction(HAUT, 0);
