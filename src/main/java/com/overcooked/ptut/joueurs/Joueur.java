@@ -4,6 +4,9 @@ import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Mouvable;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public abstract class Joueur {
 
     /**
@@ -94,5 +97,20 @@ public abstract class Joueur {
 
     public Mouvable getInventaire() {
         return inventaire;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Joueur joueur = (Joueur) o;
+        return numJoueur == joueur.numJoueur && Arrays.equals(position, joueur.position) && Objects.equals(inventaire, joueur.inventaire) && direction == joueur.direction;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(inventaire, direction, numJoueur);
+        result = 31 * result + Arrays.hashCode(position);
+        return result;
     }
 }
