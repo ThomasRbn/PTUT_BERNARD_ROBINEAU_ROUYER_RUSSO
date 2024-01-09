@@ -124,9 +124,7 @@ public class DonneesJeu {
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < longueur; j++) {
                 for (int[] coordonnees : coordonneesJoueurs) {
-                    if (coordonnees[0] == i && coordonnees[1] == j) {
-                        joueurs.add(new JoueurIA(i, j));
-                    }
+                    joueurs.add(new JoueurIA(coordonnees[0], coordonnees[1]));
                 }
             }
         }
