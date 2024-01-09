@@ -20,6 +20,13 @@ public class Plat extends Aliment {
         this.recettesComposees.add(aliment2);
     }
 
+    public Plat(String nom, Aliment aliment){
+        super();
+        this.nom = nom;
+        this.recettesComposees = new ArrayList<>();
+        this.recettesComposees.add(aliment);
+    }
+
     public boolean ajouterAliment(Aliment aliment) {
         return recettesComposees.add(aliment);
     }

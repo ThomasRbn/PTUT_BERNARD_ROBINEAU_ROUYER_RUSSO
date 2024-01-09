@@ -31,24 +31,20 @@ public class DonneesJeu {
     public static final char DEPOT = 'D';
     public static final char PLANCHE = 'C';
     public static final char POELE = 'P';
-    public static final char GENERATEURTOMATE = 't';
-    public static final char GENERATEURPAIN = 'p';
-    public static final char GENERATEURSALADE = 's';
-    public static final char GENERATEURVIANDE = 'v';
+    public static final char GENERATEURTOMATE = 'T';
+    public static final char GENERATEURPAIN = 'P';
+    public static final char GENERATEURSALADE = 'S';
+    public static final char GENERATEURVIANDE = 'V';
 
     private Bloc[][] objetsFixes;
     private int longueur, hauteur;
     private List<Joueur> joueurs;
-//    private List<Couteau> couteaux;
-//    //private List<Poele> poeles;
-//    private List<Generateur> generateurs;
-
     private Mouvable[][] objetsDeplacables;
     private List<Plat> platsBut;
 
     public DonneesJeu(String chemin) {
         platsBut = new ArrayList<>();
-        Plat saladePain = new Plat("saladePain", new Coupe(new Salade()), new Pain());
+        Plat saladePain = new Plat("tomate", new Tomate());
         platsBut.add(saladePain);
         try {
             // ouvrir fichier
@@ -88,9 +84,6 @@ public class DonneesJeu {
                             break;
                         case GENERATEURSALADE:
                             objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Salade());
-                            break;
-                        case GENERATEURPAIN:
-                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Pain());
                             break;
                         case PLANCHE:
                             objetsFixes[indexLigne][indexColonne] = new Planche(indexLigne, indexColonne);
