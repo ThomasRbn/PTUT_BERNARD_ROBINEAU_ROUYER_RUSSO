@@ -15,7 +15,7 @@ import javafx.util.Duration;
 
 public class OvercookedJavaFX extends Application {
 
-    public String chemin = "niveaux/niveau0Humain.txt";
+    public String chemin = "niveaux/niveau0.txt";
 
     public static void main(String[] args) {
         launch(args);

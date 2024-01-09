@@ -19,14 +19,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
 
 public class DonneesJeu {
 
     public static final char PLAN_DE_TRAVAIL = 'X';
-    public static final char JOUEUR_HUMAIN = 'H';
-    public static final char JOUEUR_IA = 'I';
+    public static final char JOUEUR = 'J';
     public static final char SOL = '.';
     public static final char DEPOT = 'D';
     public static final char PLANCHE = 'C';
@@ -54,7 +54,6 @@ public class DonneesJeu {
 
             joueurs = new ArrayList<>();
             objetsFixes = new Bloc[getHauteur(fichier)][getLongueur(fichier)];
-//            couteaux = new ArrayList<>();
 
             // lecture des cases
             String ligne = bfRead.readLine();
@@ -77,12 +76,24 @@ public class DonneesJeu {
                         case DEPOT:
                             objetsFixes[indexLigne][indexColonne] = new Depot(indexLigne, indexColonne);
                             break;
-                        case JOUEUR_HUMAIN:
-                            joueurs.add(new JoueurHumain(indexLigne, indexColonne));
-                            objetsFixes[indexLigne][indexColonne] = null;
-                            break;
-                        case JOUEUR_IA:
-                            joueurs.add(new JoueurIA(indexLigne, indexColonne));
+                        case JOUEUR:
+                            Scanner sc = new Scanner(System.in);
+                            System.out.println("Entrez le type de joueur (HUMAIN, IA)");
+                            String choix = "";
+                            boolean estConforme = false;
+                            while (!estConforme) {
+                                choix = sc.nextLine();
+                                if (choix.equals("HUMAIN") || choix.equals("IA")) {
+                                    estConforme = true;
+                                } else {
+                                    System.out.println("Entrée invalide : " + choix + " (HUMAIN, IA)");
+                                }
+                            }
+                            if (choix.equals("HUMAIN")) {
+                                joueurs.add(new JoueurHumain(indexLigne, indexColonne));
+                            } else {
+                                joueurs.add(new JoueurIA(indexLigne, indexColonne));
+                            }
                             objetsFixes[indexLigne][indexColonne] = null;
                             break;
                         case GENERATEURSALADE:
@@ -368,7 +379,7 @@ public class DonneesJeu {
         }
 
         for (Joueur joueur : joueurs) {
-            res[joueur.getPosition()[0]][joueur.getPosition()[1]] = JOUEUR_HUMAIN;
+            res[joueur.getPosition()[0]][joueur.getPosition()[1]] = JOUEUR;
         }
 
         for (char[] re : res) {
