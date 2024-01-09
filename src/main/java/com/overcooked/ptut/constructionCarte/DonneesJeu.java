@@ -77,7 +77,7 @@ public class DonneesJeu {
                             objetsFixes[indexLigne][indexColonne] = new Depot(indexLigne, indexColonne);
                             break;
                         case JOUEUR:
-                            if (test[0]){
+                            if (test.length > 0){
                                 joueurs.add(new JoueurHumain(indexLigne, indexColonne));
                                 break;
                             }

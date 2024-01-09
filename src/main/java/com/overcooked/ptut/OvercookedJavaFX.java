@@ -3,15 +3,14 @@ package com.overcooked.ptut;
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.joueurs.Joueur;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import com.overcooked.ptut.joueurs.utilitaire.Action;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class OvercookedJavaFX extends Application {
 
@@ -24,7 +23,6 @@ public class OvercookedJavaFX extends Application {
     @Override
     public void start(Stage primaryStage) {
         DonneesJeu jeu = new DonneesJeu(chemin);
-        Overcooked overcooked = new Overcooked();
 
         GridPane plateau = new GridPane();
         plateau.setGridLinesVisible(true);
@@ -39,45 +37,48 @@ public class OvercookedJavaFX extends Application {
             plateau.getRowConstraints().add(new RowConstraints(50));
         }
 
+        Scene scene = new Scene(plateau, jeu.getLongueur() * 50, jeu.getHauteur() * 50);
+
         afficherBlocs(plateau, jeu);
         afficherJoueurs(plateau, jeu);
 
-        primaryStage.setScene(new Scene(plateau, jeu.getLongueur() * 50, jeu.getHauteur() * 50));
-        primaryStage.show();
-
-        // Set up the game loop using Timeline
-        Timeline gameLoop = new Timeline(new KeyFrame(Duration.millis(100), event -> {
-            System.out.println("Boucle");
-            overcooked.jeu(jeu);
-
-            System.out.println("Before initSol");
-            initSol(plateau, jeu);
-            System.out.println("After initSol");
-
-            System.out.println("Before afficherJoueurs");
-            afficherJoueurs(plateau, jeu);
-            System.out.println("After afficherJoueurs");
-        }));
-
-
-        // Set the cycle count to INDEFINITE for continuous looping
-        gameLoop.setCycleCount(Timeline.INDEFINITE);
-
-        // Start the game loop
-        gameLoop.play();
-    }
-
-    private void initSol(GridPane grille, DonneesJeu jeu) {
-        for (int i = 0; i < jeu.getHauteur(); i++) {
-            for (int j = 0; j < jeu.getLongueur(); j++) {
-                if (jeu.getObjetsFixes()[i][j] == null) {
-                    Pane caseBloc = new Pane();
-                    caseBloc.setStyle("-fx-background-color: #e39457;");
-                    grille.add(caseBloc, j, i);
-                }
+        // Ajout des events clavier
+        //TODO faire le changement quand il y aura plusieurs joueurs (SOON)
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+            switch (key.getCode()) {
+                case Z:
+                    jeu.faireAction(Action.HAUT, 0);
+                    break;
+                case S:
+                    jeu.faireAction(Action.BAS, 0);
+                    break;
+                case Q:
+                    jeu.faireAction(Action.GAUCHE, 0);
+                    break;
+                case D:
+                    jeu.faireAction(Action.DROITE, 0);
+                    break;
+                case SPACE:
+                    jeu.faireAction(Action.PRENDRE, 0);
+                    break;
+                case ENTER:
+                    jeu.faireAction(Action.POSER, 0);
+                    break;
+                case SHIFT:
+                    jeu.faireAction(Action.COUPER, 0);
+                    break;
             }
-        }
+
+            // Mise à jour de l'affichage après chaque action
+            plateau.getChildren().clear();
+            afficherBlocs(plateau, jeu);
+            afficherJoueurs(plateau, jeu);
+        });
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
+
 
     private void afficherBlocs(GridPane grille, DonneesJeu jeu) {
         for (int i = 0; i < jeu.getHauteur(); i++) {
