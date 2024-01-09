@@ -11,9 +11,11 @@ import com.overcooked.ptut.recettes.aliment.Pain;
 import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Salade;
 import com.overcooked.ptut.recettes.etat.Coupe;
-import javafx.scene.input.KeyCombination;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -67,8 +69,8 @@ public class DonneesJeu {
 
             // parcours le fichier
             while (ligne != null) {
-                for (indexLigne = 0; indexLigne < ligne.length(); indexLigne++) {
-                    char c = ligne.charAt(indexLigne);
+                for (indexColonne = 0; indexColonne < ligne.length(); indexColonne++) {
+                    char c = ligne.charAt(indexColonne);
                     switch (c) {
                         case PLAN_DE_TRAVAIL:
                             objetsFixes[indexLigne][indexColonne] = new Bloc(indexLigne, indexColonne);
@@ -88,11 +90,15 @@ public class DonneesJeu {
                             objetsFixes[indexLigne][indexColonne] = null;
                     }
                 }
-                indexColonne++;
+                indexLigne++;
                 ligne = bfRead.readLine();
             }
             hauteur = indexLigne;
+
             System.out.println(this);
+            for (Joueur joueur : joueurs) {
+                System.out.println("Etat initial du joueur " + joueur.getNumJoueur() + " : " + joueur.getPosition()[0] + ", " + joueur.getPosition()[1]);
+            }
             objetsDeplacables = new Mouvable[getHauteur()][getLongueur()];
             for (int i = 0; i < joueurs.size(); i++) {
                 joueurs.get(i).setNumJoueur(i);
@@ -263,9 +269,6 @@ public class DonneesJeu {
         for (int i = 0; i < hauteur; i++) {
             Arrays.fill(res[i], '.');
         }
-        for (Joueur joueur : joueurs) {
-            res[joueur.getPosition()[0]][joueur.getPosition()[1]] = JOUEUR;
-        }
 
         for (int i = 0; i < objetsFixes.length; i++) {
             Bloc[] bloc = objetsFixes[i];
@@ -279,6 +282,10 @@ public class DonneesJeu {
 
                 }
             }
+        }
+
+        for (Joueur joueur : joueurs) {
+            res[joueur.getPosition()[0]][joueur.getPosition()[1]] = JOUEUR;
         }
 
         for (char[] re : res) {
