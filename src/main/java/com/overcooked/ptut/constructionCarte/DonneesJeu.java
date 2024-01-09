@@ -3,6 +3,7 @@ package com.overcooked.ptut.constructionCarte;
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.entites.Generateur;
 import com.overcooked.ptut.joueurs.Joueur;
+import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
@@ -77,8 +78,8 @@ public class DonneesJeu {
                             objetsFixes[indexLigne][indexColonne] = new Depot(indexLigne, indexColonne);
                             break;
                         case JOUEUR:
-                            joueurs.add(new JoueurIA(indexLigne, indexColonne));
-//                            joueurs.add(new JoueurHumain(indexLigne, indexColonne));
+//                            joueurs.add(new JoueurIA(indexLigne, indexColonne));
+                            joueurs.add(new JoueurHumain(indexLigne, indexColonne));
                             objetsFixes[indexLigne][indexColonne] = null;
                             break;
                         case GENERATEURSALADE:
@@ -92,7 +93,11 @@ public class DonneesJeu {
                 ligne = bfRead.readLine();
             }
             hauteur = indexLigne;
+
             System.out.println(this);
+            for (Joueur joueur : joueurs) {
+                System.out.println("Etat initial du joueur " + joueur.getNumJoueur() + " : " + joueur.getPosition()[0] + ", " + joueur.getPosition()[1]);
+            }
             objetsDeplacables = new Mouvable[getHauteur()][getLongueur()];
             for (int i = 0; i < joueurs.size(); i++) {
                 joueurs.get(i).setNumJoueur(i);
@@ -268,9 +273,6 @@ public class DonneesJeu {
         for (int i = 0; i < hauteur; i++) {
             Arrays.fill(res[i], '.');
         }
-        for (Joueur joueur : joueurs) {
-            res[joueur.getPosition()[0]][joueur.getPosition()[1]] = JOUEUR;
-        }
 
         for (int i = 0; i < objetsFixes.length; i++) {
             Bloc[] bloc = objetsFixes[i];
@@ -284,6 +286,10 @@ public class DonneesJeu {
 
                 }
             }
+        }
+
+        for (Joueur joueur : joueurs) {
+            res[joueur.getPosition()[0]][joueur.getPosition()[1]] = JOUEUR;
         }
 
         for (char[] re : res) {
