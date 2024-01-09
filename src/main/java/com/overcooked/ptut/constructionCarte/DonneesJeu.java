@@ -4,6 +4,7 @@ import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.entites.Generateur;
 import com.overcooked.ptut.joueurs.Joueur;
 //import com.overcooked.ptut.joueurs.JoueurHumain;
+import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
@@ -70,6 +71,8 @@ public class DonneesJeu {
                     char c = ligne.charAt(indexColonne);
                     System.out.println("Colonne " + indexColonne + " : " + c);
                     switch (c) {
+                        case SOL:
+                            break;
                         case PLAN_DE_TRAVAIL:
                             objetsFixes[indexLigne][indexColonne] = new Bloc(indexLigne, indexColonne);
                             break;
@@ -97,7 +100,7 @@ public class DonneesJeu {
                             objetsFixes[indexLigne][indexColonne] = new Poele(indexLigne, indexColonne);
                             break;
                         default:
-                            objetsFixes[indexLigne][indexColonne] = null;
+                            throw new IllegalArgumentException("DonneesJeu.constructeur, caractère inconnu : " + c);
                     }
                 }
                 indexLigne++;
@@ -144,18 +147,20 @@ public class DonneesJeu {
         }
 
         this.joueurs = new ArrayList<>();
-        System.out.println("Test");
 
-        List<int[]> coordonneesJoueurs = new ArrayList<>() {{
-            for (Joueur joueur : donneesJeu.joueurs) {
-                add(joueur.getPosition());
-            }
-        }};
-
-        for (int i = 0; i < hauteur; i++) {
-            for (int j = 0; j < longueur; j++) {
-                for (int[] coordonnees : coordonneesJoueurs) {
-                    joueurs.add(new JoueurIA(coordonnees[0], coordonnees[1]));
+        for (Joueur joueur : donneesJeu.joueurs) {
+            System.out.println("Joueur " + joueur.getNumJoueur() + " : " + Arrays.toString(joueur.getPosition()));
+            if (joueur instanceof JoueurIA) {
+                if (joueur.getInventaire() != null) {
+                    this.joueurs.add(new JoueurIA(joueur.getPosition()[0], joueur.getPosition()[1], joueur.getInventaire().clone(), joueur.getDirection(), joueur.getNumJoueur()));
+                } else {
+                    this.joueurs.add(new JoueurIA(joueur.getPosition()[0], joueur.getPosition()[1], null, joueur.getDirection(), joueur.getNumJoueur()));
+                }
+            } else {
+                if (joueur.getInventaire() != null) {
+                    this.joueurs.add(new JoueurHumain(joueur.getPosition()[0], joueur.getPosition()[1], joueur.getInventaire().clone(), joueur.getDirection(), joueur.getNumJoueur()));
+                } else {
+                    this.joueurs.add(new JoueurHumain(joueur.getPosition()[0], joueur.getPosition()[1], null, joueur.getDirection(), joueur.getNumJoueur()));
                 }
             }
         }

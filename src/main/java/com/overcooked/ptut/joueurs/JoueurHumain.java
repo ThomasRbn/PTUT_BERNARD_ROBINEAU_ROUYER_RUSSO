@@ -2,6 +2,7 @@ package com.overcooked.ptut.joueurs;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
+import com.overcooked.ptut.objet.Mouvable;
 
 import java.util.Scanner;
 
@@ -9,6 +10,10 @@ public class JoueurHumain extends Joueur {
 
     public JoueurHumain(int x, int y) {
         super(x, y);
+    }
+
+    public JoueurHumain(int x, int y, Mouvable inventaire, Action direction, int numJoueur) {
+        super(x, y, inventaire, direction, numJoueur);
     }
 
     @Override

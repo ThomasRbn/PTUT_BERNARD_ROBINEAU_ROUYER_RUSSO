@@ -24,6 +24,13 @@ public abstract class Joueur {
         direction = Action.HAUT;
     }
 
+    public Joueur(int y, int x, Mouvable inventaire, Action direction, int numJoueur) {
+        this.position = new int[]{y, x};
+        this.inventaire = inventaire;
+        this.direction = direction;
+        this.numJoueur = numJoueur;
+    }
+
     public void prendre(Mouvable objet) {
         inventaire = objet;
     }

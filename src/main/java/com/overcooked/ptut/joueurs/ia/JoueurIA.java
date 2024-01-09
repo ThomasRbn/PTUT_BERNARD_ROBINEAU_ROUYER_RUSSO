@@ -9,6 +9,7 @@ import com.overcooked.ptut.joueurs.ia.framework.recherche.TreeSearch;
 import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIA;
 import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIAState;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
+import com.overcooked.ptut.objet.Mouvable;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,10 @@ public class JoueurIA extends Joueur {
 
     public JoueurIA(int x, int y) {
         super(x, y);
+    }
+
+    public JoueurIA(int x, int y, Mouvable inventaire, Action direction, int numJoueur) {
+        super(x, y, inventaire, direction, numJoueur);
     }
 
     // Utilisera Problème
