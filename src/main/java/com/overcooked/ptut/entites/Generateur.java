@@ -1,5 +1,6 @@
 package com.overcooked.ptut.entites;
 
+import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.recettes.aliment.Aliment;
 
@@ -18,6 +19,5 @@ public class Generateur extends Bloc {
     public Aliment getAliment() {
         return aliment;
     }
-
-
+    
 }

@@ -33,8 +33,22 @@ public class TestDonneesJeu {
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         Joueur joueurClone = clone.getJoueurs().get(0);
         Tomate tomate = new Tomate();
-        joueur.prendre(tomate);
+        joueurClone.prendre(tomate);
         assertNotEquals(joueur.getInventaire(), joueurClone.getInventaire());
+    }
+
+    @Test
+    public void testPoserCloneDonneesJeu(){
+        donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
+        Joueur joueur = donneesJeu.getJoueurs().get(0);
+        DonneesJeu clone = new DonneesJeu(donneesJeu);
+        Joueur joueurClone = clone.getJoueurs().get(0);
+        Tomate tomate = new Tomate();
+        joueurClone.prendre(tomate);
+        DonneesJeu clone2 = new DonneesJeu(clone);
+        Joueur joueurClone2 = clone2.getJoueurs().get(0);
+        joueurClone2.poser();
+        assertEquals(joueur.getInventaire(), joueurClone2.getInventaire());
     }
 
     @Test
@@ -45,12 +59,10 @@ public class TestDonneesJeu {
         clone.faireAction(DROITE, 0);
         DonneesJeu clone2 = new DonneesJeu(clone);
         clone2.faireAction(HAUT, 0);
-        System.out.println(Arrays.toString(clone2.getJoueurs().get(0).getPosition()));
         DonneesJeu clone3 = new DonneesJeu(clone2);
         clone3.faireAction(PRENDRE, 0);
-        System.out.println(Arrays.toString(clone3.getJoueurs().get(0).getPosition()));
         Joueur joueurClone = clone3.getJoueurs().get(0);
-        assertNotEquals(joueur.getInventaire(), joueurClone.getInventaire());
+        assertNotEquals(joueurClone.getInventaire(), joueur.getInventaire());
     }
 
     @Test
@@ -62,7 +74,5 @@ public class TestDonneesJeu {
         Joueur joueurClone = clone.getJoueurs().get(0);
         assertEquals(Arrays.toString(joueur.getPosition()), Arrays.toString(joueurClone.getPosition()));
     }
-
-
 
 }
