@@ -11,6 +11,7 @@ import com.overcooked.ptut.recettes.aliment.Pain;
 import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Salade;
 import com.overcooked.ptut.recettes.etat.Coupe;
+import javafx.scene.input.KeyCombination;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -54,7 +55,6 @@ public class DonneesJeu {
 
             joueurs = new ArrayList<>();
             objetsFixes = new Bloc[getHauteur(fichier)][getLongueur(fichier)];
-            objetsDeplacables = new Mouvable[getHauteur()][getLongueur()];
 //            couteaux = new ArrayList<>();
 
             // lecture des cases
@@ -90,7 +90,7 @@ public class DonneesJeu {
             }
             hauteur = indexLigne;
             System.out.println(this);
-
+            objetsDeplacables = new Mouvable[getHauteur()][getLongueur()];
             for (int i = 0; i < joueurs.size(); i++) {
                 joueurs.get(i).setNumJoueur(i);
             }
@@ -111,6 +111,7 @@ public class DonneesJeu {
         this.longueur = donneesJeu.longueur;
         this.hauteur = donneesJeu.hauteur;
         this.objetsFixes = donneesJeu.objetsFixes;
+        this.objetsDeplacables = donneesJeu.objetsDeplacables;
 
         this.joueurs = new ArrayList<>();
         System.out.println("Test");
@@ -152,19 +153,23 @@ public class DonneesJeu {
 
     private void prendre(Joueur joueur) {
         // Position du joueur (blocs mouvables)
+        int[] positionJoueurCible = joueur.retournePositionCible();
+        Mouvable objetsDeplacableCible = objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]];
+        if (objetsDeplacableCible != null) {
+            joueur.prendre(objetsDeplacableCible);
+            objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]] = null;
+            return;
+        }
+        // Position cible du joueur en fonction de sa direction
+        Bloc objetsFix = objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
+        if (objetsFix instanceof Generateur) {
+            joueur.prendre(((Generateur) objetsFix).getAliment());
+        }
         int[] positionJoueur = joueur.getPosition();
         Mouvable objetsDeplacable = objetsDeplacables[positionJoueur[0]][positionJoueur[1]];
         if (objetsDeplacable != null) {
             joueur.prendre(objetsDeplacable);
             objetsDeplacables[positionJoueur[0]][positionJoueur[1]] = null;
-            return;
-        }
-        // Position cible du joueur en fonction de sa direction
-        positionJoueur = joueur.retournePositionCible();
-        Bloc objetsFix = objetsFixes[positionJoueur[0]][positionJoueur[1]];
-        if (objetsFix instanceof Generateur) {
-            joueur.prendre(((Generateur) objetsFix).getAliment());
-            objetsFixes[positionJoueur[0]][positionJoueur[1]] = null;
             return;
         }
     }
