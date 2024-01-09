@@ -3,7 +3,6 @@ package com.overcooked.ptut.constructionCarte;
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.entites.Generateur;
 import com.overcooked.ptut.joueurs.Joueur;
-import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
@@ -12,9 +11,11 @@ import com.overcooked.ptut.recettes.aliment.Pain;
 import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Salade;
 import com.overcooked.ptut.recettes.etat.Coupe;
-import javafx.scene.input.KeyCombination;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -68,8 +69,8 @@ public class DonneesJeu {
 
             // parcours le fichier
             while (ligne != null) {
-                for (indexLigne = 0; indexLigne < ligne.length(); indexLigne++) {
-                    char c = ligne.charAt(indexLigne);
+                for (indexColonne = 0; indexColonne < ligne.length(); indexColonne++) {
+                    char c = ligne.charAt(indexColonne);
                     switch (c) {
                         case PLAN_DE_TRAVAIL:
                             objetsFixes[indexLigne][indexColonne] = new Bloc(indexLigne, indexColonne);
@@ -78,8 +79,8 @@ public class DonneesJeu {
                             objetsFixes[indexLigne][indexColonne] = new Depot(indexLigne, indexColonne);
                             break;
                         case JOUEUR:
-//                            joueurs.add(new JoueurIA(indexLigne, indexColonne));
-                            joueurs.add(new JoueurHumain(indexLigne, indexColonne));
+                            joueurs.add(new JoueurIA(indexLigne, indexColonne));
+//                            joueurs.add(new JoueurHumain(indexLigne, indexColonne));
                             objetsFixes[indexLigne][indexColonne] = null;
                             break;
                         case GENERATEURSALADE:
@@ -89,7 +90,7 @@ public class DonneesJeu {
                             objetsFixes[indexLigne][indexColonne] = null;
                     }
                 }
-                indexColonne++;
+                indexLigne++;
                 ligne = bfRead.readLine();
             }
             hauteur = indexLigne;
