@@ -11,7 +11,6 @@ import com.overcooked.ptut.objet.Mouvable;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.recettes.aliment.*;
-import com.overcooked.ptut.recettes.etat.Coupe;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,7 +31,7 @@ public class DonneesJeu {
     public static final char PLANCHE = 'C';
     public static final char POELE = 'P';
     public static final char GENERATEURTOMATE = 'T';
-    public static final char GENERATEURPAIN = 'P';
+    public static final char GENERATEURPAINBURGER = 'B';
     public static final char GENERATEURSALADE = 'S';
     public static final char GENERATEURVIANDE = 'V';
 
@@ -84,6 +83,12 @@ public class DonneesJeu {
                             break;
                         case GENERATEURSALADE:
                             objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Salade());
+                            break;
+                        case GENERATEURTOMATE:
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Tomate());
+                            break;
+                        case GENERATEURPAINBURGER:
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Pain());
                             break;
                         case PLANCHE:
                             objetsFixes[indexLigne][indexColonne] = new Planche(indexLigne, indexColonne);
@@ -180,6 +185,7 @@ public class DonneesJeu {
     private void prendre(Joueur joueur) {
         // Position du joueur (blocs mouvables)
         int[] positionJoueurCible = joueur.retournePositionCible();
+        System.out.println(Arrays.toString(joueur.getPosition()));
         Mouvable objetsDeplacableCible = objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]];
         if (objetsDeplacableCible != null) {
             joueur.prendre(objetsDeplacableCible);
@@ -332,7 +338,7 @@ public class DonneesJeu {
                         if (generateur.getAliment() instanceof Salade) {
                             res[bloc[j].getX()][bloc[j].getY()] = GENERATEURSALADE;
                         } else if (generateur.getAliment() instanceof Pain) {
-                            res[bloc[j].getX()][bloc[j].getY()] = GENERATEURPAIN;
+                            res[bloc[j].getX()][bloc[j].getY()] = GENERATEURPAINBURGER;
                         } else if (generateur.getAliment() instanceof Viande) {
                             res[bloc[j].getX()][bloc[j].getY()] = GENERATEURVIANDE;
                         } else if (generateur.getAliment() instanceof Tomate) {
