@@ -39,11 +39,10 @@ public class DonneesJeu {
 //    //private List<Poele> poeles;
 //    private List<Generateur> generateurs;
 
-    private List<Mouvable> objetsDeplacables;
+    private Mouvable[][] objetsDeplacables;
     private List<Plat> platsBut;
 
     public DonneesJeu(String chemin) {
-        objetsDeplacables = new ArrayList<>();
         platsBut = new ArrayList<>();
         Plat saladePain = new Plat("saladePain", new Coupe(new Salade()), new Pain());
         platsBut.add(saladePain);
@@ -55,6 +54,7 @@ public class DonneesJeu {
 
             joueurs = new ArrayList<>();
             objetsFixes = new Bloc[getHauteur(fichier)][getLongueur(fichier)];
+            objetsDeplacables = new Mouvable[getHauteur()][getLongueur()];
 //            couteaux = new ArrayList<>();
 
             // lecture des cases
@@ -139,16 +139,29 @@ public class DonneesJeu {
             case DROITE, HAUT, BAS, GAUCHE -> joueur.deplacer(a);
             case PRENDRE -> {
                 // Premier cas avec la position du joueur (sous le joueur, car il est possible de chevaucher un objet)
-                int[] positionJoueur = joueur.getPosition();
-                Bloc objetsFix = objetsFixes[positionJoueur[0]][positionJoueur[1]];
-                if (objetsFix instanceof Generateur) {
-                    joueur.prendre(((Generateur) objetsFix).getAliment());
-                    objetsFixes[positionJoueur[0]][positionJoueur[1]] = null;
-                    return;
-                }
+                prendre(joueur);
             }
-            case POSER -> objetsDeplacables.add(joueur.poser());
+            case POSER -> objetsDeplacables[joueur.getPosition()[0]][joueur.getPosition()[1]] = joueur.poser();
             default -> throw new IllegalArgumentException("DonneesJeu.faireAction, action invalide" + a);
+        }
+    }
+
+    private void prendre(Joueur joueur) {
+        // Position du joueur (blocs mouvables)
+        int[] positionJoueur = joueur.getPosition();
+        Mouvable objetsDeplacable = objetsDeplacables[positionJoueur[0]][positionJoueur[1]];
+        if (objetsDeplacable != null) {
+            joueur.prendre(objetsDeplacable);
+            objetsDeplacables[positionJoueur[0]][positionJoueur[1]] = null;
+            return;
+        }
+        // Position cible du joueur en fonction de sa direction
+        positionJoueur = joueur.retournePositionCible();
+        Bloc objetsFix = objetsFixes[positionJoueur[0]][positionJoueur[1]];
+        if (objetsFix instanceof Generateur) {
+            joueur.prendre(((Generateur) objetsFix).getAliment());
+            objetsFixes[positionJoueur[0]][positionJoueur[1]] = null;
+            return;
         }
     }
 
@@ -180,37 +193,14 @@ public class DonneesJeu {
 
                 // Calcul des coordonnes de la case devant le joueur
                 int[] caseDevant = new int[2];
-                switch (direction){
-                    case HAUT -> {
-                        caseDevant[0] = positionJoueur[0]-1;
-                        caseDevant[1] = positionJoueur[1];
-                    }
-                    case GAUCHE -> {
-                        caseDevant[0] = positionJoueur[0];
-                        caseDevant[1] = positionJoueur[1]-1;
-                    }
-                    case BAS -> {
-                        caseDevant[0] = positionJoueur[0]+1;
-                        caseDevant[1] = positionJoueur[1];
-                    }
-                    case DROITE -> {
-                        caseDevant[0] = positionJoueur[0];
-                        caseDevant[1] = positionJoueur[1] + 1;
-                    }
-                }
+                caseDevant = joueur.retournePositionCible();
                 //TODO: vérifié si la case devant est un générateur
 
                 //Recherche dans objetDeplacable s'il y a un objet à prendre
-                for (Mouvable mouvable: objetsDeplacables){
-                    //On vérifie s'il y a un objet à prendre sous le joueur ou devant lui
-                    if ((mouvable.getCoordonnees()[0] == positionJoueur[0] && mouvable.getCoordonnees()[1] == positionJoueur[1])){
-                        return true;
-                    }
-                    if ((mouvable.getCoordonnees()[0] == caseDevant[0] && mouvable.getCoordonnees()[1] == caseDevant[1])){
-                        return true;
-                    }
+                if (objetsDeplacables[positionJoueur[0]][positionJoueur[1]] != null) {
+                    return true;
                 }
-                return false;
+                return objetsDeplacables[caseDevant[0]][caseDevant[1]] != null;
             }
             case POSER -> {
                 // On vérifie si le joueur à quelque chose dans les mains
@@ -219,32 +209,10 @@ public class DonneesJeu {
                 }
                 // Calcul des coordonnés de la case devant le joueur
                 int[] caseDevant = new int[2];
-                switch (direction){
-                    case HAUT -> {
-                        caseDevant[0] = positionJoueur[0]-1;
-                        caseDevant[1] = positionJoueur[1];
-                    }
-                    case GAUCHE -> {
-                        caseDevant[0] = positionJoueur[0];
-                        caseDevant[1] = positionJoueur[1]-1;
-                    }
-                    case BAS -> {
-                        caseDevant[0] = positionJoueur[0]+1;
-                        caseDevant[1] = positionJoueur[1];
-                    }
-                    case DROITE -> {
-                        caseDevant[0] = positionJoueur[0];
-                        caseDevant[1] = positionJoueur[1] + 1;
-                    }
-                }
+                caseDevant = joueur.retournePositionCible();
                 //Recherche dans objetDeplacable s'il y a un objet devant le joueur
-                for (Mouvable mouvable: objetsDeplacables){
-                    if ((mouvable.getCoordonnees()[0] == caseDevant[0] && mouvable.getCoordonnees()[1] == caseDevant[1])){
-                        return false;
-                    }
-                }
+                return objetsDeplacables[caseDevant[0]][caseDevant[1]] == null;
                 //TODO: Vérifier que la case devant soit compatible avec l'objet à déplacer (ex: pas d'aliment sur le feu sans poele)
-                return true;
             }
             default -> throw new IllegalArgumentException("DonneesJeu.isLegal, action invalide" + a);
         }
