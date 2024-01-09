@@ -3,17 +3,19 @@ package com.overcooked.ptut;
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.joueurs.Joueur;
-import com.overcooked.ptut.objet.Bloc;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class OvercookedJavaFX extends Application {
 
-    public String chemin = "niveaux/niveau0.txt";
+    public String chemin = "niveaux/niveau0Humain.txt";
 
     public static void main(String[] args) {
         launch(args);
@@ -22,16 +24,17 @@ public class OvercookedJavaFX extends Application {
     @Override
     public void start(Stage primaryStage) {
         DonneesJeu jeu = new DonneesJeu(chemin);
+        Overcooked overcooked = new Overcooked();
 
         GridPane plateau = new GridPane();
         plateau.setGridLinesVisible(true);
 
-        //création des colonnes
+        // création des colonnes
         for (int i = 0; i < jeu.getLongueur(); i++) {
             plateau.getColumnConstraints().add(new ColumnConstraints(50));
         }
 
-        //création des lignes
+        // création des lignes
         for (int i = 0; i < jeu.getHauteur(); i++) {
             plateau.getRowConstraints().add(new RowConstraints(50));
         }
@@ -41,6 +44,39 @@ public class OvercookedJavaFX extends Application {
 
         primaryStage.setScene(new Scene(plateau, jeu.getLongueur() * 50, jeu.getHauteur() * 50));
         primaryStage.show();
+
+        // Set up the game loop using Timeline
+        Timeline gameLoop = new Timeline(new KeyFrame(Duration.millis(100), event -> {
+            System.out.println("Boucle");
+            overcooked.jeu(jeu);
+
+            System.out.println("Before initSol");
+            initSol(plateau, jeu);
+            System.out.println("After initSol");
+
+            System.out.println("Before afficherJoueurs");
+            afficherJoueurs(plateau, jeu);
+            System.out.println("After afficherJoueurs");
+        }));
+
+
+        // Set the cycle count to INDEFINITE for continuous looping
+        gameLoop.setCycleCount(Timeline.INDEFINITE);
+
+        // Start the game loop
+        gameLoop.play();
+    }
+
+    private void initSol(GridPane grille, DonneesJeu jeu) {
+        for (int i = 0; i < jeu.getHauteur(); i++) {
+            for (int j = 0; j < jeu.getLongueur(); j++) {
+                if (jeu.getObjetsFixes()[i][j] == null) {
+                    Pane caseBloc = new Pane();
+                    caseBloc.setStyle("-fx-background-color: #e39457;");
+                    grille.add(caseBloc, j, i);
+                }
+            }
+        }
     }
 
     private void afficherBlocs(GridPane grille, DonneesJeu jeu) {
@@ -54,13 +90,11 @@ public class OvercookedJavaFX extends Application {
                         caseBloc.setStyle("-fx-background-color: #a66b3b;");
                     }
                 } else {
-                    caseBloc.setStyle("-fx-background-color: #de8e4e;");
+                    caseBloc.setStyle("-fx-background-color: #e39457;");
                 }
                 grille.add(caseBloc, j, i);
             }
         }
-
-
     }
 
     private void afficherJoueurs(GridPane grille, DonneesJeu jeu) {

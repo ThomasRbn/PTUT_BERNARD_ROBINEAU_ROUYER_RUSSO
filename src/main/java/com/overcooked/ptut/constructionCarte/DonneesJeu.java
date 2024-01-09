@@ -3,7 +3,6 @@ package com.overcooked.ptut.constructionCarte;
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.entites.Generateur;
 import com.overcooked.ptut.joueurs.Joueur;
-//import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
@@ -26,7 +25,8 @@ import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
 public class DonneesJeu {
 
     public static final char PLAN_DE_TRAVAIL = 'X';
-    public static final char JOUEUR = 'J';
+    public static final char JOUEUR_HUMAIN = 'H';
+    public static final char JOUEUR_IA = 'I';
     public static final char SOL = '.';
     public static final char DEPOT = 'D';
     public static final char PLANCHE = 'C';
@@ -66,10 +66,8 @@ public class DonneesJeu {
 
             // parcours le fichier
             while (ligne != null) {
-                System.out.println("Ligne " + indexLigne + " : " + ligne);
                 for (indexColonne = 0; indexColonne < ligne.length(); indexColonne++) {
                     char c = ligne.charAt(indexColonne);
-                    System.out.println("Colonne " + indexColonne + " : " + c);
                     switch (c) {
                         case SOL:
                             break;
@@ -79,9 +77,12 @@ public class DonneesJeu {
                         case DEPOT:
                             objetsFixes[indexLigne][indexColonne] = new Depot(indexLigne, indexColonne);
                             break;
-                        case JOUEUR:
+                        case JOUEUR_HUMAIN:
+                            joueurs.add(new JoueurHumain(indexLigne, indexColonne));
+                            objetsFixes[indexLigne][indexColonne] = null;
+                            break;
+                        case JOUEUR_IA:
                             joueurs.add(new JoueurIA(indexLigne, indexColonne));
-//                            joueurs.add(new JoueurHumain(indexLigne, indexColonne));
                             objetsFixes[indexLigne][indexColonne] = null;
                             break;
                         case GENERATEURSALADE:
@@ -358,11 +359,15 @@ public class DonneesJeu {
         }
 
         for (Joueur joueur : joueurs) {
-            res[joueur.getPosition()[0]][joueur.getPosition()[1]] = JOUEUR;
+            res[joueur.getPosition()[0]][joueur.getPosition()[1]] = JOUEUR_HUMAIN;
         }
 
         for (char[] re : res) {
             s.append(Arrays.toString(re)).append("\n");
+        }
+
+        for (Joueur joueur : joueurs) {
+            s.append("Le joueur ").append(joueur.getNumJoueur()).append(" est orienté vers : ").append(joueur.getDirection().getName()).append("\n");
         }
         return s.toString();
     }

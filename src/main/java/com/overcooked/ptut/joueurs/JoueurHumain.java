@@ -25,23 +25,17 @@ public class JoueurHumain extends Joueur {
         boolean estConforme = false;
         boolean estJouable = false;
 
-        while (!estConforme && !estJouable) {
+        while (!estConforme) {
             choix = sc.nextLine();
-            for (Action value : Action.values()) {
-                System.out.println(value.getName());
-                if (value.getName().equals(choix)) {
-                    estConforme = true;
-                    break;
+
+            try {
+                Action.valueOf(choix);
+                estConforme = true;
+                estJouable = donneesJeu.isLegal(Action.valueOf(choix), this.numJoueur);
+                if (!estJouable) {
+                    System.out.println("Entrée invalide : " + choix + " (HAUT, BAS, GAUCHE, DROITE, PRENDRE, POSER, COUPER)");
                 }
-            }
-
-            Action action = Action.valueOf(choix);
-            System.out.println("Mon action est " + action);
-            estJouable = donneesJeu.isLegal(action, this.numJoueur);
-
-            if (!estJouable || !estConforme) {
-                System.out.println(!estConforme ? "Pas conforme" : "Conforme");
-                System.out.println(!estJouable ? "Pas jouable" : "Jouable");
+            } catch (IllegalArgumentException ignored) {
                 System.out.println("Entrée invalide : " + choix + " (HAUT, BAS, GAUCHE, DROITE, PRENDRE, POSER, COUPER)");
             }
         }

@@ -1,49 +1,25 @@
 package com.overcooked.ptut;
 
+import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 
-import java.util.ArrayList;
-
 public class Overcooked {
-    // Liste de joueurs
-    private Joueur[] joueurs;
+    public String chemin = "niveaux/niveau0.txt";
 
-    // Constructeur
-    public Overcooked(Joueur[] j) {
-        this.joueurs = j;
+    public static void main(String[] args) {
+        Overcooked overcooked = new Overcooked();
+        DonneesJeu jeu = new DonneesJeu(overcooked.chemin);
+
+        while (true) {
+            overcooked.jeu(jeu);
+        }
     }
 
-    public void jeu(){
-        Boolean jeuFinis = false;
-        while (!jeuFinis){
-            // Creation de thread pour chaque joueur
-            ArrayList<Thread> threads = new ArrayList<>();
-            for (Joueur joueur : joueurs) {
-                Thread thread = new Thread(() -> {
-//                    Action action = joueur.demanderAction(donneesJeu);
-                    //Traitement de l'action
-
-                });
-                threads.add(thread);
-            }
-
-            // Démarrage de tous les threads simultanément
-            for (Thread thread : threads) {
-                thread.start();
-            }
-
-            // On attend que tous les threads aient terminé
-            for (Thread thread : threads) {
-                try {
-                    thread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            // Le jeu peut maintenant continuer...
-            System.out.println("Le jeu continue...");
-        }
+    public void jeu(DonneesJeu jeu) {
+        Joueur joueur = jeu.getJoueurs().getFirst();
+        Action action = joueur.demanderAction(jeu);
+        jeu.faireAction(action, joueur.getNumJoueur());
+        System.out.println(jeu);
     }
 }
