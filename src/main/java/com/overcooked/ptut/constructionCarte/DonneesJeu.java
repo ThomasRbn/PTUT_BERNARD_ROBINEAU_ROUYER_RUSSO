@@ -275,13 +275,13 @@ public class DonneesJeu {
 
     public boolean equals(DonneesJeu donneesJeu) {
         if (donneesJeu == null) {
-            return false;
+            throw new IllegalArgumentException("DonneesJeu.equals, donneesJeu est null");
         }
         if (donneesJeu == this) {
             return true;
         }
         if (donneesJeu.getClass() != getClass()) {
-            return false;
+            throw new IllegalArgumentException("DonneesJeu.equals, donneesJeu n'est pas de la même classe");
         }
         for (int i = 0; i < objetsDeplacables.length; i++) {
             for (int j = 0; j < objetsDeplacables[i].length; j++) {
@@ -295,10 +295,9 @@ public class DonneesJeu {
             }
         }
         for (Joueur joueur : joueurs) {
-            for (Joueur joueur2 : donneesJeu.joueurs) {
-                if (!joueur.equals(joueur2)) {
-                    return false;
-                }
+            int numJoueur = joueur.getNumJoueur();
+            if (!joueur.equals(donneesJeu.joueurs.get(numJoueur))) {
+                return false;
             }
         }
         return true;

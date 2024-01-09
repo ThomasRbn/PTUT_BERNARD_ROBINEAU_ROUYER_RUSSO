@@ -6,8 +6,7 @@ import com.overcooked.ptut.recettes.aliment.Tomate;
 import org.junit.jupiter.api.Test;
 
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestEquals {
 
@@ -71,7 +70,7 @@ public class TestEquals {
     @Test
     public void testAvecNull(){
         donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
-        assertFalse(donneesJeu.equals(null));
+        assertThrows(IllegalArgumentException.class, () -> donneesJeu.equals(null));
     }
 
 }
