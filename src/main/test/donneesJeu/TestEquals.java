@@ -60,4 +60,18 @@ public class TestEquals {
         assertTrue(donneesJeu.equals(donneesJeu));
     }
 
+    @Test
+    public void testChangementOrientation(){
+        donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
+        DonneesJeu clone = new DonneesJeu(donneesJeu);
+        clone.faireAction(GAUCHE, 0);
+        assertFalse(donneesJeu.equals(clone));
+    }
+
+    @Test
+    public void testAvecNull(){
+        donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
+        assertFalse(donneesJeu.equals(null));
+    }
+
 }

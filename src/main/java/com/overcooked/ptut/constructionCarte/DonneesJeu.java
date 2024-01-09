@@ -284,9 +284,7 @@ public class DonneesJeu {
             return false;
         }
         for (int i = 0; i < objetsDeplacables.length; i++) {
-            System.out.println(Arrays.toString(objetsDeplacables[i]));
             for (int j = 0; j < objetsDeplacables[i].length; j++) {
-                System.out.println(objetsDeplacables[i][j]);
                 if (objetsDeplacables[i][j] == null) {
                     if (donneesJeu.objetsDeplacables[i][j] != null) {
                         return false;
