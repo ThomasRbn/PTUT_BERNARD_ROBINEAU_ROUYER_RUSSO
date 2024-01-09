@@ -198,7 +198,7 @@ public class DonneesJeu {
     }
 
     private void prendre(Joueur joueur) {
-        // Position du joueur (blocs mouvables)
+        // Position cible du joueur en fonction de sa direction
         int[] positionJoueurCible = joueur.retournePositionCible();
         System.out.println(Arrays.toString(joueur.getPosition()));
         Mouvable objetsDeplacableCible = objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]];
@@ -207,7 +207,7 @@ public class DonneesJeu {
             objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]] = null;
             return;
         }
-        // Position cible du joueur en fonction de sa direction
+        // Position du joueur (blocs mouvables)
         Bloc objetsFix = objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
         if (objetsFix instanceof Generateur) {
             System.out.println("On est là");
