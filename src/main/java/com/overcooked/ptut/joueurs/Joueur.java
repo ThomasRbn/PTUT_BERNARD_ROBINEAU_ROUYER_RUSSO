@@ -16,8 +16,8 @@ public abstract class Joueur {
     protected Action direction;
     protected int numJoueur;
 
-    public Joueur(int x, int y) {
-        position = new int[]{x, y};
+    public Joueur(int y, int x) {
+        position = new int[]{y, x};
         direction = Action.HAUT;
     }
 
@@ -39,16 +39,16 @@ public abstract class Joueur {
     public void deplacer(Action action) {
         switch (action) {
             case HAUT:
-                position[1]--;
-                break;
-            case BAS:
-                position[1]++;
-                break;
-            case GAUCHE:
                 position[0]--;
                 break;
-            case DROITE:
+            case BAS:
                 position[0]++;
+                break;
+            case GAUCHE:
+                position[1]--;
+                break;
+            case DROITE:
+                position[1]++;
                 break;
         }
     }
@@ -59,16 +59,16 @@ public abstract class Joueur {
         targetPosition[1] = position[1];
         switch (direction) {
             case HAUT:
-                targetPosition[1]--;
-                break;
-            case BAS:
-                targetPosition[1]++;
-                break;
-            case GAUCHE:
                 targetPosition[0]--;
                 break;
-            case DROITE:
+            case BAS:
                 targetPosition[0]++;
+                break;
+            case GAUCHE:
+                targetPosition[1]--;
+                break;
+            case DROITE:
+                targetPosition[1]++;
                 break;
         }
         return targetPosition;

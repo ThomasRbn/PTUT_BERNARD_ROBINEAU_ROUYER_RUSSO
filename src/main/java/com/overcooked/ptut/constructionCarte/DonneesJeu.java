@@ -105,12 +105,7 @@ public class DonneesJeu {
 
     public DonneesJeu(DonneesJeu donneesJeu) {
         //TODO: Constructeur par copie, attention a n'avoir aucun effet de bord, réaliser des test unitaires.
-        platsBut = new ArrayList<>();
-        Plat saladePain = new Plat();
-        saladePain.setNom("saladePain");
-        saladePain.ajouterAliment(new Coupe(new Salade()));
-        saladePain.ajouterAliment(new Pain());
-        platsBut.add(saladePain);
+        platsBut = donneesJeu.platsBut;
         this.longueur = donneesJeu.longueur;
         this.hauteur = donneesJeu.hauteur;
         this.objetsFixes = donneesJeu.objetsFixes;
