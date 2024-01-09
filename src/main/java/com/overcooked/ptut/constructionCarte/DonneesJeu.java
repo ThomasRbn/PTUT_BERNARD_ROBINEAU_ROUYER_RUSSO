@@ -3,6 +3,7 @@ package com.overcooked.ptut.constructionCarte;
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.entites.Generateur;
 import com.overcooked.ptut.joueurs.Joueur;
+//import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
@@ -108,7 +109,7 @@ public class DonneesJeu {
 
             System.out.println(this);
             for (Joueur joueur : joueurs) {
-                System.out.println("Etat initial du joueur " + joueur.getNumJoueur() + " : " + joueur.getPosition()[0] + ", " + joueur.getPosition()[1]);
+                //System.out.println("Etat initial du joueur " + joueur.getNumJoueur() + " : " + joueur.getPosition()[0] + ", " + joueur.getPosition()[1]);
             }
             objetsDeplacables = new Mouvable[getHauteur()][getLongueur()];
             for (int i = 0; i < joueurs.size(); i++) {
@@ -121,7 +122,6 @@ public class DonneesJeu {
 
 
     public DonneesJeu(DonneesJeu donneesJeu) {
-        //TODO: Constructeur par copie, attention a n'avoir aucun effet de bord, réaliser des test unitaires.
         platsBut = donneesJeu.platsBut;
         this.longueur = donneesJeu.longueur;
         this.hauteur = donneesJeu.hauteur;
@@ -271,6 +271,39 @@ public class DonneesJeu {
 
     public Bloc[][] getObjetsFixes() {
         return objetsFixes;
+    }
+
+    public boolean equals(DonneesJeu donneesJeu) {
+        if (donneesJeu == null) {
+            return false;
+        }
+        if (donneesJeu == this) {
+            return true;
+        }
+        if (donneesJeu.getClass() != getClass()) {
+            return false;
+        }
+        for (int i = 0; i < objetsDeplacables.length; i++) {
+            System.out.println(Arrays.toString(objetsDeplacables[i]));
+            for (int j = 0; j < objetsDeplacables[i].length; j++) {
+                System.out.println(objetsDeplacables[i][j]);
+                if (objetsDeplacables[i][j] == null) {
+                    if (donneesJeu.objetsDeplacables[i][j] != null) {
+                        return false;
+                    }
+                } else if (!objetsDeplacables[i][j].equals(donneesJeu.objetsDeplacables[i][j])) {
+                    return false;
+                }
+            }
+        }
+        for (Joueur joueur : joueurs) {
+            for (Joueur joueur2 : donneesJeu.joueurs) {
+                if (!joueur.equals(joueur2)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
