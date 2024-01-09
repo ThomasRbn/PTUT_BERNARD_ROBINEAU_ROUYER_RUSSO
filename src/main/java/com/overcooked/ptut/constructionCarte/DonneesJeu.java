@@ -62,12 +62,13 @@ public class DonneesJeu {
             longueur = ligne.length();
 
             // stocke les indices courants
+            int indexColonne = 0;
             int indexLigne = 0;
 
             // parcours le fichier
             while (ligne != null) {
-                for (int indexColonne = 0; indexColonne < ligne.length(); indexColonne++) {
-                    char c = ligne.charAt(indexColonne);
+                for (indexLigne = 0; indexLigne < ligne.length(); indexLigne++) {
+                    char c = ligne.charAt(indexLigne);
                     switch (c) {
                         case PLAN_DE_TRAVAIL:
                             objetsFixes[indexLigne][indexColonne] = new Bloc(indexLigne, indexColonne);
@@ -80,12 +81,14 @@ public class DonneesJeu {
 //                            joueurs.add(new JoueurHumain(indexLigne, indexColonne));
                             objetsFixes[indexLigne][indexColonne] = null;
                             break;
-                        //TODO faire les autres générateurs
+                        case GENERATEURSALADE:
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Salade());
+                            break;
                         default:
                             objetsFixes[indexLigne][indexColonne] = null;
                     }
                 }
-                indexLigne++;
+                indexColonne++;
                 ligne = bfRead.readLine();
             }
             hauteur = indexLigne;
@@ -163,6 +166,7 @@ public class DonneesJeu {
         // Position cible du joueur en fonction de sa direction
         Bloc objetsFix = objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
         if (objetsFix instanceof Generateur) {
+            System.out.println("On est là");
             joueur.prendre(((Generateur) objetsFix).getAliment());
         }
         int[] positionJoueur = joueur.getPosition();
@@ -170,7 +174,6 @@ public class DonneesJeu {
         if (objetsDeplacable != null) {
             joueur.prendre(objetsDeplacable);
             objetsDeplacables[positionJoueur[0]][positionJoueur[1]] = null;
-            return;
         }
     }
 

@@ -48,7 +48,8 @@ public class TestDonneesJeu {
         System.out.println(Arrays.toString(clone2.getJoueurs().get(0).getPosition()));
         DonneesJeu clone3 = new DonneesJeu(clone2);
         clone3.faireAction(PRENDRE, 0);
-        Joueur joueurClone = clone.getJoueurs().get(0);
+        System.out.println(Arrays.toString(clone3.getJoueurs().get(0).getPosition()));
+        Joueur joueurClone = clone3.getJoueurs().get(0);
         assertNotEquals(joueur.getInventaire(), joueurClone.getInventaire());
     }
 
