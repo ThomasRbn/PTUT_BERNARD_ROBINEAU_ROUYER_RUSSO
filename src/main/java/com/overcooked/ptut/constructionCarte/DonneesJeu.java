@@ -183,7 +183,16 @@ public class DonneesJeu {
                 // Premier cas avec la position du joueur (sous le joueur, car il est possible de chevaucher un objet)
                 prendre(joueur);
             }
-            case POSER -> objetsDeplacables[joueur.getPosition()[0]][joueur.getPosition()[1]] = joueur.poser();
+            case POSER -> {
+                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Depot){
+                    if (joueur.getInventaire() instanceof Plat){
+                        Depot depot = (Depot) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
+                        depot.deposerPlat((Plat) joueur.poser());
+                        return;
+                    }
+                }
+                objetsDeplacables[joueur.getPosition()[0]][joueur.getPosition()[1]] = joueur.poser();
+            }
             default -> throw new IllegalArgumentException("DonneesJeu.faireAction, action invalide" + a);
         }
     }
