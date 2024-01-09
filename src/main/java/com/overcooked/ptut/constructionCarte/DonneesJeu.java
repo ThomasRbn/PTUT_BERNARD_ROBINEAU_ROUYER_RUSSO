@@ -122,11 +122,28 @@ public class DonneesJeu {
 
 
     public DonneesJeu(DonneesJeu donneesJeu) {
-        platsBut = donneesJeu.platsBut;
+        platsBut = new ArrayList<>();
+        for (Plat plat : donneesJeu.platsBut) {
+            platsBut.add(new Plat(plat));
+        }
         this.longueur = donneesJeu.longueur;
         this.hauteur = donneesJeu.hauteur;
-        this.objetsFixes = donneesJeu.objetsFixes;
-        this.objetsDeplacables = donneesJeu.objetsDeplacables;
+        this.objetsFixes = new Bloc[hauteur][longueur];
+        for(int i = 0; i < donneesJeu.objetsFixes.length; i++){
+            for(int j = 0; j < donneesJeu.objetsFixes[i].length; j++){
+                if(donneesJeu.objetsFixes[i][j] != null){
+                    this.objetsFixes[i][j] = donneesJeu.objetsFixes[i][j].clone();
+                }
+            }
+        }
+        this.objetsDeplacables = new Mouvable[hauteur][longueur];
+        for(int i = 0; i < donneesJeu.objetsDeplacables.length; i++){
+            for(int j = 0; j < donneesJeu.objetsDeplacables[i].length; j++){
+                if(donneesJeu.objetsDeplacables[i][j] != null){
+                    this.objetsDeplacables[i][j] = donneesJeu.objetsDeplacables[i][j].clone();
+                }
+            }
+        }
 
         this.joueurs = new ArrayList<>();
         System.out.println("Test");
@@ -145,6 +162,7 @@ public class DonneesJeu {
             }
         }
     }
+
 
 
     public void faireAction(Action a, int numJoueur) {
