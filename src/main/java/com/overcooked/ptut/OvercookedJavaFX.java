@@ -2,19 +2,26 @@ package com.overcooked.ptut;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.entites.Depot;
+import com.overcooked.ptut.entites.Generateur;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
+import com.overcooked.ptut.recettes.aliment.Pain;
+import com.overcooked.ptut.recettes.aliment.Salade;
+import com.overcooked.ptut.recettes.aliment.Tomate;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class OvercookedJavaFX extends Application {
 
-    public String chemin = "niveaux/niveau0.txt";
+    public String chemin = "niveaux/niveau1.txt";
 
     public static void main(String[] args) {
         launch(args);
@@ -83,16 +90,54 @@ public class OvercookedJavaFX extends Application {
     private void afficherBlocs(GridPane grille, DonneesJeu jeu) {
         for (int i = 0; i < jeu.getHauteur(); i++) {
             for (int j = 0; j < jeu.getLongueur(); j++) {
-                Pane caseBloc = new Pane();
-                if (jeu.getObjetsFixes()[i][j] != null) {
-                    if (jeu.getObjetsFixes()[i][j] instanceof Depot) {
+                StackPane caseBloc = new StackPane();
+
+                switch (jeu.getObjetsFixes()[i][j]) {
+                    case null:
+                        caseBloc.setStyle("-fx-background-color: #e39457;");
+                        break;
+                    case Depot ignored:
                         caseBloc.setStyle("-fx-background-color: #969696;");
-                    } else {
+                        break;
+                    case Generateur generateur:
+                        Rectangle rectangle = new Rectangle(50, 50);
+                        Text text = new Text(generateur.getAliment().getNom().charAt(0) + "");
+                        text.setFont(javafx.scene.text.Font.font(20));
+
+                        switch (generateur.getAliment()) {
+                            case Salade ignored:
+                                rectangle.setFill(Color.GREEN);
+                                break;
+                            case Tomate ignored:
+                                rectangle.setFill(Color.RED);
+                                break;
+                            case Pain ignored:
+                                rectangle.setFill(Color.BROWN);
+                                break;
+                            default:
+                                throw new IllegalStateException("Unexpected value: " + generateur.getAliment());
+                        }
+                        caseBloc.getChildren().addAll(rectangle, text);
+                        break;
+                    default:
                         caseBloc.setStyle("-fx-background-color: #a66b3b;");
-                    }
-                } else {
-                    caseBloc.setStyle("-fx-background-color: #e39457;");
+                        break;
                 }
+
+//                if (jeu.getObjetsFixes()[i][j] != null) {
+//
+//                    if (jeu.getObjetsFixes()[i][j] instanceof Depot) { // Si c'est dépot
+//                        caseBloc.setStyle("-fx-background-color: #969696;");
+//                    } else if (jeu.getObjetsFixes()[i][j] instanceof Generateur) {
+//                        Aliment typeGenerateur = ((Generateur) jeu.getObjetsFixes()[i][j]).getAliment();
+//
+//                    } else {
+//                        caseBloc.setStyle("-fx-background-color: #a66b3b;"); // Sinon c'est un plan de travail
+//                    }
+//
+//                } else { // Si c'est un sol
+//                    caseBloc.setStyle("-fx-background-color: #e39457;");
+//                }
                 grille.add(caseBloc, j, i);
             }
         }
