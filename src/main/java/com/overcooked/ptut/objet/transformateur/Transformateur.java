@@ -2,12 +2,13 @@ package com.overcooked.ptut.objet.transformateur;
 
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.recettes.aliment.Aliment;
+import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.etat.Cuisson;
 import com.overcooked.ptut.recettes.etat.Etat;
 
 public abstract class Transformateur extends Bloc {
     protected Etat etat;
-    protected Aliment elemPose;
+    protected Plat elemPose;
 
     public Transformateur(int x, int y) {
         super(x, y);
@@ -19,15 +20,19 @@ public abstract class Transformateur extends Bloc {
         this.elemPose = t.elemPose;
     }
 
-    public Aliment transform(){
+    public Plat transform(){
         if(elemPose == null) return null;
-        if (elemPose instanceof Cuisson) return elemPose;
+        if (elemPose.getRecettesComposees().getFirst().equals(etat)) return elemPose;
         etat.setComposant(elemPose);
-        return etat;
+        elemPose.viderAliments();
+        elemPose.ajouterAliment(etat);
+        return elemPose;
     }
 
-    public void ajouterElem(Aliment elem){
+    public boolean ajouterElem(Plat elem){
+        if (elem.getRecettesComposees().size() != 1) return false;
         elemPose = elem;
+        return true;
     }
 
     public void retirerElem(){
