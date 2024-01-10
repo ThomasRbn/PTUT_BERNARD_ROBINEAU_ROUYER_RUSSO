@@ -13,7 +13,10 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -21,6 +24,7 @@ import javafx.stage.Stage;
 public class OvercookedJavaFX extends Application {
 
     public String chemin = "niveaux/niveau1.txt";
+    public double tailleCellule = 150;
 
     public static void main(String[] args) {
         launch(args);
@@ -35,15 +39,15 @@ public class OvercookedJavaFX extends Application {
 
         // création des colonnes
         for (int i = 0; i < jeu.getLongueur(); i++) {
-            plateau.getColumnConstraints().add(new ColumnConstraints(50));
+            plateau.getColumnConstraints().add(new ColumnConstraints(tailleCellule));
         }
 
         // création des lignes
         for (int i = 0; i < jeu.getHauteur(); i++) {
-            plateau.getRowConstraints().add(new RowConstraints(50));
+            plateau.getRowConstraints().add(new RowConstraints(tailleCellule));
         }
 
-        Scene scene = new Scene(plateau, jeu.getLongueur() * 50, jeu.getHauteur() * 50);
+        Scene scene = new Scene(plateau, jeu.getLongueur() * tailleCellule, jeu.getHauteur() * tailleCellule);
 
         afficherBlocs(plateau, jeu);
         afficherJoueurs(plateau, jeu);
@@ -92,9 +96,9 @@ public class OvercookedJavaFX extends Application {
                         caseBloc.setStyle("-fx-background-color: #969696;");
                         break;
                     case Generateur generateur:
-                        Rectangle rectangle = new Rectangle(50, 50);
+                        Rectangle rectangle = new Rectangle(tailleCellule, tailleCellule);
                         Text text = new Text(generateur.getAliment().getNom().charAt(0) + "");
-                        text.setFont(Font.font(20));
+                        text.setFont(Font.font(tailleCellule / 10 * 4));
 
                         switch (generateur.getAliment().getNom()) {
                             case "salade":
@@ -128,13 +132,13 @@ public class OvercookedJavaFX extends Application {
             caseJoueur.setStyle("-fx-background-color: #e39457;");
 
             StackPane visuelJoueur = new StackPane();
-            visuelJoueur.setLayoutX(5);
-            visuelJoueur.setLayoutY(5);
+            visuelJoueur.setLayoutX(tailleCellule / 10);
+            visuelJoueur.setLayoutY(tailleCellule / 10);
 
-            Circle cercle = new Circle(20);
+            Circle cercle = new Circle(tailleCellule / 2 - tailleCellule / 10);
             cercle.setFill(Color.PURPLE);
 
-            Arc arc = new Arc(25, 25, 22, 22, 45 + getAngle(joueur), 90);
+            Arc arc = new Arc(tailleCellule / 2, tailleCellule / 2, tailleCellule / 2 - 5, tailleCellule / 2 - 5, 45 + getAngle(joueur), 90);
             arc.setFill(Color.BLACK);
             arc.setType(ArcType.ROUND);
 
@@ -164,7 +168,7 @@ public class OvercookedJavaFX extends Application {
         }
     }
 
-    private int getAngle(Joueur joueur){
+    private int getAngle(Joueur joueur) {
         return switch (joueur.getDirection()) {
             case HAUT -> 0;
             case BAS -> 180;
