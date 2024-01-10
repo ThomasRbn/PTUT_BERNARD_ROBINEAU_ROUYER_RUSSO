@@ -1,6 +1,7 @@
 package com.overcooked.ptut.entites;
 
 import com.overcooked.ptut.objet.Bloc;
+import com.overcooked.ptut.objet.Mouvable;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.List;
 
 public class Depot extends Bloc {
 
-    private List<Plat> platsDeposes;
+    private List<Mouvable> platsDeposes;
 
     public Depot(int x, int y) {
         super(x, y);
@@ -24,7 +25,7 @@ public class Depot extends Bloc {
         platsDeposes.add(plat);
     }
 
-    public List<Plat> getPlatsDeposes() {
+    public List<Mouvable> getPlatsDeposes() {
         return platsDeposes;
     }
 }
