@@ -106,6 +106,10 @@ public abstract class Joueur {
         return inventaire;
     }
 
+    public Mouvable getCloneInventaire() {
+        return new Mouvable(inventaire);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

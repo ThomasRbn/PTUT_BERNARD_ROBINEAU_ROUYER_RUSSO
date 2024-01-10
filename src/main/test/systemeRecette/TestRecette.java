@@ -4,6 +4,7 @@ import com.overcooked.ptut.recettes.aliment.Pain;
 import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Salade;
 import com.overcooked.ptut.recettes.aliment.Viande;
+import com.overcooked.ptut.recettes.etat.Coupe;
 import com.overcooked.ptut.recettes.etat.Cuisson;
 import com.overcooked.ptut.recettes.verificateur.VerificationAliment;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,6 +67,13 @@ public class TestRecette {
     public void testRecetteEquals2() {
         Plat plat1 = new Plat("PainSalade", new Pain(), new Salade());
         Plat plat2 = new Plat("PainSalade",  new Salade(), new Pain());
+        assertEquals(plat1, plat2);
+    }
+
+    @Test
+    public void testRecetteDeepEquals() {
+        Plat plat1 = new Plat("PainSalade", new Cuisson(new Coupe(new Pain())));
+        Plat plat2 = new Plat("PainSalade",  new Coupe(new Cuisson(new Pain())));
         assertEquals(plat1, plat2);
     }
 }

@@ -8,7 +8,7 @@ import java.util.Objects;
  * Classe abstraite representant une boisson 
  * 
  */
-public abstract class Aliment extends Mouvable {
+public class Aliment extends Mouvable {
 
 	protected String nom = "Aliment inconnu";
 
@@ -24,6 +24,12 @@ public abstract class Aliment extends Mouvable {
 
 	public Aliment() {
 		super();
+	}
+
+	public Aliment(Aliment a){
+		super(a);
+		this.nom = a.nom;
+		this.description = a.description;
 	}
 
 

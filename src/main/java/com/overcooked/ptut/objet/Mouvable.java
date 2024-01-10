@@ -1,6 +1,6 @@
 package com.overcooked.ptut.objet;
 
-public abstract class Mouvable {
+public class Mouvable {
     int[] coordonnees;
 
     public Mouvable(int[] coordonnees){

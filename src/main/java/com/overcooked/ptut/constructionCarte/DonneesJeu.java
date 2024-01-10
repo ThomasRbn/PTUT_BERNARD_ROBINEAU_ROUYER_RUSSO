@@ -77,7 +77,7 @@ public class DonneesJeu {
                             objetsFixes[indexLigne][indexColonne] = new Depot(indexLigne, indexColonne);
                             break;
                         case JOUEUR:
-                            if (test.length > 0){
+                            if (test.length > 0) {
                                 joueurs.add(new JoueurHumain(indexLigne, indexColonne));
                                 break;
                             }
@@ -146,18 +146,30 @@ public class DonneesJeu {
         this.longueur = donneesJeu.longueur;
         this.hauteur = donneesJeu.hauteur;
         this.objetsFixes = new Bloc[hauteur][longueur];
-        for(int i = 0; i < donneesJeu.objetsFixes.length; i++){
-            for(int j = 0; j < donneesJeu.objetsFixes[i].length; j++){
-                if(donneesJeu.objetsFixes[i][j] != null){
-                    this.objetsFixes[i][j] = donneesJeu.objetsFixes[i][j].clone();
+        for (int i = 0; i < donneesJeu.objetsFixes.length; i++) {
+            for (int j = 0; j < donneesJeu.objetsFixes[i].length; j++) {
+                if (donneesJeu.objetsFixes[i][j] != null) {
+                    if (donneesJeu.objetsFixes[i][j] instanceof Depot) {
+                        this.objetsFixes[i][j] = new Depot((Depot) donneesJeu.objetsFixes[i][j]);
+                    } else if (donneesJeu.objetsFixes[i][j] instanceof Generateur) {
+                        this.objetsFixes[i][j] = new Generateur((Generateur) donneesJeu.objetsFixes[i][j]);
+                    } else if (donneesJeu.objetsFixes[i][j] instanceof Planche) {
+                        this.objetsFixes[i][j] = new Planche((Planche) donneesJeu.objetsFixes[i][j]);
+                    } else if (donneesJeu.objetsFixes[i][j] instanceof Poele) {
+                        this.objetsFixes[i][j] = new Poele((Poele) donneesJeu.objetsFixes[i][j]);
+                    } else {
+                        this.objetsFixes[i][j] = new Bloc(donneesJeu.objetsFixes[i][j]);
+                    }
                 }
             }
         }
         this.objetsDeplacables = new Mouvable[hauteur][longueur];
-        for(int i = 0; i < donneesJeu.objetsDeplacables.length; i++){
-            for(int j = 0; j < donneesJeu.objetsDeplacables[i].length; j++){
-                if(donneesJeu.objetsDeplacables[i][j] != null){
-                    this.objetsDeplacables[i][j] = donneesJeu.objetsDeplacables[i][j].clone();
+        for (int i = 0; i < donneesJeu.objetsDeplacables.length; i++) {
+            for (int j = 0; j < donneesJeu.objetsDeplacables[i].length; j++) {
+                if (donneesJeu.objetsDeplacables[i][j] != null) {
+                    if (donneesJeu.objetsDeplacables[i][j] instanceof Aliment) {
+                        objetsDeplacables[i][j] = new Aliment((Aliment) donneesJeu.objetsDeplacables[i][j]);
+                    }
                 }
             }
         }
@@ -168,20 +180,19 @@ public class DonneesJeu {
             System.out.println("Joueur " + joueur.getNumJoueur() + " : " + Arrays.toString(joueur.getPosition()));
             if (joueur instanceof JoueurIA) {
                 if (joueur.getInventaire() != null) {
-                    this.joueurs.add(new JoueurIA(joueur.getPosition()[0], joueur.getPosition()[1], joueur.getInventaire().clone(), joueur.getDirection(), joueur.getNumJoueur()));
+                    this.joueurs.add(new JoueurIA(joueur.getPosition()[0], joueur.getPosition()[1], joueur.getCloneInventaire(), joueur.getDirection(), joueur.getNumJoueur()));
                 } else {
                     this.joueurs.add(new JoueurIA(joueur.getPosition()[0], joueur.getPosition()[1], null, joueur.getDirection(), joueur.getNumJoueur()));
                 }
             } else {
                 if (joueur.getInventaire() != null) {
-                    this.joueurs.add(new JoueurHumain(joueur.getPosition()[0], joueur.getPosition()[1], joueur.getInventaire().clone(), joueur.getDirection(), joueur.getNumJoueur()));
+                    this.joueurs.add(new JoueurHumain(joueur.getPosition()[0], joueur.getPosition()[1], joueur.getCloneInventaire(), joueur.getDirection(), joueur.getNumJoueur()));
                 } else {
                     this.joueurs.add(new JoueurHumain(joueur.getPosition()[0], joueur.getPosition()[1], null, joueur.getDirection(), joueur.getNumJoueur()));
                 }
             }
         }
     }
-
 
 
     public void faireAction(Action a, int numJoueur) {
@@ -199,8 +210,8 @@ public class DonneesJeu {
                 prendre(joueur);
             }
             case POSER -> {
-                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Depot){
-                    if (joueur.getInventaire() instanceof Plat){
+                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Depot) {
+                    if (joueur.getInventaire() instanceof Plat) {
                         Depot depot = (Depot) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
                         depot.deposerPlat((Plat) joueur.poser());
                         return;
