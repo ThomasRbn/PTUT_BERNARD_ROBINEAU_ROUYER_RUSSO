@@ -18,8 +18,6 @@ public class VerificationAliment {
             boolean estPresent = true;
             List<Aliment> currAliments = new ArrayList<>(alimentsATraiter);
             for (Aliment alimentRecette : recette.getRecettesComposees()) {
-                System.out.println(alimentRecette);
-                System.out.println(currAliments);
                 int currIndex = currAliments.indexOf(alimentRecette);
                 estPresent = estPresent && (currIndex != -1);
                 if (currIndex != -1) {
