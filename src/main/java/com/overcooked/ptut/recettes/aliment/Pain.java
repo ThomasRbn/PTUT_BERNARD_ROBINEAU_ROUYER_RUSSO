@@ -3,7 +3,7 @@ package com.overcooked.ptut.recettes.aliment;
 import com.overcooked.ptut.recettes.aliment.Aliment;
 
 /**
- * Classe correspondant a une boisson Colombia
+ * Classe correspondant a un pain
  * 
  */
 public class Pain extends Aliment {

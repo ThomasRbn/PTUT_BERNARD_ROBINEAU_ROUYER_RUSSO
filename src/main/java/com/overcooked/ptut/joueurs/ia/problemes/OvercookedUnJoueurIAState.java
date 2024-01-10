@@ -4,9 +4,6 @@ import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.HasHeuristic;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
-import com.overcooked.ptut.recettes.aliment.Aliment;
-import com.overcooked.ptut.recettes.aliment.Plat;
-import com.overcooked.ptut.recettes.aliment.Tomate;
 
 import java.util.List;
 
@@ -100,7 +97,7 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
         double distanceMin = Integer.MAX_VALUE;
         int[] coordonneesDepot = donnees.getCoordonneesDepot();
         int[] coordonneesJoueur = donnees.getJoueur(numJoueur).getPosition();
-        if(donnees.getJoueur(numJoueur).getInventaire()!= null){
+        if (donnees.getJoueur(numJoueur).getInventaire() != null && donnees.getJoueur(numJoueur).getInventaire().getRecettesComposees().getFirst().getNom().equals("Tomate")) {
             return Math.abs(coordonneesDepot[0] - coordonneesJoueur[0]) + Math.abs(coordonneesDepot[1] - coordonneesJoueur[1]);
         }
         List<int[]> coordonneesTomates = donnees.getCoordonneesTomates();

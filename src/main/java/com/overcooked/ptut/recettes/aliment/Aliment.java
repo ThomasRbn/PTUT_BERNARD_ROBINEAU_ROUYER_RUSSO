@@ -5,7 +5,7 @@ import com.overcooked.ptut.objet.Mouvable;
 import java.util.Objects;
 
 /**
- * Classe abstraite representant une boisson 
+ * Classe abstraite representant un aliment, avec un nom et une description
  * 
  */
 public class Aliment extends Mouvable {
