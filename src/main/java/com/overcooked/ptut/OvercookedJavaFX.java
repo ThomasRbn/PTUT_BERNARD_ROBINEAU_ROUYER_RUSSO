@@ -51,8 +51,13 @@ public class OvercookedJavaFX extends Application {
 
         afficherBlocs(plateau, jeu);
         afficherJoueurs(plateau, jeu);
+        initEventClavier(scene, jeu, plateau);
 
-        // Ajout des events clavier
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void initEventClavier(Scene scene, DonneesJeu jeu, GridPane plateau) {
         //TODO faire le changement quand il y aura plusieurs joueurs (SOON)
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             switch (key.getCode()) {
@@ -68,7 +73,19 @@ public class OvercookedJavaFX extends Application {
                 case D:
                     jeu.faireAction(Action.DROITE, 0);
                     break;
-
+                case SPACE:
+                    //TODO Implémenter la prise de l'aliment quand OK
+                    System.out.println("SPACE");
+                    Joueur joueur = jeu.getJoueurs().getFirst();
+                    System.out.println(joueur.getInventaire());
+                    if (joueur.getInventaire() == null) {
+                        joueur.prendre(new Tomate());
+                    } else if (joueur.getInventaire() instanceof Tomate) {
+                        joueur.prendre(new Salade());
+                    } else {
+                        joueur.poser();
+                    }
+                    break;
             }
 
             // Mise à jour de l'affichage après chaque action
@@ -77,11 +94,7 @@ public class OvercookedJavaFX extends Application {
             afficherBlocs(plateau, jeu);
             afficherJoueurs(plateau, jeu);
         });
-
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
-
 
     private void afficherBlocs(GridPane grille, DonneesJeu jeu) {
         for (int i = 0; i < jeu.getHauteur(); i++) {
@@ -127,7 +140,6 @@ public class OvercookedJavaFX extends Application {
 
     private void afficherJoueurs(GridPane grille, DonneesJeu jeu) {
         for (Joueur joueur : jeu.getJoueurs()) {
-            joueur.prendre(new Tomate());
             Pane caseJoueur = new Pane();
             caseJoueur.setStyle("-fx-background-color: #e39457;");
 
@@ -138,20 +150,21 @@ public class OvercookedJavaFX extends Application {
             Circle cercle = new Circle(tailleCellule / 2 - tailleCellule / 10);
             cercle.setFill(Color.PURPLE);
 
-            Arc arc = new Arc(tailleCellule / 2, tailleCellule / 2, tailleCellule / 2 - 5, tailleCellule / 2 - 5, 45 + getAngle(joueur), 90);
+            Arc arc = new Arc(tailleCellule / 2, tailleCellule / 2, tailleCellule / 2 - 5, tailleCellule / 2 - 5, 45 + getAngleDirection(joueur), 90);
             arc.setFill(Color.BLACK);
             arc.setType(ArcType.ROUND);
 
 
             visuelJoueur.getChildren().addAll(cercle);
             caseJoueur.getChildren().addAll(arc, visuelJoueur);
+            afficherInventaire(joueur, visuelJoueur);
             grille.add(caseJoueur, joueur.getPosition()[1], joueur.getPosition()[0]);
         }
     }
 
     private void afficherInventaire(Joueur joueur, Pane pane) {
         //TODO faire l'affichage si aliment coupé ou pas
-        Circle cercle = new Circle(20);
+        Circle cercle = new Circle(tailleCellule / 10 * 3);
         switch (joueur.getInventaire()) {
             case Tomate ignored:
                 cercle.setFill(Color.RED);
@@ -163,12 +176,12 @@ public class OvercookedJavaFX extends Application {
                 pane.getChildren().add(cercle);
                 break;
 
-            default:
-                throw new IllegalStateException("Unexpected value: " + joueur.getInventaire());
+            case null, default:
+                break;
         }
     }
 
-    private int getAngle(Joueur joueur) {
+    private int getAngleDirection(Joueur joueur) {
         return switch (joueur.getDirection()) {
             case HAUT -> 0;
             case BAS -> 180;
