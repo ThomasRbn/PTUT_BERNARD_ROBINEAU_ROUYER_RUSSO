@@ -4,6 +4,9 @@ import com.overcooked.ptut.recettes.aliment.Aliment;
 
 import java.util.Objects;
 
+/**
+ * Classe correspondant a un etat d'un aliment. Il fonctionne comme un decorateur (patron de conception)
+ */
 public abstract class Etat extends Aliment {
     protected Aliment composant;
 

@@ -5,6 +5,9 @@ import com.overcooked.ptut.recettes.etat.Etat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe abstraite representant un plat, avec un nom et une liste de recettes qui le composent
+ */
 public class Plat extends Aliment {
     // Liste des recettes qui composent la recette en question
     List<Aliment> recettesComposees;

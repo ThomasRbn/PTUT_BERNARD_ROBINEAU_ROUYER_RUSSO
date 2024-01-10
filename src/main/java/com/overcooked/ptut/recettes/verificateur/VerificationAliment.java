@@ -6,6 +6,10 @@ import com.overcooked.ptut.recettes.aliment.Plat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe annexe permettant la vérification de la compatibilité des aliments pour créer un plat donné.
+ * Elle n'est pas utile désormais, mais peut être réutilisée pour une amélioration future.
+ */
 public class VerificationAliment {
     List<Plat> listeAliments;
 
