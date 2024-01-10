@@ -95,19 +95,19 @@ public class DonneesJeu {
                             }
                             // Demande le type de joueur
                             Scanner sc = new Scanner(System.in);
-                            System.out.println("Entrez le type de joueur (HUMAIN, IA)");
+                            System.out.println("Entrez le type de joueur (H, IA)");
                             String choix = "";
                             boolean estConforme = false;
                             while (!estConforme) {
                                 choix = sc.nextLine();
-                                if (choix.equals("HUMAIN") || choix.equals("IA")) {
+                                if (choix.equals("H") || choix.equals("IA")) {
                                     estConforme = true;
                                 } else {
-                                    System.out.println("Entrée invalide : " + choix + " (HUMAIN, IA)");
+                                    System.out.println("Entrée invalide : " + choix + " (H, IA)");
                                 }
                             }
                             // Création du joueur
-                            if (choix.equals("HUMAIN")) {
+                            if (choix.equalsIgnoreCase("H")) {
                                 joueurs.add(new JoueurHumain(indexLigne, indexColonne));
                             } else {
                                 joueurs.add(new JoueurIA(indexLigne, indexColonne));
