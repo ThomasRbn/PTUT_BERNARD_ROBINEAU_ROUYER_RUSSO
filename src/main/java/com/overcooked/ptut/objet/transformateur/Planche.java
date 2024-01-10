@@ -7,4 +7,8 @@ public class Planche extends Transformateur{
         super(x, y);
         etat = new Coupe(elemPose);
     }
+
+    public Planche(Planche planche) {
+        super(planche);
+    }
 }

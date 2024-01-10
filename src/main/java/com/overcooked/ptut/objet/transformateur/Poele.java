@@ -7,4 +7,8 @@ public class Poele extends Transformateur {
         super(x, y);
         etat = new Cuisson(elemPose);
     }
+
+    public Poele(Poele poele) {
+        super(poele);
+    }
 }
