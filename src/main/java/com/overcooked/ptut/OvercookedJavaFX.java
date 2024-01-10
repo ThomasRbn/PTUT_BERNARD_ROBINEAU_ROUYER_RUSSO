@@ -3,11 +3,10 @@ package com.overcooked.ptut;
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.entites.Generateur;
+import com.overcooked.ptut.entites.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.recettes.aliment.Plat;
-import com.overcooked.ptut.recettes.aliment.Salade;
-import com.overcooked.ptut.recettes.aliment.Tomate;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
@@ -75,18 +74,45 @@ public class OvercookedJavaFX extends Application {
                     break;
                 case SPACE:
                     //TODO Implémenter la prise de l'aliment quand OK
-                    System.out.println("SPACE");
                     Joueur joueur = jeu.getJoueurs().getFirst();
-                    System.out.println(joueur.getInventaire());
+                    int[] positionFaceJoueur = joueur.getPositionCible();
 
-                    if (joueur.getInventaire() == null) {
-                        joueur.prendre(new Plat("tomate", new Tomate()));
-                    } else if (joueur.getInventaire().getNom().equals("tomate")) {
-                        joueur.prendre(new Plat("salade", new Salade()));
-                    } else {
-                        joueur.poser();
+                    switch (jeu.getObjetsFixes()[positionFaceJoueur[0]][positionFaceJoueur[1]]) {
+                        case Generateur generateur:
+                            if (joueur.getInventaire() == null) {
+                                joueur.prendre(new Plat(generateur.getAliment().getNom(), generateur.getAliment()));
+                            }
+                            break;
+                        case Depot ignored:
+                            if (joueur.getInventaire() != null) {
+                                joueur.poser();
+                            }
+                            break;
+                        case PlanDeTravail planDeTravail:
+                            if (joueur.getInventaire() == null && planDeTravail.getInventaire() == null) return;
+                            if (joueur.getInventaire() != null && planDeTravail.getInventaire() == null) {
+                                planDeTravail.poserDessus(joueur.poser());
+                            } else {
+                                joueur.prendre(planDeTravail.prendre());
+                            }
+                            break;
+                        case null:
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + jeu.getObjetsFixes()[positionFaceJoueur[0]][positionFaceJoueur[1]]);
                     }
-                    break;
+
+//                    System.out.println("SPACE");
+//                    Joueur joueur = jeu.getJoueurs().getFirst();
+//                    System.out.println(joueur.getInventaire());
+//                    if (joueur.getInventaire() == null) {
+//                        joueur.prendre(new Plat("Tomate", new Tomate()));
+//                    } else if (joueur.getInventaire().getNom().equals("Tomate")) {
+//                        joueur.prendre(new Plat("Salade", new Salade()));
+//                    } else {
+//                        joueur.poser();
+//                    }
+//                    break;
             }
 
             // Mise à jour de l'affichage après chaque action
@@ -94,10 +120,12 @@ public class OvercookedJavaFX extends Application {
             plateau.getChildren().clear();
             afficherBlocs(plateau, jeu);
             afficherJoueurs(plateau, jeu);
+            afficherInventaireBloc(jeu, plateau);
         });
     }
 
     private void afficherBlocs(GridPane grille, DonneesJeu jeu) {
+        //TODO AFFICHAGE POELE / PLANCHE
         for (int i = 0; i < jeu.getHauteur(); i++) {
             for (int j = 0; j < jeu.getLongueur(); j++) {
                 StackPane caseBloc = new StackPane();
@@ -111,17 +139,17 @@ public class OvercookedJavaFX extends Application {
                         break;
                     case Generateur generateur:
                         Rectangle rectangle = new Rectangle(tailleCellule, tailleCellule);
-                        Text text = new Text(generateur.getAliment().getNom().charAt(0) + "");
+                        Text text = new Text(String.valueOf(generateur.getAliment().getNom().charAt(0)).toUpperCase());
                         text.setFont(Font.font(tailleCellule / 10 * 4));
 
                         switch (generateur.getAliment().getNom()) {
-                            case "salade":
+                            case "Salade":
                                 rectangle.setFill(Color.GREEN);
                                 break;
-                            case "tomate":
+                            case "Tomate":
                                 rectangle.setFill(Color.RED);
                                 break;
-                            case "pain":
+                            case "Pain":
                                 rectangle.setFill(Color.BROWN);
                                 break;
                             default:
@@ -158,17 +186,16 @@ public class OvercookedJavaFX extends Application {
 
             visuelJoueur.getChildren().addAll(cercle);
             caseJoueur.getChildren().addAll(arc, visuelJoueur);
-            afficherInventaire(joueur, visuelJoueur);
+            afficherInventaireJoueur(joueur, visuelJoueur);
             grille.add(caseJoueur, joueur.getPosition()[1], joueur.getPosition()[0]);
         }
     }
 
-    private void afficherInventaire(Joueur joueur, Pane pane) {
+    private void afficherInventaireJoueur(Joueur joueur, Pane pane) {
         //TODO faire l'affichage si aliment coupé ou pas
         Circle cercle = new Circle(tailleCellule / 10 * 3);
 
         if (joueur.getInventaire() == null) return;
-
         joueur.getInventaire().getRecettesComposees().forEach(aliment -> {
             switch (aliment.getNom()) {
                 case "Salade":
@@ -186,6 +213,36 @@ public class OvercookedJavaFX extends Application {
         });
 
         pane.getChildren().add(cercle);
+    }
+
+    private void afficherInventaireBloc(DonneesJeu jeu, GridPane grille){
+        for (int i = 0; i < jeu.getHauteur(); i++) {
+            for (int j = 0; j < jeu.getLongueur(); j++) {
+                StackPane caseBloc = (StackPane) grille.getChildren().get(i * jeu.getLongueur() + j);
+                if (jeu.getObjetsFixes()[i][j] instanceof PlanDeTravail planDeTravail) {
+                    if (planDeTravail.getInventaire() != null) {
+                        Circle cercle = new Circle(tailleCellule / 10 * 3);
+
+                        planDeTravail.getInventaire().getRecettesComposees().forEach(aliment -> {
+                            switch (aliment.getNom()) {
+                                case "Salade":
+                                    cercle.setFill(Color.GREEN);
+                                    break;
+                                case "Tomate":
+                                    cercle.setFill(Color.RED);
+                                    break;
+                                case "Pain":
+                                    cercle.setFill(Color.BROWN);
+                                    break;
+                                default:
+                                    throw new IllegalStateException("Unexpected value: " + aliment.getNom());
+                            }
+                        });
+                        caseBloc.getChildren().add(cercle);
+                    }
+                }
+            }
+        }
     }
 
     private int getAngleDirection(Joueur joueur) {

@@ -2,6 +2,7 @@ package com.overcooked.ptut.constructionCarte;
 
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.entites.Generateur;
+import com.overcooked.ptut.entites.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
@@ -48,7 +49,7 @@ public class DonneesJeu {
 
     public DonneesJeu(String chemin, boolean... test) {
         platsBut = new ArrayList<>();
-        Plat saladePain = new Plat("tomate", new Tomate());
+        Plat saladePain = new Plat("Tomate", new Tomate());
         platsBut.add(saladePain);
         try {
             // ouvrir fichier
@@ -75,7 +76,7 @@ public class DonneesJeu {
                         case SOL:
                             break;
                         case PLAN_DE_TRAVAIL:
-                            objetsFixes[indexLigne][indexColonne] = new Bloc(indexLigne, indexColonne);
+                            objetsFixes[indexLigne][indexColonne] = new PlanDeTravail(indexLigne, indexColonne);
                             break;
                         case DEPOT:
                             objetsFixes[indexLigne][indexColonne] = new Depot(indexLigne, indexColonne);
@@ -105,13 +106,13 @@ public class DonneesJeu {
                             objetsFixes[indexLigne][indexColonne] = null;
                             break;
                         case GENERATEURSALADE:
-                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("salade", new Salade()));
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("Salade", new Salade()));
                             break;
                         case GENERATEURTOMATE:
-                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("tomate", new Tomate()));
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("Tomate", new Tomate()));
                             break;
                         case GENERATEURPAINBURGER:
-                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("pain", new Pain()));
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("Pain", new Pain()));
                             break;
                         case PLANCHE:
                             objetsFixes[indexLigne][indexColonne] = new Planche(indexLigne, indexColonne);
@@ -187,11 +188,10 @@ public class DonneesJeu {
         }
     }
 
-
     public void faireAction(Action a, int numJoueur) {
         Joueur joueur = joueurs.get(numJoueur);
         joueur.changeDirection(a);
-        int[] positionJoueurCible = joueur.retournePositionCible();
+        int[] positionJoueurCible = joueur.getPositionCible();
         switch (a) {
             case DROITE, GAUCHE, HAUT, BAS -> {
                 if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] == null) {
@@ -218,7 +218,7 @@ public class DonneesJeu {
 
     private void prendre(Joueur joueur) {
         // Position cible du joueur en fonction de sa direction
-        int[] positionJoueurCible = joueur.retournePositionCible();
+        int[] positionJoueurCible = joueur.getPositionCible();
 //        System.out.println(Arrays.toString(joueur.getPosition()));
         Plat objetsDeplacableCible = objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]];
         if (objetsDeplacableCible != null) {
@@ -267,7 +267,7 @@ public class DonneesJeu {
 
                 // Calcul des coordonnes de la case devant le joueur
                 int[] caseDevant = new int[2];
-                caseDevant = joueur.retournePositionCible();
+                caseDevant = joueur.getPositionCible();
                 //TODO: vérifié si la case devant est un générateur
 
                 //Recherche dans objetDeplacable s'il y a un objet à prendre
@@ -282,7 +282,7 @@ public class DonneesJeu {
                 }
                 // Calcul des coordonnés de la case devant le joueur
                 int[] caseDevant = new int[2];
-                caseDevant = joueur.retournePositionCible();
+                caseDevant = joueur.getPositionCible();
                 //Recherche dans objetDeplacable s'il y a un objet devant le joueur
                 return objetsDeplacables[caseDevant[0]][caseDevant[1]] == null;
                 //TODO: Vérifier que la case devant soit compatible avec l'objet à déplacer (ex: pas d'aliment sur le feu sans poele)

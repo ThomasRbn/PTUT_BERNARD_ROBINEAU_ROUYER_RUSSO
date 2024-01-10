@@ -2,7 +2,6 @@ package com.overcooked.ptut.joueurs;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
-import com.overcooked.ptut.objet.Mouvable;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
 import java.util.Arrays;
@@ -70,8 +69,8 @@ public abstract class Joueur {
      *
      * @return le plat posé
      */
-    public Mouvable poser() {
-        Mouvable objet = inventaire;
+    public Plat poser() {
+        Plat objet = inventaire;
         inventaire = null;
         return objet;
     }
@@ -111,7 +110,7 @@ public abstract class Joueur {
      * Méthode pour retourner la position de la case cible en fonction de la direction du joueur
      * @return la position de la case cible
      */
-    public int[] retournePositionCible() {
+    public int[] getPositionCible() {
         int[] targetPosition = new int[2];
         targetPosition[0] = position[0];
         targetPosition[1] = position[1];
