@@ -10,10 +10,7 @@ import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
-import com.overcooked.ptut.recettes.aliment.Pain;
-import com.overcooked.ptut.recettes.aliment.Plat;
-import com.overcooked.ptut.recettes.aliment.Salade;
-import com.overcooked.ptut.recettes.aliment.Tomate;
+import com.overcooked.ptut.recettes.aliment.*;
 
 import java.io.BufferedReader;
 import java.io.File;

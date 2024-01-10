@@ -97,10 +97,10 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
         double distanceMin = Integer.MAX_VALUE;
         int[] coordonneesDepot = donnees.getCoordonneesDepot();
         int[] coordonneesJoueur = donnees.getJoueur(numJoueur).getPosition();
-        if (donnees.getJoueur(numJoueur).getInventaire() != null && donnees.getJoueur(numJoueur).getInventaire().getRecettesComposees().getFirst().getNom().equals("Tomate")) {
+        if (donnees.getJoueur(numJoueur).getInventaire() != null && donnees.getJoueur(numJoueur).getInventaire().getRecettesComposees().getFirst().getNom().equals(donnees.getPlatsBut().getFirst().getRecettesComposees().getFirst().getNom())) {
             return Math.abs(coordonneesDepot[0] - coordonneesJoueur[0]) + Math.abs(coordonneesDepot[1] - coordonneesJoueur[1]);
         }
-        List<int[]> coordonneesTomates = donnees.getCoordonneesTomates();
+        List<int[]> coordonneesTomates = donnees.getCoordonneesAliment(donnees.getPlatsBut().getFirst().getRecettesComposees().getFirst());
         for (int[] coordonneesTomate : coordonneesTomates) {
             double distance = Math.abs(coordonneesTomate[0] - coordonneesJoueur[0]) + Math.abs(coordonneesTomate[1] - coordonneesJoueur[1]) + Math.abs(coordonneesDepot[0] - coordonneesJoueur[0]) + Math.abs(coordonneesDepot[1] - coordonneesJoueur[1]);
             if (distance < distanceMin) {
