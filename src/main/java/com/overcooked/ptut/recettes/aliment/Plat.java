@@ -14,18 +14,23 @@ public class Plat extends Aliment {
 
     public Plat() {
         super();
+        this.nom = "Plat";
+        description = "Plat";
         this.recettesComposees = new ArrayList<>();
     }
 
     public Plat(Plat plat){
         super();
+        this.nom = "Plat";
+        description = "Plat";
         this.recettesComposees = new ArrayList<>();
         this.recettesComposees.addAll(plat.recettesComposees);
     }
 
     public Plat(String nom, Aliment aliment1, Aliment aliment2) {
         super();
-        this.nom = nom;
+        this.nom = "Plat";
+        description = "Plat";
         this.recettesComposees = new ArrayList<>();
         this.recettesComposees.add(aliment1);
         this.recettesComposees.add(aliment2);
@@ -34,6 +39,8 @@ public class Plat extends Aliment {
     public Plat(String nom, Aliment aliment){
         super();
         this.nom = nom;
+        this.nom = "Plat";
+        description = "Plat";
         this.recettesComposees = new ArrayList<>();
         this.recettesComposees.add(aliment);
     }
@@ -63,5 +70,10 @@ public class Plat extends Aliment {
 
     public boolean retirerAliment(Aliment aliment) {
         return recettesComposees.remove(aliment);
+    }
+
+    public boolean viderAliments(){
+        recettesComposees.clear();
+        return true;
     }
 }

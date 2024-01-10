@@ -14,11 +14,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestTranformationAliment {
-    Aliment painCuit;
+    Plat painCuit;
     Transformateur transformateur;
     @BeforeEach
     public void setUp() {
-        painCuit = new Cuisson(new Pain());
+        painCuit = new Plat("PainCuit", new Cuisson(new Pain()));
         transformateur = new Poele(0, 0);
     }
 
@@ -27,7 +27,7 @@ public class TestTranformationAliment {
      */
     @Test
     public void testTransformationReussie() {
-        transformateur.ajouterElem(new Pain());
+        transformateur.ajouterElem(new Plat("PainCui", new Pain()));
         assertEquals(transformateur.transform(), painCuit);
     }
 
@@ -44,7 +44,7 @@ public class TestTranformationAliment {
      */
     @Test
     public void testTransformationEchouee2() {
-        transformateur.ajouterElem(new Salade());
-        assertNotEquals(transformateur.transform(), painCuit);
+        transformateur.ajouterElem(new Plat("salade", new Salade()));
+        assertFalse(transformateur.transform().equals(painCuit));
     }
 }
