@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 
 public class OvercookedJavaFX extends Application {
 
-    public String chemin = "niveaux/niveau2.txt";
+    public String chemin = "niveaux/niveau0.txt";
     public double tailleCellule = 100;
 
     public static void main(String[] args) {
@@ -113,6 +113,7 @@ public class OvercookedJavaFX extends Application {
             // Mise à jour de l'affichage après chaque action
             //TODO Refactor affichage
             plateau.getChildren().clear();
+            jeu.getDepot().viderDepot();
             afficherBlocs(plateau, jeu);
             afficherJoueurs(plateau, jeu);
             afficherInventaireBloc(jeu, plateau);
@@ -134,10 +135,10 @@ public class OvercookedJavaFX extends Application {
                         break;
                     case Generateur generateur:
                         Rectangle rectangle = new Rectangle(tailleCellule, tailleCellule);
-                        Text text = new Text(String.valueOf(generateur.getAliment().getNom().charAt(0)).toUpperCase());
+                        Text text = new Text(String.valueOf(generateur.getType().charAt(0)).toUpperCase());
                         text.setFont(Font.font(tailleCellule / 10 * 4));
 
-                        switch (generateur.getAliment().getNom()) {
+                        switch (generateur.getType()) {
                             case "Salade":
                                 rectangle.setFill(Color.GREEN);
                                 break;

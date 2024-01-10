@@ -43,6 +43,7 @@ public class DonneesJeu {
     private List<Joueur> joueurs;
     private Plat[][] objetsDeplacables;
     private final List<Plat> platsBut;
+    private Depot depot;
 
     /**
      * Constructeur de DonneesJeu
@@ -82,6 +83,7 @@ public class DonneesJeu {
                             break;
                         case DEPOT:
                             objetsFixes[indexLigne][indexColonne] = new Depot(indexLigne, indexColonne);
+                            depot = (Depot) objetsFixes[indexLigne][indexColonne];
                             break;
                         case JOUEUR:
                             if (test.length > 0) {
@@ -113,13 +115,13 @@ public class DonneesJeu {
 
                         //Création des objets fixes
                         case GENERATEURSALADE:
-                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("Salade", new Salade()));
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("Salade", new Salade()), "Salade");
                             break;
                         case GENERATEURTOMATE:
-                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("Tomate", new Tomate()));
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("Tomate", new Tomate()), "Tomate");
                             break;
                         case GENERATEURPAINBURGER:
-                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("Pain", new Pain()));
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("Pain", new Pain()), "Pain");
                             break;
                         case PLANCHE:
                             objetsFixes[indexLigne][indexColonne] = new Planche(indexLigne, indexColonne);
@@ -404,6 +406,14 @@ public class DonneesJeu {
      */
     public List<Plat> getPlatsBut() {
         return platsBut;
+    }
+
+    /**
+     * Retourne le dépot
+     * @return
+     */
+    public Depot getDepot() {
+        return depot;
     }
 
     /**

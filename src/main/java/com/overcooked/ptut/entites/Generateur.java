@@ -10,6 +10,7 @@ import java.util.List;
 public class Generateur extends Bloc {
 
     private Plat aliment;
+    private String type;
 
 
     /**
@@ -17,10 +18,12 @@ public class Generateur extends Bloc {
      * @param x
      * @param y
      * @param aliment
+     * @param type
      */
-    public Generateur(int x, int y, Plat aliment) {
+    public Generateur(int x, int y, Plat aliment, String type) {
         super(x, y);
         this.aliment = aliment;
+        this.type = type;
     }
 
     /**
@@ -39,5 +42,8 @@ public class Generateur extends Bloc {
     public Plat getAliment() {
         return aliment;
     }
-    
+
+    public String getType() {
+        return type;
+    }
 }
