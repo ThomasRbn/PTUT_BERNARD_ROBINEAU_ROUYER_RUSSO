@@ -380,6 +380,23 @@ public class DonneesJeu {
         return coordonneesTomates;
     }
 
+    public List<int[]> getCoordonneesAliment(Aliment aliment){
+        switch (aliment.getNom()){
+            case "Tomate":
+                List<int[]> coordonneesTomates = new ArrayList<>();
+                for (int i = 0; i < hauteur; i++) {
+                    for (int j = 0; j < longueur; j++) {
+                        if (objetsFixes[i][j] instanceof Generateur && ((Generateur) objetsFixes[i][j]).getAliment().getRecettesComposees().get(0) instanceof Tomate) {
+                            coordonneesTomates.add(new int[]{i, j});
+                        }
+                    }
+                }
+                return coordonneesTomates;
+            default:
+                throw new IllegalArgumentException("DonneesJeu.getCoordonneesAliment, Aliment pas encore implémenté");
+        }
+    }
+
     /**
      * Méthode permettant de récupérer les coordonnées du dépot
      * @return oordonnees du dépot
