@@ -11,14 +11,10 @@ import com.overcooked.ptut.recettes.aliment.Tomate;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.*;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -72,6 +68,7 @@ public class OvercookedJavaFX extends Application {
             }
 
             // Mise à jour de l'affichage après chaque action
+            //TODO Refactor affichage
             plateau.getChildren().clear();
             afficherBlocs(plateau, jeu);
             afficherJoueurs(plateau, jeu);
@@ -97,7 +94,7 @@ public class OvercookedJavaFX extends Application {
                     case Generateur generateur:
                         Rectangle rectangle = new Rectangle(50, 50);
                         Text text = new Text(generateur.getAliment().getNom().charAt(0) + "");
-                        text.setFont(javafx.scene.text.Font.font(20));
+                        text.setFont(Font.font(20));
 
                         switch (generateur.getAliment().getNom()) {
                             case "salade":
@@ -126,34 +123,54 @@ public class OvercookedJavaFX extends Application {
 
     private void afficherJoueurs(GridPane grille, DonneesJeu jeu) {
         for (Joueur joueur : jeu.getJoueurs()) {
-            StackPane caseJoueur = new StackPane();
+            joueur.prendre(new Tomate());
+            Pane caseJoueur = new Pane();
             caseJoueur.setStyle("-fx-background-color: #e39457;");
 
-            Circle cercle = new Circle(50, 50, 20);
+            StackPane visuelJoueur = new StackPane();
+            visuelJoueur.setLayoutX(5);
+            visuelJoueur.setLayoutY(5);
+
+            Circle cercle = new Circle(20);
             cercle.setFill(Color.PURPLE);
 
-            Polygon arrow = new Polygon();
-            arrow.setFill(Color.WHITE);
-            arrow.getPoints().addAll(0.0, 0.0, 10.0, 5.0, 0.0, 10.0);
-
-            switch (joueur.getDirection()) {
-                case HAUT:
-                    arrow.setRotate(270);
-                    break;
-                case BAS:
-                    arrow.setRotate(90);
-                    break;
-                case GAUCHE:
-                    arrow.setRotate(180);
-                    break;
-                case DROITE:
-                    break;
-            }
-
-            caseJoueur.getChildren().addAll(cercle, arrow);
+            Arc arc = new Arc(25, 25, 22, 22, 45 + getAngle(joueur), 90);
+            arc.setFill(Color.BLACK);
+            arc.setType(ArcType.ROUND);
 
 
+            visuelJoueur.getChildren().addAll(cercle);
+            caseJoueur.getChildren().addAll(arc, visuelJoueur);
             grille.add(caseJoueur, joueur.getPosition()[1], joueur.getPosition()[0]);
         }
+    }
+
+    private void afficherInventaire(Joueur joueur, Pane pane) {
+        //TODO faire l'affichage si aliment coupé ou pas
+        Circle cercle = new Circle(20);
+        switch (joueur.getInventaire()) {
+            case Tomate ignored:
+                cercle.setFill(Color.RED);
+                pane.getChildren().add(cercle);
+                break;
+
+            case Salade ignored:
+                cercle.setFill(Color.GREEN);
+                pane.getChildren().add(cercle);
+                break;
+
+            default:
+                throw new IllegalStateException("Unexpected value: " + joueur.getInventaire());
+        }
+    }
+
+    private int getAngle(Joueur joueur){
+        return switch (joueur.getDirection()) {
+            case HAUT -> 0;
+            case BAS -> 180;
+            case GAUCHE -> 90;
+            case DROITE -> 270;
+            default -> throw new IllegalStateException("Unexpected value: " + joueur.getDirection());
+        };
     }
 }
