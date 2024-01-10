@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Depot extends Bloc {
 
-    private List<Mouvable> platsDeposes;
+    private List<Plat> platsDeposes;
 
     public Depot(int x, int y) {
         super(x, y);
@@ -25,7 +25,7 @@ public class Depot extends Bloc {
         platsDeposes.add(plat);
     }
 
-    public List<Mouvable> getPlatsDeposes() {
+    public List<Plat> getPlatsDeposes() {
         return platsDeposes;
     }
 }
