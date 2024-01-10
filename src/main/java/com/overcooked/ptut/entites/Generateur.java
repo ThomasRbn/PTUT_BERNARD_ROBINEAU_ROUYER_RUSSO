@@ -16,6 +16,11 @@ public class Generateur extends Bloc {
         this.aliment = aliment;
     }
 
+    public Generateur(Generateur generateur) {
+        super(generateur);
+        this.aliment = generateur.aliment;
+    }
+
     public Aliment getAliment() {
         return aliment;
     }

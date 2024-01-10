@@ -1,6 +1,6 @@
 package com.overcooked.ptut.objet;
 
-public class Bloc implements Cloneable {
+public class Bloc {
     private int x;
     private int y;
 
@@ -16,13 +16,4 @@ public class Bloc implements Cloneable {
 
     public int getX() { return x; }
     public int getY() { return y; }
-
-    @Override
-    public Bloc clone() {
-        try {
-            return (Bloc) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
-    }
 }

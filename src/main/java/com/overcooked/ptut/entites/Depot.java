@@ -15,6 +15,11 @@ public class Depot extends Bloc {
         platsDeposes = new ArrayList<>();
     }
 
+    public Depot(Depot depot) {
+        super(depot);
+        this.platsDeposes = new ArrayList<>(depot.platsDeposes);
+    }
+
     public void deposerPlat(Plat plat) {
         platsDeposes.add(plat);
     }

@@ -1,10 +1,14 @@
 package com.overcooked.ptut.objet;
 
-public abstract class Mouvable implements Cloneable {
+public abstract class Mouvable {
     int[] coordonnees;
 
     public Mouvable(int[] coordonnees){
         this.coordonnees = coordonnees;
+    }
+
+    public Mouvable(Mouvable m){
+        this.coordonnees = m.coordonnees;
     }
 
     public Mouvable(){
@@ -17,14 +21,5 @@ public abstract class Mouvable implements Cloneable {
 
     public void setCoordonnees(int[] coordonnees) {
         this.coordonnees = coordonnees;
-    }
-
-    @Override
-    public Mouvable clone() {
-        try {
-            return (Mouvable) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
     }
 }

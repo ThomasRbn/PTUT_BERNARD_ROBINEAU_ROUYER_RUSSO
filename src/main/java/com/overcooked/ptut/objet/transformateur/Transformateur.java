@@ -13,6 +13,12 @@ public abstract class Transformateur extends Bloc {
         super(x, y);
     }
 
+    public Transformateur(Transformateur t) {
+        super(t);
+        this.etat = t.etat;
+        this.elemPose = t.elemPose;
+    }
+
     public Aliment transform(){
         if(elemPose == null) return null;
         if (elemPose instanceof Cuisson) return elemPose;
