@@ -1,5 +1,7 @@
 package com.overcooked.ptut.recettes.aliment;
 
+import com.overcooked.ptut.recettes.etat.Etat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,10 +38,17 @@ public class Plat extends Aliment {
     public boolean equals(Plat plat) {
         if (this == plat) return true;
         if (plat == null || getClass() != plat.getClass()) throw new IllegalArgumentException("Plat null ou de classe différente");
-        for (Aliment aliment : recettesComposees) {
-            if (!plat.recettesComposees.contains(aliment)) return false;
+        List<Aliment> currAliments = new ArrayList<>(recettesComposees);
+        for (Aliment aliment : plat.recettesComposees) {
+            System.out.println(currAliments);
+            int currIndex = currAliments.indexOf(aliment);
+            if (currIndex != -1) {
+                currAliments.remove(currIndex);
+            } else {
+                return false;
+            }
         }
-        return true;
+        return currAliments.isEmpty();
     }
 
     public boolean ajouterAliment(Aliment aliment) {
