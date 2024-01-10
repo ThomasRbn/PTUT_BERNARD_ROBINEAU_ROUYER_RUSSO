@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 
 public class OvercookedJavaFX extends Application {
 
-    public String chemin = "niveaux/niveau3.txt";
+    public String chemin = "niveaux/niveau1.txt";
     public double tailleCellule = 100;
 
     public static void main(String[] args) {
@@ -101,10 +101,11 @@ public class OvercookedJavaFX extends Application {
                         default:
                             throw new IllegalStateException("Unexpected value: " + jeu.getObjetsFixes()[positionFaceJoueur[0]][positionFaceJoueur[1]]);
                     }
-
+                    break;
                 case ENTER:
                     Action action = jeu.getJoueurs().getFirst().demanderAction(jeu);
                     jeu.faireAction(action, 0);
+                    break;
             }
 
             // Mise à jour de l'affichage après chaque action

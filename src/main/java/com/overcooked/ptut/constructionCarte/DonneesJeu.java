@@ -100,12 +100,13 @@ public class DonneesJeu {
                             boolean estConforme = false;
                             while (!estConforme) {
                                 choix = sc.nextLine();
-                                if (choix.equals("H") || choix.equals("IA")) {
+                                if (choix.equalsIgnoreCase("H") || choix.equalsIgnoreCase("IA")) {
                                     estConforme = true;
                                 } else {
                                     System.out.println("Entrée invalide : " + choix + " (H, IA)");
                                 }
                             }
+
                             // Création du joueur
                             if (choix.equalsIgnoreCase("H")) {
                                 joueurs.add(new JoueurHumain(indexLigne, indexColonne));
