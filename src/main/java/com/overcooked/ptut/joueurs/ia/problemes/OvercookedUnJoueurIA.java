@@ -40,12 +40,12 @@ public class OvercookedUnJoueurIA extends SearchProblem {
     }
 
     /**
-     * Retourne vrai si l'état s est un état but
+     * Retourne vrai si l'état s'est un état but
      */
     @Override
     public boolean isGoalState(State s) {
         OvercookedUnJoueurIAState o = (OvercookedUnJoueurIAState) s;
-        return false; // TODO
+        return o.isGoalState();
     }
 
     @Override

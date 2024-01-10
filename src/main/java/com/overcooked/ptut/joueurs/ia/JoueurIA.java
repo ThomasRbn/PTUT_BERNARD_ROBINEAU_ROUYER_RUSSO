@@ -2,6 +2,7 @@ package com.overcooked.ptut.joueurs.ia;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.Joueur;
+import com.overcooked.ptut.joueurs.ia.algo.AStar;
 import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
@@ -30,7 +31,7 @@ public class JoueurIA extends Joueur {
         // créer un problème, un état initial et un algo
         SearchProblem p = new OvercookedUnJoueurIA();
         State s = new OvercookedUnJoueurIAState(donneesJeu, numJoueur);
-        TreeSearch algo = ArgParse.makeAlgo("astar", p, s);
+        AStar algo = (AStar) ArgParse.makeAlgo("astar", p, s);
 
         // résoudre
         ArrayList<Action> solution = algo.solve();

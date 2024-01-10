@@ -25,9 +25,9 @@ public class AStar extends TreeSearch {
         frontier = new PriorityQueue<>(new SearchNodeComparator());
     }
 
-    @Override
+//    @Override
     public ArrayList<Action> solve() {
-        System.out.println("Algo choisi: AStar");
+//        System.out.println("Algo choisi: AStar");
         SearchNode node = SearchNode.makeRootSearchNode(intial_state);
         State state = node.getState();
 
@@ -43,6 +43,7 @@ public class AStar extends TreeSearch {
         while (!frontier.isEmpty()){
             // Stratégie: Astar
             node = frontier.poll();
+//            System.out.println(node.getState());
 
             // Si le nœud contient un état but
             if (problem.isGoalState(node.getState())) {
@@ -57,12 +58,13 @@ public class AStar extends TreeSearch {
 
                 // Les actions possibles depuis cet état
                 ArrayList<Action> actions = problem.getActions(node.getState());
-
+//                System.out.println(actions);
                 // Pour chaque nœud enfant
                 for (Action a : actions) {
+//                    System.out.println(a);
                     // Nœud enfant
                     SearchNode child = SearchNode.makeChildSearchNode(problem, node, a);
-
+//                    System.out.println(child.getState());
                     // S'il n'est pas dans la frontière et si son état n'a pas été visité
                     if (!frontier.contains(child) && !explored.contains(child.getState())) {
                         // L'insérer dans la frontière avec la priorité du coût

@@ -1,6 +1,6 @@
 package com.overcooked.ptut.joueurs;
 
-import com.overcooked.ptut.joueurs.ia.algo.AStar;
+import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
@@ -8,12 +8,13 @@ import com.overcooked.ptut.joueurs.ia.framework.recherche.TreeSearch;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Lance un algorithme de recherche  
  * sur un problème donné et affiche le résultat
  */
-public class MainTest {
+public class MainTestv2 {
 
     public static void main(String[] args){
 
@@ -28,21 +29,15 @@ public class MainTest {
              + "-h    : afficher ceci (mettre à la fin)"
              );
 
-        
-        // récupérer les options de la ligne de commande
-        String prob_name = ArgParse.getProblemFromCmd(args);
-        String algo_name = ArgParse.getAlgoFromCmd(args);
-
-        // créer un problème, un état initial et un algo
-        SearchProblem p = ArgParse.makeProblem(prob_name);
-        State s = ArgParse.makeInitialState(prob_name);
-        AStar algo = (AStar) ArgParse.makeAlgo(algo_name, p, s);
-        
-        // résoudre
-        ArrayList<Action> solution =  algo.solve();
-        if( solution != null ) {
-            System.out.println(solution);
-            algo.printSolution();
+        DonneesJeu donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
+        while (donneesJeu.getPlatDepose().isEmpty()) {
+            Joueur j = donneesJeu.getJoueur(0);
+            Action action = j.demanderAction(donneesJeu);
+            System.out.println(action);
+            donneesJeu.faireAction(action, 0);
+            System.out.println(donneesJeu);
         }
+
+
     }
 }

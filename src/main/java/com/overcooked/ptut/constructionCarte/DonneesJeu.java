@@ -8,6 +8,10 @@ import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.objet.Mouvable;
+import com.overcooked.ptut.recettes.aliment.Pain;
+import com.overcooked.ptut.recettes.aliment.Plat;
+import com.overcooked.ptut.recettes.aliment.Salade;
+import com.overcooked.ptut.recettes.aliment.Tomate;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.recettes.aliment.*;
@@ -158,9 +162,8 @@ public class DonneesJeu {
         this.objetsDeplacables = new Plat[hauteur][longueur];
         for (int i = 0; i < donneesJeu.objetsDeplacables.length; i++) {
             for (int j = 0; j < donneesJeu.objetsDeplacables[i].length; j++) {
-                if (donneesJeu.objetsDeplacables[i][j] != null
-                        && donneesJeu.objetsDeplacables[i][j] instanceof Aliment) {
-                    objetsDeplacables[i][j] = (Plat) new Aliment( donneesJeu.objetsDeplacables[i][j]);
+                if (donneesJeu.objetsDeplacables[i][j] != null) {
+                    objetsDeplacables[i][j] =  donneesJeu.objetsDeplacables[i][j];
                 }
             }
         }
@@ -200,8 +203,8 @@ public class DonneesJeu {
                 prendre(joueur);
             }
             case POSER -> {
-                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Depot) {
-                    if (joueur.getInventaire() instanceof Plat) {
+                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Depot){
+                    if (joueur.getInventaire() instanceof Plat){
                         Depot depot = (Depot) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
                         depot.deposerPlat((Plat) joueur.poser());
                         return;
@@ -216,7 +219,7 @@ public class DonneesJeu {
     private void prendre(Joueur joueur) {
         // Position cible du joueur en fonction de sa direction
         int[] positionJoueurCible = joueur.retournePositionCible();
-        System.out.println(Arrays.toString(joueur.getPosition()));
+//        System.out.println(Arrays.toString(joueur.getPosition()));
         Plat objetsDeplacableCible = objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]];
         if (objetsDeplacableCible != null) {
             joueur.prendre(objetsDeplacableCible);
@@ -226,7 +229,6 @@ public class DonneesJeu {
         // Position du joueur (blocs mouvables)
         Bloc objetsFix = objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
         if (objetsFix instanceof Generateur) {
-            System.out.println("On est là");
             joueur.prendre(((Generateur) objetsFix).getAliment());
         }
         int[] positionJoueur = joueur.getPosition();
@@ -259,8 +261,8 @@ public class DonneesJeu {
             }
             case PRENDRE -> {
                 //On vérifie que ses mains sont libres
-                if (joueur.getInventaire() == null) {
-                    return true;
+                if (joueur.getInventaire() != null) {
+                    return false;
                 }
 
                 // Calcul des coordonnes de la case devant le joueur
@@ -269,10 +271,9 @@ public class DonneesJeu {
                 //TODO: vérifié si la case devant est un générateur
 
                 //Recherche dans objetDeplacable s'il y a un objet à prendre
-                if (objetsDeplacables[positionJoueur[0]][positionJoueur[1]] != null) {
-                    return true;
-                }
-                return objetsDeplacables[caseDevant[0]][caseDevant[1]] != null;
+                return objetsDeplacables[caseDevant[0]][caseDevant[1]] != null
+                        || objetsDeplacables[positionJoueur[0]][positionJoueur[1]] != null
+                        || objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur;
             }
             case POSER -> {
                 // On vérifie si le joueur à quelque chose dans les mains
@@ -309,6 +310,10 @@ public class DonneesJeu {
         return joueurs;
     }
 
+    public Joueur getJoueur(int numJoueur) {
+        return joueurs.get(numJoueur);
+    }
+
     public int getLongueur() {
         return longueur;
     }
@@ -319,6 +324,10 @@ public class DonneesJeu {
 
     public Bloc[][] getObjetsFixes() {
         return objetsFixes;
+    }
+
+    public List<Plat> getPlatsBut() {
+        return platsBut;
     }
 
     public boolean equals(DonneesJeu donneesJeu) {
@@ -348,7 +357,53 @@ public class DonneesJeu {
                 return false;
             }
         }
+        if(this.getPlatDepose().size() != donneesJeu.getPlatDepose().size()){
+            return false;
+        }
         return true;
+    }
+
+
+    /**
+     * Méthode permettant de récupérer les coordonnées des tomates et des générateur de tomates
+     * @return liste de coordonnees des tomates et des générateur de tomates
+     */
+    public List<int[]> getCoordonneesTomates() {
+        List<int[]> coordonneesTomates = new ArrayList<>();
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < longueur; j++) {
+                if (objetsFixes[i][j] instanceof Generateur && ((Generateur) objetsFixes[i][j]).getAliment().getRecettesComposees().get(0) instanceof Tomate) {
+                    coordonneesTomates.add(new int[]{i, j});
+                }
+            }
+        }
+        return coordonneesTomates;
+    }
+
+    /**
+     * Méthode permettant de récupérer les coordonnées du dépot
+     * @return oordonnees du dépot
+     */
+    public int[] getCoordonneesDepot(){
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < longueur; j++) {
+                if (objetsFixes[i][j] instanceof Depot) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        return null;
+    }
+
+    public List<Plat> getPlatDepose(){
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < longueur; j++) {
+                if (objetsFixes[i][j] instanceof Depot) {
+                    return ((Depot) objetsFixes[i][j]).getPlatsDeposes();
+                }
+            }
+        }
+        return null;
     }
 
     @Override
@@ -391,9 +446,9 @@ public class DonneesJeu {
             s.append(Arrays.toString(re)).append("\n");
         }
 
-        for (Joueur joueur : joueurs) {
-            s.append("Le joueur ").append(joueur.getNumJoueur()).append(" est orienté vers : ").append(joueur.getDirection().getName()).append("\n");
-        }
+//        for (Joueur joueur : joueurs) {
+//            s.append("Le joueur ").append(joueur.getNumJoueur()).append(" est orienté vers : ").append(joueur.getDirection().getName()).append("\n");
+//        }
         return s.toString();
     }
 

@@ -90,7 +90,7 @@ public class TestRecette {
     @Test
     public void testRecetteEquals6() {
         Plat plat1 = new Plat("PainSalade", new Pain(), new Salade());
-        assertThrows(IllegalArgumentException.class, () -> plat1.equals(null));
+        assertFalse( plat1.equals(null));
     }
 
     @Test

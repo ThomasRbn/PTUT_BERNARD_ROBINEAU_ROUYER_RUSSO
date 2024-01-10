@@ -37,10 +37,9 @@ public class Plat extends Aliment {
 
     public boolean equals(Plat plat) {
         if (this == plat) return true;
-        if (plat == null || getClass() != plat.getClass()) throw new IllegalArgumentException("Plat null ou de classe différente");
+        if (plat == null || getClass() != plat.getClass()) return false;
         List<Aliment> currAliments = new ArrayList<>(recettesComposees);
         for (Aliment aliment : plat.recettesComposees) {
-            System.out.println(currAliments);
             int currIndex = currAliments.indexOf(aliment);
             if (currIndex != -1) {
                 currAliments.remove(currIndex);

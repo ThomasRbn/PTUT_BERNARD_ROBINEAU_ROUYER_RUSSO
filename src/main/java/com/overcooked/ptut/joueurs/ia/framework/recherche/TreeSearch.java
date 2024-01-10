@@ -60,7 +60,7 @@ public abstract class TreeSearch {
      * @return Vrai si solution trouvé
      */
     
-    public abstract ArrayList<Action> solve();
+//    public abstract ArrayList<Action> solve();
 
 
     /**
