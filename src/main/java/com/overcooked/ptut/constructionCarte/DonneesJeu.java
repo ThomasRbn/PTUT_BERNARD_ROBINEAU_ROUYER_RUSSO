@@ -124,10 +124,6 @@ public class DonneesJeu {
             }
             hauteur = indexLigne;
 
-            System.out.println(this);
-            for (Joueur joueur : joueurs) {
-                //System.out.println("Etat initial du joueur " + joueur.getNumJoueur() + " : " + joueur.getPosition()[0] + ", " + joueur.getPosition()[1]);
-            }
             objetsDeplacables = new Mouvable[getHauteur()][getLongueur()];
             for (int i = 0; i < joueurs.size(); i++) {
                 joueurs.get(i).setNumJoueur(i);
@@ -172,7 +168,6 @@ public class DonneesJeu {
         this.joueurs = new ArrayList<>();
 
         for (Joueur joueur : donneesJeu.joueurs) {
-            System.out.println("Joueur " + joueur.getNumJoueur() + " : " + Arrays.toString(joueur.getPosition()));
             if (joueur instanceof JoueurIA) {
                 if (joueur.getInventaire() != null) {
                     this.joueurs.add(new JoueurIA(joueur.getPosition()[0], joueur.getPosition()[1], joueur.getCloneInventaire(), joueur.getDirection(), joueur.getNumJoueur()));
