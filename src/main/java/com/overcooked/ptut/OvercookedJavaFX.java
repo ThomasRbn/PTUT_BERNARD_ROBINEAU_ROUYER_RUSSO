@@ -92,7 +92,7 @@ public class OvercookedJavaFX extends Application {
                             if (joueur.getInventaire() == null && planDeTravail.getInventaire() == null) return;
                             if (joueur.getInventaire() != null && planDeTravail.getInventaire() == null) {
                                 planDeTravail.poserDessus(joueur.poser());
-                            } else {
+                            } else if (joueur.getInventaire() == null && planDeTravail.getInventaire() != null) {
                                 joueur.prendre(planDeTravail.prendre());
                             }
                             break;
@@ -215,7 +215,7 @@ public class OvercookedJavaFX extends Application {
         pane.getChildren().add(cercle);
     }
 
-    private void afficherInventaireBloc(DonneesJeu jeu, GridPane grille){
+    private void afficherInventaireBloc(DonneesJeu jeu, GridPane grille) {
         for (int i = 0; i < jeu.getHauteur(); i++) {
             for (int j = 0; j < jeu.getLongueur(); j++) {
                 StackPane caseBloc = (StackPane) grille.getChildren().get(i * jeu.getLongueur() + j);
