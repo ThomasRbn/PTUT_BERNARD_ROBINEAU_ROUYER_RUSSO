@@ -5,7 +5,7 @@ import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.entites.Generateur;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
-import com.overcooked.ptut.recettes.aliment.Pain;
+import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Salade;
 import com.overcooked.ptut.recettes.aliment.Tomate;
 import javafx.application.Application;
@@ -78,10 +78,11 @@ public class OvercookedJavaFX extends Application {
                     System.out.println("SPACE");
                     Joueur joueur = jeu.getJoueurs().getFirst();
                     System.out.println(joueur.getInventaire());
+
                     if (joueur.getInventaire() == null) {
-                        joueur.prendre(new Tomate());
-                    } else if (joueur.getInventaire() instanceof Tomate) {
-                        joueur.prendre(new Salade());
+                        joueur.prendre(new Plat("tomate", new Tomate()));
+                    } else if (joueur.getInventaire().getNom().equals("tomate")) {
+                        joueur.prendre(new Plat("salade", new Salade()));
                     } else {
                         joueur.poser();
                     }
@@ -165,20 +166,26 @@ public class OvercookedJavaFX extends Application {
     private void afficherInventaire(Joueur joueur, Pane pane) {
         //TODO faire l'affichage si aliment coupé ou pas
         Circle cercle = new Circle(tailleCellule / 10 * 3);
-        switch (joueur.getInventaire()) {
-            case Tomate ignored:
-                cercle.setFill(Color.RED);
-                pane.getChildren().add(cercle);
-                break;
 
-            case Salade ignored:
-                cercle.setFill(Color.GREEN);
-                pane.getChildren().add(cercle);
-                break;
+        if (joueur.getInventaire() == null) return;
 
-            case null, default:
-                break;
-        }
+        joueur.getInventaire().getRecettesComposees().forEach(aliment -> {
+            switch (aliment.getNom()) {
+                case "Salade":
+                    cercle.setFill(Color.GREEN);
+                    break;
+                case "Tomate":
+                    cercle.setFill(Color.RED);
+                    break;
+                case "Pain":
+                    cercle.setFill(Color.BROWN);
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + aliment.getNom());
+            }
+        });
+
+        pane.getChildren().add(cercle);
     }
 
     private int getAngleDirection(Joueur joueur) {
