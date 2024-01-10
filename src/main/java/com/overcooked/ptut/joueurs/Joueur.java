@@ -3,6 +3,8 @@ package com.overcooked.ptut.joueurs;
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Mouvable;
+import com.overcooked.ptut.recettes.aliment.Aliment;
+import com.overcooked.ptut.recettes.aliment.Plat;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -14,7 +16,7 @@ public abstract class Joueur {
      */
     protected int[] position;
 
-    protected Mouvable inventaire;
+    protected Plat inventaire;
 
     protected Action direction;
     protected int numJoueur;
@@ -24,14 +26,14 @@ public abstract class Joueur {
         direction = Action.HAUT;
     }
 
-    public Joueur(int y, int x, Mouvable inventaire, Action direction, int numJoueur) {
+    public Joueur(int y, int x, Plat inventaire, Action direction, int numJoueur) {
         this.position = new int[]{y, x};
         this.inventaire = inventaire;
         this.direction = direction;
         this.numJoueur = numJoueur;
     }
 
-    public void prendre(Mouvable objet) {
+    public void prendre(Plat objet) {
         inventaire = objet;
     }
 
@@ -102,12 +104,12 @@ public abstract class Joueur {
         return direction;
     }
 
-    public Mouvable getInventaire() {
+    public Plat getInventaire() {
         return inventaire;
     }
 
-    public Mouvable getCloneInventaire() {
-        return new Mouvable(inventaire);
+    public Plat getCloneInventaire() {
+        return new Plat(inventaire);
     }
 
     @Override

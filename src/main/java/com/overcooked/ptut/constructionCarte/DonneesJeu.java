@@ -101,13 +101,13 @@ public class DonneesJeu {
                             objetsFixes[indexLigne][indexColonne] = null;
                             break;
                         case GENERATEURSALADE:
-                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Salade());
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("salade", new Salade()));
                             break;
                         case GENERATEURTOMATE:
-                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Tomate());
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("tomate", new Tomate()));
                             break;
                         case GENERATEURPAINBURGER:
-                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Pain());
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("pain", new Pain()));
                             break;
                         case PLANCHE:
                             objetsFixes[indexLigne][indexColonne] = new Planche(indexLigne, indexColonne);
@@ -217,7 +217,7 @@ public class DonneesJeu {
         // Position cible du joueur en fonction de sa direction
         int[] positionJoueurCible = joueur.retournePositionCible();
         System.out.println(Arrays.toString(joueur.getPosition()));
-        Mouvable objetsDeplacableCible = objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]];
+        Plat objetsDeplacableCible = objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]];
         if (objetsDeplacableCible != null) {
             joueur.prendre(objetsDeplacableCible);
             objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]] = null;
@@ -230,7 +230,7 @@ public class DonneesJeu {
             joueur.prendre(((Generateur) objetsFix).getAliment());
         }
         int[] positionJoueur = joueur.getPosition();
-        Mouvable objetsDeplacable = objetsDeplacables[positionJoueur[0]][positionJoueur[1]];
+        Plat objetsDeplacable = objetsDeplacables[positionJoueur[0]][positionJoueur[1]];
         if (objetsDeplacable != null) {
             joueur.prendre(objetsDeplacable);
             objetsDeplacables[positionJoueur[0]][positionJoueur[1]] = null;
@@ -366,13 +366,13 @@ public class DonneesJeu {
                     case null -> res[i][j] = SOL;
                     case Depot ignored -> res[bloc[j].getX()][bloc[j].getY()] = DEPOT;
                     case Generateur generateur -> {
-                        if (generateur.getAliment() instanceof Salade) {
+                        if (generateur.getAliment().getNom().equals("salade")) {
                             res[bloc[j].getX()][bloc[j].getY()] = GENERATEURSALADE;
-                        } else if (generateur.getAliment() instanceof Pain) {
+                        } else if (generateur.getAliment().getNom().equals("pain")) {
                             res[bloc[j].getX()][bloc[j].getY()] = GENERATEURPAINBURGER;
-                        } else if (generateur.getAliment() instanceof Viande) {
+                        } else if (generateur.getAliment().getNom().equals("viande")) {
                             res[bloc[j].getX()][bloc[j].getY()] = GENERATEURVIANDE;
-                        } else if (generateur.getAliment() instanceof Tomate) {
+                        } else if (generateur.getAliment().getNom().equals("tomate")) {
                             res[bloc[j].getX()][bloc[j].getY()] = GENERATEURTOMATE;
                         }
                     }

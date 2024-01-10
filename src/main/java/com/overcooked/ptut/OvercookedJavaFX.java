@@ -99,14 +99,14 @@ public class OvercookedJavaFX extends Application {
                         Text text = new Text(generateur.getAliment().getNom().charAt(0) + "");
                         text.setFont(javafx.scene.text.Font.font(20));
 
-                        switch (generateur.getAliment()) {
-                            case Salade ignored:
+                        switch (generateur.getAliment().getNom()) {
+                            case "salade":
                                 rectangle.setFill(Color.GREEN);
                                 break;
-                            case Tomate ignored:
+                            case "tomate":
                                 rectangle.setFill(Color.RED);
                                 break;
-                            case Pain ignored:
+                            case "pain":
                                 rectangle.setFill(Color.BROWN);
                                 break;
                             default:

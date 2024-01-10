@@ -48,7 +48,8 @@ public class TestDonneesJeu {
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         Joueur joueurClone = clone.getJoueurs().get(0);
         Tomate tomate = new Tomate();
-        joueurClone.prendre(tomate);
+        Plat tomatePlat = new Plat("Tomate", tomate);
+        joueurClone.prendre(tomatePlat);
         assertNotEquals(joueur.getInventaire(), joueurClone.getInventaire());
     }
 
@@ -59,7 +60,8 @@ public class TestDonneesJeu {
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         Joueur joueurClone = clone.getJoueurs().get(0);
         Tomate tomate = new Tomate();
-        joueurClone.prendre(tomate);
+        Plat tomatePlat = new Plat("Tomate", tomate);
+        joueurClone.prendre(tomatePlat);
         DonneesJeu clone2 = new DonneesJeu(clone);
         Joueur joueurClone2 = clone2.getJoueurs().get(0);
         joueurClone2.poser();

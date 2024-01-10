@@ -10,6 +10,7 @@ import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIA;
 import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIAState;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Mouvable;
+import com.overcooked.ptut.recettes.aliment.Plat;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class JoueurIA extends Joueur {
         super(x, y);
     }
 
-    public JoueurIA(int x, int y, Mouvable inventaire, Action direction, int numJoueur) {
+    public JoueurIA(int x, int y, Plat inventaire, Action direction, int numJoueur) {
         super(x, y, inventaire, direction, numJoueur);
     }
 

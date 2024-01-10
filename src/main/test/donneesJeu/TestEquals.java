@@ -2,6 +2,7 @@ package donneesJeu;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.Joueur;
+import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Tomate;
 import org.junit.jupiter.api.Test;
 
@@ -49,7 +50,8 @@ public class TestEquals {
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         Joueur joueurClone = clone.getJoueurs().get(0);
         Tomate tomate = new Tomate();
-        joueurClone.prendre(tomate);
+        Plat tomatePlat = new Plat("Tomate", tomate);
+        joueurClone.prendre(tomatePlat);
         assertFalse(donneesJeu.equals(clone));
     }
 

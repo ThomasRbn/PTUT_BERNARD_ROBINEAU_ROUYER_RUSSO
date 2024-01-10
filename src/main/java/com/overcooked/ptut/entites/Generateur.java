@@ -3,15 +3,16 @@ package com.overcooked.ptut.entites;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.recettes.aliment.Aliment;
+import com.overcooked.ptut.recettes.aliment.Plat;
 
 import java.util.List;
 
 public class Generateur extends Bloc {
 
-    private Aliment aliment;
+    private Plat aliment;
 
 
-    public Generateur(int x, int y, Aliment aliment) {
+    public Generateur(int x, int y, Plat aliment) {
         super(x, y);
         this.aliment = aliment;
     }
@@ -21,7 +22,7 @@ public class Generateur extends Bloc {
         this.aliment = generateur.aliment;
     }
 
-    public Aliment getAliment() {
+    public Plat getAliment() {
         return aliment;
     }
     

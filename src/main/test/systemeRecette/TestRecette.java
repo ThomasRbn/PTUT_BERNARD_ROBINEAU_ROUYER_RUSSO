@@ -97,6 +97,6 @@ public class TestRecette {
     public void testRecetteDeepEquals() {
         Plat plat1 = new Plat("PainSalade", new Cuisson(new Coupe(new Pain())));
         Plat plat2 = new Plat("PainSalade",  new Coupe(new Cuisson(new Pain())));
-        assertEquals(plat1, plat2);
+        assertTrue(plat1.equals(plat2));
     }
 }
