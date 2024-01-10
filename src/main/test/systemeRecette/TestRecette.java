@@ -1,9 +1,6 @@
 package systemeRecette;
 
-import com.overcooked.ptut.recettes.aliment.Pain;
-import com.overcooked.ptut.recettes.aliment.Plat;
-import com.overcooked.ptut.recettes.aliment.Salade;
-import com.overcooked.ptut.recettes.aliment.Viande;
+import com.overcooked.ptut.recettes.aliment.*;
 import com.overcooked.ptut.recettes.etat.Coupe;
 import com.overcooked.ptut.recettes.etat.Cuisson;
 import com.overcooked.ptut.recettes.verificateur.VerificationAliment;
@@ -12,8 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestRecette {
     Plat painSalade;
@@ -68,6 +64,33 @@ public class TestRecette {
         Plat plat1 = new Plat("PainSalade", new Pain(), new Salade());
         Plat plat2 = new Plat("PainSalade",  new Salade(), new Pain());
         assertEquals(plat1, plat2);
+    }
+
+    @Test
+    public void testRecetteEquals3() {
+        Plat plat1 = new Plat("PainSalade", new Pain(), new Salade());
+        Plat plat2 = new Plat("PainSalade",  new Salade(), new Pain());
+        assertTrue(plat1.equals(plat2));
+    }
+
+    @Test
+    public void testRecetteEquals4() {
+        Plat plat1 = new Plat("TomateSalade", new Tomate(), new Salade());
+        Plat plat2 = new Plat("PainSalade",  new Salade(), new Pain());
+        assertFalse(plat1.equals(plat2));
+    }
+
+    @Test
+    public void testRecetteEquals5() {
+        Plat plat1 = new Plat("PainSalade", new Pain(), new Salade());
+        Plat plat2 = plat1;
+        assertTrue(plat1.equals(plat2));
+    }
+
+    @Test
+    public void testRecetteEquals6() {
+        Plat plat1 = new Plat("PainSalade", new Pain(), new Salade());
+        assertThrows(IllegalArgumentException.class, () -> plat1.equals(null));
     }
 
     @Test

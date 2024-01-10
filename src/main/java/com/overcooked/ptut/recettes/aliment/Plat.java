@@ -35,8 +35,11 @@ public class Plat extends Aliment {
 
     public boolean equals(Plat plat) {
         if (this == plat) return true;
-        if (plat == null || getClass() != plat.getClass()) return false;
-        return plat.nom.equals(nom) && plat.recettesComposees.equals(recettesComposees);
+        if (plat == null || getClass() != plat.getClass()) throw new IllegalArgumentException("Plat null ou de classe différente");
+        for (Aliment aliment : recettesComposees) {
+            if (!plat.recettesComposees.contains(aliment)) return false;
+        }
+        return true;
     }
 
     public boolean ajouterAliment(Aliment aliment) {
