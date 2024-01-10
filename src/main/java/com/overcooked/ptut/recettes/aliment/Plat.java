@@ -33,6 +33,12 @@ public class Plat extends Aliment {
         this.recettesComposees.add(aliment);
     }
 
+    public boolean equals(Plat plat) {
+        if (this == plat) return true;
+        if (plat == null || getClass() != plat.getClass()) return false;
+        return plat.nom.equals(nom) && plat.recettesComposees.equals(recettesComposees);
+    }
+
     public boolean ajouterAliment(Aliment aliment) {
         return recettesComposees.add(aliment);
     }

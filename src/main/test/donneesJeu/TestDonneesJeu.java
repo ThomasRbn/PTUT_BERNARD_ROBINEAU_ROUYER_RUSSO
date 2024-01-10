@@ -1,12 +1,16 @@
 package donneesJeu;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
+import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.joueurs.Joueur;
+import com.overcooked.ptut.objet.Bloc;
+import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Tomate;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
@@ -26,6 +30,16 @@ public class TestDonneesJeu {
         Joueur joueurClone = clone.getJoueurs().get(0);
         assertNotEquals(Arrays.toString(joueur.getPosition()), Arrays.toString(joueurClone.getPosition()));
     }
+
+    @Test
+    public void testDeposerDepot(){
+        donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
+        DonneesJeu clone = new DonneesJeu(donneesJeu);
+        Bloc[][] blocs = clone.getObjetsFixes();
+        ((Depot)blocs[4][2]).deposerPlat(new Plat("Tomate", new Tomate()));
+        assertNotEquals(((Depot)blocs[4][2]).getPlatsDeposes().size(), donneesJeu.getObjetsFixes()[4][2]);
+    }
+
 
     @Test
     public void testPrendreCloneDonneesJeu(){

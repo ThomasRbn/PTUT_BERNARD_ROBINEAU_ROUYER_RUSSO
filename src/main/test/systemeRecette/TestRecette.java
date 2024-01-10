@@ -56,4 +56,16 @@ public class TestRecette {
     public void testRecetteEchouee3() {
         assertNull(vf.verifiercompatibilite(List.of(new Pain(), new Cuisson(new Viande()), new Pain())));
     }
+
+    @Test
+    public void testRecetteEquals() {
+        assertEquals(painSalade, new Plat("PainSalade", new Pain(), new Salade()));
+    }
+
+    @Test
+    public void testRecetteEquals2() {
+        Plat plat1 = new Plat("PainSalade", new Pain(), new Salade());
+        Plat plat2 = new Plat("PainSalade",  new Salade(), new Pain());
+        assertEquals(plat1, plat2);
+    }
 }
