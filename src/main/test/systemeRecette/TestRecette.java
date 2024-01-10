@@ -66,12 +66,12 @@ public class TestRecette {
         assertEquals(plat1, plat2);
     }
 
-    //@Test
-    //public void testRecetteEquals3() {
-    //    Plat plat1 = new Plat("PainSalade", new Pain(), new Salade());
-    //    Plat plat2 = new Plat("PainSalade",  new Salade(), new Pain());
-    //    assertTrue(plat1.equals(plat2));
-    //}
+    @Test
+    public void testRecetteEquals3() {
+        Plat plat1 = new Plat("PainSalade", new Pain(), new Salade());
+        Plat plat2 = new Plat("PainSalade",  new Salade(), new Pain());
+        assertTrue(plat1.equals(plat2));
+    }
 
     @Test
     public void testRecetteEquals4() {
@@ -93,10 +93,11 @@ public class TestRecette {
         assertThrows(IllegalArgumentException.class, () -> plat1.equals(null));
     }
 
-    //@Test
-    //public void testRecetteDeepEquals() {
-    //    Plat plat1 = new Plat("PainSalade", new Cuisson(new Coupe(new Pain())));
-    //    Plat plat2 = new Plat("PainSalade",  new Coupe(new Cuisson(new Pain())));
-    //    assertTrue(plat1.equals(plat2));
-    //}
+    @Test
+    public void testRecetteDoublonNotEquals(){
+        Plat plat1 = new Plat("PainSalade", new Pain(), new Salade());
+        Plat plat2 = new Plat("PainSalade", new Pain(), new Salade());
+        plat2.ajouterAliment(new Pain());
+        assertFalse(plat1.equals(plat2));
+    }
 }
