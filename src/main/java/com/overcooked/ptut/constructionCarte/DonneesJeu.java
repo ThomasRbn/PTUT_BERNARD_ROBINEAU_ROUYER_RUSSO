@@ -30,6 +30,7 @@ import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
 
 public class DonneesJeu {
 
+    // Ensemble des caractères utilisés dans le fichier texte
     public static final char PLAN_DE_TRAVAIL = 'X';
     public static final char JOUEUR = 'J';
     public static final char SOL = '.';
@@ -41,12 +42,18 @@ public class DonneesJeu {
     public static final char GENERATEURSALADE = 'S';
     public static final char GENERATEURVIANDE = 'V';
 
+    //Initialisation des attributs
     private Bloc[][] objetsFixes;
     private int longueur, hauteur;
     private List<Joueur> joueurs;
     private Plat[][] objetsDeplacables;
     private List<Plat> platsBut;
 
+    /**
+     * Constructeur de DonneesJeu
+     *
+     * @param chemin chemin du fichier texte
+     */
     public DonneesJeu(String chemin, boolean... test) {
         platsBut = new ArrayList<>();
         Plat saladePain = new Plat("Tomate", new Tomate());
@@ -86,6 +93,7 @@ public class DonneesJeu {
                                 joueurs.add(new JoueurHumain(indexLigne, indexColonne));
                                 break;
                             }
+                            // Demande le type de joueur
                             Scanner sc = new Scanner(System.in);
                             System.out.println("Entrez le type de joueur (HUMAIN, IA)");
                             String choix = "";
@@ -98,6 +106,7 @@ public class DonneesJeu {
                                     System.out.println("Entrée invalide : " + choix + " (HUMAIN, IA)");
                                 }
                             }
+                            // Création du joueur
                             if (choix.equals("HUMAIN")) {
                                 joueurs.add(new JoueurHumain(indexLigne, indexColonne));
                             } else {
@@ -105,6 +114,8 @@ public class DonneesJeu {
                             }
                             objetsFixes[indexLigne][indexColonne] = null;
                             break;
+
+                            //Création des objets fixes
                         case GENERATEURSALADE:
                             objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("Salade", new Salade()));
                             break;
@@ -120,6 +131,7 @@ public class DonneesJeu {
                         case POELE:
                             objetsFixes[indexLigne][indexColonne] = new Poele(indexLigne, indexColonne);
                             break;
+                            // Exception si le caractère lu est inconnu
                         default:
                             throw new IllegalArgumentException("DonneesJeu.constructeur, caractère inconnu : " + c);
                     }
@@ -139,11 +151,18 @@ public class DonneesJeu {
     }
 
 
+    /**
+     * Constructeur par copie de DonneesJeu
+     *
+     * @param donneesJeu DonneesJeu à copier
+     */
     public DonneesJeu(DonneesJeu donneesJeu) {
         platsBut = new ArrayList<>();
+        // Copie des plats but
         for (Plat plat : donneesJeu.platsBut) {
             platsBut.add(new Plat(plat));
         }
+        // Copie des objets fixes
         this.longueur = donneesJeu.longueur;
         this.hauteur = donneesJeu.hauteur;
         this.objetsFixes = new Bloc[hauteur][longueur];
@@ -160,6 +179,8 @@ public class DonneesJeu {
                 }
             }
         }
+
+        // Copie des objets déplacables
         this.objetsDeplacables = new Plat[hauteur][longueur];
         for (int i = 0; i < donneesJeu.objetsDeplacables.length; i++) {
             for (int j = 0; j < donneesJeu.objetsDeplacables[i].length; j++) {
@@ -169,8 +190,8 @@ public class DonneesJeu {
             }
         }
 
+        // Copie des joueurs
         this.joueurs = new ArrayList<>();
-
         for (Joueur joueur : donneesJeu.joueurs) {
             if (joueur instanceof JoueurIA) {
                 if (joueur.getInventaire() != null) {
@@ -188,23 +209,31 @@ public class DonneesJeu {
         }
     }
 
+    /**
+     * Methode permettant de faire une action
+     * @param a
+     * @param numJoueur
+     */
     public void faireAction(Action a, int numJoueur) {
         Joueur joueur = joueurs.get(numJoueur);
         joueur.changeDirection(a);
         int[] positionJoueurCible = joueur.getPositionCible();
         switch (a) {
+            //Deplacement du joueur si possible
             case DROITE, GAUCHE, HAUT, BAS -> {
                 if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] == null) {
                     joueur.deplacer(a);
                 }
             }
+            //Prendre un objet
             case PRENDRE -> {
                 // Premier cas avec la position du joueur (sous le joueur, car il est possible de chevaucher un objet)
                 prendre(joueur);
             }
+            //Poser un objet (dans la case devant le joueur)
             case POSER -> {
-                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Depot){
-                    if (joueur.getInventaire() instanceof Plat){
+                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Depot) {
+                    if (joueur.getInventaire() != null) {
                         Depot depot = (Depot) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
                         depot.deposerPlat((Plat) joueur.poser());
                         return;
@@ -212,10 +241,15 @@ public class DonneesJeu {
                 }
                 objetsDeplacables[joueur.getPosition()[0]][joueur.getPosition()[1]] = (Plat) joueur.poser();
             }
+            //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.faireAction, action invalide" + a);
         }
     }
 
+    /**
+     * Methode permettant de prendre un objet
+     * @param joueur
+     */
     private void prendre(Joueur joueur) {
         // Position cible du joueur en fonction de sa direction
         int[] positionJoueurCible = joueur.getPositionCible();
@@ -226,11 +260,14 @@ public class DonneesJeu {
             objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]] = null;
             return;
         }
+
         // Position du joueur (blocs mouvables)
         Bloc objetsFix = objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
         if (objetsFix instanceof Generateur) {
             joueur.prendre(((Generateur) objetsFix).getAliment());
         }
+
+        //Prendre un objet déjà présent sur la carte
         int[] positionJoueur = joueur.getPosition();
         Plat objetsDeplacable = objetsDeplacables[positionJoueur[0]][positionJoueur[1]];
         if (objetsDeplacable != null) {
@@ -275,6 +312,7 @@ public class DonneesJeu {
                         || objetsDeplacables[positionJoueur[0]][positionJoueur[1]] != null
                         || objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur;
             }
+
             case POSER -> {
                 // On vérifie si le joueur à quelque chose dans les mains
                 if (joueur.getInventaire() == null) {
@@ -287,16 +325,29 @@ public class DonneesJeu {
                 return objetsDeplacables[caseDevant[0]][caseDevant[1]] == null;
                 //TODO: Vérifier que la case devant soit compatible avec l'objet à déplacer (ex: pas d'aliment sur le feu sans poele)
             }
+            //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.isLegal, action invalide" + a);
         }
     }
 
 
+    /**
+     * Retourne la longueur du fichier (taille des lignes)
+     * @param f
+     * @return
+     * @throws IOException
+     */
     public int getLongueur(File f) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(f));
         return br.readLine().length();
     }
 
+    /**
+     * Retourne la hauteur du fichier (nombre de lignes)
+     * @param f
+     * @return
+     * @throws IOException
+     */
     public int getHauteur(File f) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(f));
         int hauteur = 0;
@@ -306,6 +357,10 @@ public class DonneesJeu {
         return hauteur;
     }
 
+    /**
+     * Retourne la liste des joueurs
+     * @return
+     */
     public List<Joueur> getJoueurs() {
         return joueurs;
     }
@@ -314,45 +369,80 @@ public class DonneesJeu {
         return joueurs.get(numJoueur);
     }
 
+    /**
+     * Retourne la longueur de la carte
+     * @return
+     */
     public int getLongueur() {
         return longueur;
     }
 
+    /**
+     * Retourne la hauteur de la carte
+     * @return
+     */
     public int getHauteur() {
         return hauteur;
     }
 
+    /**
+     * Retourne la liste des blocs
+     * @return
+     */
     public Bloc[][] getObjetsFixes() {
         return objetsFixes;
     }
 
+    /**
+     * Retourne les plats but
+     * @return
+     */
     public List<Plat> getPlatsBut() {
         return platsBut;
     }
 
+    /**
+     * Retourne vrai si deux jeux de données sont strictement identiques
+     * @param donneesJeu
+     * @return
+     */
     public boolean equals(DonneesJeu donneesJeu) {
+        //Lève une exception si le jeu de données est null
         if (donneesJeu == null) {
             throw new IllegalArgumentException("DonneesJeu.equals, donneesJeu est null");
         }
+
+        //Retourne vrai si les deux jeux de données sont la même instance
         if (donneesJeu == this) {
             return true;
         }
+
+        // Lève une exception si les deux jeux de données n'ont pas la même classe
         if (donneesJeu.getClass() != getClass()) {
             throw new IllegalArgumentException("DonneesJeu.equals, donneesJeu n'est pas de la même classe");
         }
+
+        //On parcours l'ensemble des objets deplacables
         for (int i = 0; i < objetsDeplacables.length; i++) {
             for (int j = 0; j < objetsDeplacables[i].length; j++) {
                 if (objetsDeplacables[i][j] == null) {
+                    //Si l'objet est null, on vérifie que l'objet deplacable de l'autre jeu de données est null
+                    //Si ce n'est pas le cas, on retourne faux
                     if (donneesJeu.objetsDeplacables[i][j] != null) {
                         return false;
                     }
+
+                    //On verifie que les deux objets deplacables sont identiques
                 } else if (!objetsDeplacables[i][j].equals(donneesJeu.objetsDeplacables[i][j])) {
                     return false;
                 }
             }
         }
+
+        //On parcours l'ensemble des joueurs
         for (Joueur joueur : joueurs) {
             int numJoueur = joueur.getNumJoueur();
+            //Si joueur différent, on retourne faux
             if (!joueur.equals(donneesJeu.joueurs.get(numJoueur))) {
                 return false;
             }
@@ -414,12 +504,14 @@ public class DonneesJeu {
             Arrays.fill(res[i], '.');
         }
 
+        //On récupère l'ensemble des objets fixes
         for (int i = 0; i < objetsFixes.length; i++) {
             Bloc[] bloc = objetsFixes[i];
             for (int j = 0; j < bloc.length; j++) {
                 switch (bloc[j]) {
                     case null -> res[i][j] = SOL;
                     case Depot ignored -> res[bloc[j].getX()][bloc[j].getY()] = DEPOT;
+                    //On regarde le type de générateur pour l'afficher
                     case Generateur generateur -> {
                         if (generateur.getAliment().getNom().equals("salade")) {
                             res[bloc[j].getX()][bloc[j].getY()] = GENERATEURSALADE;
@@ -438,6 +530,7 @@ public class DonneesJeu {
             }
         }
 
+        //On récupère l'ensemble des joueurs
         for (Joueur joueur : joueurs) {
             res[joueur.getPosition()[0]][joueur.getPosition()[1]] = JOUEUR;
         }
@@ -446,9 +539,10 @@ public class DonneesJeu {
             s.append(Arrays.toString(re)).append("\n");
         }
 
-//        for (Joueur joueur : joueurs) {
-//            s.append("Le joueur ").append(joueur.getNumJoueur()).append(" est orienté vers : ").append(joueur.getDirection().getName()).append("\n");
-//        }
+        //On affiche la direction de chaque joueur
+        for (Joueur joueur : joueurs) {
+            s.append("Le joueur ").append(joueur.getNumJoueur()).append(" est orienté vers : ").append(joueur.getDirection().getName()).append("\n");
+        }
         return s.toString();
     }
 
