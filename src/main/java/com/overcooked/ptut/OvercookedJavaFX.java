@@ -134,10 +134,7 @@ public class OvercookedJavaFX extends Application {
 
             Polygon arrow = new Polygon();
             arrow.setFill(Color.WHITE);
-            arrow.getPoints().addAll(new Double[]{
-                    0.0, 0.0,
-                    10.0, 5.0,
-                    0.0, 10.0});
+            arrow.getPoints().addAll(0.0, 0.0, 10.0, 5.0, 0.0, 10.0);
 
             switch (joueur.getDirection()) {
                 case HAUT:
