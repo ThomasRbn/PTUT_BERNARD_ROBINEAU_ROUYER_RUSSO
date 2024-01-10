@@ -1,7 +1,6 @@
 package com.overcooked.ptut.entites;
 
 import com.overcooked.ptut.objet.Bloc;
-import com.overcooked.ptut.objet.Mouvable;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
 public class PlanDeTravail extends Bloc {
