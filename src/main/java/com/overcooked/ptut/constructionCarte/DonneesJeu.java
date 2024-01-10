@@ -39,7 +39,7 @@ public class DonneesJeu {
     private Bloc[][] objetsFixes;
     private int longueur, hauteur;
     private List<Joueur> joueurs;
-    private Mouvable[][] objetsDeplacables;
+    private Plat[][] objetsDeplacables;
     private List<Plat> platsBut;
 
     public DonneesJeu(String chemin, boolean... test) {
@@ -124,7 +124,7 @@ public class DonneesJeu {
             }
             hauteur = indexLigne;
 
-            objetsDeplacables = new Mouvable[getHauteur()][getLongueur()];
+            objetsDeplacables = new Plat[getHauteur()][getLongueur()];
             for (int i = 0; i < joueurs.size(); i++) {
                 joueurs.get(i).setNumJoueur(i);
             }
@@ -155,12 +155,12 @@ public class DonneesJeu {
                 }
             }
         }
-        this.objetsDeplacables = new Mouvable[hauteur][longueur];
+        this.objetsDeplacables = new Plat[hauteur][longueur];
         for (int i = 0; i < donneesJeu.objetsDeplacables.length; i++) {
             for (int j = 0; j < donneesJeu.objetsDeplacables[i].length; j++) {
                 if (donneesJeu.objetsDeplacables[i][j] != null
                         && donneesJeu.objetsDeplacables[i][j] instanceof Aliment) {
-                    objetsDeplacables[i][j] = new Aliment((Aliment) donneesJeu.objetsDeplacables[i][j]);
+                    objetsDeplacables[i][j] = (Plat) new Aliment( donneesJeu.objetsDeplacables[i][j]);
                 }
             }
         }
@@ -207,7 +207,7 @@ public class DonneesJeu {
                         return;
                     }
                 }
-                objetsDeplacables[joueur.getPosition()[0]][joueur.getPosition()[1]] = joueur.poser();
+                objetsDeplacables[joueur.getPosition()[0]][joueur.getPosition()[1]] = (Plat) joueur.poser();
             }
             default -> throw new IllegalArgumentException("DonneesJeu.faireAction, action invalide" + a);
         }
