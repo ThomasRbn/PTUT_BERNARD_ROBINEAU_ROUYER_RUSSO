@@ -217,7 +217,7 @@ public class DonneesJeu {
         // Position cible du joueur en fonction de sa direction
         int[] positionJoueurCible = joueur.retournePositionCible();
         System.out.println(Arrays.toString(joueur.getPosition()));
-        Mouvable objetsDeplacableCible = objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]];
+        Plat objetsDeplacableCible = objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]];
         if (objetsDeplacableCible != null) {
             joueur.prendre(objetsDeplacableCible);
             objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]] = null;
@@ -230,7 +230,7 @@ public class DonneesJeu {
             joueur.prendre(((Generateur) objetsFix).getAliment());
         }
         int[] positionJoueur = joueur.getPosition();
-        Mouvable objetsDeplacable = objetsDeplacables[positionJoueur[0]][positionJoueur[1]];
+        Plat objetsDeplacable = objetsDeplacables[positionJoueur[0]][positionJoueur[1]];
         if (objetsDeplacable != null) {
             joueur.prendre(objetsDeplacable);
             objetsDeplacables[positionJoueur[0]][positionJoueur[1]] = null;
