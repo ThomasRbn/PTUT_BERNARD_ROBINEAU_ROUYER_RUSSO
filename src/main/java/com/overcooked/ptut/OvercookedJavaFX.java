@@ -11,7 +11,10 @@ import com.overcooked.ptut.recettes.aliment.Tomate;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -65,15 +68,7 @@ public class OvercookedJavaFX extends Application {
                 case D:
                     jeu.faireAction(Action.DROITE, 0);
                     break;
-                case SPACE:
-                    jeu.faireAction(Action.PRENDRE, 0);
-                    break;
-                case ENTER:
-                    jeu.faireAction(Action.POSER, 0);
-                    break;
-                case SHIFT:
-                    jeu.faireAction(Action.COUPER, 0);
-                    break;
+
             }
 
             // Mise à jour de l'affichage après chaque action
@@ -117,27 +112,13 @@ public class OvercookedJavaFX extends Application {
                             default:
                                 throw new IllegalStateException("Unexpected value: " + generateur.getAliment());
                         }
+
                         caseBloc.getChildren().addAll(rectangle, text);
                         break;
                     default:
                         caseBloc.setStyle("-fx-background-color: #a66b3b;");
                         break;
                 }
-
-//                if (jeu.getObjetsFixes()[i][j] != null) {
-//
-//                    if (jeu.getObjetsFixes()[i][j] instanceof Depot) { // Si c'est dépot
-//                        caseBloc.setStyle("-fx-background-color: #969696;");
-//                    } else if (jeu.getObjetsFixes()[i][j] instanceof Generateur) {
-//                        Aliment typeGenerateur = ((Generateur) jeu.getObjetsFixes()[i][j]).getAliment();
-//
-//                    } else {
-//                        caseBloc.setStyle("-fx-background-color: #a66b3b;"); // Sinon c'est un plan de travail
-//                    }
-//
-//                } else { // Si c'est un sol
-//                    caseBloc.setStyle("-fx-background-color: #e39457;");
-//                }
                 grille.add(caseBloc, j, i);
             }
         }
@@ -148,9 +129,32 @@ public class OvercookedJavaFX extends Application {
             StackPane caseJoueur = new StackPane();
             caseJoueur.setStyle("-fx-background-color: #e39457;");
 
-            Circle cercle = new Circle(20);
+            Circle cercle = new Circle(50, 50, 20);
             cercle.setFill(Color.PURPLE);
-            caseJoueur.getChildren().add(cercle);
+
+            Polygon arrow = new Polygon();
+            arrow.setFill(Color.WHITE);
+            arrow.getPoints().addAll(new Double[]{
+                    0.0, 0.0,
+                    10.0, 5.0,
+                    0.0, 10.0});
+
+            switch (joueur.getDirection()) {
+                case HAUT:
+                    arrow.setRotate(270);
+                    break;
+                case BAS:
+                    arrow.setRotate(90);
+                    break;
+                case GAUCHE:
+                    arrow.setRotate(180);
+                    break;
+                case DROITE:
+                    break;
+            }
+
+            caseJoueur.getChildren().addAll(cercle, arrow);
+
 
             grille.add(caseJoueur, joueur.getPosition()[1], joueur.getPosition()[0]);
         }
