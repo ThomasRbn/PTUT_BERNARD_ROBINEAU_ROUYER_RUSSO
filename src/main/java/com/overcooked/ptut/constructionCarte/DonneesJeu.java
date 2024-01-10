@@ -8,11 +8,6 @@ import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
-import com.overcooked.ptut.objet.Mouvable;
-import com.overcooked.ptut.recettes.aliment.Pain;
-import com.overcooked.ptut.recettes.aliment.Plat;
-import com.overcooked.ptut.recettes.aliment.Salade;
-import com.overcooked.ptut.recettes.aliment.Tomate;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.recettes.aliment.*;
@@ -47,7 +42,7 @@ public class DonneesJeu {
     private int longueur, hauteur;
     private List<Joueur> joueurs;
     private Plat[][] objetsDeplacables;
-    private List<Plat> platsBut;
+    private final List<Plat> platsBut;
 
     /**
      * Constructeur de DonneesJeu
@@ -116,7 +111,7 @@ public class DonneesJeu {
                             objetsFixes[indexLigne][indexColonne] = null;
                             break;
 
-                            //Création des objets fixes
+                        //Création des objets fixes
                         case GENERATEURSALADE:
                             objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("Salade", new Salade()));
                             break;
@@ -132,7 +127,7 @@ public class DonneesJeu {
                         case POELE:
                             objetsFixes[indexLigne][indexColonne] = new Poele(indexLigne, indexColonne);
                             break;
-                            // Exception si le caractère lu est inconnu
+                        // Exception si le caractère lu est inconnu
                         default:
                             throw new IllegalArgumentException("DonneesJeu.constructeur, caractère inconnu : " + c);
                     }
@@ -186,7 +181,7 @@ public class DonneesJeu {
         for (int i = 0; i < donneesJeu.objetsDeplacables.length; i++) {
             for (int j = 0; j < donneesJeu.objetsDeplacables[i].length; j++) {
                 if (donneesJeu.objetsDeplacables[i][j] != null) {
-                    objetsDeplacables[i][j] =  donneesJeu.objetsDeplacables[i][j];
+                    objetsDeplacables[i][j] = donneesJeu.objetsDeplacables[i][j];
                 }
             }
         }
@@ -212,6 +207,7 @@ public class DonneesJeu {
 
     /**
      * Methode permettant de faire une action
+     *
      * @param a
      * @param numJoueur
      */
@@ -236,11 +232,11 @@ public class DonneesJeu {
                 if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Depot) {
                     if (joueur.getInventaire() != null) {
                         Depot depot = (Depot) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
-                        depot.deposerPlat((Plat) joueur.poser());
+                        depot.deposerPlat(joueur.poser());
                         return;
                     }
                 }
-                objetsDeplacables[joueur.getPosition()[0]][joueur.getPosition()[1]] = (Plat) joueur.poser();
+                objetsDeplacables[joueur.getPosition()[0]][joueur.getPosition()[1]] = joueur.poser();
             }
             //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.faireAction, action invalide" + a);
@@ -249,6 +245,7 @@ public class DonneesJeu {
 
     /**
      * Methode permettant de prendre un objet
+     *
      * @param joueur
      */
     private void prendre(Joueur joueur) {
@@ -334,6 +331,7 @@ public class DonneesJeu {
 
     /**
      * Retourne la longueur du fichier (taille des lignes)
+     *
      * @param f
      * @return
      * @throws IOException
@@ -345,6 +343,7 @@ public class DonneesJeu {
 
     /**
      * Retourne la hauteur du fichier (nombre de lignes)
+     *
      * @param f
      * @return
      * @throws IOException
@@ -360,6 +359,7 @@ public class DonneesJeu {
 
     /**
      * Retourne la liste des joueurs
+     *
      * @return
      */
     public List<Joueur> getJoueurs() {
@@ -372,6 +372,7 @@ public class DonneesJeu {
 
     /**
      * Retourne la longueur de la carte
+     *
      * @return
      */
     public int getLongueur() {
@@ -380,6 +381,7 @@ public class DonneesJeu {
 
     /**
      * Retourne la hauteur de la carte
+     *
      * @return
      */
     public int getHauteur() {
@@ -388,6 +390,7 @@ public class DonneesJeu {
 
     /**
      * Retourne la liste des blocs
+     *
      * @return
      */
     public Bloc[][] getObjetsFixes() {
@@ -396,6 +399,7 @@ public class DonneesJeu {
 
     /**
      * Retourne les plats but
+     *
      * @return
      */
     public List<Plat> getPlatsBut() {
@@ -404,6 +408,7 @@ public class DonneesJeu {
 
     /**
      * Retourne vrai si deux jeux de données sont strictement identiques
+     *
      * @param donneesJeu
      * @return
      */
@@ -448,15 +453,13 @@ public class DonneesJeu {
                 return false;
             }
         }
-        if(this.getPlatDepose().size() != donneesJeu.getPlatDepose().size()){
-            return false;
-        }
-        return true;
+        return this.getPlatDepose().size() == donneesJeu.getPlatDepose().size();
     }
 
 
     /**
      * Méthode permettant de récupérer les coordonnées des tomates et des générateur de tomates
+     *
      * @return liste de coordonnees des tomates et des générateur de tomates
      */
     public List<int[]> getCoordonneesTomates() {
@@ -471,11 +474,29 @@ public class DonneesJeu {
         return coordonneesTomates;
     }
 
+    public List<int[]> getCoordonneesAliment(Aliment aliment){
+        switch (aliment.getNom()){
+            case "Tomate":
+                List<int[]> coordonneesTomates = new ArrayList<>();
+                for (int i = 0; i < hauteur; i++) {
+                    for (int j = 0; j < longueur; j++) {
+                        if (objetsFixes[i][j] instanceof Generateur && ((Generateur) objetsFixes[i][j]).getAliment().getRecettesComposees().get(0) instanceof Tomate) {
+                            coordonneesTomates.add(new int[]{i, j});
+                        }
+                    }
+                }
+                return coordonneesTomates;
+            default:
+                throw new IllegalArgumentException("DonneesJeu.getCoordonneesAliment, Aliment pas encore implémenté");
+        }
+    }
+
     /**
      * Méthode permettant de récupérer les coordonnées du dépot
+     *
      * @return oordonnees du dépot
      */
-    public int[] getCoordonneesDepot(){
+    public int[] getCoordonneesDepot() {
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < longueur; j++) {
                 if (objetsFixes[i][j] instanceof Depot) {
@@ -486,7 +507,7 @@ public class DonneesJeu {
         return null;
     }
 
-    public List<Plat> getPlatDepose(){
+    public List<Plat> getPlatDepose() {
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < longueur; j++) {
                 if (objetsFixes[i][j] instanceof Depot) {

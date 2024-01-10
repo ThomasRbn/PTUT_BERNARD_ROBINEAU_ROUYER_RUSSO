@@ -6,6 +6,8 @@ import com.overcooked.ptut.entites.Generateur;
 import com.overcooked.ptut.entites.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
+import com.overcooked.ptut.objet.transformateur.Planche;
+import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.recettes.aliment.Plat;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -22,7 +24,7 @@ import javafx.stage.Stage;
 
 public class OvercookedJavaFX extends Application {
 
-    public String chemin = "niveaux/niveau1.txt";
+    public String chemin = "niveaux/niveau2.txt";
     public double tailleCellule = 100;
 
     public static void main(String[] args) {
@@ -150,6 +152,14 @@ public class OvercookedJavaFX extends Application {
                         }
 
                         caseBloc.getChildren().addAll(rectangle, text);
+                        break;
+                    case Planche ignored:
+                        caseBloc.setStyle("-fx-background-color: #ffffff;");
+                        caseBloc.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+                        break;
+                    case Poele ignored:
+                        caseBloc.setStyle("-fx-background-color: #ffe728;");
+                        caseBloc.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
                         break;
                     default:
                         caseBloc.setStyle("-fx-background-color: #a66b3b;");
