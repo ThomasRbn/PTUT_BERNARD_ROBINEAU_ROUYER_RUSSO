@@ -149,16 +149,12 @@ public class DonneesJeu {
         for (int i = 0; i < donneesJeu.objetsFixes.length; i++) {
             for (int j = 0; j < donneesJeu.objetsFixes[i].length; j++) {
                 if (donneesJeu.objetsFixes[i][j] != null) {
-                    if (donneesJeu.objetsFixes[i][j] instanceof Depot) {
-                        this.objetsFixes[i][j] = new Depot((Depot) donneesJeu.objetsFixes[i][j]);
-                    } else if (donneesJeu.objetsFixes[i][j] instanceof Generateur) {
-                        this.objetsFixes[i][j] = new Generateur((Generateur) donneesJeu.objetsFixes[i][j]);
-                    } else if (donneesJeu.objetsFixes[i][j] instanceof Planche) {
-                        this.objetsFixes[i][j] = new Planche((Planche) donneesJeu.objetsFixes[i][j]);
-                    } else if (donneesJeu.objetsFixes[i][j] instanceof Poele) {
-                        this.objetsFixes[i][j] = new Poele((Poele) donneesJeu.objetsFixes[i][j]);
-                    } else {
-                        this.objetsFixes[i][j] = new Bloc(donneesJeu.objetsFixes[i][j]);
+                    switch (donneesJeu.objetsFixes[i][j]) {
+                        case Depot depot -> this.objetsFixes[i][j] = new Depot(depot);
+                        case Generateur generateur -> this.objetsFixes[i][j] = new Generateur(generateur);
+                        case Planche planche -> this.objetsFixes[i][j] = new Planche(planche);
+                        case Poele poele -> this.objetsFixes[i][j] = new Poele(poele);
+                        case null, default -> this.objetsFixes[i][j] = new Bloc(donneesJeu.objetsFixes[i][j]);
                     }
                 }
             }
@@ -166,10 +162,9 @@ public class DonneesJeu {
         this.objetsDeplacables = new Mouvable[hauteur][longueur];
         for (int i = 0; i < donneesJeu.objetsDeplacables.length; i++) {
             for (int j = 0; j < donneesJeu.objetsDeplacables[i].length; j++) {
-                if (donneesJeu.objetsDeplacables[i][j] != null) {
-                    if (donneesJeu.objetsDeplacables[i][j] instanceof Aliment) {
-                        objetsDeplacables[i][j] = new Aliment((Aliment) donneesJeu.objetsDeplacables[i][j]);
-                    }
+                if (donneesJeu.objetsDeplacables[i][j] != null
+                        && donneesJeu.objetsDeplacables[i][j] instanceof Aliment) {
+                    objetsDeplacables[i][j] = new Aliment((Aliment) donneesJeu.objetsDeplacables[i][j]);
                 }
             }
         }
