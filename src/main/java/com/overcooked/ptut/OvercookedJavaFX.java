@@ -82,7 +82,7 @@ public class OvercookedJavaFX extends Application {
                     switch (jeu.getObjetsFixes()[positionFaceJoueur[0]][positionFaceJoueur[1]]) {
                         case Generateur generateur:
                             if (joueur.getInventaire() == null) {
-                                joueur.prendre(new Plat(generateur.getAliment().getNom(), generateur.getAliment()));
+                                joueur.prendre(new Plat(generateur.getType(), generateur.getAliment().getRecettesComposees().getFirst()));
                             }
                             break;
                         case Depot ignored:
