@@ -6,6 +6,7 @@ import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Tomate;
 import com.overcooked.ptut.recettes.etat.Coupe;
+import com.overcooked.ptut.recettes.etat.Cuisson;
 import org.junit.jupiter.api.Test;
 
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
@@ -33,7 +34,23 @@ public class TestTransformateur {
         clone5.faireAction(POSER, 0);
         Transformateur t = (Transformateur) clone5.getObjetsFixes()[0][3];
         t.ajouterElem(clone4.getJoueurs().get(0).getInventaire());
-        System.out.println(t.transform().getRecettesComposees());
         assertTrue(t.transform().equals(new Plat(new Coupe(new Tomate()))));
+    }
+
+    @Test
+    public void testCuirePlat(){
+        donneesJeu = new DonneesJeu("niveaux/niveauTest.txt", true);
+        Joueur joueur = donneesJeu.getJoueurs().get(0);
+        DonneesJeu clone = new DonneesJeu(donneesJeu);
+        clone.faireAction(PRENDRE, 0);
+        DonneesJeu clone2 = new DonneesJeu(clone);
+        clone2.faireAction(GAUCHE, 0);
+        DonneesJeu clone5 = new DonneesJeu(clone);
+        clone5.faireAction(POSER, 0);
+        Transformateur t = (Transformateur) clone5.getObjetsFixes()[1][0];
+        t.ajouterElem(clone.getJoueurs().get(0).getInventaire());
+        Plat plat = t.transform();
+        System.out.println(plat.getRecettesComposees());
+        assertTrue(plat.equals(new Plat(new Cuisson(new Tomate()))));
     }
 }
