@@ -1,34 +1,34 @@
 package com.overcooked.ptut.joueurs.ia.algo;
 
 
+
 import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.*;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
-import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNode;
-import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
-import com.overcooked.ptut.joueurs.ia.framework.recherche.TreeSearch;
-import com.overcooked.ptut.joueurs.utilitaire.Action;
+import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class AStar extends TreeSearch {
+public class BFS extends TreeSearchAC {
+
     /**
      * Crée un algorithme de recherche
      *
      * @param p Le problème à résoudre
      * @param s L'état initial
      */
-    public AStar(SearchProblem p, State s) {
+    public BFS(SearchProblemAC p, State s) {
         super(p, s);
-        // Initialisation de la frontière avec une PriorityQueue basée sur le coût et l'heuristique
+        // Initialisation de la frontière avec une PriorityQueue basée sur le cout
         frontier = new PriorityQueue<>(new SearchNodeComparator());
     }
 
 //    @Override
-    public ArrayList<Action> solve() {
-//        int explore = 0;
-        SearchNode node = SearchNode.makeRootSearchNode(intial_state);
+    public double solve() {
+//        System.out.println("Algo choisi: BFS");
+        SearchNodeAC node = SearchNodeAC.makeRootSearchNode(intial_state);
         State state = node.getState();
 
         // On commence à l'état initial
@@ -41,33 +41,28 @@ public class AStar extends TreeSearch {
             System.out.print("[" + state);
 
         while (!frontier.isEmpty()){
-            // Stratégie: Astar
+            // Stratégie: BFS
             node = frontier.poll();
-//            System.out.println(node.getState());
 
             // Si le nœud contient un état but
             if (problem.isGoalState(node.getState())) {
                 // On enregistre le nœud final
                 end_node = node;
                 // On retourne vrai
-//                System.out.println("Noeuds explorés: "+explore);
-                return end_node.getPathFromRoot();
+//                System.out.println("Cout: "+end_node.getCost());
+                return end_node.getCost();
             } else {
                 // On ajoute l'état du nœud dans l'ensemble des nœuds explorés
                 explored.add(node.getState());
-//                System.out.println(node.getState());
 
                 // Les actions possibles depuis cet état
-                ArrayList<Action> actions = problem.getActions(node.getState());
-//                System.out.println(actions);
+                ArrayList<AlimentCoordonnees> alimentCoordonnees = problem.getAlimentCoordonnees(node.getState());
+
                 // Pour chaque nœud enfant
-                for (Action a : actions) {
-//                    explore++;
-//                    System.out.println(a);
+                for (AlimentCoordonnees a : alimentCoordonnees) {
                     // Nœud enfant
-                    SearchNode child = SearchNode.makeChildSearchNode(problem, node, a);
-//                    System.out.println(child.getHeuristic());
-//                    System.out.println(child.getState());
+                    SearchNodeAC child = SearchNodeAC.makeChildSearchNode(problem, node, a);
+
                     // S'il n'est pas dans la frontière et si son état n'a pas été visité
                     if (!frontier.contains(child) && !explored.contains(child.getState())) {
                         // L'insérer dans la frontière avec la priorité du coût
@@ -75,9 +70,9 @@ public class AStar extends TreeSearch {
                     }else if(frontier.contains(child)){
                         // Si le nœud est déjà dans la frontière
                         // On récupère le nœud de la frontière
-                        SearchNode frontier_node = frontier.stream().filter(n -> n.equals(child)).findFirst().get();
-                        // Si la somme heuristique + cout du nœud enfant est inférieur à celle du nœud de la frontière
-                        if((child.getHeuristic() + child.getCost()) < (frontier_node.getHeuristic() + frontier_node.getCost())){
+                        SearchNodeAC frontier_node = frontier.stream().filter(n -> n.equals(child)).findFirst().get();
+                        // Si le cout du nœud enfant est inférieur au cout du nœud de la frontière
+                        if(child.getCost() < frontier_node.getCost()){
                             // On le remplace
                             frontier.remove(frontier_node);
                             frontier.add(child);
@@ -86,16 +81,18 @@ public class AStar extends TreeSearch {
                 }
             }
         }
-        System.out.println("Pas de solution trouvée.");
+
         // Pas de solutions trouvées
-        return null;
+        throw new IllegalArgumentException("Pas de solution trouvée BFS.solve");
+
+
     }
 
-    // Comparator par heuristique + cout
-    private static class SearchNodeComparator implements Comparator<SearchNode> {
+    // Comparator par le cout
+    private static class SearchNodeComparator implements Comparator<SearchNodeAC> {
         @Override
-        public int compare(SearchNode node1, SearchNode node2) {
-            return Double.compare((node1.getHeuristic() + node1.getCost()), (node2.getHeuristic() + node2.getCost()));
+        public int compare(SearchNodeAC node1, SearchNodeAC node2) {
+            return Double.compare(node1.getCost(), node2.getCost());
         }
     }
 }

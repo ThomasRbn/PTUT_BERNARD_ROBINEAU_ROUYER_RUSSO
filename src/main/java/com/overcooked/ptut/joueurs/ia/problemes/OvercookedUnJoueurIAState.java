@@ -1,11 +1,11 @@
 package com.overcooked.ptut.joueurs.ia.problemes;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
+import com.overcooked.ptut.joueurs.ia.algo.BFS;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.HasHeuristic;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
-
-import java.util.List;
 
 public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
 
@@ -43,7 +43,6 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
      */
     @Override
     protected boolean equalsState(State o) {
-        // TODO: redéfinir methode equals dans donnees jeu
         return donnees.equals(((OvercookedUnJoueurIAState) o).getDonnees());
     }
 
@@ -52,62 +51,17 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
         return 0;
     }
 
-//    @Override
-//    public double getHeuristic() {
-//        Plat platBut = donnees.getPlatsBut().get(0);
-//        // On récupère les aliments nécessaires pour le plat
-//        List<Aliment> aliments = platBut.getRecettesComposees();
-//        int[] coordonneesDepot = donnees.getCoordonneesDepot();
-//        int[] coordonneesJoueur = donnees.getJoueur(numJoueur).getPosition();
-//        int heuristie = 0;
-//        int[] dernieresCoordonnees = coordonneesJoueur;
-//        //TODO: vérifier l'inventaire
-//        Plat inventaire = donnees.getJoueur(numJoueur).getInventaire();
-//
-//        for (Aliment aliment : aliments) {
-//            switch (aliment.getNom()) {
-//                case "Tomate":
-//                    if(inventaire == null || !(inventaire.getRecettesComposees().get(0) instanceof Tomate)) {
-//                        List<int[]> coordonneesTomates = donnees.getCoordonneesTomates();
-//                        int[] meilleursCo = dernieresCoordonnees;
-//                        int distanceMin = Integer.MAX_VALUE;
-//                        for (int[] coordonneesTomate : coordonneesTomates) {
-//                            int distance = Math.abs(coordonneesTomate[0] - dernieresCoordonnees[0]) + Math.abs(coordonneesTomate[1] - dernieresCoordonnees[1]);
-//                            if (distance < distanceMin) {
-//                                distanceMin = distance;
-//                                meilleursCo = coordonneesTomate;
-//                            }
-//                        }
-//                        dernieresCoordonnees = meilleursCo;
-//                        heuristie += distanceMin;
-//                    }
-//            }
-//        }
-//
-//        // Calcul de la distance entre les dernieres coordonnees du joueur et le depot
-//        System.out.println("Heuristie avant dernier calcul: "+heuristie);
-//        heuristie += Math.abs(dernieresCoordonnees[0] - coordonneesDepot[0]) + Math.abs(dernieresCoordonnees[1] - coordonneesDepot[1]);
-////        System.out.println(this.donnees);
-//        System.out.println("Heuristique : " + heuristie);
-//        return heuristie; // TODO: calcul de l'heuristie selon un objectif
-//    }
-
+    /**
+     * Retourne l'heuristique de l'état courant
+     */
     @Override
     public double getHeuristic() {
-        double distanceMin = Integer.MAX_VALUE;
-        int[] coordonneesDepot = donnees.getCoordonneesDepot();
-        int[] coordonneesJoueur = donnees.getJoueur(numJoueur).getPosition();
-        if (donnees.getJoueur(numJoueur).getInventaire() != null && donnees.getJoueur(numJoueur).getInventaire().getRecettesComposees().getFirst().getNom().equals(donnees.getPlatsBut().getFirst().getRecettesComposees().getFirst().getNom())) {
-            return Math.abs(coordonneesDepot[0] - coordonneesJoueur[0]) + Math.abs(coordonneesDepot[1] - coordonneesJoueur[1]);
-        }
-        List<int[]> coordonneesTomates = donnees.getCoordonneesAliment(donnees.getPlatsBut().getFirst().getRecettesComposees().getFirst());
-        for (int[] coordonneesTomate : coordonneesTomates) {
-            double distance = Math.abs(coordonneesTomate[0] - coordonneesJoueur[0]) + Math.abs(coordonneesTomate[1] - coordonneesJoueur[1]) + Math.abs(coordonneesDepot[0] - coordonneesJoueur[0]) + Math.abs(coordonneesDepot[1] - coordonneesJoueur[1]);
-            if (distance < distanceMin) {
-                distanceMin = distance;
-            }
-        }
-        return distanceMin;
+        SearchProblemAC p = new CalculHeuristiquePlat(donnees.getPlatsBut().get(0), donnees.getJoueur(numJoueur).getPosition(), donnees);
+        State s = new CalculHeuristiquePlatState(donnees);
+        BFS algo = new BFS(p,s);
+
+        // résoudre
+        return algo.solve();
     }
 
     public String toString() {

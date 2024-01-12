@@ -466,24 +466,6 @@ public class DonneesJeu {
         return this.getPlatDepose().size() == donneesJeu.getPlatDepose().size();
     }
 
-
-    /**
-     * Méthode permettant de récupérer les coordonnées des tomates et des générateur de tomates
-     *
-     * @return liste de coordonnees des tomates et des générateur de tomates
-     */
-    public List<int[]> getCoordonneesTomates() {
-        List<int[]> coordonneesTomates = new ArrayList<>();
-        for (int i = 0; i < hauteur; i++) {
-            for (int j = 0; j < longueur; j++) {
-                if (objetsFixes[i][j] instanceof Generateur && ((Generateur) objetsFixes[i][j]).getAliment().getRecettesComposees().get(0) instanceof Tomate) {
-                    coordonneesTomates.add(new int[]{i, j});
-                }
-            }
-        }
-        return coordonneesTomates;
-    }
-
     public List<int[]> getCoordonneesAliment(Aliment aliment){
         switch (aliment.getNom()){
             case "Tomate":
