@@ -5,6 +5,8 @@ import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.entites.Generateur;
 import com.overcooked.ptut.entites.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
+import com.overcooked.ptut.joueurs.JoueurHumain;
+import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
@@ -38,60 +40,63 @@ public class Plateau extends GridPane {
             this.getRowConstraints().add(new RowConstraints(tailleCellule));
         }
 
-
         afficherBlocs(jeu);
         afficherJoueurs(jeu);
     }
 
     public void initEventClavier(Scene scene, DonneesJeu jeu) {
-        //TODO faire le changement quand il y aura plusieurs joueurs (SOON)
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            switch (key.getCode()) {
-                case Z:
-                    jeu.faireAction(Action.HAUT, 0);
-                    break;
-                case S:
-                    jeu.faireAction(Action.BAS, 0);
-                    break;
-                case Q:
-                    jeu.faireAction(Action.GAUCHE, 0);
-                    break;
-                case D:
-                    jeu.faireAction(Action.DROITE, 0);
-                    break;
-                case SPACE:
-                    Joueur joueur = jeu.getJoueurs().getFirst();
-                    int[] positionFaceJoueur = joueur.getPositionCible();
+            for (Joueur joueur : jeu.getJoueurs()){
+                if (joueur instanceof JoueurHumain){
+                    switch (key.getCode()){
+                        case Z:
+                            jeu.faireAction(Action.HAUT, joueur.getNumJoueur());
+                            break;
+                        case S:
+                            jeu.faireAction(Action.BAS, joueur.getNumJoueur());
+                            break;
+                        case Q:
+                            jeu.faireAction(Action.GAUCHE, joueur.getNumJoueur());
+                            break;
+                        case D:
+                            jeu.faireAction(Action.DROITE, joueur.getNumJoueur());
+                            break;
+                        case SPACE:
+                            int[] positionFaceJoueur = joueur.getPositionCible();
 
-                    switch (jeu.getObjetsFixes()[positionFaceJoueur[0]][positionFaceJoueur[1]]) {
-                        case Generateur generateur:
-                            if (joueur.getInventaire() == null) {
-                                joueur.prendre(new Plat(generateur.getType(), generateur.getAliment().getRecettesComposees().getFirst()));
+                            switch (jeu.getObjetsFixes()[positionFaceJoueur[0]][positionFaceJoueur[1]]) {
+                                case Generateur generateur:
+                                    if (joueur.getInventaire() == null) {
+                                        joueur.prendre(new Plat(generateur.getType(), generateur.getAliment().getRecettesComposees().getFirst()));
+                                    }
+                                    break;
+                                case Depot ignored:
+                                    if (joueur.getInventaire() != null) {
+                                        joueur.poser();
+                                    }
+                                    break;
+                                case PlanDeTravail planDeTravail:
+                                    if (joueur.getInventaire() == null && planDeTravail.getInventaire() == null) return;
+                                    if (joueur.getInventaire() != null && planDeTravail.getInventaire() == null) {
+                                        planDeTravail.poserDessus(joueur.poser());
+                                    } else if (joueur.getInventaire() == null && planDeTravail.getInventaire() != null) {
+                                        joueur.prendre(planDeTravail.prendre());
+                                    }
+                                    break;
+                                case null:
+                                    break;
+                                default:
+                                    throw new IllegalStateException("Unexpected value: " + jeu.getObjetsFixes()[positionFaceJoueur[0]][positionFaceJoueur[1]]);
                             }
-                            break;
-                        case Depot ignored:
-                            if (joueur.getInventaire() != null) {
-                                joueur.poser();
-                            }
-                            break;
-                        case PlanDeTravail planDeTravail:
-                            if (joueur.getInventaire() == null && planDeTravail.getInventaire() == null) return;
-                            if (joueur.getInventaire() != null && planDeTravail.getInventaire() == null) {
-                                planDeTravail.poserDessus(joueur.poser());
-                            } else if (joueur.getInventaire() == null && planDeTravail.getInventaire() != null) {
-                                joueur.prendre(planDeTravail.prendre());
-                            }
-                            break;
-                        case null:
                             break;
                         default:
-                            throw new IllegalStateException("Unexpected value: " + jeu.getObjetsFixes()[positionFaceJoueur[0]][positionFaceJoueur[1]]);
+                            break;
                     }
-                    break;
-                case ENTER:
-                    Action action = jeu.getJoueurs().getFirst().demanderAction(jeu);
-                    jeu.faireAction(action, 0);
-                    break;
+                } else if (joueur instanceof JoueurIA){
+                    if (key.getCode() == javafx.scene.input.KeyCode.ENTER){
+                        jeu.faireAction(joueur.demanderAction(jeu), joueur.getNumJoueur());
+                    }
+                }
             }
 
             // Mise à jour de l'affichage après chaque action
