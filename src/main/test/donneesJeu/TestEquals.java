@@ -6,6 +6,7 @@ import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Tomate;
 import org.junit.jupiter.api.Test;
 
+import static com.overcooked.ptut.constructionCarte.ComparateurDonneesJeu.ComparerDonneesJeu;
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,14 +18,14 @@ public class TestEquals {
     public void testEqualsSansToucher() {
         donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
-        assertTrue(donneesJeu.equals(clone));
+        assertTrue(ComparerDonneesJeu(donneesJeu,clone));
     }
 
     @Test
     public void testCopieNiveau() {
         donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         DonneesJeu donneesJeu2 = new DonneesJeu("niveaux/niveau0.txt", true);
-        assertTrue(donneesJeu.equals(donneesJeu2));
+        assertTrue(ComparerDonneesJeu(donneesJeu,donneesJeu2));
     }
 
     @Test
@@ -32,7 +33,7 @@ public class TestEquals {
         donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         clone.faireAction(BAS, 0);
-        assertFalse(donneesJeu.equals(clone));
+        assertFalse(ComparerDonneesJeu(donneesJeu,clone));
     }
 
     @Test
@@ -41,7 +42,7 @@ public class TestEquals {
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         clone.faireAction(GAUCHE, 0);
         clone.faireAction(HAUT, 0);
-        assertTrue(donneesJeu.equals(clone));
+        assertTrue(ComparerDonneesJeu(donneesJeu,clone));
     }
 
     @Test
@@ -52,13 +53,13 @@ public class TestEquals {
         Tomate tomate = new Tomate();
         Plat tomatePlat = new Plat(tomate);
         joueurClone.prendre(tomatePlat);
-        assertFalse(donneesJeu.equals(clone));
+        assertFalse(ComparerDonneesJeu(donneesJeu,clone));
     }
 
     @Test
     public void testMemeObject() {
         donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
-        assertTrue(donneesJeu.equals(donneesJeu));
+        assertTrue(ComparerDonneesJeu(donneesJeu,donneesJeu));
     }
 
     @Test
@@ -66,13 +67,13 @@ public class TestEquals {
         donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         clone.faireAction(GAUCHE, 0);
-        assertFalse(donneesJeu.equals(clone));
+        assertFalse(ComparerDonneesJeu(donneesJeu,clone));
     }
 
     @Test
     public void testAvecNull() {
         donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
-        assertThrows(IllegalArgumentException.class, () -> donneesJeu.equals(null));
+        assertThrows(IllegalArgumentException.class, () -> ComparerDonneesJeu(donneesJeu,null));
     }
 
 }

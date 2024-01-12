@@ -7,6 +7,8 @@ import com.overcooked.ptut.joueurs.ia.framework.recherche.HasHeuristic;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 
+import static com.overcooked.ptut.constructionCarte.ComparateurDonneesJeu.ComparerDonneesJeu;
+
 public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
 
     //Données
@@ -43,7 +45,7 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
      */
     @Override
     protected boolean equalsState(State o) {
-        return donnees.equals(((OvercookedUnJoueurIAState) o).getDonnees());
+        return ComparerDonneesJeu(donnees, ((OvercookedUnJoueurIAState) o).getDonnees());
     }
 
     @Override
