@@ -39,8 +39,8 @@ public class Plateau extends GridPane {
         }
 
 
-        afficherBlocs(this, jeu);
-        afficherJoueurs(this, jeu);
+        afficherBlocs(jeu);
+        afficherJoueurs(jeu);
     }
 
     public void initEventClavier(Scene scene, DonneesJeu jeu) {
@@ -98,13 +98,13 @@ public class Plateau extends GridPane {
             //TODO Refactor affichage
             this.getChildren().clear();
             jeu.getDepot().viderDepot();
-            afficherBlocs(this, jeu);
-            afficherJoueurs(this, jeu);
-            afficherInventaireBloc(jeu, this);
+            afficherBlocs(jeu);
+            afficherJoueurs(jeu);
+            afficherInventaireBloc(jeu);
         });
     }
 
-    private void afficherBlocs(GridPane grille, DonneesJeu jeu) {
+    private void afficherBlocs(DonneesJeu jeu) {
         //TODO AFFICHAGE POELE / PLANCHE
         for (int i = 0; i < jeu.getHauteur(); i++) {
             for (int j = 0; j < jeu.getLongueur(); j++) {
@@ -150,12 +150,12 @@ public class Plateau extends GridPane {
                         caseBloc.setStyle("-fx-background-color: #a66b3b;");
                         break;
                 }
-                grille.add(caseBloc, j, i);
+                this.add(caseBloc, j, i);
             }
         }
     }
 
-    private void afficherJoueurs(GridPane grille, DonneesJeu jeu) {
+    private void afficherJoueurs(DonneesJeu jeu) {
         for (Joueur joueur : jeu.getJoueurs()) {
             Pane caseJoueur = new Pane();
             caseJoueur.setStyle("-fx-background-color: #e39457;");
@@ -175,7 +175,7 @@ public class Plateau extends GridPane {
             visuelJoueur.getChildren().addAll(cercle);
             caseJoueur.getChildren().addAll(arc, visuelJoueur);
             afficherInventaireJoueur(joueur, visuelJoueur);
-            grille.add(caseJoueur, joueur.getPosition()[1], joueur.getPosition()[0]);
+            this.add(caseJoueur, joueur.getPosition()[1], joueur.getPosition()[0]);
         }
     }
 
@@ -203,10 +203,10 @@ public class Plateau extends GridPane {
         pane.getChildren().add(cercle);
     }
 
-    private void afficherInventaireBloc(DonneesJeu jeu, GridPane grille) {
+    private void afficherInventaireBloc(DonneesJeu jeu) {
         for (int i = 0; i < jeu.getHauteur(); i++) {
             for (int j = 0; j < jeu.getLongueur(); j++) {
-                StackPane caseBloc = (StackPane) grille.getChildren().get(i * jeu.getLongueur() + j);
+                StackPane caseBloc = (StackPane) this.getChildren().get(i * jeu.getLongueur() + j);
                 if (jeu.getObjetsFixes()[i][j] instanceof PlanDeTravail planDeTravail) {
                     if (planDeTravail.getInventaire() != null) {
                         Circle cercle = new Circle(tailleCellule / 10 * 3);
