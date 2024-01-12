@@ -27,7 +27,7 @@ public class Plat extends Aliment {
         this.recettesComposees.addAll(plat.recettesComposees);
     }
 
-    public Plat(String nom, Aliment aliment1, Aliment aliment2) {
+    public Plat(Aliment aliment1, Aliment aliment2) {
         super();
         this.nom = "Plat";
         description = "Plat";
@@ -36,9 +36,8 @@ public class Plat extends Aliment {
         this.recettesComposees.add(aliment2);
     }
 
-    public Plat(String nom, Aliment aliment){
+    public Plat(Aliment aliment){
         super();
-        this.nom = nom;
         this.nom = "Plat";
         description = "Plat";
         this.recettesComposees = new ArrayList<>();
