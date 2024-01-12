@@ -9,6 +9,8 @@ import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.recettes.aliment.Plat;
+import com.overcooked.ptut.vue.bloc.*;
+import com.overcooked.ptut.vue.joueur.JoueurVue;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
@@ -108,48 +110,14 @@ public class Plateau extends GridPane {
         //TODO AFFICHAGE POELE / PLANCHE
         for (int i = 0; i < jeu.getHauteur(); i++) {
             for (int j = 0; j < jeu.getLongueur(); j++) {
-                StackPane caseBloc = new StackPane();
-
-                switch (jeu.getObjetsFixes()[i][j]) {
-                    case null:
-                        caseBloc.setStyle("-fx-background-color: #e39457;");
-                        break;
-                    case Depot ignored:
-                        caseBloc.setStyle("-fx-background-color: #969696;");
-                        break;
-                    case Generateur generateur:
-                        Rectangle rectangle = new Rectangle(tailleCellule, tailleCellule);
-                        Text text = new Text(String.valueOf(generateur.getType().charAt(0)).toUpperCase());
-                        text.setFont(Font.font(tailleCellule / 10 * 4));
-
-                        switch (generateur.getType()) {
-                            case "Salade":
-                                rectangle.setFill(Color.GREEN);
-                                break;
-                            case "Tomate":
-                                rectangle.setFill(Color.RED);
-                                break;
-                            case "Pain":
-                                rectangle.setFill(Color.BROWN);
-                                break;
-                            default:
-                                throw new IllegalStateException("Unexpected value: " + generateur.getAliment());
-                        }
-
-                        caseBloc.getChildren().addAll(rectangle, text);
-                        break;
-                    case Planche ignored:
-                        caseBloc.setStyle("-fx-background-color: #ffffff;");
-                        caseBloc.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-                        break;
-                    case Poele ignored:
-                        caseBloc.setStyle("-fx-background-color: #ffe728;");
-                        caseBloc.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-                        break;
-                    default:
-                        caseBloc.setStyle("-fx-background-color: #a66b3b;");
-                        break;
-                }
+                Bloc caseBloc = switch (jeu.getObjetsFixes()[i][j]) {
+                    case null -> new Bloc();
+                    case Depot ignored -> new DepotBloc();
+                    case Generateur generateur -> new GenerateurBloc(generateur, tailleCellule);
+                    case Planche ignored -> new PlancheBloc();
+                    case Poele ignored -> new PoeleBloc();
+                    default -> new Mur();
+                };
                 this.add(caseBloc, j, i);
             }
         }
@@ -157,51 +125,13 @@ public class Plateau extends GridPane {
 
     private void afficherJoueurs(DonneesJeu jeu) {
         for (Joueur joueur : jeu.getJoueurs()) {
-            Pane caseJoueur = new Pane();
-            caseJoueur.setStyle("-fx-background-color: #e39457;");
-
-            StackPane visuelJoueur = new StackPane();
-            visuelJoueur.setLayoutX(tailleCellule / 10);
-            visuelJoueur.setLayoutY(tailleCellule / 10);
-
-            Circle cercle = new Circle(tailleCellule / 2 - tailleCellule / 10);
-            cercle.setFill(Color.PURPLE);
-
-            Arc arc = new Arc(tailleCellule / 2, tailleCellule / 2, tailleCellule / 2 - 5, tailleCellule / 2 - 5, 45 + getAngleDirection(joueur), 90);
-            arc.setFill(Color.BLACK);
-            arc.setType(ArcType.ROUND);
-
-
-            visuelJoueur.getChildren().addAll(cercle);
-            caseJoueur.getChildren().addAll(arc, visuelJoueur);
-            afficherInventaireJoueur(joueur, visuelJoueur);
+            JoueurVue caseJoueur = new JoueurVue(tailleCellule, joueur);
+            //TODO afficher différemment le joueur normal que le joueur IA
             this.add(caseJoueur, joueur.getPosition()[1], joueur.getPosition()[0]);
         }
     }
 
-    private void afficherInventaireJoueur(Joueur joueur, Pane pane) {
-        //TODO faire l'affichage si aliment coupé ou pas
-        Circle cercle = new Circle(tailleCellule / 10 * 3);
 
-        if (joueur.getInventaire() == null) return;
-        joueur.getInventaire().getRecettesComposees().forEach(aliment -> {
-            switch (aliment.getNom()) {
-                case "Salade":
-                    cercle.setFill(Color.GREEN);
-                    break;
-                case "Tomate":
-                    cercle.setFill(Color.RED);
-                    break;
-                case "Pain":
-                    cercle.setFill(Color.BROWN);
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + aliment.getNom());
-            }
-        });
-
-        pane.getChildren().add(cercle);
-    }
 
     private void afficherInventaireBloc(DonneesJeu jeu) {
         for (int i = 0; i < jeu.getHauteur(); i++) {
@@ -231,15 +161,5 @@ public class Plateau extends GridPane {
                 }
             }
         }
-    }
-
-    private int getAngleDirection(Joueur joueur) {
-        return switch (joueur.getDirection()) {
-            case HAUT -> 0;
-            case BAS -> 180;
-            case GAUCHE -> 90;
-            case DROITE -> 270;
-            default -> throw new IllegalStateException("Unexpected value: " + joueur.getDirection());
-        };
     }
 }
