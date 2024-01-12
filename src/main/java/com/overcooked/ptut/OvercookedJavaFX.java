@@ -75,7 +75,6 @@ public class OvercookedJavaFX extends Application {
                     jeu.faireAction(Action.DROITE, 0);
                     break;
                 case SPACE:
-                    //TODO Implémenter la prise de l'aliment quand OK
                     Joueur joueur = jeu.getJoueurs().getFirst();
                     int[] positionFaceJoueur = joueur.getPositionCible();
 
