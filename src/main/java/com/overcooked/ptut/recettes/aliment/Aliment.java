@@ -32,6 +32,12 @@ public class Aliment extends Mouvable {
 		this.description = a.description;
 	}
 
+	public Aliment(String nom, String description) {
+		super();
+		this.nom = nom;
+		this.description = description;
+	}
+
 
 	/**
 	 * @return la description de la boisson  
