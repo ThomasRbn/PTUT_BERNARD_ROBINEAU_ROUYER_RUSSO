@@ -17,7 +17,7 @@ public class VerificationAliment {
         this.listeAliments = listeAliments;
     }
 
-    public Aliment verifiercompatibilite(List<Aliment> alimentsATraiter) {
+    public Plat verifiercompatibilite(List<Aliment> alimentsATraiter) {
         for (Plat recette : listeAliments) {
             boolean estPresent = true;
             List<Aliment> currAliments = new ArrayList<>(alimentsATraiter);
@@ -29,7 +29,7 @@ public class VerificationAliment {
                 }
             }
             if (estPresent && currAliments.isEmpty()) {
-                System.out.println("La recette " + recette.getNom() + " est possible");
+                System.out.println("La recette est possible");
                 return recette;
             }
         }

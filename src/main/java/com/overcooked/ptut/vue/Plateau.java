@@ -130,8 +130,8 @@ public class Plateau extends GridPane {
 
     private void afficherJoueurs(DonneesJeu jeu) {
         for (Joueur joueur : jeu.getJoueurs()) {
+            //TODO afficher différemment le joueur normal que le joueur IA (créer des classes qui hérietent de JoueurVue)
             JoueurVue caseJoueur = new JoueurVue(tailleCellule, joueur);
-            //TODO afficher différemment le joueur normal que le joueur IA
             this.add(caseJoueur, joueur.getPosition()[1], joueur.getPosition()[0]);
         }
     }

@@ -1,12 +1,20 @@
 package com.overcooked.ptut.vue.joueur;
 
 import com.overcooked.ptut.joueurs.Joueur;
+import com.overcooked.ptut.recettes.aliment.Aliment;
+import com.overcooked.ptut.vue.aliment.AlimentVue;
+import com.overcooked.ptut.vue.aliment.PainVue;
+import com.overcooked.ptut.vue.aliment.SaladeVue;
+import com.overcooked.ptut.vue.aliment.TomateVue;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JoueurVue extends Pane {
     public JoueurVue(double tailleCellule, Joueur joueur) {
@@ -28,26 +36,24 @@ public class JoueurVue extends Pane {
 
     private void afficherInventaireJoueur(Joueur joueur, Pane pane, double tailleCellule) {
         //TODO faire l'affichage si aliment coupé ou pas
-        Circle cercle = new Circle(tailleCellule / 10 * 3);
-
         if (joueur.getInventaire() == null) return;
-        joueur.getInventaire().getRecettesComposees().forEach(aliment -> {
-            switch (aliment.getNom()) {
-                case "Salade":
-                    cercle.setFill(Color.GREEN);
-                    break;
-                case "Tomate":
-                    cercle.setFill(Color.RED);
-                    break;
-                case "Pain":
-                    cercle.setFill(Color.BROWN);
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + aliment.getNom());
-            }
-        });
+        List<AlimentVue> aliments = getVueAliments(joueur, tailleCellule);
+        pane.getChildren().addAll(aliments);
+    }
 
-        pane.getChildren().add(cercle);
+    private List<AlimentVue> getVueAliments(Joueur joueur, double tailleCellule) {
+        List<AlimentVue> aliments = new ArrayList<>();
+        List<Aliment> recettesComposees = joueur.getInventaire().getRecettesComposees();
+        for (Aliment currAliment : recettesComposees) {
+            AlimentVue alimentVue = switch (currAliment.getNom()) {
+                case "Salade" -> new SaladeVue(tailleCellule);
+                case "Tomate" -> new TomateVue(tailleCellule);
+                case "Pain" -> new PainVue(tailleCellule);
+                default -> throw new IllegalStateException("Unexpected value: " + currAliment.getNom());
+            };
+            aliments.add(alimentVue);
+        }
+        return aliments;
     }
 
     private int getAngleDirection(Joueur joueur) {
