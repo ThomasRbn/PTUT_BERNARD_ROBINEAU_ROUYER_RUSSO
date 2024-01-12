@@ -52,7 +52,7 @@ public class DonneesJeu {
      */
     public DonneesJeu(String chemin, boolean... test) {
         platsBut = new ArrayList<>();
-        Plat saladePain = new Plat("Tomate", new Tomate());
+        Plat saladePain = new Plat(new Tomate());
         platsBut.add(saladePain);
         try {
             // ouvrir fichier
@@ -115,13 +115,13 @@ public class DonneesJeu {
 
                         //Création des objets fixes
                         case GENERATEURSALADE:
-                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("Salade", new Salade()), "Salade");
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat(new Salade()), "Salade");
                             break;
                         case GENERATEURTOMATE:
-                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("Tomate", new Tomate()), "Tomate");
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat(new Tomate()), "Tomate");
                             break;
                         case GENERATEURPAINBURGER:
-                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat("Pain", new Pain()), "Pain");
+                            objetsFixes[indexLigne][indexColonne] = new Generateur(indexLigne, indexColonne, new Plat(new Pain()), "Pain");
                             break;
                         case PLANCHE:
                             objetsFixes[indexLigne][indexColonne] = new Planche(indexLigne, indexColonne);

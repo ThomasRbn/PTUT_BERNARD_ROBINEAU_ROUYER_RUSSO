@@ -50,7 +50,7 @@ public class TestEquals {
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         Joueur joueurClone = clone.getJoueurs().get(0);
         Tomate tomate = new Tomate();
-        Plat tomatePlat = new Plat("Tomate", tomate);
+        Plat tomatePlat = new Plat(tomate);
         joueurClone.prendre(tomatePlat);
         assertFalse(donneesJeu.equals(clone));
     }

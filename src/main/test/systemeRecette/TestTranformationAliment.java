@@ -18,7 +18,7 @@ public class TestTranformationAliment {
     Transformateur transformateur;
     @BeforeEach
     public void setUp() {
-        painCuit = new Plat("PainCuit", new Cuisson(new Pain()));
+        painCuit = new Plat(new Cuisson(new Pain()));
         transformateur = new Poele(0, 0);
     }
 
@@ -27,7 +27,7 @@ public class TestTranformationAliment {
      */
     @Test
     public void testTransformationReussie() {
-        transformateur.ajouterElem(new Plat("PainCui", new Pain()));
+        transformateur.ajouterElem(new Plat( new Pain()));
         assertEquals(transformateur.transform(), painCuit);
     }
 
@@ -44,7 +44,7 @@ public class TestTranformationAliment {
      */
     @Test
     public void testTransformationEchouee2() {
-        transformateur.ajouterElem(new Plat("salade", new Salade()));
+        transformateur.ajouterElem(new Plat(new Salade()));
         assertFalse(transformateur.transform().equals(painCuit));
     }
 }

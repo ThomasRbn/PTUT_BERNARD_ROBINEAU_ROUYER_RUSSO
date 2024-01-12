@@ -17,8 +17,8 @@ public class TestRecette {
     VerificationAliment vf;
     @BeforeEach
     public void setUp() {
-        painSalade = new Plat("PainSalade", new Pain(), new Salade());
-        burger = new Plat("Burger", new Pain(), new Cuisson(new Viande()));
+        painSalade = new Plat(new Pain(), new Salade());
+        burger = new Plat(new Pain(), new Cuisson(new Viande()));
         vf = new VerificationAliment(List.of(painSalade, burger));
     }
 
@@ -56,47 +56,47 @@ public class TestRecette {
 
     @Test
     public void testRecetteEquals() {
-        assertEquals(painSalade, new Plat("PainSalade", new Pain(), new Salade()));
+        assertEquals(painSalade, new Plat(new Pain(), new Salade()));
     }
 
     @Test
     public void testRecetteEquals2() {
-        Plat plat1 = new Plat("PainSalade", new Pain(), new Salade());
-        Plat plat2 = new Plat("PainSalade",  new Salade(), new Pain());
+        Plat plat1 = new Plat(new Pain(), new Salade());
+        Plat plat2 = new Plat( new Salade(), new Pain());
         assertEquals(plat1, plat2);
     }
 
     @Test
     public void testRecetteEquals3() {
-        Plat plat1 = new Plat("PainSalade", new Pain(), new Salade());
-        Plat plat2 = new Plat("PainSalade",  new Salade(), new Pain());
+        Plat plat1 = new Plat(new Pain(), new Salade());
+        Plat plat2 = new Plat( new Salade(), new Pain());
         assertTrue(plat1.equals(plat2));
     }
 
     @Test
     public void testRecetteEquals4() {
-        Plat plat1 = new Plat("TomateSalade", new Tomate(), new Salade());
-        Plat plat2 = new Plat("PainSalade",  new Salade(), new Pain());
+        Plat plat1 = new Plat(new Tomate(), new Salade());
+        Plat plat2 = new Plat( new Salade(), new Pain());
         assertFalse(plat1.equals(plat2));
     }
 
     @Test
     public void testRecetteEquals5() {
-        Plat plat1 = new Plat("PainSalade", new Pain(), new Salade());
+        Plat plat1 = new Plat(new Pain(), new Salade());
         Plat plat2 = plat1;
         assertTrue(plat1.equals(plat2));
     }
 
     @Test
     public void testRecetteEquals6() {
-        Plat plat1 = new Plat("PainSalade", new Pain(), new Salade());
+        Plat plat1 = new Plat(new Pain(), new Salade());
         assertFalse( plat1.equals(null));
     }
 
     @Test
     public void testRecetteDoublonNotEquals(){
-        Plat plat1 = new Plat("PainSalade", new Pain(), new Salade());
-        Plat plat2 = new Plat("PainSalade", new Pain(), new Salade());
+        Plat plat1 = new Plat(new Pain(), new Salade());
+        Plat plat2 = new Plat(new Pain(), new Salade());
         plat2.ajouterAliment(new Pain());
         assertFalse(plat1.equals(plat2));
     }

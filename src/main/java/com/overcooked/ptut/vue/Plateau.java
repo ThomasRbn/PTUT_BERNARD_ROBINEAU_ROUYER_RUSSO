@@ -67,7 +67,7 @@ public class Plateau extends GridPane {
                             switch (jeu.getObjetsFixes()[positionFaceJoueur[0]][positionFaceJoueur[1]]) {
                                 case Generateur generateur:
                                     if (joueur.getInventaire() == null) {
-                                        joueur.prendre(new Plat(generateur.getType(), generateur.getAliment().getRecettesComposees().getFirst()));
+                                        joueur.prendre(new Plat(generateur.getAliment().getRecettesComposees().getFirst()));
                                     }
                                     break;
                                 case Depot ignored:

@@ -42,8 +42,10 @@ public abstract class Transformateur extends Bloc {
      */
     public Plat transform(){
         if(elemPose == null) return null;
+        if(elemPose.getRecettesComposees().isEmpty()) return null;
         if (elemPose.getRecettesComposees().getFirst().equals(etat)) return elemPose;
-        etat.setComposant(elemPose);
+        Aliment alim = elemPose.getRecettesComposees().getFirst();
+        etat.setComposant(alim);
         elemPose.viderAliments();
         elemPose.ajouterAliment(etat);
         return elemPose;

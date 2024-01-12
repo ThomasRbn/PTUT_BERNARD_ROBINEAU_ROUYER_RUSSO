@@ -36,7 +36,7 @@ public class TestDonneesJeu {
         donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         Bloc[][] blocs = clone.getObjetsFixes();
-        ((Depot)blocs[4][2]).deposerPlat(new Plat("Tomate", new Tomate()));
+        ((Depot)blocs[4][2]).deposerPlat(new Plat(new Tomate()));
         assertNotEquals(((Depot)blocs[4][2]).getPlatsDeposes().size(), donneesJeu.getObjetsFixes()[4][2]);
     }
 
@@ -48,7 +48,7 @@ public class TestDonneesJeu {
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         Joueur joueurClone = clone.getJoueurs().get(0);
         Tomate tomate = new Tomate();
-        Plat tomatePlat = new Plat("Tomate", tomate);
+        Plat tomatePlat = new Plat(tomate);
         joueurClone.prendre(tomatePlat);
         assertNotEquals(joueur.getInventaire(), joueurClone.getInventaire());
     }
@@ -60,7 +60,7 @@ public class TestDonneesJeu {
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         Joueur joueurClone = clone.getJoueurs().get(0);
         Tomate tomate = new Tomate();
-        Plat tomatePlat = new Plat("Tomate", tomate);
+        Plat tomatePlat = new Plat(tomate);
         joueurClone.prendre(tomatePlat);
         DonneesJeu clone2 = new DonneesJeu(clone);
         Joueur joueurClone2 = clone2.getJoueurs().get(0);

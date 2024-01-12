@@ -34,6 +34,6 @@ public class TestTransformateur {
         Transformateur t = (Transformateur) clone5.getObjetsFixes()[0][3];
         t.ajouterElem(clone4.getJoueurs().get(0).getInventaire());
         System.out.println(t.transform().getRecettesComposees());
-        assertTrue(t.transform().equals(new Plat("TomateCoupee", new Coupe(new Tomate()))));
+        assertTrue(t.transform().equals(new Plat(new Coupe(new Tomate()))));
     }
 }
