@@ -10,6 +10,7 @@ import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
+import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.*;
 
 import java.io.BufferedReader;
@@ -157,6 +158,11 @@ public class DonneesJeu {
                         return;
                     }
                 }
+                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Transformateur transformateur) {
+                    transformateur.ajouterElem(joueur.getInventaire());
+                    System.out.println(transformateur.getElemPose());
+                    return;
+                }
                 objetsDeplacables[joueur.getPosition()[0]][joueur.getPosition()[1]] = joueur.poser();
             }
             //Exception si l'action n'est pas reconnue
@@ -182,10 +188,20 @@ public class DonneesJeu {
 
         // Position du joueur (blocs mouvables)
         Bloc objetsFix = objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
-        if (objetsFix instanceof Generateur) {
-            joueur.prendre(((Generateur) objetsFix).getAliment());
+        switch (objetsFix) {
+            case null -> {
+            }
+            case Generateur generateur -> {
+                joueur.prendre(generateur.getAliment());
+                return;
+            }
+            case Transformateur transformateur -> {
+                joueur.prendre(transformateur.retirerElem());
+                System.out.println(joueur.getInventaire());
+                return;
+            }
+            default -> throw new IllegalArgumentException("DonneesJeu.prendre, bloc invalide" + objetsFix);
         }
-
         //Prendre un objet déjà présent sur la carte
         int[] positionJoueur = joueur.getPosition();
         Plat objetsDeplacable = objetsDeplacables[positionJoueur[0]][positionJoueur[1]];
