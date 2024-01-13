@@ -71,7 +71,6 @@ public class TestTransformateur {
         Transformateur t = (Transformateur) clone5.getObjetsFixes()[0][3];
         t.ajouterElem(clone4.getJoueurs().get(0).getInventaire());
         Plat plat = t.transform();
-        System.out.println(plat.getRecettesComposees());
         DonneesJeu clone6 = new DonneesJeu(clone5);
         clone6.faireAction(PRENDRE, 0);
         DonneesJeu clone7 = new DonneesJeu(clone6);
@@ -80,7 +79,6 @@ public class TestTransformateur {
         clone8.faireAction(POSER, 0);
         Transformateur t2 = (Transformateur) clone8.getObjetsFixes()[2][3];
         t2.ajouterElem(clone7.getJoueurs().get(0).getInventaire());
-        System.out.println(t2.transform().getRecettesComposees());
-        assertTrue(t2.transform().equals(plat.equals(new Plat(new Cuisson(new Coupe(new Tomate()))))));
+        assertTrue(t2.transform().equals(new Plat(new Cuisson(new Coupe(new Tomate())))));
     }
 }

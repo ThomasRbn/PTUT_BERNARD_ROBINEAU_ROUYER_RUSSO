@@ -65,6 +65,7 @@ public abstract class Transformateur extends Bloc {
 
         //Si l'aliment n'est pas dans l'état voulu, on le transforme
         Aliment alim = elemPose.getRecettesComposees().getFirst();
+        System.out.println(alim);
         etat.setComposant(alim);
         elemPose.viderAliments();
         elemPose.ajouterAliment(etat);
@@ -77,6 +78,7 @@ public abstract class Transformateur extends Bloc {
      * @return true si le plat a été ajouté, false sinon
      */
     public boolean ajouterElem(Plat elem){
+        if (elemPose != null) return false;
         if (elem.getRecettesComposees().size() != 1) return false;
         elemPose = elem;
         return true;
@@ -86,7 +88,12 @@ public abstract class Transformateur extends Bloc {
      * Méthode permettant de retirer un Plat du transformateur
      */
     public Plat retirerElem(){
+        Plat elem = elemPose;
         elemPose = null;
+        return elem;
+    }
+
+    public Plat getElemPose() {
         return elemPose;
     }
 }
