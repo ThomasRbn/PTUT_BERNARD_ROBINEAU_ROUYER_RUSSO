@@ -25,6 +25,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
+import static com.overcooked.ptut.constructionCarte.GestionActions.isLegal;
 
 public class Plateau extends GridPane {
 
@@ -68,29 +69,14 @@ public class Plateau extends GridPane {
                         case SPACE:
                             int[] positionFaceJoueur = joueur.getPositionCible();
 
-                            switch (jeu.getObjetsFixes()[positionFaceJoueur[0]][positionFaceJoueur[1]]) {
-                                case Generateur generateur:
-                                    if (joueur.getInventaire() == null) {
-                                        joueur.prendre(new Plat(generateur.getAliment().getRecettesComposees().getFirst()));
-                                    }
-                                    break;
-                                case Depot ignored:
-                                    if (joueur.getInventaire() != null) {
-                                        joueur.poser();
-                                    }
-                                    break;
-                                case PlanDeTravail planDeTravail:
-                                    if (joueur.getInventaire() == null && planDeTravail.getInventaire() == null) return;
-                                    if (joueur.getInventaire() != null && planDeTravail.getInventaire() == null) {
-                                        planDeTravail.poserDessus(joueur.poser());
-                                    } else if (joueur.getInventaire() == null && planDeTravail.getInventaire() != null) {
-                                        joueur.prendre(planDeTravail.prendre());
-                                    }
-                                    break;
-                                case null:
-                                    break;
-                                default:
-                                    throw new IllegalStateException("Unexpected value: " + jeu.getObjetsFixes()[positionFaceJoueur[0]][positionFaceJoueur[1]]);
+                            if (isLegal(Action.PRENDRE, joueur.getNumJoueur(), jeu)){
+                                faireAction(Action.PRENDRE, joueur.getNumJoueur(), jeu);
+                            } else if (isLegal(Action.POSER, joueur.getNumJoueur(), jeu)){
+                                faireAction(Action.POSER, joueur.getNumJoueur(), jeu);
+                            } else if (jeu.getObjetsFixes()[positionFaceJoueur[0]][positionFaceJoueur[1]] instanceof PlanDeTravail planDeTravail){
+                                if (planDeTravail.getInventaire() != null){
+                                    faireAction(Action.PRENDRE, joueur.getNumJoueur(), jeu);
+                                }
                             }
                             break;
                         default:

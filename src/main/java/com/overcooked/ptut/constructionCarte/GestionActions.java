@@ -2,6 +2,7 @@ package com.overcooked.ptut.constructionCarte;
 
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.entites.Generateur;
+import com.overcooked.ptut.entites.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
@@ -95,12 +96,24 @@ public class GestionActions {
                         return;
                     }
                 }
+
                 if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Transformateur transformateur) {
                     transformateur.ajouterElem(joueur.getInventaire());
                     System.out.println(transformateur.getElemPose());
                     return;
                 }
-                objetsDeplacables[joueur.getPosition()[0]][joueur.getPosition()[1]] = joueur.poser();
+
+                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof PlanDeTravail planDeTravail) {
+                    if (planDeTravail.getInventaire() == null) {
+                        planDeTravail.poserDessus(joueur.poser());
+                        return;
+                    }
+                }
+
+//                if (objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]] == null) {
+//                    objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]] = joueur.poser();
+//                }
+
             }
             //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.faireAction, action invalide" + a);
