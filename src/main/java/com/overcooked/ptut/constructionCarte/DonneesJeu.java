@@ -209,27 +209,38 @@ public class DonneesJeu {
         };
     }
 
-    public List<int[]> getCoordonneesAliment(Aliment aliment) {
-        switch (aliment.getNom()) {
+    public List<int[]> getcoordonneesElement(String element) {
+        switch (element) {
             case "Tomate":
                 List<int[]> coordonneesTomates = new ArrayList<>();
                 for (int i = 0; i < hauteur; i++) {
                     for (int j = 0; j < longueur; j++) {
                         if (objetsFixes[i][j] instanceof Generateur && ((Generateur) objetsFixes[i][j]).getAliment().getRecettesComposees().get(0) instanceof Tomate) {
                             coordonneesTomates.add(new int[]{i, j});
-                        } else if (objetsFixes[i][j] instanceof PlanDeTravail){
+                        } else if (objetsFixes[i][j] instanceof PlanDeTravail) {
                             PlanDeTravail planDeTravail = ((PlanDeTravail) objetsFixes[i][j]);
-                                    if (planDeTravail.getInventaire() != null && planDeTravail.getInventaire().getRecettesComposees().get(0) instanceof Tomate)
-                            coordonneesTomates.add(new int[]{i, j});
+                            if (planDeTravail.getInventaire() != null && planDeTravail.getInventaire().getRecettesComposees().get(0) instanceof Tomate)
+                                coordonneesTomates.add(new int[]{i, j});
                         }
                         if (objetsDeplacables[i][j] != null) {
-                            if (objetsDeplacables[i][j].getRecettesComposees().get(0) instanceof Tomate){
+                            if (objetsDeplacables[i][j].getRecettesComposees().get(0) instanceof Tomate) {
                                 coordonneesTomates.add(new int[]{i, j});
                             }
                         }
                     }
                 }
                 return coordonneesTomates;
+
+            case "Plan de travail":
+                List<int[]> coordonneesPlanDeTravail = new ArrayList<>();
+                for (int i = 0; i < hauteur; i++) {
+                    for (int j = 0; j < longueur; j++) {
+                        if (objetsFixes[i][j] instanceof PlanDeTravail) {
+                            coordonneesPlanDeTravail.add(new int[]{i, j});
+                        }
+                    }
+                }
+                return coordonneesPlanDeTravail;
             default:
                 throw new IllegalArgumentException("DonneesJeu.getCoordonneesAliment, Aliment pas encore implémenté");
         }
@@ -259,7 +270,8 @@ public class DonneesJeu {
                             case "Pain" -> GENERATEURPAINBURGER;
                             case "Viande" -> GENERATEURVIANDE;
                             case "Tomate" -> GENERATEURTOMATE;
-                            default -> throw new IllegalStateException("DonneesJeu.toString type inconnu: " + generateur.getType());
+                            default ->
+                                    throw new IllegalStateException("DonneesJeu.toString type inconnu: " + generateur.getType());
                         };
                         case Planche ignored -> PLANCHE;
                         case Poele ignored -> POELE;

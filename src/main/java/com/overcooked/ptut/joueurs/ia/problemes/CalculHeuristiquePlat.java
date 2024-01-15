@@ -36,7 +36,7 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
             if (inventaire != null && inventaire.getRecettesComposees().contains(a)) {
                 continue;
             }
-            List<int[]> listeCoordonnees = donneesJeu.getCoordonneesAliment(a);
+            List<int[]> listeCoordonnees = donneesJeu.getcoordonneesElement(a.getNom());
             for (int[] coordonnees : listeCoordonnees) {
                 alimentCoordonneesList.add(new AlimentCoordonnees(a, coordonnees));
                 num++;
