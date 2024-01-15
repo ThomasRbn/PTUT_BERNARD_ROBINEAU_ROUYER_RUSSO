@@ -5,7 +5,6 @@ import com.overcooked.ptut.entites.Generateur;
 import com.overcooked.ptut.entites.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
-import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
@@ -22,7 +21,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.overcooked.ptut.constructionCarte.CaracteresCarte.*;
-import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
 
 public class DonneesJeu {
 
@@ -64,10 +62,15 @@ public class DonneesJeu {
         try {
             String ligne = bfRead.readLine();
             while (ligne != null) {
-                List<String> recette = new ArrayList<>(List.of(ligne.split(" ")));
-                Collections.reverse(recette);
-                Aliment currAliment = getCurrentPlatBut(recette);
-                platsBut.add(new Plat(currAliment));
+                String[] plat = ligne.split(",");
+                Plat currPlat = new Plat();
+                for (String s : plat) {
+                    List<String> recette = new ArrayList<>(List.of(s.split(" ")));
+                    Collections.reverse(recette);
+                    Aliment currAliment = getCurrentPlatBut(recette);
+                    currPlat.ajouterAliment(currAliment);
+                }
+                platsBut.add(currPlat);
                 ligne = bfRead.readLine();
             }
         } catch (IOException e) {
@@ -166,7 +169,6 @@ public class DonneesJeu {
 
 
     public List<int[]> getCoordonneesElement(String element) {
-        System.out.println(element);
         switch (element) {
             case "Tomate":
                 List<int[]> coordonneesTomates = new ArrayList<>();
@@ -319,6 +321,21 @@ public class DonneesJeu {
         return s.toString();
     }
 
+    /**
+     * Méthode permettant de récupérer les coordonnées du dépot
+     *
+     * @return oordonnees du dépot
+     */
+    public int[] getCoordonneesDepot() {
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < longueur; j++) {
+                if (objetsFixes[i][j] instanceof Depot) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        return null;
+    }
 
     public List<Plat> getPlatDepose() {
         for (int i = 0; i < hauteur; i++) {
@@ -353,7 +370,7 @@ public class DonneesJeu {
     public int getHauteur(File f) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(f));
         int hauteur = 0;
-        while (br.readLine() != null) {
+        while (!br.readLine().equals("-") && br.readLine() != null) {
             hauteur++;
         }
         return hauteur;
