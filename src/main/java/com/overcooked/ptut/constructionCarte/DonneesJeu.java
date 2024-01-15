@@ -275,6 +275,18 @@ public class DonneesJeu {
                     }
                 }
                 return coordonneesPlanche;
+
+                case "Depot":
+                List<int[]> coordonneesDepot = new ArrayList<>();
+                for (int i = 0; i < hauteur; i++) {
+                    for (int j = 0; j < longueur; j++) {
+                        if (objetsFixes[i][j] instanceof Depot) {
+                            coordonneesDepot.add(new int[]{i, j});
+                        }
+                    }
+                }
+                return coordonneesDepot;
+
             default:
                 throw new IllegalArgumentException("DonneesJeu.getCoordonneesAliment, Aliment pas encore implémenté");
         }
