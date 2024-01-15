@@ -10,6 +10,8 @@ import com.overcooked.ptut.joueurs.utilitaire.Action;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
+
 /**
  * Lance un algorithme de recherche  
  * sur un problème donné et affiche le résultat
@@ -34,7 +36,7 @@ public class MainTestv2 {
             Joueur j = donneesJeu.getJoueur(0);
             Action action = j.demanderAction(donneesJeu);
             System.out.println(action);
-            donneesJeu.faireAction(action, 0);
+            faireAction(action, 0, donneesJeu);
             System.out.println(donneesJeu);
         }
 

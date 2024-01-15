@@ -1,6 +1,7 @@
 package com.overcooked.ptut.joueurs.ia.problemes;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
+import com.overcooked.ptut.constructionCarte.GestionActions;
 import com.overcooked.ptut.joueurs.ia.algo.BFS;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.HasHeuristic;
@@ -81,7 +82,7 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
      * Applique l'action a dans l'état courant
      */
     public void faireAction(Action a) {
-        donnees.faireAction(a, numJoueur);
+        GestionActions.faireAction(a, numJoueur, donnees);
     }
 
     public boolean isGoalState() {

@@ -24,6 +24,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
+
 public class Plateau extends GridPane {
 
     public double tailleCellule;
@@ -52,16 +54,16 @@ public class Plateau extends GridPane {
                 if (joueur instanceof JoueurHumain){
                     switch (key.getCode()){
                         case Z:
-                            jeu.faireAction(Action.HAUT, joueur.getNumJoueur());
+                            faireAction(Action.HAUT, joueur.getNumJoueur(), jeu);
                             break;
                         case S:
-                            jeu.faireAction(Action.BAS, joueur.getNumJoueur());
+                            faireAction(Action.BAS, joueur.getNumJoueur(), jeu);
                             break;
                         case Q:
-                            jeu.faireAction(Action.GAUCHE, joueur.getNumJoueur());
+                            faireAction(Action.GAUCHE, joueur.getNumJoueur(), jeu);
                             break;
                         case D:
-                            jeu.faireAction(Action.DROITE, joueur.getNumJoueur());
+                            faireAction(Action.DROITE, joueur.getNumJoueur(), jeu);
                             break;
                         case SPACE:
                             int[] positionFaceJoueur = joueur.getPositionCible();
@@ -96,7 +98,7 @@ public class Plateau extends GridPane {
                     }
                 } else if (joueur instanceof JoueurIA){
                     if (key.getCode() == javafx.scene.input.KeyCode.ENTER){
-                        jeu.faireAction(joueur.demanderAction(jeu), joueur.getNumJoueur());
+                        faireAction(joueur.demanderAction(jeu), joueur.getNumJoueur(), jeu);
                     }
                 }
             }

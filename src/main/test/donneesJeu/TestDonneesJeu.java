@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,7 +27,7 @@ public class TestDonneesJeu {
         donneesJeu = new DonneesJeu("niveaux/niveau1.txt", true);
         Joueur joueur = donneesJeu.getJoueurs().get(0);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
-        clone.faireAction(BAS, 0);
+        faireAction(BAS, 0, clone);
         Joueur joueurClone = clone.getJoueurs().get(0);
         assertNotEquals(Arrays.toString(joueur.getPosition()), Arrays.toString(joueurClone.getPosition()));
     }
@@ -73,11 +74,11 @@ public class TestDonneesJeu {
         donneesJeu = new DonneesJeu("niveaux/niveau1.txt" ,true);
         Joueur joueur = donneesJeu.getJoueurs().get(0);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
-        clone.faireAction(DROITE, 0);
+        faireAction(DROITE, 0, clone);
         DonneesJeu clone2 = new DonneesJeu(clone);
-        clone2.faireAction(HAUT, 0);
+        faireAction(HAUT, 0, clone2);
         DonneesJeu clone3 = new DonneesJeu(clone2);
-        clone3.faireAction(PRENDRE, 0);
+        faireAction(PRENDRE, 0, clone3);
         Joueur joueurClone = clone3.getJoueurs().get(0);
         assertNotEquals(joueurClone.getInventaire(), joueur.getInventaire());
     }
@@ -89,7 +90,7 @@ public class TestDonneesJeu {
         System.setIn(in);
         Joueur joueur = donneesJeu.getJoueurs().get(0);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
-        clone.faireAction(HAUT, 0);
+        faireAction(HAUT, 0, clone);
         Joueur joueurClone = clone.getJoueurs().get(0);
         assertEquals(Arrays.toString(joueur.getPosition()), Arrays.toString(joueurClone.getPosition()));
     }

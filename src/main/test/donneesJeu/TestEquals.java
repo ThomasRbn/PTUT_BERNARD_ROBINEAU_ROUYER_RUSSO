@@ -7,6 +7,7 @@ import com.overcooked.ptut.recettes.aliment.Tomate;
 import org.junit.jupiter.api.Test;
 
 import static com.overcooked.ptut.constructionCarte.ComparateurDonneesJeu.ComparerDonneesJeu;
+import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,7 +33,7 @@ public class TestEquals {
     public void testEqualsAvecDeplacement() {
         donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
-        clone.faireAction(BAS, 0);
+        faireAction(BAS, 0,clone);
         assertFalse(ComparerDonneesJeu(donneesJeu,clone));
     }
 
@@ -40,8 +41,8 @@ public class TestEquals {
     public void testEqualsAvecDeplacementImpossible() {
         donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
-        clone.faireAction(GAUCHE, 0);
-        clone.faireAction(HAUT, 0);
+        faireAction(GAUCHE, 0,clone);
+        faireAction(HAUT, 0, clone);
         assertTrue(ComparerDonneesJeu(donneesJeu,clone));
     }
 
@@ -66,7 +67,7 @@ public class TestEquals {
     public void testChangementOrientation() {
         donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
-        clone.faireAction(GAUCHE, 0);
+        faireAction(GAUCHE, 0, clone);
         assertFalse(ComparerDonneesJeu(donneesJeu,clone));
     }
 
