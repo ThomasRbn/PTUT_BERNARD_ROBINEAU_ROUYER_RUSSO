@@ -75,7 +75,7 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
      * Retourne vrai si l'action a est légale dans l'état courant
      */
     public boolean isLegal(Action a) {
-        return donnees.isLegal(a, numJoueur);
+        return GestionActions.isLegal(a, numJoueur, donnees);
     }
 
     /**

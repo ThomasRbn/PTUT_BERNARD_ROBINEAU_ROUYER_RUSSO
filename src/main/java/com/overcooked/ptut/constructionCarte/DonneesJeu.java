@@ -130,51 +130,6 @@ public class DonneesJeu {
         this.joueurs = Copie.CopieJoueurs(donneesJeu.joueurs);
     }
 
-    /**
-     * Retourne vrai si l'action a est légale dans l'état courant pour le joueur numJoueur
-     */
-    public boolean isLegal(Action a, int numJoueur) {
-        Joueur joueur = joueurs.get(numJoueur);
-        int[] positionJoueur = joueur.getPosition();
-        Action direction = joueur.getDirection();
-        return switch (a) {
-            case HAUT -> positionJoueur[0] != 0 || direction != HAUT;
-            case GAUCHE -> positionJoueur[1] != 0 || direction != GAUCHE;
-            case BAS -> positionJoueur[0] != hauteur - 1 || direction != BAS;
-            case DROITE -> positionJoueur[1] != longueur - 1 || direction != DROITE;
-            case PRENDRE -> {
-                //On vérifie que ses mains sont libres
-                if (joueur.getInventaire() != null) {
-                    yield false;
-                } else {
-                    // Calcul des coordonnes de la case devant le joueur
-                    int[] caseDevant = new int[2];
-                    caseDevant = joueur.getPositionCible();
-
-                    //Recherche dans objetDeplacable s'il y a un objet à prendre
-                    yield objetsDeplacables[caseDevant[0]][caseDevant[1]] != null
-                            || objetsDeplacables[positionJoueur[0]][positionJoueur[1]] != null
-                            || objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur;
-                }
-            }
-
-            case POSER -> {
-                // On vérifie si le joueur à quelque chose dans les mains
-                if (joueur.getInventaire() == null) {
-                    yield false;
-                }
-                // Calcul des coordonnés de la case devant le joueur
-                int[] caseDevant = new int[2];
-                caseDevant = joueur.getPositionCible();
-                //Recherche dans objetDeplacable s'il y a un objet devant le joueur
-                yield objetsDeplacables[caseDevant[0]][caseDevant[1]] == null;
-                //TODO: Vérifier que la case devant soit compatible avec l'objet à déplacer (ex: pas d'aliment sur le feu sans poele)
-            }
-            //Exception si l'action n'est pas reconnue
-            default -> throw new IllegalArgumentException("DonneesJeu.isLegal, action invalide" + a);
-        };
-    }
-
     public List<int[]> getCoordonneesAliment(Aliment aliment) {
         switch (aliment.getNom()) {
             case "Tomate":
