@@ -73,6 +73,7 @@ public class TestTransformateur {
         Plat plat = t.transform();
         DonneesJeu clone6 = new DonneesJeu(clone5);
         clone6.faireAction(PRENDRE, 0);
+        System.out.println(clone6.getJoueurs().get(0).getInventaire().getNom());
         DonneesJeu clone7 = new DonneesJeu(clone6);
         clone7.faireAction(BAS, 0);
         DonneesJeu clone8 = new DonneesJeu(clone7);
