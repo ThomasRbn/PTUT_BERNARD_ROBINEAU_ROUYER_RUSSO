@@ -33,13 +33,13 @@ public class GestionActions {
             case BAS -> positionJoueur[0] != hauteur - 1 || direction != BAS;
             case DROITE -> positionJoueur[1] != longueur - 1 || direction != DROITE;
             case PRENDRE -> {
+                int[] caseDevant = new int[2];
+                caseDevant = joueur.getPositionCible();
                 //On vérifie que ses mains sont libres
                 if (joueur.getInventaire() != null) {
-                    yield false;
+                    yield objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur;
                 } else {
                     // Calcul des coordonnes de la case devant le joueur
-                    int[] caseDevant = new int[2];
-                    caseDevant = joueur.getPositionCible();
 
                     //Recherche dans objetDeplacable s'il y a un objet à prendre
                     yield objetsDeplacables[caseDevant[0]][caseDevant[1]] != null
