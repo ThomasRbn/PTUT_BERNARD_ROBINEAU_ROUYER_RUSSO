@@ -1,6 +1,6 @@
 package com.overcooked.ptut.objet.transformateur;
 
-import com.overcooked.ptut.recettes.etat.Coupe;
+import com.overcooked.ptut.recettes.etat.Etat;
 
 public class Planche extends Transformateur{
 
@@ -11,7 +11,7 @@ public class Planche extends Transformateur{
      */
     public Planche(int x, int y) {
         super(x, y);
-        etat = new Coupe(elemPose);
+        etat = Etat.COUPE;
     }
 
     /**

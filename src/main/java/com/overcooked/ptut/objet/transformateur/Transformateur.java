@@ -3,8 +3,6 @@ package com.overcooked.ptut.objet.transformateur;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.recettes.aliment.Plat;
-import com.overcooked.ptut.recettes.etat.Cuisson;
-import com.overcooked.ptut.recettes.etat.Etat;
 
 public abstract class Transformateur extends Bloc {
 
@@ -12,7 +10,7 @@ public abstract class Transformateur extends Bloc {
      * Etat de l'aliment (en fonction du transformateur, cela peut être une cuisson, une coupe, etc.)
      *
      */
-    protected Etat etat;
+    protected int etat;
 
     /**
      * Element posé sur le transformateur (Plat)
@@ -66,9 +64,9 @@ public abstract class Transformateur extends Bloc {
         //Si l'aliment n'est pas dans l'état voulu, on le transforme
         Aliment alim = elemPose.getRecettesComposees().getFirst();
         System.out.println(alim);
-        etat.setComposant(alim);
+        alim.setEtat(etat);
         elemPose.viderAliments();
-        elemPose.ajouterAliment(etat);
+        elemPose.ajouterAliment(alim);
         return elemPose;
     }
 

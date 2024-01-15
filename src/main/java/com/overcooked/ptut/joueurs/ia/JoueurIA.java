@@ -6,11 +6,9 @@ import com.overcooked.ptut.joueurs.ia.algo.AStar;
 import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
-import com.overcooked.ptut.joueurs.ia.framework.recherche.TreeSearch;
 import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIA;
 import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIAState;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
-import com.overcooked.ptut.objet.Mouvable;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
 import java.util.ArrayList;

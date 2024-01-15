@@ -5,9 +5,14 @@ package com.overcooked.ptut.recettes.aliment;
  */
 public class Salade extends Aliment {
 
-    public Salade(){
+    public Salade() {
         nom = "Salade";
         description = "Salade";
     }
 
+    public Salade(int etat) {
+        super(etat);
+        nom = "Salade";
+        description = "Salade";
+    }
 }

@@ -2,8 +2,6 @@ package com.overcooked.ptut.joueurs.ia.problemes;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
-import com.overcooked.ptut.joueurs.ia.framework.recherche.HasHeuristic;
-import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
 import com.overcooked.ptut.recettes.aliment.Aliment;
 
 import java.util.ArrayList;

@@ -5,9 +5,14 @@ package com.overcooked.ptut.recettes.aliment;
  */
 public class Tomate extends Aliment {
 
-    public Tomate(){
+    public Tomate() {
         nom = "Tomate";
         description = "Tomate";
     }
 
+    public Tomate(int etat) {
+        super(etat);
+        nom = "Tomate";
+        description = "Tomate";
+    }
 }

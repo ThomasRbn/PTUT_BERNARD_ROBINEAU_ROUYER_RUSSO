@@ -1,11 +1,7 @@
 package com.overcooked.ptut.entites;
 
-import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.objet.Bloc;
-import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.recettes.aliment.Plat;
-
-import java.util.List;
 
 public class Generateur extends Bloc {
 

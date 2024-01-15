@@ -1,7 +1,5 @@
 package com.overcooked.ptut.recettes.aliment;
 
-import com.overcooked.ptut.recettes.etat.Etat;
-
 import java.util.ArrayList;
 import java.util.List;
 

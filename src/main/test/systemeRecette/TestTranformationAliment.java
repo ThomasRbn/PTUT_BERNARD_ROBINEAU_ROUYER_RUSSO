@@ -1,13 +1,10 @@
 package systemeRecette;
 
-import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.objet.transformateur.Transformateur;
-import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.recettes.aliment.Pain;
 import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Salade;
-import com.overcooked.ptut.recettes.etat.Cuisson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +15,7 @@ public class TestTranformationAliment {
     Transformateur transformateur;
     @BeforeEach
     public void setUp() {
-        painCuit = new Plat(new Cuisson(new Pain()));
+        painCuit = new Plat(new Pain());
         transformateur = new Poele(0, 0);
     }
 

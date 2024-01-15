@@ -1,6 +1,7 @@
 package com.overcooked.ptut.recettes.aliment;
 
 import com.overcooked.ptut.objet.Mouvable;
+import com.overcooked.ptut.recettes.etat.Etat;
 
 import java.util.Objects;
 
@@ -9,6 +10,15 @@ import java.util.Objects;
  * 
  */
 public class Aliment extends Mouvable {
+
+	/**
+	 * Etat de l'aliment
+	 * 0 : cru
+	 * 1 : cuit
+	 * 2 : coupe
+	 * 3 : cuit et coupe
+	 */
+	int etat;
 
 	protected String nom = "Aliment inconnu";
 
@@ -24,20 +34,38 @@ public class Aliment extends Mouvable {
 
 	public Aliment() {
 		super();
+		etat = 0;
+	}
+
+	public Aliment(int etat){
+		super();
+		this.etat = etat;
 	}
 
 	public Aliment(Aliment a){
 		super(a);
 		this.nom = a.nom;
 		this.description = a.description;
+		this.etat = a.etat;
 	}
 
 	public Aliment(String nom, String description) {
 		super();
 		this.nom = nom;
 		this.description = description;
+		this.etat = 0;
 	}
 
+	public int getEtat() {
+		return etat;
+	}
+
+	public void setEtat(int etat) {
+		if(etat < 0 || etat > 3){
+			throw new IllegalArgumentException("L'etat de l'aliment doit etre compris entre 0 et 3");
+		}
+		this.etat = Etat.transformEtat(this.etat, etat);
+	}
 
 	/**
 	 * @return la description de la boisson  
@@ -67,7 +95,7 @@ public class Aliment extends Mouvable {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Aliment aliment = (Aliment) o;
-		return aliment.nom.equals(nom) && aliment.description.equals(description);
+		return etat == aliment.etat && Objects.equals(nom, aliment.nom) && Objects.equals(description, aliment.description);
 	}
 
 	@Override

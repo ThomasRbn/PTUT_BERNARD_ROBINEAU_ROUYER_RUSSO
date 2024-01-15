@@ -2,13 +2,7 @@ package com.overcooked.ptut.joueurs;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
-import com.overcooked.ptut.joueurs.ia.framework.common.State;
-import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
-import com.overcooked.ptut.joueurs.ia.framework.recherche.TreeSearch;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
-
-import java.util.ArrayList;
-import java.util.Scanner;
 
 import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
 

@@ -4,7 +4,6 @@ import com.overcooked.ptut.joueurs.ia.algo.AStar;
 import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
-import com.overcooked.ptut.joueurs.ia.framework.recherche.TreeSearch;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import java.util.ArrayList;
