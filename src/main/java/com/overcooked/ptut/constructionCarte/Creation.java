@@ -8,11 +8,10 @@ import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
-import com.overcooked.ptut.recettes.aliment.Pain;
-import com.overcooked.ptut.recettes.aliment.Plat;
-import com.overcooked.ptut.recettes.aliment.Salade;
-import com.overcooked.ptut.recettes.aliment.Tomate;
+import com.overcooked.ptut.recettes.aliment.*;
+import com.overcooked.ptut.recettes.etat.Etat;
 
+import java.util.List;
 import java.util.Scanner;
 
 import static com.overcooked.ptut.constructionCarte.CaracteresCarte.*;
@@ -40,6 +39,22 @@ public class Creation {
             }
         }
         return choix;
+    }
+
+    public static Aliment getCurrentPlatBut(List<String> recette) {
+        Aliment currAliment = new Aliment();
+        for (String s : recette) {
+            switch (s) {
+                case "S" -> currAliment = new Salade();
+                case "T" -> currAliment = new Tomate();
+                case "P" -> currAliment = new Pain();
+                case "V" -> currAliment = new Viande();
+                case "C" -> currAliment.setEtat(Etat.COUPE);
+                case "R" -> currAliment.setEtat(Etat.CUIT);
+                default -> throw new IllegalStateException("Unexpected value: " + s);
+            }
+        }
+        return currAliment;
     }
 
     public static Bloc CreationBloc(char c, int indexColonne, int indexLigne) {

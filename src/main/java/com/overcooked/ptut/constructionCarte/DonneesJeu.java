@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.overcooked.ptut.constructionCarte.CaracteresCarte.*;
+import static com.overcooked.ptut.constructionCarte.Creation.getCurrentPlatBut;
 
 public class DonneesJeu {
 
@@ -76,22 +77,6 @@ public class DonneesJeu {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private static Aliment getCurrentPlatBut(List<String> recette) {
-        Aliment currAliment = new Aliment();
-        for (String s : recette) {
-            switch (s) {
-                case "S" -> currAliment = new Salade();
-                case "T" -> currAliment = new Tomate();
-                case "P" -> currAliment = new Pain();
-                case "V" -> currAliment = new Viande();
-                case "C" -> currAliment.setEtat(Etat.COUPE);
-                case "R" -> currAliment.setEtat(Etat.CUIT);
-                default -> throw new IllegalStateException("Unexpected value: " + s);
-            }
-        }
-        return currAliment;
     }
 
     private void loadLevel(boolean[] test, File fichier, BufferedReader bfRead) throws IOException {
@@ -370,8 +355,10 @@ public class DonneesJeu {
     public int getHauteur(File f) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(f));
         int hauteur = 0;
-        while (!br.readLine().equals("-") && br.readLine() != null) {
+        String line = br.readLine();
+        while (!line.equals("-") && line != null) {
             hauteur++;
+            line = br.readLine();
         }
         return hauteur;
     }

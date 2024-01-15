@@ -73,4 +73,11 @@ public class Plat extends Aliment {
         recettesComposees.clear();
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Plat{" +
+                "recettesComposees=" + recettesComposees +
+                '}';
+    }
 }

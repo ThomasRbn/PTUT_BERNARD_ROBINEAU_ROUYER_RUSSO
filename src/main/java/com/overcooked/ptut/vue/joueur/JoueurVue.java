@@ -49,7 +49,7 @@ public class JoueurVue extends Pane {
                 case "Salade" -> new SaladeVue(tailleCellule);
                 case "Tomate" -> new TomateVue(tailleCellule);
                 case "Pain" -> new PainVue(tailleCellule);
-                default -> throw new IllegalStateException("Unexpected value: " + currAliment.getNom());
+                default -> new AlimentVue(tailleCellule);
             };
             aliments.add(alimentVue);
         }

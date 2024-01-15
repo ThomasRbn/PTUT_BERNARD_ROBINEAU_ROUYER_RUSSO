@@ -6,6 +6,7 @@ import com.overcooked.ptut.entites.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
+import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
@@ -49,13 +50,17 @@ public class GestionActions {
             }
 
             case POSER -> {
+                int[] caseDevant = new int[2];
+                caseDevant = joueur.getPositionCible();
                 // On vérifie si le joueur à quelque chose dans les mains
                 if (joueur.getInventaire() == null) {
                     yield false;
+                } else {
+                    if(objetsDeplacables[caseDevant[0]][caseDevant[1]] != null){
+                        yield true;
+                    }
                 }
                 // Calcul des coordonnés de la case devant le joueur
-                int[] caseDevant = new int[2];
-                caseDevant = joueur.getPositionCible();
                 //Recherche dans objetDeplacable s'il y a un objet devant le joueur
                 yield objetsDeplacables[caseDevant[0]][caseDevant[1]] == null;
                 //TODO: Vérifier que la case devant soit compatible avec l'objet à déplacer (ex: pas d'aliment sur le feu sans poele)
@@ -108,6 +113,11 @@ public class GestionActions {
                     if (planDeTravail.getInventaire() == null) {
                         planDeTravail.poserDessus(joueur.poser());
                         return;
+                    }
+                    if (planDeTravail.getInventaire() instanceof Plat plat) {
+                        if(joueur.getInventaire() != null){
+                            plat.ajouterAliment(joueur.poser());
+                        }
                     }
                 }
 

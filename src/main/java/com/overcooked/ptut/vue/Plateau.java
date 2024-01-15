@@ -11,6 +11,10 @@ import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.recettes.aliment.Plat;
+import com.overcooked.ptut.vue.aliment.AlimentVue;
+import com.overcooked.ptut.vue.aliment.PainVue;
+import com.overcooked.ptut.vue.aliment.SaladeVue;
+import com.overcooked.ptut.vue.aliment.TomateVue;
 import com.overcooked.ptut.vue.bloc.*;
 import com.overcooked.ptut.vue.joueur.JoueurVue;
 import javafx.scene.Scene;
@@ -130,24 +134,15 @@ public class Plateau extends GridPane {
                 StackPane caseBloc = (StackPane) this.getChildren().get(i * jeu.getLongueur() + j);
                 if (jeu.getObjetsFixes()[i][j] instanceof PlanDeTravail planDeTravail) {
                     if (planDeTravail.getInventaire() != null) {
-                        Circle cercle = new Circle(tailleCellule / 10 * 3);
-
                         planDeTravail.getInventaire().getRecettesComposees().forEach(aliment -> {
-                            switch (aliment.getNom()) {
-                                case "Salade":
-                                    cercle.setFill(Color.GREEN);
-                                    break;
-                                case "Tomate":
-                                    cercle.setFill(Color.RED);
-                                    break;
-                                case "Pain":
-                                    cercle.setFill(Color.BROWN);
-                                    break;
-                                default:
-                                    throw new IllegalStateException("Unexpected value: " + aliment.getNom());
-                            }
+                            AlimentVue alimentVue = switch (aliment.getNom()) {
+                                case "Salade" -> new SaladeVue(tailleCellule);
+                                case "Tomate" -> new TomateVue(tailleCellule);
+                                case "Pain" -> new PainVue(tailleCellule);
+                                default -> new AlimentVue(tailleCellule);
+                            };
+                            caseBloc.getChildren().add(alimentVue);
                         });
-                        caseBloc.getChildren().add(cercle);
                     }
                 }
             }

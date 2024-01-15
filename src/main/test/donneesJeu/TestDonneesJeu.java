@@ -24,7 +24,7 @@ public class TestDonneesJeu {
 
     @Test
     public void testDeplacementCloneDonneesJeu(){
-        donneesJeu = new DonneesJeu("niveaux/niveau1.txt", true);
+        donneesJeu = new DonneesJeu("niveaux/niveau3.txt", true);
         Joueur joueur = donneesJeu.getJoueurs().get(0);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         faireAction(BAS, 0, clone);
