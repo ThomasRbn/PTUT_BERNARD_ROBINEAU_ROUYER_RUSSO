@@ -1,10 +1,11 @@
 package com.overcooked.ptut.joueurs.ia.algo;
 
 
-
 import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
-import com.overcooked.ptut.joueurs.ia.framework.recherche.*;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.TreeSearchAC;
 import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
 
 import java.util.ArrayList;
