@@ -210,6 +210,7 @@ public class DonneesJeu {
     }
 
     public List<int[]> getCoordonneesElement(String element) {
+        System.out.println(element);
         switch (element) {
             case "Tomate":
                 List<int[]> coordonneesTomates = new ArrayList<>();
