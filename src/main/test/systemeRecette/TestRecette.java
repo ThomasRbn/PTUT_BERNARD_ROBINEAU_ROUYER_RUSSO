@@ -1,8 +1,7 @@
 package systemeRecette;
 
 import com.overcooked.ptut.recettes.aliment.*;
-import com.overcooked.ptut.recettes.etat.Coupe;
-import com.overcooked.ptut.recettes.etat.Cuisson;
+import com.overcooked.ptut.recettes.etat.Etat;
 import com.overcooked.ptut.recettes.verificateur.VerificationAliment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ public class TestRecette {
     @BeforeEach
     public void setUp() {
         painSalade = new Plat(new Pain(), new Salade());
-        burger = new Plat(new Pain(), new Cuisson(new Viande()));
+        burger = new Plat(new Pain(), new Viande(Etat.CUIT));
         vf = new VerificationAliment(List.of(painSalade, burger));
     }
 
@@ -27,7 +26,7 @@ public class TestRecette {
      */
     @Test
     public void testRecetteReussie() {
-        assertEquals(vf.verifiercompatibilite(List.of(new Pain(), new Cuisson(new Viande()))), burger);
+        assertTrue(vf.verifiercompatibilite(List.of(new Pain(), new Viande(Etat.CUIT))));
     }
 
     /**
@@ -35,7 +34,7 @@ public class TestRecette {
      */
     @Test
     public void testRecetteEchouee() {
-        assertNull(vf.verifiercompatibilite(List.of(new Pain())));
+        assertFalse(vf.verifiercompatibilite(List.of(new Pain())));
     }
 
     /**
@@ -43,7 +42,7 @@ public class TestRecette {
      */
     @Test
     public void testRecetteEchouee2() {
-        assertNull(vf.verifiercompatibilite(List.of(new Pain(), new Cuisson(new Viande()), new Salade())));
+        assertFalse(vf.verifiercompatibilite(List.of(new Pain(), new Viande(Etat.CUIT), new Salade())));
     }
 
     /**
@@ -51,7 +50,7 @@ public class TestRecette {
      */
     @Test
     public void testRecetteEchouee3() {
-        assertNull(vf.verifiercompatibilite(List.of(new Pain(), new Cuisson(new Viande()), new Pain())));
+        assertFalse(vf.verifiercompatibilite(List.of(new Pain(), new Viande(Etat.CUIT), new Pain())));
     }
 
     @Test

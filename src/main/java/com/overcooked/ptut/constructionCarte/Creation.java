@@ -1,6 +1,5 @@
 package com.overcooked.ptut.constructionCarte;
 
-import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.entites.Generateur;
 import com.overcooked.ptut.entites.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
@@ -14,8 +13,6 @@ import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Salade;
 import com.overcooked.ptut.recettes.aliment.Tomate;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import static com.overcooked.ptut.constructionCarte.CaracteresCarte.*;

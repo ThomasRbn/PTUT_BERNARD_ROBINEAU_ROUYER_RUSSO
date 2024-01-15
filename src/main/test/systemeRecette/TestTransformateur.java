@@ -5,13 +5,11 @@ import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Tomate;
-import com.overcooked.ptut.recettes.etat.Coupe;
-import com.overcooked.ptut.recettes.etat.Cuisson;
+import com.overcooked.ptut.recettes.etat.Etat;
 import org.junit.jupiter.api.Test;
 
 import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestTransformateur {
@@ -35,7 +33,7 @@ public class TestTransformateur {
         faireAction(POSER, 0,clone5);
         Transformateur t = (Transformateur) clone5.getObjetsFixes()[0][3];
         t.ajouterElem(clone4.getJoueurs().get(0).getInventaire());
-        assertTrue(t.transform().equals(new Plat(new Coupe(new Tomate()))));
+        assertTrue(t.transform().equals(new Plat(new Tomate(Etat.COUPE))));
     }
 
     @Test
@@ -52,7 +50,7 @@ public class TestTransformateur {
         t.ajouterElem(clone.getJoueurs().get(0).getInventaire());
         Plat plat = t.transform();
         System.out.println(plat.getRecettesComposees());
-        assertTrue(plat.equals(new Plat(new Cuisson(new Tomate()))));
+        assertTrue(plat.equals(new Plat(new Tomate(Etat.CUIT))));
     }
 
     @Test
@@ -81,6 +79,6 @@ public class TestTransformateur {
         faireAction(POSER, 0, clone8);
         Transformateur t2 = (Transformateur) clone8.getObjetsFixes()[2][3];
         t2.ajouterElem(clone7.getJoueurs().get(0).getInventaire());
-        assertTrue(t2.transform().equals(new Plat(new Cuisson(new Coupe(new Tomate())))));
+        assertTrue(t2.transform().equals(new Plat(new Tomate(Etat.CUIT_ET_COUPE))));
     }
 }

@@ -17,23 +17,23 @@ public class VerificationAliment {
         this.listeAliments = listeAliments;
     }
 
-    public Plat verifiercompatibilite(List<Aliment> alimentsATraiter) {
+    public boolean verifiercompatibilite(List<Aliment> alimentsATraiter) {
         for (Plat recette : listeAliments) {
             boolean estPresent = true;
             List<Aliment> currAliments = new ArrayList<>(alimentsATraiter);
             for (Aliment alimentRecette : recette.getRecettesComposees()) {
                 int currIndex = currAliments.indexOf(alimentRecette);
                 estPresent = estPresent && (currIndex != -1);
+                System.out.println(estPresent + " " + alimentRecette);
                 if (currIndex != -1) {
                     currAliments.remove(currIndex);
                 }
             }
+            System.out.println("currAliments.isEmpty() = " + currAliments.isEmpty() + " estPresent = " + estPresent);
             if (estPresent && currAliments.isEmpty()) {
-                System.out.println("La recette est possible");
-                return recette;
+                return true;
             }
         }
-        System.out.println("Aucune recette n'est possible");
-        return null;
+        return false;
     }
 }

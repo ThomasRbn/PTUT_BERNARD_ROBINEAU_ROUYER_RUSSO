@@ -9,7 +9,6 @@ import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
-import static com.overcooked.ptut.joueurs.utilitaire.Action.DROITE;
 
 public class GestionActions {
 

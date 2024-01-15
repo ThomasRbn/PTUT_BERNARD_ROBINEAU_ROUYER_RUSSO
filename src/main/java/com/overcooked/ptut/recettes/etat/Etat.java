@@ -1,40 +1,28 @@
 package com.overcooked.ptut.recettes.etat;
 
-import com.overcooked.ptut.recettes.aliment.Aliment;
-
-import java.util.Objects;
-
 /**
- * Classe correspondant a un etat d'un aliment. Il fonctionne comme un decorateur (patron de conception)
+ * Classe correspondant a un etat d'un aliment. Un aliment peut avoir plusieurs etats
  */
-public abstract class Etat extends Aliment {
-    protected Aliment composant;
+public class Etat {
+    public static final int CRU = 0;
+    public static final int CUIT = 1;
+    public static final int COUPE = 2;
+    public static final int CUIT_ET_COUPE = 3;
 
-    public Etat(String nom, String d, Aliment c) {
-        this.nom = nom;
-        this.description = d;
-        this.composant = c;
-    }
-
-    public String toString() {
-        return composant + " -- " + getDescription();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Etat that = (Etat) o;
-        return Objects.equals(composant, that.composant);
-    }
-
-    public void setComposant(Aliment composant) {
-        this.composant = composant;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), composant);
+    public static int transformEtat(int etat, int etat1) {
+        if(etat == CRU && etat1 == CUIT)
+            return CUIT;
+        else if(etat == CUIT && etat1 == COUPE)
+            return CUIT_ET_COUPE;
+        else if(etat == CRU && etat1 == COUPE)
+            return COUPE;
+        else if(etat == COUPE && etat1 == CUIT)
+            return CUIT_ET_COUPE;
+        else if(etat == CUIT_ET_COUPE && etat1 == CUIT)
+            return CUIT_ET_COUPE;
+        else if(etat == CUIT_ET_COUPE && etat1 == COUPE)
+            return CUIT_ET_COUPE;
+        else
+            return etat;
     }
 }

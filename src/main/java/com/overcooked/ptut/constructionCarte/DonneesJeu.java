@@ -9,14 +9,16 @@ import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.recettes.aliment.*;
-import com.overcooked.ptut.recettes.etat.Coupe;
-import com.overcooked.ptut.recettes.etat.Cuisson;
+import com.overcooked.ptut.recettes.etat.Etat;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static com.overcooked.ptut.constructionCarte.CaracteresCarte.*;
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
@@ -60,7 +62,6 @@ public class DonneesJeu {
         try {
             String ligne = bfRead.readLine();
             while (ligne != null) {
-                System.out.println(ligne);
                 List<String> recette = new ArrayList<>(List.of(ligne.split(" ")));
                 Collections.reverse(recette);
                 Aliment currAliment = getCurrentPlatBut(recette);
@@ -80,8 +81,8 @@ public class DonneesJeu {
                 case "T" -> currAliment = new Tomate();
                 case "P" -> currAliment = new Pain();
                 case "V" -> currAliment = new Viande();
-                case "C" -> currAliment = new Coupe(currAliment);
-                case "R" -> currAliment = new Cuisson(currAliment);
+                case "C" -> currAliment.setEtat(Etat.COUPE);
+                case "R" -> currAliment.setEtat(Etat.CUIT);
                 default -> throw new IllegalStateException("Unexpected value: " + s);
             }
         }
@@ -101,7 +102,6 @@ public class DonneesJeu {
 
         // parcours le fichier
         while (!ligne.equals("-")) {
-            System.out.println(ligne);
             traiterLigne(ligne, indexLigne, test);
             indexLigne++;
             ligne = bfRead.readLine();
