@@ -306,21 +306,6 @@ public class DonneesJeu {
         return s.toString();
     }
 
-    /**
-     * Méthode permettant de récupérer les coordonnées du dépot
-     *
-     * @return oordonnees du dépot
-     */
-    public int[] getCoordonneesDepot() {
-        for (int i = 0; i < hauteur; i++) {
-            for (int j = 0; j < longueur; j++) {
-                if (objetsFixes[i][j] instanceof Depot) {
-                    return new int[]{i, j};
-                }
-            }
-        }
-        return null;
-    }
 
     public List<Plat> getPlatDepose() {
         for (int i = 0; i < hauteur; i++) {

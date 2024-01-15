@@ -36,7 +36,7 @@ public class Generateur extends Bloc {
      * @return
      */
     public Plat getAliment() {
-        return aliment;
+        return new Plat(aliment);
     }
 
     public String getType() {
