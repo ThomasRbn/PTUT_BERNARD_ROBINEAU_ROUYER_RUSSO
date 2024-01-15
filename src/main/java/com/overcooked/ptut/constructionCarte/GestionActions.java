@@ -44,7 +44,8 @@ public class GestionActions {
                     //Recherche dans objetDeplacable s'il y a un objet à prendre
                     yield objetsDeplacables[caseDevant[0]][caseDevant[1]] != null
                             || objetsDeplacables[positionJoueur[0]][positionJoueur[1]] != null
-                            || objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur;
+                            || objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur
+                            || (objetsFixes[caseDevant[0]][caseDevant[1]] instanceof PlanDeTravail && ((PlanDeTravail) objetsFixes[caseDevant[0]][caseDevant[1]]).getInventaire() != null);
                 }
             }
 
@@ -104,6 +105,7 @@ public class GestionActions {
                 }
 
                 if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof PlanDeTravail planDeTravail) {
+                    System.out.println("Plan de travail");
                     if (planDeTravail.getInventaire() == null) {
                         planDeTravail.poserDessus(joueur.poser());
                         return;
@@ -151,6 +153,14 @@ public class GestionActions {
                 System.out.println(joueur.getInventaire());
                 return;
             }
+            case PlanDeTravail planDeTravail -> {
+                if (planDeTravail.getInventaire() != null) {
+                    joueur.prendre(planDeTravail.getInventaire());
+                    planDeTravail.poserDessus(null);
+                    return;
+                }
+            }
+
             default -> throw new IllegalArgumentException("DonneesJeu.prendre, bloc invalide" + objetsFix);
         }
         //Prendre un objet déjà présent sur la carte

@@ -2,6 +2,7 @@ package com.overcooked.ptut.constructionCarte;
 
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.entites.Generateur;
+import com.overcooked.ptut.entites.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
@@ -38,6 +39,7 @@ public class DonneesJeu {
      */
     public DonneesJeu(String chemin, boolean... test) {
         platsBut = new ArrayList<>();
+        platsBut.add(new Plat(new Tomate()));
         try {
             initialiserDonnees(chemin, test);
         } catch (IOException e) {
@@ -215,6 +217,15 @@ public class DonneesJeu {
                     for (int j = 0; j < longueur; j++) {
                         if (objetsFixes[i][j] instanceof Generateur && ((Generateur) objetsFixes[i][j]).getAliment().getRecettesComposees().get(0) instanceof Tomate) {
                             coordonneesTomates.add(new int[]{i, j});
+                        } else if (objetsFixes[i][j] instanceof PlanDeTravail){
+                            PlanDeTravail planDeTravail = ((PlanDeTravail) objetsFixes[i][j]);
+                                    if (planDeTravail.getInventaire() != null && planDeTravail.getInventaire().getRecettesComposees().get(0) instanceof Tomate)
+                            coordonneesTomates.add(new int[]{i, j});
+                        }
+                        if (objetsDeplacables[i][j] != null) {
+                            if (objetsDeplacables[i][j].getRecettesComposees().get(0) instanceof Tomate){
+                                coordonneesTomates.add(new int[]{i, j});
+                            }
                         }
                     }
                 }

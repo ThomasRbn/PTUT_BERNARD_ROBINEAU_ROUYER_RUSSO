@@ -2,6 +2,7 @@ package donneesJeu;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.entites.Depot;
+import com.overcooked.ptut.entites.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.recettes.aliment.Plat;
@@ -93,6 +94,36 @@ public class TestDonneesJeu {
         faireAction(HAUT, 0, clone);
         Joueur joueurClone = clone.getJoueurs().get(0);
         assertEquals(Arrays.toString(joueur.getPosition()), Arrays.toString(joueurClone.getPosition()));
+    }
+
+    @Test
+    public void testInventaireMur(){
+        donneesJeu = new DonneesJeu("niveaux/niveauTest.txt", true);
+        InputStream in = new ByteArrayInputStream("HUMAIN".getBytes());
+        System.setIn(in);
+        Joueur joueur = donneesJeu.getJoueurs().get(0);
+        DonneesJeu clone = new DonneesJeu(donneesJeu);
+        faireAction(PRENDRE, 0, clone);
+        DonneesJeu clone2 = new DonneesJeu(clone);
+        faireAction(BAS, 0, clone2);
+        DonneesJeu clone3 = new DonneesJeu(clone2);
+        faireAction(POSER, 0, clone3);
+        DonneesJeu clone4 = new DonneesJeu(clone3);
+        Bloc planDeTravail = clone4.getObjetsFixes()[2][1];
+        assertNotNull(((PlanDeTravail) planDeTravail).getInventaire());
+    }
+
+    @Test
+    public void testInventaireMurSansClone(){
+        donneesJeu = new DonneesJeu("niveaux/niveauTest.txt", true);
+        InputStream in = new ByteArrayInputStream("HUMAIN".getBytes());
+        System.setIn(in);
+        Joueur joueur = donneesJeu.getJoueurs().get(0);
+        faireAction(PRENDRE, 0, donneesJeu);
+        faireAction(BAS, 0, donneesJeu);
+        faireAction(POSER, 0, donneesJeu);
+        Bloc planDeTravail = donneesJeu.getObjetsFixes()[2][1];
+        assertNotNull(((PlanDeTravail) planDeTravail).getInventaire());
     }
 
 }

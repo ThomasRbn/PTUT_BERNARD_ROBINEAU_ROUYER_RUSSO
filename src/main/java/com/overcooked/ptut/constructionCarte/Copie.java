@@ -2,6 +2,7 @@ package com.overcooked.ptut.constructionCarte;
 
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.entites.Generateur;
+import com.overcooked.ptut.entites.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
@@ -24,7 +25,8 @@ public class Copie {
                         case Generateur generateur -> new Generateur(generateur);
                         case Planche planche -> new Planche(planche);
                         case Poele poele -> new Poele(poele);
-                        case null, default -> new Bloc(objetsFixes[i][j]);
+                        case PlanDeTravail planDeTravail -> new PlanDeTravail(planDeTravail);
+                        default -> throw new IllegalArgumentException("DonneesJeu.constructeur, caractère inconnu : " + objetsFixes[i][j]);
                     };
                 }
             }
