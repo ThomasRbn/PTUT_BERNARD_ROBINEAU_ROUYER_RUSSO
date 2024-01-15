@@ -2,25 +2,21 @@ package com.overcooked.ptut.constructionCarte;
 
 import com.overcooked.ptut.entites.Depot;
 import com.overcooked.ptut.entites.Generateur;
-import com.overcooked.ptut.entites.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
-import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
-import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.*;
+import com.overcooked.ptut.recettes.etat.Coupe;
+import com.overcooked.ptut.recettes.etat.Cuisson;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static com.overcooked.ptut.constructionCarte.CaracteresCarte.*;
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
@@ -42,9 +38,6 @@ public class DonneesJeu {
      */
     public DonneesJeu(String chemin, boolean... test) {
         platsBut = new ArrayList<>();
-        //TODO: faire en sorte que les plats buts soit généré automatiquement
-        Plat saladePain = new Plat(new Tomate());
-        platsBut.add(saladePain);
         try {
             initialiserDonnees(chemin, test);
         } catch (IOException e) {
@@ -58,6 +51,44 @@ public class DonneesJeu {
         FileReader reader = new FileReader(fichier);
         BufferedReader bfRead = new BufferedReader(reader);
 
+        loadLevel(test, fichier, bfRead);
+        loadRecipes(bfRead);
+    }
+
+    private void loadRecipes(BufferedReader bfRead) {
+        platsBut.clear();
+        try {
+            String ligne = bfRead.readLine();
+            while (ligne != null) {
+                System.out.println(ligne);
+                List<String> recette = new ArrayList<>(List.of(ligne.split(" ")));
+                Collections.reverse(recette);
+                Aliment currAliment = getCurrentPlatBut(recette);
+                platsBut.add(new Plat(currAliment));
+                ligne = bfRead.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static Aliment getCurrentPlatBut(List<String> recette) {
+        Aliment currAliment = new Aliment();
+        for (String s : recette) {
+            switch (s) {
+                case "S" -> currAliment = new Salade();
+                case "T" -> currAliment = new Tomate();
+                case "P" -> currAliment = new Pain();
+                case "V" -> currAliment = new Viande();
+                case "C" -> currAliment = new Coupe(currAliment);
+                case "R" -> currAliment = new Cuisson(currAliment);
+                default -> throw new IllegalStateException("Unexpected value: " + s);
+            }
+        }
+        return currAliment;
+    }
+
+    private void loadLevel(boolean[] test, File fichier, BufferedReader bfRead) throws IOException {
         joueurs = new ArrayList<>();
         objetsFixes = new Bloc[getHauteur(fichier)][getLongueur(fichier)];
 
@@ -69,7 +100,8 @@ public class DonneesJeu {
         int indexLigne = 0;
 
         // parcours le fichier
-        while (ligne != null) {
+        while (!ligne.equals("-")) {
+            System.out.println(ligne);
             traiterLigne(ligne, indexLigne, test);
             indexLigne++;
             ligne = bfRead.readLine();
@@ -128,6 +160,51 @@ public class DonneesJeu {
 
         // Copie des joueurs
         this.joueurs = Copie.CopieJoueurs(donneesJeu.joueurs);
+    }
+
+    /**
+     * Retourne vrai si l'action a est légale dans l'état courant pour le joueur numJoueur
+     */
+    public boolean isLegal(Action a, int numJoueur) {
+        Joueur joueur = joueurs.get(numJoueur);
+        int[] positionJoueur = joueur.getPosition();
+        Action direction = joueur.getDirection();
+        return switch (a) {
+            case HAUT -> positionJoueur[0] != 0 || direction != HAUT;
+            case GAUCHE -> positionJoueur[1] != 0 || direction != GAUCHE;
+            case BAS -> positionJoueur[0] != hauteur - 1 || direction != BAS;
+            case DROITE -> positionJoueur[1] != longueur - 1 || direction != DROITE;
+            case PRENDRE -> {
+                //On vérifie que ses mains sont libres
+                if (joueur.getInventaire() != null) {
+                    yield false;
+                } else {
+                    // Calcul des coordonnes de la case devant le joueur
+                    int[] caseDevant = new int[2];
+                    caseDevant = joueur.getPositionCible();
+
+                    //Recherche dans objetDeplacable s'il y a un objet à prendre
+                    yield objetsDeplacables[caseDevant[0]][caseDevant[1]] != null
+                            || objetsDeplacables[positionJoueur[0]][positionJoueur[1]] != null
+                            || objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur;
+                }
+            }
+
+            case POSER -> {
+                // On vérifie si le joueur à quelque chose dans les mains
+                if (joueur.getInventaire() == null) {
+                    yield false;
+                }
+                // Calcul des coordonnés de la case devant le joueur
+                int[] caseDevant = new int[2];
+                caseDevant = joueur.getPositionCible();
+                //Recherche dans objetDeplacable s'il y a un objet devant le joueur
+                yield objetsDeplacables[caseDevant[0]][caseDevant[1]] == null;
+                //TODO: Vérifier que la case devant soit compatible avec l'objet à déplacer (ex: pas d'aliment sur le feu sans poele)
+            }
+            //Exception si l'action n'est pas reconnue
+            default -> throw new IllegalArgumentException("DonneesJeu.isLegal, action invalide" + a);
+        };
     }
 
     public List<int[]> getCoordonneesAliment(Aliment aliment) {
