@@ -209,7 +209,7 @@ public class DonneesJeu {
         };
     }
 
-    public List<int[]> getcoordonneesElement(String element) {
+    public List<int[]> getCoordonneesElement(String element) {
         switch (element) {
             case "Tomate":
                 List<int[]> coordonneesTomates = new ArrayList<>();
@@ -241,6 +241,39 @@ public class DonneesJeu {
                     }
                 }
                 return coordonneesPlanDeTravail;
+
+                case "Generateur":
+                List<int[]> coordonneesGenerateur = new ArrayList<>();
+                for (int i = 0; i < hauteur; i++) {
+                    for (int j = 0; j < longueur; j++) {
+                        if (objetsFixes[i][j] instanceof Generateur) {
+                            coordonneesGenerateur.add(new int[]{i, j});
+                        }
+                    }
+                }
+                return coordonneesGenerateur;
+
+                case "Cuisson":
+                List<int[]> coordonneesPoele = new ArrayList<>();
+                for (int i = 0; i < hauteur; i++) {
+                    for (int j = 0; j < longueur; j++) {
+                        if (objetsFixes[i][j] instanceof Poele) {
+                            coordonneesPoele.add(new int[]{i, j});
+                        }
+                    }
+                }
+                return coordonneesPoele;
+
+                case "Planche":
+                List<int[]> coordonneesPlanche = new ArrayList<>();
+                for (int i = 0; i < hauteur; i++) {
+                    for (int j = 0; j < longueur; j++) {
+                        if (objetsFixes[i][j] instanceof Planche) {
+                            coordonneesPlanche.add(new int[]{i, j});
+                        }
+                    }
+                }
+                return coordonneesPlanche;
             default:
                 throw new IllegalArgumentException("DonneesJeu.getCoordonneesAliment, Aliment pas encore implémenté");
         }
