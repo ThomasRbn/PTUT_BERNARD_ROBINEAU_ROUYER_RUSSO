@@ -216,7 +216,11 @@ public abstract class Joueur {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Joueur joueur = (Joueur) o;
-        return numJoueur == joueur.numJoueur && Arrays.equals(position, joueur.position) && Objects.equals(inventaire, joueur.inventaire) && direction == joueur.direction;
+        if (inventaire == null && joueur.inventaire != null)
+            return false;
+        if (inventaire == null)
+            return  numJoueur == joueur.numJoueur && Arrays.equals(position, joueur.position) && direction == joueur.direction;
+        return numJoueur == joueur.numJoueur && Arrays.equals(position, joueur.position) && inventaire.equals(joueur.inventaire) && direction == joueur.direction;
     }
 
     @Override
