@@ -41,6 +41,9 @@ public class GestionActions {
                     if(objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur generateur){
                         yield joueur.aDejaCetAliment(generateur.getAliment());
                     }
+                    if(objetsDeplacables[caseDevant[0]][caseDevant[1]] != null && objetsDeplacables[caseDevant[0]][caseDevant[1]].getRecettesComposees().size() == 1){
+                        yield joueur.aDejaCetAliment(objetsDeplacables[caseDevant[0]][caseDevant[1]].getRecettesComposees().getFirst());
+                    }
                     yield false;
                 } else {
                     // Calcul des coordonnes de la case devant le joueur
