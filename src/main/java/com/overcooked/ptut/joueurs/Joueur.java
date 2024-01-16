@@ -61,7 +61,17 @@ public abstract class Joueur {
      * @param objet Plat à prendre
      */
     public void prendre(Plat objet) {
-        inventaire = objet;
+        inventaire = fusionnerPlats(inventaire, objet);
+    }
+
+    public Plat fusionnerPlats(Plat plat1, Plat plat2){
+        if(plat1 == null && plat2 == null)
+            return null;
+        if(plat1 == null)
+            return new Plat(plat2);
+        if(plat2 == null)
+            return new Plat(plat1);
+        return new Plat(plat1, plat2);
     }
 
     /**

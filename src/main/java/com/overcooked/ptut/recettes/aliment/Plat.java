@@ -25,6 +25,15 @@ public class Plat extends Aliment {
         this.recettesComposees.addAll(plat.getRecettesComposees());
     }
 
+    public Plat(Plat plat1, Plat plat2){
+        super();
+        this.nom = "Plat";
+        description = "Plat";
+        this.recettesComposees = new ArrayList<>();
+        this.recettesComposees.addAll(plat1.getRecettesComposees());
+        this.recettesComposees.addAll(plat2.getRecettesComposees());
+    }
+
     public Plat(Aliment aliment1, Aliment aliment2) {
         super();
         this.nom = "Plat";

@@ -96,43 +96,10 @@ public class GestionActions {
             case PRENDRE -> prendre(joueur, objetsFixes, objetsDeplacables);
             //Poser un objet (dans la case devant le joueur)
             case POSER -> {
-                System.out.println("Joueur cible" + Arrays.toString(positionJoueurCible));
-                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Depot) {
-                    if (joueur.getInventaire() != null) {
-                        Depot depot = (Depot) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
-                        depot.deposerPlat(joueur.poser());
-                        return;
-                    }
-                }
-
-                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Transformateur transformateur) {
-                    transformateur.ajouterElem(joueur.poser());
-                    System.out.println(transformateur.getInventaire());
-                    return;
-                }
-
-                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof PlanDeTravail planDeTravail) {
-                    System.out.println("Plan de travail");
-                    if (planDeTravail.getInventaire() == null) {
-                        planDeTravail.poserDessus(joueur.poser());
-                        return;
-                    }
-                    if (planDeTravail.getInventaire() instanceof Plat plat) {
-                        if(joueur.getInventaire() != null){
-                            plat.ajouterAliment(joueur.poser());
-                        }
-                    }
-                }
-
-//                if (objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]] == null) {
-//                    objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]] = joueur.poser();
-//                }
-
+                poser(objetsFixes, positionJoueurCible, joueur);
             }
-
             //Utiliser un transformateur
             case UTILISER -> {
-                System.out.println("Joueur cible" + Arrays.toString(positionJoueurCible));
                 if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Transformateur transformateur) {
                     if (transformateur.getInventaire() != null) {
                         transformateur.transform();
@@ -144,6 +111,33 @@ public class GestionActions {
             }
             //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.faireAction, action invalide" + a);
+        }
+    }
+
+    private static void poser(Bloc[][] objetsFixes, int[] positionJoueurCible, Joueur joueur) {
+        if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Depot) {
+            if (joueur.getInventaire() != null) {
+                Depot depot = (Depot) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
+                depot.deposerPlat(joueur.poser());
+                return;
+            }
+        }
+
+        if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Transformateur transformateur) {
+            transformateur.ajouterElem(joueur.poser());
+            return;
+        }
+
+        if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof PlanDeTravail planDeTravail) {
+            if (planDeTravail.getInventaire() == null) {
+                planDeTravail.poserDessus(joueur.poser());
+                return;
+            }
+            if (planDeTravail.getInventaire() instanceof Plat plat) {
+                if(joueur.getInventaire() != null){
+                    plat.ajouterAliment(joueur.poser());
+                }
+            }
         }
     }
 
