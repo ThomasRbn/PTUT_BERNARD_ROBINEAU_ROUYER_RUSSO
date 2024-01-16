@@ -2,6 +2,7 @@ package com.overcooked.ptut.vue;
 
 import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.recettes.etat.Etat;
+import com.overcooked.ptut.vue.aliment.AlimentVue;
 import com.overcooked.ptut.vue.aliment.PainVue;
 import com.overcooked.ptut.vue.aliment.SaladeVue;
 import com.overcooked.ptut.vue.aliment.TomateVue;
@@ -40,7 +41,7 @@ public class AfficheurCercle {
                 }
                 yield new PainVue(tailleCellule);
             }
-            case null, default -> throw new IllegalStateException("Unexpected value: " + currAliment.getNom());
+            case null, default -> new AlimentVue(tailleCellule);
         };
     }
 
