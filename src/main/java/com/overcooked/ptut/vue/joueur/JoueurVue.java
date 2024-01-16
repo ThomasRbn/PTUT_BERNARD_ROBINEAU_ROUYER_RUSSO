@@ -2,11 +2,7 @@ package com.overcooked.ptut.vue.joueur;
 
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.recettes.aliment.Aliment;
-import com.overcooked.ptut.recettes.etat.Etat;
 import com.overcooked.ptut.vue.aliment.AlimentVue;
-import com.overcooked.ptut.vue.aliment.PainVue;
-import com.overcooked.ptut.vue.aliment.SaladeVue;
-import com.overcooked.ptut.vue.aliment.TomateVue;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -17,7 +13,7 @@ import javafx.scene.shape.Circle;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.overcooked.ptut.vue.AfficheurCercle.afficherEtatCercle;
+import static com.overcooked.ptut.vue.AfficheurInfobulle.afficherEtatCercle;
 
 public class JoueurVue extends Pane {
     public JoueurVue(double tailleCellule, Joueur joueur) {
