@@ -14,7 +14,6 @@ public class AfficheurCercle {
         return switch (currAliment.getNom()) {
             case "Salade" -> {
                 if (currAliment.getEtat() == Etat.COUPE) {
-                    System.out.println("salt");
                     yield new SaladeVue(tailleCellule).couper();
                 } else if (currAliment.getEtat() == Etat.CUIT) {
                     yield new SaladeVue(tailleCellule).cuire();
@@ -28,6 +27,8 @@ public class AfficheurCercle {
                     yield new TomateVue(tailleCellule).couper();
                 } else if (currAliment.getEtat() == Etat.CUIT) {
                     yield new TomateVue(tailleCellule).cuire();
+                } else if (currAliment.getEtat() == Etat.CUIT_ET_COUPE) {
+                    yield new TomateVue(tailleCellule).cuireEtCouper();
                 }
                 yield new TomateVue(tailleCellule);
             }

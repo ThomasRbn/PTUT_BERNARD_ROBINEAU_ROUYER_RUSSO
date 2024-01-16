@@ -17,6 +17,6 @@ public class AlimentVue extends Circle {
     }
 
     public AlimentVue cuireEtCouper() {
-        return PatternTransformateur.afficherCuisson(PatternTransformateur.afficherCoupe(this));
+        return PatternTransformateur.afficherCoupe(PatternTransformateur.afficherCuisson(this));
     }
 }

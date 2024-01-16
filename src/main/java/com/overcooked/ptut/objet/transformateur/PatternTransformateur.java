@@ -12,7 +12,7 @@ public class PatternTransformateur {
 
 
     public static AlimentVue afficherCuisson(AlimentVue circle) {
-        circle.setFill(((Color) circle.getFill()).darker());
+        circle.setFill(((Color) circle.getFill()).darker().darker());
         return circle;
     }
 
