@@ -45,7 +45,9 @@ public class TestCoordonnees {
     public void testGetCoordonneesCuisson(){
         donneesJeu = new DonneesJeu("niveaux/niveauTest.txt", true);
         int[] coordonneesPoele= donneesJeu.getCoordonneesElement("Cuisson").getFirst();
-        assertEquals(Arrays.toString(coordonneesPoele), Arrays.toString(new int[]{3, 2}));
+        int[] coordonneesPoele2= donneesJeu.getCoordonneesElement("Cuisson").get(1);
+        assertEquals(Arrays.toString(coordonneesPoele), Arrays.toString(new int[]{1, 0}));
+        assertEquals(Arrays.toString(coordonneesPoele2), Arrays.toString(new int[]{2, 3}));
     }
 
     @Test
