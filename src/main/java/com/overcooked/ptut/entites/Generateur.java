@@ -42,4 +42,9 @@ public class Generateur extends Bloc {
     public String getType() {
         return type;
     }
+
+    @Override
+    public Plat getInventaire() {
+        return aliment;
+    }
 }

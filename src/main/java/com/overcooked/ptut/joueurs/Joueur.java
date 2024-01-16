@@ -81,7 +81,7 @@ public abstract class Joueur {
      * @param action
      */
     public void changeDirection(Action action) {
-        if (action != Action.RIEN && action != Action.PRENDRE && action != Action.POSER)
+        if (action == Action.HAUT || action == Action.BAS || action == Action.GAUCHE || action == Action.DROITE)
             direction = action;
     }
 

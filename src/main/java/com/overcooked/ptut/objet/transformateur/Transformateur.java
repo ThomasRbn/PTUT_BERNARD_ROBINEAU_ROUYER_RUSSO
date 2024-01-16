@@ -15,7 +15,7 @@ public abstract class Transformateur extends Bloc {
     /**
      * Element posé sur le transformateur (Plat)
      */
-    protected Plat elemPose;
+    protected Plat inventaire;
 
     /**
      * Temps de transformation de l'aliment
@@ -44,7 +44,7 @@ public abstract class Transformateur extends Bloc {
     public Transformateur(Transformateur t) {
         super(t);
         this.etat = t.etat;
-        this.elemPose = t.elemPose;
+        this.inventaire = t.inventaire;
         this.tempsRestant = t.tempsRestant;
     }
 
@@ -54,20 +54,20 @@ public abstract class Transformateur extends Bloc {
      */
     public Plat transform(){
         //Si aucun aliment n'est posé sur le transformateur, on ne fait rien
-        if(elemPose == null
-                || elemPose.getRecettesComposees().isEmpty())
+        if(inventaire == null
+                || inventaire.getRecettesComposees().isEmpty())
             return null;
 
         //Si l'aliment est déjà dans l'état voulu, on ne fait rien
-        if (elemPose.getRecettesComposees().getFirst().equals(etat)) return elemPose;
+        if (inventaire.getRecettesComposees().getFirst().equals(etat)) return inventaire;
 
         //Si l'aliment n'est pas dans l'état voulu, on le transforme
-        Aliment alim = elemPose.getRecettesComposees().getFirst();
+        Aliment alim = inventaire.getRecettesComposees().getFirst();
         System.out.println(alim);
         alim.setEtat(etat);
-        elemPose.viderAliments();
-        elemPose.ajouterAliment(alim);
-        return elemPose;
+        inventaire.viderAliments();
+        inventaire.ajouterAliment(alim);
+        return inventaire;
     }
 
     /**
@@ -76,9 +76,9 @@ public abstract class Transformateur extends Bloc {
      * @return true si le plat a été ajouté, false sinon
      */
     public boolean ajouterElem(Plat elem){
-        if (elemPose != null) return false;
+        if (inventaire != null) return false;
         if (elem.getRecettesComposees().size() != 1) return false;
-        elemPose = elem;
+        inventaire = elem;
         return true;
     }
 
@@ -86,12 +86,12 @@ public abstract class Transformateur extends Bloc {
      * Méthode permettant de retirer un Plat du transformateur
      */
     public Plat retirerElem(){
-        Plat elem = elemPose;
-        elemPose = null;
+        Plat elem = inventaire;
+        inventaire = null;
         return elem;
     }
 
-    public Plat getElemPose() {
-        return elemPose;
+    public Plat getInventaire() {
+        return inventaire;
     }
 }

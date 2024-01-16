@@ -8,13 +8,11 @@ import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
+import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
-import com.overcooked.ptut.recettes.aliment.Plat;
-import com.overcooked.ptut.vue.aliment.AlimentVue;
-import com.overcooked.ptut.vue.aliment.PainVue;
-import com.overcooked.ptut.vue.aliment.SaladeVue;
-import com.overcooked.ptut.vue.aliment.TomateVue;
+import com.overcooked.ptut.objet.transformateur.Transformateur;
+import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.vue.bloc.*;
 import com.overcooked.ptut.vue.joueur.JoueurVue;
 import javafx.scene.Scene;
@@ -23,11 +21,11 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
 import static com.overcooked.ptut.constructionCarte.GestionActions.isLegal;
+import static com.overcooked.ptut.vue.AfficheurCercle.afficherEtatCercle;
 
 public class Plateau extends GridPane {
 
@@ -53,9 +51,9 @@ public class Plateau extends GridPane {
 
     public void initEventClavier(Scene scene, DonneesJeu jeu) {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            for (Joueur joueur : jeu.getJoueurs()){
-                if (joueur instanceof JoueurHumain){
-                    switch (key.getCode()){
+            for (Joueur joueur : jeu.getJoueurs()) {
+                if (joueur instanceof JoueurHumain) {
+                    switch (key.getCode()) {
                         case Z:
                             faireAction(Action.HAUT, joueur.getNumJoueur(), jeu);
                             break;
@@ -68,24 +66,23 @@ public class Plateau extends GridPane {
                         case D:
                             faireAction(Action.DROITE, joueur.getNumJoueur(), jeu);
                             break;
+                        case E:
+                            faireAction(Action.UTILISER, joueur.getNumJoueur(), jeu);
+                            break;
                         case SPACE:
-                            int[] positionFaceJoueur = joueur.getPositionCible();
-
-                            if (isLegal(Action.PRENDRE, joueur.getNumJoueur(), jeu)){
+                            if (isLegal(Action.PRENDRE, joueur.getNumJoueur(), jeu)) {
+                                System.out.println("prendre");
                                 faireAction(Action.PRENDRE, joueur.getNumJoueur(), jeu);
-                            } else if (isLegal(Action.POSER, joueur.getNumJoueur(), jeu)){
+                            } else if (isLegal(Action.POSER, joueur.getNumJoueur(), jeu)) {
+                                System.out.println("poser");
                                 faireAction(Action.POSER, joueur.getNumJoueur(), jeu);
-                            } else if (jeu.getObjetsFixes()[positionFaceJoueur[0]][positionFaceJoueur[1]] instanceof PlanDeTravail planDeTravail){
-                                if (planDeTravail.getInventaire() != null){
-                                    faireAction(Action.PRENDRE, joueur.getNumJoueur(), jeu);
-                                }
                             }
                             break;
                         default:
                             break;
                     }
-                } else if (joueur instanceof JoueurIA){
-                    if (key.getCode() == javafx.scene.input.KeyCode.ENTER){
+                } else if (joueur instanceof JoueurIA) {
+                    if (key.getCode() == javafx.scene.input.KeyCode.ENTER) {
                         faireAction(joueur.demanderAction(jeu), joueur.getNumJoueur(), jeu);
                     }
                 }
@@ -102,11 +99,10 @@ public class Plateau extends GridPane {
     }
 
     private void afficherBlocs(DonneesJeu jeu) {
-        //TODO AFFICHAGE POELE / PLANCHE
         for (int i = 0; i < jeu.getHauteur(); i++) {
             for (int j = 0; j < jeu.getLongueur(); j++) {
-                Bloc caseBloc = switch (jeu.getObjetsFixes()[i][j]) {
-                    case null -> new Bloc();
+                BlocVue caseBloc = switch (jeu.getObjetsFixes()[i][j]) {
+                    case null -> new BlocVue();
                     case Depot ignored -> new DepotBloc();
                     case Generateur generateur -> new GenerateurBloc(generateur, tailleCellule);
                     case Planche ignored -> new PlancheBloc();
@@ -127,25 +123,34 @@ public class Plateau extends GridPane {
     }
 
 
-
     private void afficherInventaireBloc(DonneesJeu jeu) {
         for (int i = 0; i < jeu.getHauteur(); i++) {
             for (int j = 0; j < jeu.getLongueur(); j++) {
                 StackPane caseBloc = (StackPane) this.getChildren().get(i * jeu.getLongueur() + j);
                 if (jeu.getObjetsFixes()[i][j] instanceof PlanDeTravail planDeTravail) {
                     if (planDeTravail.getInventaire() != null) {
-                        planDeTravail.getInventaire().getRecettesComposees().forEach(aliment -> {
-                            AlimentVue alimentVue = switch (aliment.getNom()) {
-                                case "Salade" -> new SaladeVue(tailleCellule);
-                                case "Tomate" -> new TomateVue(tailleCellule);
-                                case "Pain" -> new PainVue(tailleCellule);
-                                default -> new AlimentVue(tailleCellule);
-                            };
-                            caseBloc.getChildren().add(alimentVue);
-                        });
+                        Circle cercle = new Circle(tailleCellule / 10 * 3);
+
+                        cercle = setCircle(planDeTravail, cercle);
+                        caseBloc.getChildren().add(cercle);
+                    }
+                } else if (jeu.getObjetsFixes()[i][j] instanceof Transformateur transformateur) {
+                    if (transformateur.getInventaire() != null) {
+                        Circle cercle = new Circle(tailleCellule / 10 * 3);
+
+                        cercle = setCircle(transformateur, cercle);
+                        caseBloc.getChildren().add(cercle);
                     }
                 }
             }
         }
+    }
+
+    private Circle setCircle(Bloc planDeTravail, Circle cercle) {
+
+        for (Aliment aliment : planDeTravail.getInventaire().getRecettesComposees()) {
+            cercle = afficherEtatCercle(aliment, tailleCellule);
+        }
+        return cercle;
     }
 }

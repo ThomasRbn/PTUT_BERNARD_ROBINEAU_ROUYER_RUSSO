@@ -2,6 +2,7 @@ package com.overcooked.ptut.vue.joueur;
 
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.recettes.aliment.Aliment;
+import com.overcooked.ptut.recettes.etat.Etat;
 import com.overcooked.ptut.vue.aliment.AlimentVue;
 import com.overcooked.ptut.vue.aliment.PainVue;
 import com.overcooked.ptut.vue.aliment.SaladeVue;
@@ -15,6 +16,8 @@ import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.overcooked.ptut.vue.AfficheurCercle.afficherEtatCercle;
 
 public class JoueurVue extends Pane {
     public JoueurVue(double tailleCellule, Joueur joueur) {
@@ -35,7 +38,6 @@ public class JoueurVue extends Pane {
     }
 
     private void afficherInventaireJoueur(Joueur joueur, Pane pane, double tailleCellule) {
-        //TODO faire l'affichage si aliment coupé ou pas
         if (joueur.getInventaire() == null) return;
         List<AlimentVue> aliments = getVueAliments(joueur, tailleCellule);
         pane.getChildren().addAll(aliments);
@@ -45,12 +47,7 @@ public class JoueurVue extends Pane {
         List<AlimentVue> aliments = new ArrayList<>();
         List<Aliment> recettesComposees = joueur.getInventaire().getRecettesComposees();
         for (Aliment currAliment : recettesComposees) {
-            AlimentVue alimentVue = switch (currAliment.getNom()) {
-                case "Salade" -> new SaladeVue(tailleCellule);
-                case "Tomate" -> new TomateVue(tailleCellule);
-                case "Pain" -> new PainVue(tailleCellule);
-                default -> new AlimentVue(tailleCellule);
-            };
+            AlimentVue alimentVue = (AlimentVue) afficherEtatCercle(currAliment, tailleCellule);
             aliments.add(alimentVue);
         }
         return aliments;

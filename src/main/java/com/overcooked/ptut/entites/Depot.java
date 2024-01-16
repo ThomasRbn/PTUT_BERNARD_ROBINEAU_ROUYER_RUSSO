@@ -20,6 +20,11 @@ public class Depot extends Bloc {
         platsDeposes = new ArrayList<>();
     }
 
+    @Override
+    public Plat getInventaire() {
+        return null;
+    }
+
     /**
      * Constructeur par copie de la classe Depot
      * @param depot

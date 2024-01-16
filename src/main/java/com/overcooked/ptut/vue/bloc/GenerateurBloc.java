@@ -6,7 +6,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class GenerateurBloc extends Bloc {
+public class GenerateurBloc extends BlocVue {
     public GenerateurBloc(Generateur generateur, double tailleCellule) {
         Rectangle rectangle = new Rectangle(tailleCellule, tailleCellule);
         Text text = new Text(String.valueOf(generateur.getType().charAt(0)).toUpperCase());

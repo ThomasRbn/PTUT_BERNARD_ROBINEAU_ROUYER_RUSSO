@@ -1,6 +1,8 @@
 package com.overcooked.ptut.objet;
 
-public class Bloc {
+import com.overcooked.ptut.recettes.aliment.Plat;
+
+public abstract class Bloc {
     private int x;
     private int y;
 
@@ -16,4 +18,6 @@ public class Bloc {
 
     public int getX() { return x; }
     public int getY() { return y; }
+
+    public abstract Plat getInventaire();
 }
