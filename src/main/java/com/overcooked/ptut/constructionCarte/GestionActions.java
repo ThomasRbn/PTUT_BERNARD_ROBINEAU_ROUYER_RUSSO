@@ -39,10 +39,10 @@ public class GestionActions {
                 //On vérifie que ses mains sont libres
                 if (joueur.getInventaire() != null) {
                     if(objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur generateur){
-                        yield joueur.aDejaCetAliment(generateur.getAliment());
+                        yield joueur.getInventaire().estFusionnable(generateur.getAliment());
                     }
-                    if(objetsDeplacables[caseDevant[0]][caseDevant[1]] != null && objetsDeplacables[caseDevant[0]][caseDevant[1]].getRecettesComposees().size() == 1){
-                        yield joueur.aDejaCetAliment(objetsDeplacables[caseDevant[0]][caseDevant[1]].getRecettesComposees().getFirst());
+                    if(objetsFixes[caseDevant[0]][caseDevant[1]] instanceof PlanDeTravail && objetsFixes[caseDevant[0]][caseDevant[1]].getInventaire() != null){
+                        yield joueur.getInventaire().estFusionnable(objetsFixes[caseDevant[0]][caseDevant[1]].getInventaire());
                     }
                     yield false;
                 } else {
@@ -141,7 +141,7 @@ public class GestionActions {
             }
             if (planDeTravail.getInventaire() instanceof Plat plat) {
                 if(joueur.getInventaire() != null){
-                    plat.ajouterAliment(joueur.poser());
+                    plat.fusionerPlat(joueur.poser());
                 }
             }
         }

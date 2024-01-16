@@ -18,6 +18,9 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
 
     AlimentCoordonnees depot;
 
+    List<int[]> listeCoordonneesCuisson;
+
+    List<int[]> listeCoordonneesPlanche;
     boolean retourDepot;
 
     public CalculHeuristiquePlat(Plat plat, int[] coordonneesDepart, DonneesJeu donneesJeu) {
@@ -44,6 +47,9 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
         }
 
         ALIMENTCO = alimentCoordonneesList.toArray(new AlimentCoordonnees[0]);
+
+        listeCoordonneesCuisson = donneesJeu.getCoordonneesElement("Cuisson");
+        listeCoordonneesPlanche = donneesJeu.getCoordonneesElement("Planche");
     }
 
     @Override
@@ -53,8 +59,23 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
             actions.add(depot);
             return actions;
         }
+        CalculHeuristiquePlatState o = (CalculHeuristiquePlatState) s;
+        if(o.doitEtreCoupe(platBut)){
+            Aliment alimentFictifDecoupe = new Aliment("Decoupe", "Aliment fictif");
+            for (int[] coordonnees: listeCoordonneesCuisson) {
+                actions.add(new AlimentCoordonnees(alimentFictifDecoupe,coordonnees));
+            }
+            return actions;
+        }
+        if(o.doitCuire(platBut)){
+            Aliment alimentFictifCuisson = new Aliment("Cuisson", "Aliment fictif");
+            for (int[] coordonnees: listeCoordonneesCuisson) {
+                actions.add(new AlimentCoordonnees(alimentFictifCuisson,coordonnees));
+            }
+            return actions;
+        }
         for (AlimentCoordonnees a : ALIMENTCO) {
-            if (((CalculHeuristiquePlatState) s).isLegal(a.getAliment())) {
+            if (o.isLegal(a.getAliment())) {
                 actions.add(a);
             }
         }

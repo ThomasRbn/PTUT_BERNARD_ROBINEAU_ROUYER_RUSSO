@@ -321,6 +321,13 @@ public class DonneesJeu {
         //On affiche la direction de chaque joueur
         for (Joueur joueur : joueurs) {
             s.append("Le joueur ").append(joueur.getNumJoueur()).append(" est orienté vers : ").append(joueur.getDirection().getName()).append("\n");
+            if(joueur.getInventaire() != null) {
+                s.append("Et possède dans son inventaire: ");
+                for (Aliment aliment : joueur.getInventaire().getRecettesComposees()){
+                    s.append(aliment);
+                }
+                s.append("\n");
+            }
         }
         return s.toString();
     }
@@ -359,10 +366,10 @@ public class DonneesJeu {
     public int getHauteur(File f) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(f));
         int hauteur = 0;
-        String line = br.readLine();
-        while (!line.equals("-") && line != null) {
+        String ligne = br.readLine();
+        while (ligne != null && !ligne.equals("-")) {
             hauteur++;
-            line = br.readLine();
+            ligne = br.readLine();
         }
         return hauteur;
     }

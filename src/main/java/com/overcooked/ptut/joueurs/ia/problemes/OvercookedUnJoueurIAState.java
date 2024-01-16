@@ -7,6 +7,7 @@ import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.HasHeuristic;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
+import com.overcooked.ptut.recettes.aliment.Plat;
 
 import static com.overcooked.ptut.constructionCarte.ComparateurDonneesJeu.ComparerDonneesJeu;
 
@@ -59,12 +60,22 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
      */
     @Override
     public double getHeuristic() {
-        SearchProblemAC p = new CalculHeuristiquePlat(donnees.getPlatsBut().get(0), donnees.getJoueur(numJoueur).getPosition(), donnees);
-        State s = new CalculHeuristiquePlatState(donnees);
-        BFS algo = new BFS(p,s);
+        double coutMin = Double.MAX_VALUE;
+        // On parcours l'ensemble des plats but
+        for (Plat plat : donnees.getPlatsBut()) {
+            //On calcule le cout de l'état courant pour chaque plat
+            SearchProblemAC p = new CalculHeuristiquePlat(plat, donnees.getJoueur(numJoueur).getPosition(), donnees);
+            State s = new CalculHeuristiquePlatState(donnees);
+            BFS algo = new BFS(p, s);
+            double cout = algo.solve();
+            //On garde le cout minimum
+            if (cout < coutMin) {
+                coutMin = cout;
+            }
+        }
 
         // résoudre
-        return algo.solve();
+        return coutMin;
     }
 
     public String toString() {

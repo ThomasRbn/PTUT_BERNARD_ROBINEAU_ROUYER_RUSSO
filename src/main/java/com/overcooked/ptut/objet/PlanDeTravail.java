@@ -21,7 +21,9 @@ public class PlanDeTravail extends Bloc {
      */
     public PlanDeTravail(PlanDeTravail planDeTravail) {
         super(planDeTravail);
-        this.inventaire = planDeTravail.inventaire;
+        if(planDeTravail.inventaire!= null) {
+            this.inventaire = new Plat(planDeTravail.inventaire);
+        }
     }
 
     /**

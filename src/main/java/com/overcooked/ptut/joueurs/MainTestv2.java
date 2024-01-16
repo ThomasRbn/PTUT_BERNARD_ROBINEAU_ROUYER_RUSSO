@@ -25,7 +25,7 @@ public class MainTestv2 {
              + "-h    : afficher ceci (mettre à la fin)"
              );
 
-        DonneesJeu donneesJeu = new DonneesJeu("niveaux/niveau0.txt");
+        DonneesJeu donneesJeu = new DonneesJeu("niveaux/niveau2.txt");
         while (donneesJeu.getPlatDepose().isEmpty()) {
             Joueur j = donneesJeu.getJoueur(0);
             Action action = j.demanderAction(donneesJeu);

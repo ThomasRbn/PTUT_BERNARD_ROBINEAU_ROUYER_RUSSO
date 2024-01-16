@@ -45,6 +45,7 @@ public class BFS extends TreeSearchAC {
             // Stratégie: BFS
             node = frontier.poll();
 
+
             // Si le nœud contient un état but
             if (problem.isGoalState(node.getState())) {
                 // On enregistre le nœud final
@@ -83,6 +84,7 @@ public class BFS extends TreeSearchAC {
             }
         }
 
+//        return 999;
         // Pas de solutions trouvées
         throw new IllegalArgumentException("Pas de solution trouvée BFS.solve");
 

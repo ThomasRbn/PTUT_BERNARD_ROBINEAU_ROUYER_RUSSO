@@ -64,6 +64,7 @@ public class AStar extends TreeSearch {
                 for (Action a : actions) {
 //                    explore++;
 //                    System.out.println(a);
+//                    System.out.println(node.getState());
                     // Nœud enfant
                     SearchNode child = SearchNode.makeChildSearchNode(problem, node, a);
 //                    System.out.println(child.getHeuristic());

@@ -70,6 +70,22 @@ public class Plat extends Aliment {
         recettesComposees.add(aliment);
     }
 
+    public void fusionerPlat(Plat plat){
+        for (Aliment aliment : plat.recettesComposees){
+            recettesComposees.add(aliment);
+        }
+    }
+
+    public boolean estFusionnable(Plat plat){
+        //On vérifie qu'il n'y a aucun aliment en commun dans chaque plat
+        for (Aliment aliment : plat.recettesComposees){
+            if (recettesComposees.contains(aliment)){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public List<Aliment> getRecettesComposees() {
         List<Aliment> recettesComposees = new ArrayList<>();
         for (Aliment aliment : this.recettesComposees) {
