@@ -38,7 +38,10 @@ public class GestionActions {
                 caseDevant = joueur.getPositionCible();
                 //On vérifie que ses mains sont libres
                 if (joueur.getInventaire() != null) {
-                    yield objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur;
+                    if(objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur generateur){
+                        yield joueur.aDejaCetAliment(generateur.getAliment());
+                    }
+                    yield false;
                 } else {
                     // Calcul des coordonnes de la case devant le joueur
 

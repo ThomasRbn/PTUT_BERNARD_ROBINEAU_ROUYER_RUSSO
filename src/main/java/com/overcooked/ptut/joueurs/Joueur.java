@@ -2,6 +2,7 @@ package com.overcooked.ptut.joueurs;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
+import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
 import java.util.Arrays;
@@ -72,6 +73,17 @@ public abstract class Joueur {
         if(plat2 == null)
             return new Plat(plat1);
         return new Plat(plat1, plat2);
+    }
+
+    public boolean aDejaCetAliment(Aliment aliment){
+        if(inventaire == null)
+            return false;
+        for(Aliment currAliment : inventaire.getRecettesComposees()){
+            if(currAliment.equalsType(aliment)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

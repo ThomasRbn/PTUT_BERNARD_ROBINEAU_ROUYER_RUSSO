@@ -98,6 +98,10 @@ public class Aliment extends Mouvable {
 		return etat == aliment.etat && Objects.equals(nom, aliment.nom) && Objects.equals(description, aliment.description);
 	}
 
+	public boolean equalsType(Aliment aliment){
+		return this.nom.equals(aliment.nom);
+	}
+
 	public Aliment cloneAlim(){
 		return new Aliment(this);
 	}
