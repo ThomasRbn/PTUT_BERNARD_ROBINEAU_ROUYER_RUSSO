@@ -1,15 +1,15 @@
 package com.overcooked.ptut.constructionCarte;
 
-import com.overcooked.ptut.objet.Depot;
-import com.overcooked.ptut.objet.Generateur;
-import com.overcooked.ptut.objet.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
+import com.overcooked.ptut.objet.Depot;
+import com.overcooked.ptut.objet.Generateur;
+import com.overcooked.ptut.objet.PlanDeTravail;
 import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.Plat;
-
-import java.util.Arrays;
+import com.overcooked.ptut.vue.Plateau;
+import javafx.concurrent.Task;
 
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
 
@@ -64,7 +64,7 @@ public class GestionActions {
                 if (joueur.getInventaire() == null) {
                     yield false;
                 } else {
-                    if(objetsDeplacables[caseDevant[0]][caseDevant[1]] != null){
+                    if (objetsDeplacables[caseDevant[0]][caseDevant[1]] != null) {
                         yield true;
                     }
                 }
@@ -85,7 +85,7 @@ public class GestionActions {
      * @param a
      * @param numJoueur
      */
-    public static void faireAction(Action a, int numJoueur, DonneesJeu donneesJeu) {
+    public static void faireAction(Action a, int numJoueur, DonneesJeu donneesJeu, Plateau... plateau) {
         Bloc[][] objetsFixes = donneesJeu.getObjetsFixes();
         Plat[][] objetsDeplacables = donneesJeu.getObjetsDeplacables();
         Joueur joueur = donneesJeu.getJoueur(numJoueur);
@@ -107,11 +107,10 @@ public class GestionActions {
             //Utiliser un transformateur
             case UTILISER -> {
                 if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Transformateur transformateur) {
+                    if (joueur.getInventaire() != null) return;
                     if (transformateur.getInventaire() != null) {
-                        transformateur.transform();
-                        joueur.prendre(transformateur.retirerElem());
-                        System.out.println(joueur.getInventaire().getRecettesComposees().getFirst().getEtat());
-                        //TODO ajouter timer de cuisson / découpe
+                        transformateur.setBloque(true);
+                        plateau[0].afficherProgressBar(transformateur, donneesJeu);
                     }
                 }
             }
@@ -130,6 +129,7 @@ public class GestionActions {
         }
 
         if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Transformateur transformateur) {
+            if (transformateur.getInventaire() != null) return;
             transformateur.ajouterElem(joueur.poser());
             return;
         }
@@ -153,7 +153,7 @@ public class GestionActions {
      *
      * @param joueur
      */
-    private static void prendre(Joueur joueur, Bloc[][] objetsFixes, Plat[][] objetsDeplacables){
+    private static void prendre(Joueur joueur, Bloc[][] objetsFixes, Plat[][] objetsDeplacables) {
         // Position cible du joueur en fonction de sa direction
         int[] positionJoueurCible = joueur.getPositionCible();
 //        System.out.println(Arrays.toString(joueur.getPosition()));
@@ -174,6 +174,7 @@ public class GestionActions {
                 return;
             }
             case Transformateur transformateur -> {
+                if (transformateur.isBloque()) return;
                 joueur.prendre(transformateur.retirerElem());
                 return;
             }

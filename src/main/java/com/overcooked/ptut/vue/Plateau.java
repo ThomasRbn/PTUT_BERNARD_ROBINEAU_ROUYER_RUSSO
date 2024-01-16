@@ -1,21 +1,23 @@
 package com.overcooked.ptut.vue;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
-import com.overcooked.ptut.objet.Depot;
-import com.overcooked.ptut.objet.Generateur;
-import com.overcooked.ptut.objet.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
+import com.overcooked.ptut.objet.Depot;
+import com.overcooked.ptut.objet.Generateur;
+import com.overcooked.ptut.objet.PlanDeTravail;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.vue.bloc.*;
 import com.overcooked.ptut.vue.joueur.JoueurVue;
+import javafx.concurrent.Task;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -25,7 +27,7 @@ import javafx.scene.shape.Circle;
 
 import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
 import static com.overcooked.ptut.constructionCarte.GestionActions.isLegal;
-import static com.overcooked.ptut.vue.AfficheurCercle.afficherEtatCercle;
+import static com.overcooked.ptut.vue.AfficheurInfobulle.afficherEtatCercle;
 
 public class Plateau extends GridPane {
 
@@ -67,14 +69,12 @@ public class Plateau extends GridPane {
                             faireAction(Action.DROITE, joueur.getNumJoueur(), jeu);
                             break;
                         case E:
-                            faireAction(Action.UTILISER, joueur.getNumJoueur(), jeu);
+                            faireAction(Action.UTILISER, joueur.getNumJoueur(), jeu, this);
                             break;
                         case SPACE:
                             if (isLegal(Action.PRENDRE, joueur.getNumJoueur(), jeu)) {
-                                System.out.println("prendre");
                                 faireAction(Action.PRENDRE, joueur.getNumJoueur(), jeu);
                             } else if (isLegal(Action.POSER, joueur.getNumJoueur(), jeu)) {
-                                System.out.println("poser");
                                 faireAction(Action.POSER, joueur.getNumJoueur(), jeu);
                             }
                             break;
@@ -122,7 +122,6 @@ public class Plateau extends GridPane {
         }
     }
 
-
     private void afficherInventaireBloc(DonneesJeu jeu) {
         for (int i = 0; i < jeu.getHauteur(); i++) {
             for (int j = 0; j < jeu.getLongueur(); j++) {
@@ -152,5 +151,38 @@ public class Plateau extends GridPane {
             cercle = afficherEtatCercle(aliment, tailleCellule);
         }
         return cercle;
+    }
+
+    public void afficherProgressBar(Transformateur transformateur, DonneesJeu jeu) {
+        ProgressBar progressBar = new ProgressBar(0);
+
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                for (int i = 0; i < 100; i++) {
+                    updateProgress(i + 1, 100);
+                    Thread.sleep(30); // Simule une opération prenant du temps
+                }
+                return null;
+            }
+        };
+
+        progressBar.progressProperty().bind(task.progressProperty());
+
+        StackPane stackPanep = (StackPane) this.getChildren().get(transformateur.getX() * jeu.getLongueur() + transformateur.getY());
+        StackPane stackPane = new StackPane();
+
+        stackPane.getChildren().addAll(stackPanep.getChildren());
+        stackPane.getChildren().add(progressBar);
+
+        task.setOnSucceeded(event -> {
+            transformateur.transform();
+            transformateur.setBloque(false);
+            afficherInventaireBloc(jeu);
+        });
+
+        this.getChildren().set(transformateur.getX() * jeu.getLongueur() + transformateur.getY(), stackPane);
+
+        new Thread(task).start();
     }
 }
