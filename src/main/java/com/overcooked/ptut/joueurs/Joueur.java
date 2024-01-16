@@ -77,13 +77,13 @@ public abstract class Joueur {
 
     public boolean aDejaCetAliment(Aliment aliment){
         if(inventaire == null)
-            return false;
+            return true;
         for(Aliment currAliment : inventaire.getRecettesComposees()){
             if(currAliment.equalsType(aliment)){
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**
