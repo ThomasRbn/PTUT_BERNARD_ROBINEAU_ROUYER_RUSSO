@@ -14,4 +14,9 @@ public class Viande extends Aliment {
         nom = "Viande";
         description = "Viande";
     }
+
+    @Override
+    public Aliment cloneAlim() {
+        return new Viande(etat);
+    }
 }

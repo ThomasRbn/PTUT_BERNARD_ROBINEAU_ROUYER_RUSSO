@@ -15,4 +15,9 @@ public class Tomate extends Aliment {
         nom = "Tomate";
         description = "Tomate";
     }
+
+    @Override
+    public Aliment cloneAlim() {
+        return new Tomate(etat);
+    }
 }

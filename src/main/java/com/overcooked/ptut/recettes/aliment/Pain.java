@@ -16,4 +16,9 @@ public class Pain extends Aliment {
         description = "Pain";
     }
 
+    @Override
+    public Aliment cloneAlim() {
+        return new Pain(etat);
+    }
+
 }

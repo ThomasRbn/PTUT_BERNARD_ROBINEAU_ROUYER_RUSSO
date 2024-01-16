@@ -30,8 +30,8 @@ public class Plat extends Aliment {
         this.nom = "Plat";
         description = "Plat";
         this.recettesComposees = new ArrayList<>();
-        this.recettesComposees.add(new Aliment(aliment1));
-        this.recettesComposees.add(new Aliment(aliment2));
+        this.recettesComposees.add(aliment1.cloneAlim());
+        this.recettesComposees.add(aliment2.cloneAlim());
     }
 
     public Plat(Aliment aliment){
@@ -39,7 +39,7 @@ public class Plat extends Aliment {
         this.nom = "Plat";
         description = "Plat";
         this.recettesComposees = new ArrayList<>();
-        this.recettesComposees.add(new Aliment(aliment));
+        this.recettesComposees.add(aliment.cloneAlim());
     }
 
     public boolean equals(Plat plat) {
@@ -57,14 +57,14 @@ public class Plat extends Aliment {
         return currAliments.isEmpty();
     }
 
-    public boolean ajouterAliment(Aliment aliment) {
-        return recettesComposees.add(aliment);
+    public void ajouterAliment(Aliment aliment) {
+        recettesComposees.add(aliment);
     }
 
     public List<Aliment> getRecettesComposees() {
         List<Aliment> recettesComposees = new ArrayList<>();
         for (Aliment aliment : this.recettesComposees) {
-            recettesComposees.add(new Aliment(aliment));
+            recettesComposees.add(aliment.cloneAlim());
         }
         return recettesComposees;
     }
@@ -73,9 +73,8 @@ public class Plat extends Aliment {
         return recettesComposees.remove(aliment);
     }
 
-    public boolean viderAliments(){
+    public void viderAliments(){
         recettesComposees.clear();
-        return true;
     }
 
     @Override
