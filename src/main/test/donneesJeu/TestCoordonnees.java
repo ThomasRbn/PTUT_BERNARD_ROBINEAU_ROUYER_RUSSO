@@ -61,4 +61,19 @@ public class TestCoordonnees {
         assertEquals(Arrays.toString(coordonneesTomate), Arrays.toString(new int[]{0, 1}));
         assertEquals(Arrays.toString(coordonneesTomate2), Arrays.toString(new int[]{2, 1}));
     }
+
+    @Test
+    public void testGetCoordonneesSaladeTomate(){
+        donneesJeu = new DonneesJeu("niveaux/niveauTest.txt", true);
+        faireAction(PRENDRE, 0, donneesJeu);
+        faireAction(DROITE, 0, donneesJeu);
+        faireAction(HAUT, 0, donneesJeu);
+        faireAction(PRENDRE, 0, donneesJeu);
+        faireAction(BAS, 0, donneesJeu);
+        faireAction(POSER, 0, donneesJeu);
+        System.out.println(donneesJeu.getCoordonneesElement("SaladeTomate"));
+        int[] coordonneesSaladeTomate= donneesJeu.getCoordonneesElement("SaladeTomate").getFirst();
+        assertEquals(Arrays.toString(coordonneesSaladeTomate), Arrays.toString(new int[]{2, 2}));
+    }
+
 }

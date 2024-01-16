@@ -194,6 +194,26 @@ public class DonneesJeu {
                 }
                 return coordonneesSalades;
 
+                case "SaladeTomate", "TomateSalade":
+                    List<int[]> coordonneesSaladeTomate = new ArrayList<>();
+                    for (int i = 0; i < hauteur; i++) {
+                        for (int j = 0; j < longueur; j++) {
+                                    if (objetsFixes[i][j] instanceof PlanDeTravail) {
+                                    PlanDeTravail planDeTravail = ((PlanDeTravail) objetsFixes[i][j]);
+                                    if (planDeTravail.getInventaire() != null && planDeTravail.getInventaire().getRecettesComposees().get(0) instanceof Salade && planDeTravail.getInventaire().getRecettesComposees().get(1) instanceof Tomate
+                                    || planDeTravail.getInventaire() != null && planDeTravail.getInventaire().getRecettesComposees().get(0) instanceof Tomate && planDeTravail.getInventaire().getRecettesComposees().get(1) instanceof Salade)
+                                        coordonneesSaladeTomate.add(new int[]{i, j});
+                                }
+                            if (objetsDeplacables[i][j] != null) {
+                                if (objetsDeplacables[i][j].getRecettesComposees().get(0) instanceof Salade && objetsDeplacables[i][j].getRecettesComposees().get(1) instanceof Tomate) {
+                                    coordonneesSaladeTomate.add(new int[]{i, j});
+                                }
+                            }
+                        }
+                    }
+                    return coordonneesSaladeTomate;
+
+
             case "Plan de travail":
                 List<int[]> coordonneesPlanDeTravail = new ArrayList<>();
                 for (int i = 0; i < hauteur; i++) {
