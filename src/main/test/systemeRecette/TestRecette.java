@@ -26,7 +26,7 @@ public class TestRecette {
      */
     @Test
     public void testRecetteReussie() {
-        assertTrue(vf.verifiercompatibilite(List.of(new Pain(), new Viande(Etat.CUIT))));
+        assertEquals(new Plat(new Pain(), new Viande(Etat.CUIT)), burger);
     }
 
     /**
