@@ -28,6 +28,7 @@ public class Generateur extends Bloc {
     public Generateur(Generateur generateur) {
         super(generateur);
         this.aliment = generateur.aliment;
+        this.type = generateur.type;
     }
 
     /**
