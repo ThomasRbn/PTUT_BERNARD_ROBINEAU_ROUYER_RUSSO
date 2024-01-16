@@ -5,6 +5,7 @@ import com.overcooked.ptut.joueurs.Joueur;
 import org.junit.jupiter.api.Test;
 
 import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
+import static com.overcooked.ptut.constructionCarte.GestionActions.isLegal;
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +28,7 @@ public class TestActionsAlimentsDonneesJeu {
     }
 
     @Test
-    public void testGetCoordonneesCuisson() {
+    public void testGetInventaireNonNull() {
         donneesJeu = new DonneesJeu("niveaux/niveauTestSmall.txt", true);
         faireAction(PRENDRE, 0, donneesJeu);
         faireAction(GAUCHE, 0, donneesJeu);
@@ -38,6 +39,18 @@ public class TestActionsAlimentsDonneesJeu {
         faireAction(PRENDRE, 0, donneesJeu);
         Joueur joueur = donneesJeu.getJoueur(0);
         assertNotNull(joueur.getInventaire());
+    }
+
+    @Test
+    public void testIsLegalActionPrendre() {
+        donneesJeu = new DonneesJeu("niveaux/niveauTestSmall.txt", true);
+        faireAction(PRENDRE, 0, donneesJeu);
+        faireAction(GAUCHE, 0, donneesJeu);
+        faireAction(POSER, 0, donneesJeu);
+        faireAction(BAS, 0, donneesJeu);
+        faireAction(PRENDRE, 0, donneesJeu);
+        faireAction(GAUCHE, 0, donneesJeu);
+        assertTrue(isLegal(PRENDRE, 0, donneesJeu));
     }
 
 }
