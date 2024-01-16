@@ -1,8 +1,8 @@
 package com.overcooked.ptut.constructionCarte;
 
-import com.overcooked.ptut.entites.Depot;
-import com.overcooked.ptut.entites.Generateur;
-import com.overcooked.ptut.entites.PlanDeTravail;
+import com.overcooked.ptut.objet.Depot;
+import com.overcooked.ptut.objet.Generateur;
+import com.overcooked.ptut.objet.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;

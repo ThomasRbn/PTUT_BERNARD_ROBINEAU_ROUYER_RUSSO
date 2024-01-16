@@ -1,6 +1,5 @@
-package com.overcooked.ptut.entites;
+package com.overcooked.ptut.objet;
 
-import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
 public class Generateur extends Bloc {

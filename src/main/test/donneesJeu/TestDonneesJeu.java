@@ -1,8 +1,8 @@
 package donneesJeu;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
-import com.overcooked.ptut.entites.Depot;
-import com.overcooked.ptut.entites.PlanDeTravail;
+import com.overcooked.ptut.objet.Depot;
+import com.overcooked.ptut.objet.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.recettes.aliment.Plat;
