@@ -3,6 +3,7 @@ package donneesJeu;
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.recettes.aliment.Plat;
+import com.overcooked.ptut.recettes.aliment.Salade;
 import com.overcooked.ptut.recettes.aliment.Tomate;
 import org.junit.jupiter.api.Test;
 
@@ -75,6 +76,17 @@ public class TestEquals {
     public void testAvecNull() {
         donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
         assertThrows(IllegalArgumentException.class, () -> ComparerDonneesJeu(donneesJeu,null));
+    }
+
+    @Test
+    public void testEqualsJoueurAvecInventaireDifferent() {
+        donneesJeu = new DonneesJeu("niveaux/niveauTest.txt", true);
+        faireAction(PRENDRE, 0, donneesJeu);
+        faireAction(DROITE, 0, donneesJeu);
+        faireAction(HAUT, 0, donneesJeu);
+        DonneesJeu clone = new DonneesJeu(donneesJeu);
+        faireAction(PRENDRE, 0, clone);
+        assertFalse(ComparerDonneesJeu(donneesJeu,clone));
     }
 
 }
