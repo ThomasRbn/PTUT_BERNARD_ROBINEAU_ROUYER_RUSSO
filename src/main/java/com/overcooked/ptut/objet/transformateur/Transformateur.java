@@ -3,6 +3,8 @@ package com.overcooked.ptut.objet.transformateur;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.recettes.aliment.Plat;
+import javafx.concurrent.Task;
+import javafx.scene.control.ProgressBar;
 
 public abstract class Transformateur extends Bloc {
 
@@ -24,6 +26,11 @@ public abstract class Transformateur extends Bloc {
     protected int tempsRestant;
 
     protected boolean isBloque;
+
+    protected Task<Void> transformation;
+
+    protected ProgressBar progressBar;
+
 
     /**
      * Constructeur d'un transformateur
@@ -105,6 +112,24 @@ public abstract class Transformateur extends Bloc {
 
     public Transformateur setBloque(boolean bloque) {
         isBloque = bloque;
+        return this;
+    }
+
+    public Task<Void> getTransformation() {
+        return transformation;
+    }
+
+    public Transformateur setTransformation(Task<Void> transformation) {
+        this.transformation = transformation;
+        return this;
+    }
+
+    public ProgressBar getProgressBar() {
+        return progressBar;
+    }
+
+    public Transformateur setProgressBar(ProgressBar progressBar) {
+        this.progressBar = progressBar;
         return this;
     }
 }

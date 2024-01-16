@@ -88,6 +88,7 @@ public class Plateau extends GridPane {
                 }
             }
 
+
             // Mise à jour de l'affichage après chaque action
             //TODO Refactor affichage
             this.getChildren().clear();
@@ -95,6 +96,7 @@ public class Plateau extends GridPane {
             afficherBlocs(jeu);
             afficherJoueurs(jeu);
             afficherInventaireBloc(jeu);
+            afficherPB(jeu);
         });
     }
 
@@ -153,10 +155,30 @@ public class Plateau extends GridPane {
         return cercle;
     }
 
-    public void afficherProgressBar(Transformateur transformateur, DonneesJeu jeu) {
-        ProgressBar progressBar = new ProgressBar(0);
+    private void afficherPB(DonneesJeu jeu) {
+        for (int i = 0; i < jeu.getHauteur(); i++) {
+            for (int j = 0; j < jeu.getLongueur(); j++) {
+                StackPane caseBloc = (StackPane) this.getChildren().get(i * jeu.getLongueur() + j);
+                if (jeu.getObjetsFixes()[i][j] instanceof Transformateur transformateur) {
+                    if (transformateur.isBloque()) {
+                        ProgressBar progressBar = new ProgressBar(0);
+                        progressBar.progressProperty().bind(transformateur.getTransformation().progressProperty());
+                        caseBloc.getChildren().add(progressBar);
+                        transformateur.setProgressBar(progressBar);
+                    } else {
+                        if (transformateur.getTransformation() != null) {
+                            caseBloc.getChildren().remove(transformateur.getProgressBar());
+                        }
+                    }
+                }
+            }
+        }
 
-        Task<Void> task = new Task<>() {
+    }
+
+    public void genererTask(Transformateur transformateur, DonneesJeu jeu) {
+        // Création d'une tâche pour simuler une opération prenant 3 secondes
+        Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 for (int i = 0; i < 100; i++) {
@@ -167,22 +189,15 @@ public class Plateau extends GridPane {
             }
         };
 
-        progressBar.progressProperty().bind(task.progressProperty());
-
-        StackPane stackPanep = (StackPane) this.getChildren().get(transformateur.getX() * jeu.getLongueur() + transformateur.getY());
-        StackPane stackPane = new StackPane();
-
-        stackPane.getChildren().addAll(stackPanep.getChildren());
-        stackPane.getChildren().add(progressBar);
-
-        task.setOnSucceeded(event -> {
-            transformateur.transform();
+        task.setOnSucceeded(e -> {
             transformateur.setBloque(false);
+            transformateur.transform();
             afficherInventaireBloc(jeu);
+            afficherPB(jeu);
         });
 
-        this.getChildren().set(transformateur.getX() * jeu.getLongueur() + transformateur.getY(), stackPane);
-
         new Thread(task).start();
+
+        transformateur.setTransformation(task);
     }
 }

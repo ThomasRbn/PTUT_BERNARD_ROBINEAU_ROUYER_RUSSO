@@ -10,7 +10,7 @@ import javafx.scene.shape.Circle;
 
 public class AfficheurInfobulle {
 
-    public static Circle afficherEtatCercle(Aliment currAliment, double tailleCellule) {
+    public static AlimentVue afficherEtatCercle(Aliment currAliment, double tailleCellule) {
         return switch (currAliment.getNom()) {
             case "Salade" -> {
                 if (currAliment.getEtat() == Etat.COUPE) {

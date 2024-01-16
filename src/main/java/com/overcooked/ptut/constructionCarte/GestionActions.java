@@ -110,7 +110,7 @@ public class GestionActions {
                     if (joueur.getInventaire() != null) return;
                     if (transformateur.getInventaire() != null) {
                         transformateur.setBloque(true);
-                        plateau[0].afficherProgressBar(transformateur, donneesJeu);
+                        plateau[0].genererTask(transformateur, donneesJeu);
                     }
                 }
             }
