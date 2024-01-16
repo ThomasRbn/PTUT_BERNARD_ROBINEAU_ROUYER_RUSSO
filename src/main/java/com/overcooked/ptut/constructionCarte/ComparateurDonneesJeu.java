@@ -54,6 +54,9 @@ public class ComparateurDonneesJeu {
                 return false;
             }
         }
-        return donneesJeu1.getPlatDepose().size() == donneesJeu2.getPlatDepose().size();
+        return donneesJeu1.getPlatDepose().size() == donneesJeu2.getPlatDepose().size()
+                && (donneesJeu1.getPlatDepose().isEmpty()
+                || donneesJeu1.getPlatDepose().getFirst().equals(donneesJeu2.getPlatDepose().getFirst()));
+
     }
 }
