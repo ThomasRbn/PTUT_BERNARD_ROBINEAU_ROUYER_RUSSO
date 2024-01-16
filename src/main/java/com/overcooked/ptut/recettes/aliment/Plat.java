@@ -22,7 +22,7 @@ public class Plat extends Aliment {
         this.nom = "Plat";
         description = "Plat";
         this.recettesComposees = new ArrayList<>();
-        this.recettesComposees.addAll(plat.recettesComposees);
+        this.recettesComposees.addAll(plat.getRecettesComposees());
     }
 
     public Plat(Aliment aliment1, Aliment aliment2) {
@@ -30,8 +30,8 @@ public class Plat extends Aliment {
         this.nom = "Plat";
         description = "Plat";
         this.recettesComposees = new ArrayList<>();
-        this.recettesComposees.add(aliment1);
-        this.recettesComposees.add(aliment2);
+        this.recettesComposees.add(new Aliment(aliment1));
+        this.recettesComposees.add(new Aliment(aliment2));
     }
 
     public Plat(Aliment aliment){
@@ -39,7 +39,7 @@ public class Plat extends Aliment {
         this.nom = "Plat";
         description = "Plat";
         this.recettesComposees = new ArrayList<>();
-        this.recettesComposees.add(aliment);
+        this.recettesComposees.add(new Aliment(aliment));
     }
 
     public boolean equals(Plat plat) {
@@ -62,6 +62,10 @@ public class Plat extends Aliment {
     }
 
     public List<Aliment> getRecettesComposees() {
+        List<Aliment> recettesComposees = new ArrayList<>();
+        for (Aliment aliment : this.recettesComposees) {
+            recettesComposees.add(new Aliment(aliment));
+        }
         return recettesComposees;
     }
 
