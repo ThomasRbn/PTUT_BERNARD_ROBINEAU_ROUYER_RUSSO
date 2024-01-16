@@ -1,6 +1,6 @@
 package com.overcooked.ptut.vue.bloc;
 
-import com.overcooked.ptut.entites.Generateur;
+import com.overcooked.ptut.objet.Generateur;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
