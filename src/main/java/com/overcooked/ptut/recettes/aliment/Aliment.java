@@ -117,6 +117,10 @@ public class Aliment extends Mouvable {
 		return this.etat > 0 ? this.nom + this.etat : this.nom;
 	}
 
+	public String getSimplifiedNom() {
+		return this.nom;
+	}
+
 	public String toString(){
 		return this.getNom();
 	}
