@@ -26,9 +26,9 @@ public class TestCoordonnees {
     @Test
     public void testGetCoordonneesPlanDeTravail(){
         donneesJeu = new DonneesJeu("niveaux/niveau0.txt", true);
-        int[] coordonneesPlanDeTravail= donneesJeu.getCoordonneesElement("Plan de travail").getFirst();
-        int[] coordonneesPlanDeTravail2= donneesJeu.getCoordonneesElement("Plan de travail").get(1);
-        int[] coordonneesPlanDeTravail3= donneesJeu.getCoordonneesElement("Plan de travail").get(2);
+        int[] coordonneesPlanDeTravail= donneesJeu.getCoordonneesElement("PlanDeTravail").getFirst();
+        int[] coordonneesPlanDeTravail2= donneesJeu.getCoordonneesElement("PlanDeTravail").get(1);
+        int[] coordonneesPlanDeTravail3= donneesJeu.getCoordonneesElement("PlanDeTravail").get(2);
         assertEquals(Arrays.toString(coordonneesPlanDeTravail), Arrays.toString(new int[]{0, 0}));
         assertEquals(Arrays.toString(coordonneesPlanDeTravail2), Arrays.toString(new int[]{0, 1}));
         assertEquals(Arrays.toString(coordonneesPlanDeTravail3), Arrays.toString(new int[]{0, 2}));
@@ -57,8 +57,9 @@ public class TestCoordonnees {
         faireAction(DROITE, 0, donneesJeu);
         faireAction(BAS, 0, donneesJeu);
         faireAction(POSER, 0, donneesJeu);
-        int[] coordonneesTomate= donneesJeu.getCoordonneesElement("Tomate").getFirst();
-        int[] coordonneesTomate2= donneesJeu.getCoordonneesElement("Tomate").get(1);
+        List<int[]> tomate = donneesJeu.getCoordonneesElement("Tomate");
+        int[] coordonneesTomate= tomate.getFirst();
+        int[] coordonneesTomate2= tomate.get(1);
         assertEquals(Arrays.toString(coordonneesTomate), Arrays.toString(new int[]{0, 1}));
         assertEquals(Arrays.toString(coordonneesTomate2), Arrays.toString(new int[]{2, 2}));
     }
@@ -72,10 +73,7 @@ public class TestCoordonnees {
         faireAction(PRENDRE, 0, donneesJeu);
         faireAction(BAS, 0, donneesJeu);
         faireAction(POSER, 0, donneesJeu);
-        System.out.println(donneesJeu.getCoordonneesElement("SaladeTomate"));
-        int[] coordonneesSaladeTomate= donneesJeu.getCoordonneesElement("SaladeTomate").getFirst();
-        int [] coordonneesSaladeTomate2= donneesJeu.getCoordonneesElement("TomateSalade").getFirst();
-        assertEquals(Arrays.toString(coordonneesSaladeTomate), Arrays.toString(new int[]{2, 2}));
+        int [] coordonneesSaladeTomate2= donneesJeu.getCoordonneesElement("SaladeTomate").getFirst();
         assertEquals(Arrays.toString(coordonneesSaladeTomate2), Arrays.toString(new int[]{2, 2}));
     }
 
