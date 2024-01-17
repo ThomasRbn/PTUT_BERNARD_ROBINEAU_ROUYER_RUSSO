@@ -53,7 +53,7 @@ public class Transformateur extends Bloc {
     public Transformateur(Transformateur t) {
         super(t);
         this.etat = t.etat;
-        this.inventaire = t.inventaire;
+        this.inventaire = t.inventaire != null? new Plat(t.inventaire) : null;
         this.tempsRestant = t.tempsRestant;
         this.isBloque = t.isBloque;
     }
