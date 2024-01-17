@@ -21,7 +21,7 @@ public class OvercookedJavaFX extends Application {
 
         Plateau plateau = new Plateau(jeu, tailleCellule);
         Scene scene = new Scene(plateau, jeu.getLongueur() * tailleCellule, jeu.getHauteur() * tailleCellule);
-        plateau.initEventClavier(scene, jeu);
+        plateau.getClavierController().initEventClavier(scene, plateau);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
