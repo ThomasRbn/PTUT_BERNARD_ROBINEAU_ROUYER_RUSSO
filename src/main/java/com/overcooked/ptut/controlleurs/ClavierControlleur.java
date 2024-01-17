@@ -5,6 +5,7 @@ import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
+import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.vue.Plateau;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
@@ -60,8 +61,12 @@ public class ClavierControlleur {
                     faireAction(Action.DROITE, joueur.getNumJoueur(), jeu);
                 break;
             case E:
-                if (isLegal(Action.UTILISER, joueur.getNumJoueur(), jeu))
-                    faireAction(Action.UTILISER, joueur.getNumJoueur(), jeu, plateau);
+                if (isLegal(Action.UTILISER, joueur.getNumJoueur(), jeu)) {
+                    faireAction(Action.UTILISER, joueur.getNumJoueur(), jeu);
+                    int[] cible = joueur.getPositionCible();
+                    Transformateur transformateur = (Transformateur) jeu.getObjetsFixes()[cible[0]][cible[1]];
+                    plateau.genererTask(transformateur, jeu);
+                }
                 break;
             case SPACE:
                 if (isLegal(Action.PRENDRE, joueur.getNumJoueur(), jeu)) {

@@ -103,7 +103,7 @@ public class GestionActions {
      * @param a
      * @param numJoueur
      */
-    public static void faireAction(Action a, int numJoueur, DonneesJeu donneesJeu, Plateau... plateau) {
+    public static void faireAction(Action a, int numJoueur, DonneesJeu donneesJeu) {
         Bloc[][] objetsFixes = donneesJeu.getObjetsFixes();
         Plat[][] objetsDeplacables = donneesJeu.getObjetsDeplacables();
         Joueur joueur = donneesJeu.getJoueur(numJoueur);
@@ -131,7 +131,6 @@ public class GestionActions {
                 Transformateur transformateur = (Transformateur) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
                 if (transformateur.getInventaire() != null) {
                     transformateur.setBloque(true);
-                    plateau[0].genererTask(transformateur, donneesJeu);
                 }
             }
             //Exception si l'action n'est pas reconnue
