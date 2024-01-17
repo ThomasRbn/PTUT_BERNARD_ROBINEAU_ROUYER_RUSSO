@@ -23,12 +23,6 @@ public class Aliment extends Mouvable {
 
 	protected String nom = "Aliment inconnu";
 
-	/**
-	 * Description de l'aliment
-	 * 
-	 */
-	protected String description = "Aliment inconnu";
-
 	public Aliment(int[] coordonnees) {
 		super(coordonnees);
 	}
@@ -46,14 +40,12 @@ public class Aliment extends Mouvable {
 	public Aliment(Aliment a){
 		super(a);
 		this.nom = a.nom;
-		this.description = a.description;
 		this.etat = a.etat;
 	}
 
 	public Aliment(String nom, String description) {
 		super();
 		this.nom = nom;
-		this.description = description;
 		this.etat = 0;
 	}
 
@@ -121,27 +113,12 @@ public class Aliment extends Mouvable {
 		return etat == 1 && etatBut == 3;
 	}
 
-	/**
-	 * @return la description de la boisson  
-	 */
-	public String getDescription(){
-		return description;
-	}
-
 	public String getNom() {
-		return nom;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+		return this.etat > 0 ? this.nom + this.etat : this.nom;
 	}
 
 	public String toString(){
-		return this.getNom() + " " + this.getEtat();
+		return this.getNom();
 	}
 
 	@Override
@@ -149,7 +126,7 @@ public class Aliment extends Mouvable {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Aliment aliment = (Aliment) o;
-		return etat == aliment.etat && Objects.equals(nom, aliment.nom) && Objects.equals(description, aliment.description);
+		return etat == aliment.etat && Objects.equals(nom, aliment.nom);
 	}
 
 	public boolean equalsType(Aliment aliment){
@@ -162,6 +139,6 @@ public class Aliment extends Mouvable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(nom, description);
+		return Objects.hash(nom);
 	}
 }
