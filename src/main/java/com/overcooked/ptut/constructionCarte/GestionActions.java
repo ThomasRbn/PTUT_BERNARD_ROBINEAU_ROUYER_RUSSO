@@ -24,20 +24,23 @@ public class GestionActions {
         // Récupération des données
         int hauteur = donneesJeu.getHauteur();
         int longueur = donneesJeu.getLongueur();
+
         Bloc[][] objetsFixes = donneesJeu.getObjetsFixes();
         Plat[][] objetsDeplacables = donneesJeu.getObjetsDeplacables();
 
         Joueur joueur = donneesJeu.getJoueur(numJoueur);
         int[] positionJoueur = joueur.getPosition();
         Action direction = joueur.getDirection();
+
+        int[] caseDevant = new int[2];
+        caseDevant = joueur.getPositionCible();
+
         return switch (a) {
             case HAUT -> positionJoueur[0] != 0 || direction != HAUT;
             case GAUCHE -> positionJoueur[1] != 0 || direction != GAUCHE;
             case BAS -> positionJoueur[0] != hauteur - 1 || direction != BAS;
             case DROITE -> positionJoueur[1] != longueur - 1 || direction != DROITE;
             case PRENDRE -> {
-                int[] caseDevant = new int[2];
-                caseDevant = joueur.getPositionCible();
                 //On vérifie que ses mains sont libres
                 if (joueur.getInventaire() != null) {
                     if (objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur generateur) {
@@ -60,8 +63,7 @@ public class GestionActions {
             }
 
             case POSER -> {
-                int[] caseDevant = new int[2];
-                caseDevant = joueur.getPositionCible();
+
                 // On vérifie si le joueur à quelque chose dans les mains
                 if (joueur.getInventaire() == null) {
                     yield false;
@@ -91,11 +93,11 @@ public class GestionActions {
         Bloc[][] objetsFixes = donneesJeu.getObjetsFixes();
         Plat[][] objetsDeplacables = donneesJeu.getObjetsDeplacables();
         Joueur joueur = donneesJeu.getJoueur(numJoueur);
-        joueur.changeDirection(a);
         int[] positionJoueurCible = joueur.getPositionCible();
         switch (a) {
             //Deplacement du joueur si possible
             case DROITE, GAUCHE, HAUT, BAS -> {
+                joueur.changeDirection(a);
                 if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] == null) {
                     joueur.deplacer(a);
                 }
