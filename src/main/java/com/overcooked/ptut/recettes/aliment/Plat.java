@@ -21,8 +21,7 @@ public class Plat extends Aliment {
         super();
         this.nom = "Plat";
         description = "Plat";
-        this.recettesComposees = new ArrayList<>();
-        this.recettesComposees.addAll(plat.getRecettesComposees());
+        this.recettesComposees = new ArrayList<>(plat.getRecettesComposees());
     }
 
     public Plat(Plat plat1, Plat plat2){
@@ -71,9 +70,7 @@ public class Plat extends Aliment {
     }
 
     public void fusionerPlat(Plat plat){
-        for (Aliment aliment : plat.recettesComposees){
-            recettesComposees.add(aliment);
-        }
+        recettesComposees.addAll(plat.recettesComposees);
     }
 
     public boolean estFusionnable(Plat plat){
