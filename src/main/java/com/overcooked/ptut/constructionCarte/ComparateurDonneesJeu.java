@@ -1,6 +1,7 @@
 package com.overcooked.ptut.constructionCarte;
 
 import com.overcooked.ptut.joueurs.Joueur;
+import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
 public class ComparateurDonneesJeu {
@@ -54,6 +55,19 @@ public class ComparateurDonneesJeu {
                 return false;
             }
         }
+
+        //On regarde que les transformateurs sont identiques
+        for (int i = 0; i < donneesJeu1.getObjetsFixes().length; i++) {
+            for (int j = 0; j < donneesJeu1.getObjetsFixes()[i].length; j++) {
+                if (donneesJeu1.getObjetsFixes()[i][j] instanceof Transformateur) {
+                    if (!donneesJeu1.getObjetsFixes()[i][j].equals(donneesJeu2.getObjetsFixes()[i][j])) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        //On vérifie que les deux listes de plats déposés sont identiques
         return donneesJeu1.getPlatDepose().size() == donneesJeu2.getPlatDepose().size()
                 && (donneesJeu1.getPlatDepose().isEmpty()
                 || donneesJeu1.getPlatDepose().getFirst().equals(donneesJeu2.getPlatDepose().getFirst()));

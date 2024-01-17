@@ -104,8 +104,8 @@ public class Plateau extends GridPane {
 
     private Circle setCircle(Bloc planDeTravail, Circle cercle) {
 
-        for (Aliment aliment : planDeTravail.getInventaire().getRecettesComposees()) {
-            cercle = afficherEtatCercle(aliment, tailleCellule);
+        for (int i = 0; i < planDeTravail.getInventaire().getRecettesComposees().size(); i++) {
+            cercle = afficherEtatCercle(planDeTravail.getInventaire().getRecettesComposees().get(i), tailleCellule, i + 1);
         }
         return cercle;
     }

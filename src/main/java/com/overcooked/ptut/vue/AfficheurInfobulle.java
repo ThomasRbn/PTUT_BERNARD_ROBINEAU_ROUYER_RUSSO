@@ -6,11 +6,11 @@ import com.overcooked.ptut.vue.aliment.AlimentVue;
 import com.overcooked.ptut.vue.aliment.PainVue;
 import com.overcooked.ptut.vue.aliment.SaladeVue;
 import com.overcooked.ptut.vue.aliment.TomateVue;
-import javafx.scene.shape.Circle;
 
 public class AfficheurInfobulle {
 
-    public static AlimentVue afficherEtatCercle(Aliment currAliment, double tailleCellule) {
+    public static AlimentVue afficherEtatCercle(Aliment currAliment, double tailleCellule, int i) {
+        tailleCellule = i == 1 ? tailleCellule : tailleCellule / (i + 1) * 2;
         return switch (currAliment.getNom()) {
             case "Salade" -> {
                 if (currAliment.getEtat() == Etat.COUPE) {
