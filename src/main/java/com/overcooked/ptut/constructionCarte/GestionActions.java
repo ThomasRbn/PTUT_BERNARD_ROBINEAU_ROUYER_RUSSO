@@ -11,9 +11,6 @@ import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.etat.Etat;
-import com.overcooked.ptut.vue.Plateau;
-
-import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
 
 public class GestionActions {
 
@@ -36,7 +33,8 @@ public class GestionActions {
         caseDevant = joueur.getPositionCible();
 
         return switch (a) {
-            case HAUT, BAS, GAUCHE, DROITE -> objetsFixes[caseDevant[0]][caseDevant[1]] == null || joueur.getDirection() != a;
+            case HAUT, BAS, GAUCHE, DROITE ->
+                    objetsFixes[caseDevant[0]][caseDevant[1]] == null || joueur.getDirection() != a;
             case PRENDRE -> {
                 //On vérifie que ses mains sont libres
                 if (joueur.getInventaire() != null) {
@@ -64,7 +62,9 @@ public class GestionActions {
                 if (joueur.getInventaire() == null) {
                     yield false;
                 } else {
-                    if (objetsDeplacables[caseDevant[0]][caseDevant[1]] != null) {
+                    if (objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Transformateur) {
+                        yield joueur.getInventaire().getRecettesComposees().size() == 1;
+                    } else if (objetsDeplacables[caseDevant[0]][caseDevant[1]] != null) {
                         yield true;
                     }
                 }
