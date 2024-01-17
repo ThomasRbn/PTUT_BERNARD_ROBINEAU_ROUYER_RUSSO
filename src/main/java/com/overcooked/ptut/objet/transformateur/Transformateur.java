@@ -108,6 +108,20 @@ public class Transformateur extends Bloc {
         return etatPlat == this.etat || etatPlat == Etat.CUIT_ET_COUPE;
     }
 
+    /**
+     * Méthode equals de la classe Transformateur
+     * @return vrai si c'est le même transformateur, faux sinon
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Transformateur that)) return false;
+        return etat == that.etat && tempsRestant == that.tempsRestant
+                && isBloque == that.isBloque
+                &&  ((inventaire == null && that.inventaire == null)
+                ||(inventaire.equals(that.inventaire)));
+    }
+
     public Plat getInventaire() {
         return inventaire;
     }

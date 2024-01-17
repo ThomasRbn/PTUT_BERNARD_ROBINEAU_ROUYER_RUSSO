@@ -102,9 +102,9 @@ public class TestEquals {
 
     @Test
     public void testEqualsTransformateur2(){
-        donneesJeu = new DonneesJeu("niveaux/niveauTest.txt", true);
+        donneesJeu = new DonneesJeu("niveaux/niveauTestSmall2.txt", true);
         faireAction(PRENDRE, 0, donneesJeu);
-        faireAction(GAUCHE, 0, donneesJeu);
+        faireAction(BAS, 0, donneesJeu);
         faireAction(POSER, 0, donneesJeu);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         faireAction(UTILISER, 0, clone);
