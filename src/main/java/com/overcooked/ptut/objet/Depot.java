@@ -16,6 +16,7 @@ public class Depot extends Bloc {
      */
     public Depot(int x, int y) {
         super(x, y);
+        type = "Depot";
         platsDeposes = new ArrayList<>();
     }
 
@@ -30,6 +31,7 @@ public class Depot extends Bloc {
      */
     public Depot(Depot depot) {
         super(depot);
+        this.type = depot.type;
         this.platsDeposes = new ArrayList<>(depot.platsDeposes);
     }
 

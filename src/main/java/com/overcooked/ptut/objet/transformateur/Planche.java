@@ -11,6 +11,7 @@ public class Planche extends Transformateur{
      */
     public Planche(int x, int y) {
         super(x, y);
+        type = "Planche";
         etat = Etat.COUPE;
     }
 

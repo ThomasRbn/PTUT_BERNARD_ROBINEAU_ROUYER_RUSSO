@@ -7,13 +7,11 @@ public class Pain extends Aliment {
 
     public Pain() {
         nom = "Pain";
-        description = "Pain";
     }
 
     public Pain(int etat) {
         super(etat);
         nom = "Pain";
-        description = "Pain";
     }
 
     @Override

@@ -13,6 +13,7 @@ public class PlanDeTravail extends Bloc {
      */
     public PlanDeTravail(int x, int y) {
         super(x, y);
+        type = "PlanDeTravail";
     }
 
     /**
@@ -21,6 +22,7 @@ public class PlanDeTravail extends Bloc {
      */
     public PlanDeTravail(PlanDeTravail planDeTravail) {
         super(planDeTravail);
+        this.type = planDeTravail.type;
         if(planDeTravail.inventaire!= null) {
             this.inventaire = new Plat(planDeTravail.inventaire);
         }
@@ -42,6 +44,10 @@ public class PlanDeTravail extends Bloc {
         Plat plat = inventaire;
         inventaire = null;
         return plat;
+    }
+
+    public String getNomPlat() {
+        return inventaire != null ? inventaire.getNomPlat() : "";
     }
 
     /**

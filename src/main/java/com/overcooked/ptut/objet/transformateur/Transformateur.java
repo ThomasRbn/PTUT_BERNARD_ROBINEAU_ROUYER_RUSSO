@@ -74,7 +74,6 @@ public class Transformateur extends Bloc {
 
         //Si l'aliment n'est pas dans l'état voulu, on le transforme
         Aliment alim = inventaire.getRecettesComposees().getFirst();
-        System.out.println(alim);
         alim.setEtat(etat);
         inventaire.viderAliments();
         inventaire.ajouterAliment(alim);
