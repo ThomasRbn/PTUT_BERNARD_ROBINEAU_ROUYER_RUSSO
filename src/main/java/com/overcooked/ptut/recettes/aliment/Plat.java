@@ -76,8 +76,10 @@ public class Plat extends Aliment {
     public boolean estFusionnable(Plat plat){
         //On vérifie qu'il n'y a aucun aliment en commun dans chaque plat
         for (Aliment aliment : plat.recettesComposees){
-            if (recettesComposees.contains(aliment)){
-                return false;
+            for (Aliment aliment1 : recettesComposees){
+                if (aliment.getNom() == aliment1.getNom()){
+                    return false;
+                }
             }
         }
         return true;
