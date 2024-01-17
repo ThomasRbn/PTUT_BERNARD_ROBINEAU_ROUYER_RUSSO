@@ -79,8 +79,7 @@ public class GestionActions {
                 yield objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Transformateur transformateur
                         && !transformateur.isBloque() && transformateur.getInventaire() != null
                         && joueur.getInventaire() == null
-                        && ((transformateur instanceof Poele && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() != Etat.CUIT && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() != Etat.CUIT_ET_COUPE)
-                        || (transformateur instanceof Planche && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() != Etat.COUPE && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() != Etat.CUIT_ET_COUPE));
+                        && !transformateur.estTransforme(transformateur.getInventaire());
             }
 
             //Exception si l'action n'est pas reconnue

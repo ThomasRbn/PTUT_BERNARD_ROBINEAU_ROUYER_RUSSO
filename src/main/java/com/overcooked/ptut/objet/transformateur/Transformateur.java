@@ -3,6 +3,7 @@ package com.overcooked.ptut.objet.transformateur;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.recettes.aliment.Plat;
+import com.overcooked.ptut.recettes.etat.Etat;
 import javafx.concurrent.Task;
 import javafx.scene.control.ProgressBar;
 
@@ -101,6 +102,11 @@ public class Transformateur extends Bloc {
         Plat elem = inventaire;
         inventaire = null;
         return elem;
+    }
+
+    public boolean estTransforme(Plat plat){
+        int etatPlat = plat.getRecettesComposees().getFirst().getEtat();
+        return etatPlat == this.etat || etatPlat == Etat.CUIT_ET_COUPE;
     }
 
     public Plat getInventaire() {
