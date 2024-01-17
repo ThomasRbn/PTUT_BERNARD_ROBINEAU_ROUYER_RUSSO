@@ -42,6 +42,18 @@ public class Plat extends Aliment {
         this.recettesComposees.add(aliment2.cloneAlim());
     }
 
+    public void fusionnerNomsPlats(Plat plat1, Plat plat2){
+        this.nom = plat1.nom + " " + plat2.nom;
+    }
+
+    public void fusionnerDescriptionsPlats(Plat plat1, Plat plat2){
+        this.description = plat1.description + " " + plat2.description;
+    }
+
+    public void fusionnerNomsAliments(Aliment aliment1, Aliment aliment2){
+        this.nom = aliment1.nom + " " + aliment2.nom;
+    }
+
     public Plat(Aliment aliment){
         super();
         this.nom = "Plat";

@@ -5,8 +5,6 @@ import com.overcooked.ptut.recettes.aliment.Plat;
 public class Generateur extends Bloc {
 
     private Plat aliment;
-    private String type;
-
 
     /**
      * Constructeur de la classe Generateur
