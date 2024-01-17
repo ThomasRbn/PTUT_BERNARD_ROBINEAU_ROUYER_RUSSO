@@ -1,6 +1,7 @@
 package com.overcooked.ptut.vue;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
+import com.overcooked.ptut.controlleurs.ClavierControlleur;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
@@ -32,6 +33,7 @@ import static com.overcooked.ptut.vue.AfficheurInfobulle.afficherEtatCercle;
 public class Plateau extends GridPane {
 
     public double tailleCellule;
+    private ClavierControlleur clavierController;
 
     public Plateau(DonneesJeu jeu, double tailleCellule) {
         this.tailleCellule = tailleCellule;
@@ -47,60 +49,62 @@ public class Plateau extends GridPane {
             this.getRowConstraints().add(new RowConstraints(tailleCellule));
         }
 
+        clavierController = new ClavierControlleur(jeu);
+
         afficherBlocs(jeu);
         afficherJoueurs(jeu);
     }
 
-    public void initEventClavier(Scene scene, DonneesJeu jeu) {
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            for (Joueur joueur : jeu.getJoueurs()) {
-                if (joueur instanceof JoueurHumain) {
-                    switch (key.getCode()) {
-                        case Z:
-                            faireAction(Action.HAUT, joueur.getNumJoueur(), jeu);
-                            break;
-                        case S:
-                            faireAction(Action.BAS, joueur.getNumJoueur(), jeu);
-                            break;
-                        case Q:
-                            faireAction(Action.GAUCHE, joueur.getNumJoueur(), jeu);
-                            break;
-                        case D:
-                            faireAction(Action.DROITE, joueur.getNumJoueur(), jeu);
-                            break;
-                        case E:
-                            faireAction(Action.UTILISER, joueur.getNumJoueur(), jeu, this);
-                            break;
-                        case SPACE:
-                            if (isLegal(Action.PRENDRE, joueur.getNumJoueur(), jeu)) {
-                                faireAction(Action.PRENDRE, joueur.getNumJoueur(), jeu);
-                            } else if (isLegal(Action.POSER, joueur.getNumJoueur(), jeu)) {
-                                faireAction(Action.POSER, joueur.getNumJoueur(), jeu);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                } else if (joueur instanceof JoueurIA) {
-                    if (key.getCode() == javafx.scene.input.KeyCode.ENTER) {
-                        faireAction(joueur.demanderAction(jeu), joueur.getNumJoueur(), jeu);
-                    }
-                }
-            }
+//    public void initEventClavier(Scene scene, DonneesJeu jeu) {
+//        scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+//            for (Joueur joueur : jeu.getJoueurs()) {
+//                if (joueur instanceof JoueurHumain) {
+//                    switch (key.getCode()) {
+//                        case Z:
+//                            faireAction(Action.HAUT, joueur.getNumJoueur(), jeu);
+//                            break;
+//                        case S:
+//                            faireAction(Action.BAS, joueur.getNumJoueur(), jeu);
+//                            break;
+//                        case Q:
+//                            faireAction(Action.GAUCHE, joueur.getNumJoueur(), jeu);
+//                            break;
+//                        case D:
+//                            faireAction(Action.DROITE, joueur.getNumJoueur(), jeu);
+//                            break;
+//                        case E:
+//                            faireAction(Action.UTILISER, joueur.getNumJoueur(), jeu, this);
+//                            break;
+//                        case SPACE:
+//                            if (isLegal(Action.PRENDRE, joueur.getNumJoueur(), jeu)) {
+//                                faireAction(Action.PRENDRE, joueur.getNumJoueur(), jeu);
+//                            } else if (isLegal(Action.POSER, joueur.getNumJoueur(), jeu)) {
+//                                faireAction(Action.POSER, joueur.getNumJoueur(), jeu);
+//                            }
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                } else if (joueur instanceof JoueurIA) {
+//                    if (key.getCode() == javafx.scene.input.KeyCode.ENTER) {
+//                        faireAction(joueur.demanderAction(jeu), joueur.getNumJoueur(), jeu);
+//                    }
+//                }
+//            }
+//
+//
+//            // Mise à jour de l'affichage après chaque action
+//            //TODO Refactor affichage
+//            this.getChildren().clear();
+//            jeu.getDepot().viderDepot();
+//            afficherBlocs(jeu);
+//            afficherJoueurs(jeu);
+//            afficherInventaireBloc(jeu);
+//            afficherPB(jeu);
+//        });
+//    }
 
-
-            // Mise à jour de l'affichage après chaque action
-            //TODO Refactor affichage
-            this.getChildren().clear();
-            jeu.getDepot().viderDepot();
-            afficherBlocs(jeu);
-            afficherJoueurs(jeu);
-            afficherInventaireBloc(jeu);
-            afficherPB(jeu);
-        });
-    }
-
-    private void afficherBlocs(DonneesJeu jeu) {
+    public void afficherBlocs(DonneesJeu jeu) {
         for (int i = 0; i < jeu.getHauteur(); i++) {
             for (int j = 0; j < jeu.getLongueur(); j++) {
                 BlocVue caseBloc = switch (jeu.getObjetsFixes()[i][j]) {
@@ -116,7 +120,7 @@ public class Plateau extends GridPane {
         }
     }
 
-    private void afficherJoueurs(DonneesJeu jeu) {
+    public void afficherJoueurs(DonneesJeu jeu) {
         for (Joueur joueur : jeu.getJoueurs()) {
             //TODO afficher différemment le joueur normal que le joueur IA (créer des classes qui hérietent de JoueurVue)
             JoueurVue caseJoueur = new JoueurVue(tailleCellule, joueur);
@@ -124,7 +128,7 @@ public class Plateau extends GridPane {
         }
     }
 
-    private void afficherInventaireBloc(DonneesJeu jeu) {
+    public void afficherInventaireBloc(DonneesJeu jeu) {
         for (int i = 0; i < jeu.getHauteur(); i++) {
             for (int j = 0; j < jeu.getLongueur(); j++) {
                 StackPane caseBloc = (StackPane) this.getChildren().get(i * jeu.getLongueur() + j);
@@ -155,7 +159,7 @@ public class Plateau extends GridPane {
         return cercle;
     }
 
-    private void afficherPB(DonneesJeu jeu) {
+    public void afficherPB(DonneesJeu jeu) {
         for (int i = 0; i < jeu.getHauteur(); i++) {
             for (int j = 0; j < jeu.getLongueur(); j++) {
                 StackPane caseBloc = (StackPane) this.getChildren().get(i * jeu.getLongueur() + j);
@@ -199,5 +203,9 @@ public class Plateau extends GridPane {
         new Thread(task).start();
 
         transformateur.setTransformation(task);
+    }
+
+    public ClavierControlleur getClavierController() {
+        return clavierController;
     }
 }
