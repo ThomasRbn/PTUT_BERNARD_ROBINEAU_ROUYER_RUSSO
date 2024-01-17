@@ -12,13 +12,11 @@ import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.vue.bloc.*;
 import com.overcooked.ptut.vue.joueur.JoueurVue;
-import javafx.concurrent.Task;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Circle;
 
 import static com.overcooked.ptut.vue.AfficheurInfobulle.afficherEtatCercle;
 
@@ -47,10 +45,15 @@ public class Plateau extends GridPane {
         afficherJoueurs(jeu);
     }
 
+    /**
+     * Affiche les blocs de la carte avec leurs couleurs respectives
+     *
+     * @param jeu Données du jeu
+     */
     public void afficherBlocs(DonneesJeu jeu) {
-        for (int i = 0; i < jeu.getHauteur(); i++) {
+        for (int i = 0; i < jeu.getHauteur(); i++) { //Double boucle pour parcourir tous les blocs
             for (int j = 0; j < jeu.getLongueur(); j++) {
-                BlocVue caseBloc = switch (jeu.getObjetsFixes()[i][j]) {
+                BlocVue caseBloc = switch (jeu.getObjetsFixes()[i][j]) { //Création de la case en fonction du bloc
                     case null -> new BlocVue();
                     case Depot ignored -> new DepotBloc();
                     case Generateur generateur -> new GenerateurBloc(generateur, tailleCellule);
@@ -63,42 +66,54 @@ public class Plateau extends GridPane {
         }
     }
 
+    /**
+     * Affiche les joueurs sur la carte ainsi que leur inventaire et la direction de leur regard
+     *
+     * @param jeu Données du jeu
+     */
     public void afficherJoueurs(DonneesJeu jeu) {
         for (Joueur joueur : jeu.getJoueurs()) {
-            //TODO afficher différemment le joueur normal que le joueur IA (créer des classes qui hérietent de JoueurVue)
             JoueurVue caseJoueur = new JoueurVue(tailleCellule, joueur);
             this.add(caseJoueur, joueur.getPosition()[1], joueur.getPosition()[0]);
         }
     }
 
+    /**
+     * Affiche l'inventaire des blocs qui contiennent un aliment ou un plat
+     *
+     * @param jeu Données du jeu
+     */
     public void afficherInventaireBloc(DonneesJeu jeu) {
-        for (int i = 0; i < jeu.getHauteur(); i++) {
+        for (int i = 0; i < jeu.getHauteur(); i++) { //Double boucle pour parcourir tous les blocs
             for (int j = 0; j < jeu.getLongueur(); j++) {
-                StackPane caseBloc = (StackPane) this.getChildren().get(i * jeu.getLongueur() + j);
-                if (jeu.getObjetsFixes()[i][j] instanceof PlanDeTravail planDeTravail) {
-                    if (planDeTravail.getInventaire() != null) {
-                        System.out.println(planDeTravail.getInventaire().getRecettesComposees());
+                StackPane caseBloc = (StackPane) this.getChildren().get(i * jeu.getLongueur() + j); // Récupération de la case
 
-                        caseBloc.getChildren().add(empilagePlat(planDeTravail));
-                    }
-                } else if (jeu.getObjetsFixes()[i][j] instanceof Transformateur transformateur) {
-                    if (transformateur.getInventaire() != null) {
-                        caseBloc.getChildren().add(empilagePlat(transformateur));
+                // Les PDT et les Transfo sont les seuls blocs qui doivent afficher leur inventaire
+                if (jeu.getObjetsFixes()[i][j] instanceof PlanDeTravail || jeu.getObjetsFixes()[i][j] instanceof Transformateur) {
+                    Bloc bloc = jeu.getObjetsFixes()[i][j];
+                    if (bloc.getInventaire() != null) {
+                        caseBloc.getChildren().add(empilagePlat(bloc));
                     }
                 }
             }
         }
     }
 
-    private StackPane empilagePlat(Bloc planDeTravail) {
+    /**
+     * Affiche l'inventaire des blocs qui contiennent un aliment ou un plat
+     *
+     * @param bloc Données du jeu
+     * @return StackPane contenant les cercles représentant les plats
+     */
+    private StackPane empilagePlat(Bloc bloc) {
         StackPane caseBloc = new StackPane();
-        for (int i = 0; i < planDeTravail.getInventaire().getRecettesComposees().size(); i++) {
-            caseBloc.getChildren().add(afficherEtatCercle(planDeTravail.getInventaire().getRecettesComposees().get(i), tailleCellule, i + 1));
+        for (int i = 0; i < bloc.getInventaire().getRecettesComposees().size(); i++) {
+            caseBloc.getChildren().add(afficherEtatCercle(bloc.getInventaire().getRecettesComposees().get(i), tailleCellule, i + 1));
         }
         return caseBloc;
     }
 
-    public void afficherPB(DonneesJeu jeu) {
+    public void affichageProgressBar(DonneesJeu jeu) {
         for (int i = 0; i < jeu.getHauteur(); i++) {
             for (int j = 0; j < jeu.getLongueur(); j++) {
                 StackPane caseBloc = (StackPane) this.getChildren().get(i * jeu.getLongueur() + j);
@@ -120,28 +135,28 @@ public class Plateau extends GridPane {
     }
 
     public void genererTask(Transformateur transformateur, DonneesJeu jeu) {
-        // Création d'une tâche pour simuler une opération prenant 3 secondes
-        Task<Void> task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                for (int i = 0; i < 100; i++) {
-                    updateProgress(i + 1, 100);
-                    Thread.sleep(30); // Simule une opération prenant du temps
-                }
-                return null;
-            }
-        };
+//        // Création d'une tâche pour simuler une opération prenant 3 secondes
+//        Task<Void> task = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
+//                for (int i = 0; i < 100; i++) {
+//                    updateProgress(i + 1, 100);
+//                    Thread.sleep(30); // Simule une opération prenant du temps
+//                }
+//                return null;
+//            }
+//        };
 
-        task.setOnSucceeded(e -> {
-            transformateur.setBloque(false);
-            transformateur.transform();
-            afficherInventaireBloc(jeu);
-            afficherPB(jeu);
-        });
+//        task.setOnSucceeded(e -> {
+        transformateur.setBloque(false);
+        transformateur.transform();
+        afficherInventaireBloc(jeu);
+        affichageProgressBar(jeu);
+//        });
 
-        new Thread(task).start();
+//        new Thread(task).start();
 
-        transformateur.setTransformation(task);
+//        transformateur.setTransformation(task);
     }
 
     public ClavierControlleur getClavierController() {

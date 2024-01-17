@@ -20,7 +20,7 @@ public class GenerateurBloc extends BlocVue {
                 rectangle.setFill(Color.RED);
                 break;
             case "Pain":
-                rectangle.setFill(Color.BROWN);
+                rectangle.setFill(Color.rgb(205,133,63));
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + generateur.getAliment());

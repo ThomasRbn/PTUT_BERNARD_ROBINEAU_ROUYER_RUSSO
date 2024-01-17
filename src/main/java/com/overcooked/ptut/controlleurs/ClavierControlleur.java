@@ -38,7 +38,7 @@ public class ClavierControlleur {
             plateau.afficherBlocs(jeu);
             plateau.afficherJoueurs(jeu);
             plateau.afficherInventaireBloc(jeu);
-            plateau.afficherPB(jeu);
+            plateau.affichageProgressBar(jeu);
         });
     }
 
