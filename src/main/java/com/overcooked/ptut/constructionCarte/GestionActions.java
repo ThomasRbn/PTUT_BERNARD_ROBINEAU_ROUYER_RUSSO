@@ -19,41 +19,38 @@ public class GestionActions {
      */
     public static boolean isLegal(Action a, int numJoueur, DonneesJeu donneesJeu) {
         // Récupération des données
-        int hauteur = donneesJeu.getHauteur();
-        int longueur = donneesJeu.getLongueur();
-
         Bloc[][] objetsFixes = donneesJeu.getObjetsFixes();
         Plat[][] objetsDeplacables = donneesJeu.getObjetsDeplacables();
 
         Joueur joueur = donneesJeu.getJoueur(numJoueur);
         int[] positionJoueur = joueur.getPosition();
-        Action direction = joueur.getDirection();
 
         int[] caseDevant = new int[2];
         caseDevant = joueur.getPositionCible();
 
+        final Bloc objetFixe = objetsFixes[caseDevant[0]][caseDevant[1]];
+        final Plat objetDeplacable = objetsDeplacables[caseDevant[0]][caseDevant[1]];
         return switch (a) {
-            case HAUT, BAS, GAUCHE, DROITE ->
-                    objetsFixes[caseDevant[0]][caseDevant[1]] == null || joueur.getDirection() != a;
+            case HAUT, BAS, GAUCHE, DROITE -> objetFixe == null || joueur.getDirection() != a;
             case PRENDRE -> {
                 //On vérifie que ses mains sont libres
                 if (joueur.getInventaire() != null) {
-                    if (objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur generateur) {
+                    if (objetFixe instanceof Generateur generateur) {
                         yield joueur.getInventaire().estFusionnable(generateur.getAliment());
                     }
-                    if (objetsFixes[caseDevant[0]][caseDevant[1]] instanceof PlanDeTravail && objetsFixes[caseDevant[0]][caseDevant[1]].getInventaire() != null) {
-                        yield joueur.getInventaire().estFusionnable(objetsFixes[caseDevant[0]][caseDevant[1]].getInventaire());
+                    if (objetFixe instanceof PlanDeTravail && objetFixe.getInventaire() != null) {
+                        yield joueur.getInventaire().estFusionnable(objetFixe.getInventaire());
                     }
                     yield false;
                 } else {
                     // Calcul des coordonnes de la case devant le joueur
 
                     //Recherche dans objetDeplacable s'il y a un objet à prendre
-                    yield objetsDeplacables[caseDevant[0]][caseDevant[1]] != null
+                    yield objetDeplacable != null
                             || objetsDeplacables[positionJoueur[0]][positionJoueur[1]] != null
-                            || objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur
-                            || (objetsFixes[caseDevant[0]][caseDevant[1]] instanceof PlanDeTravail && ((PlanDeTravail) objetsFixes[caseDevant[0]][caseDevant[1]]).getInventaire() != null)
-                            || objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Transformateur && ((Transformateur) objetsFixes[caseDevant[0]][caseDevant[1]]).getInventaire() != null;
+                            || objetFixe instanceof Generateur
+                            || (objetFixe instanceof PlanDeTravail && objetFixe.getInventaire() != null)
+                            || objetFixe instanceof Transformateur && objetFixe.getInventaire() != null;
                 }
             }
             case POSER -> {
@@ -62,21 +59,19 @@ public class GestionActions {
                 if (joueur.getInventaire() == null) {
                     yield false;
                 } else {
-                    if (objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Transformateur) {
+                    if (objetFixe instanceof Transformateur) {
                         yield joueur.getInventaire().getRecettesComposees().size() == 1;
-                    } else if (objetsDeplacables[caseDevant[0]][caseDevant[1]] != null) {
+                    } else if (objetDeplacable != null) {
                         yield true;
                     }
                 }
                 // Calcul des coordonnés de la case devant le joueur
                 //Recherche dans objetDeplacable s'il y a un objet devant le joueur
-                yield objetsDeplacables[caseDevant[0]][caseDevant[1]] == null;
-                //TODO: Vérifier que la case devant soit compatible avec l'objet à déplacer (ex: pas d'aliment sur le feu sans poele)
+                yield true;
             }
 
             case UTILISER -> {
-                caseDevant = joueur.getPositionCible();
-                yield objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Transformateur transformateur
+                yield objetFixe instanceof Transformateur transformateur
                         && !transformateur.isBloque() && transformateur.getInventaire() != null
                         && joueur.getInventaire() == null
                         && !transformateur.estTransforme(transformateur.getInventaire());
@@ -117,37 +112,40 @@ public class GestionActions {
 
             //Poser un objet (dans la case devant le joueur)
             case POSER -> {
-                poser(objetsFixes, positionJoueurCible, joueur);
+                poser(objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]], joueur);
             }
             //Utiliser un transformateur
             case UTILISER -> {
-                Transformateur transformateur = (Transformateur) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
-                if (transformateur.getInventaire() != null) {
-                    transformateur.setBloque(true);
-                }
+                utiliser((Transformateur) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]]);
             }
             //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.faireAction, action invalide" + a);
         }
     }
 
-    private static void poser(Bloc[][] objetsFixes, int[] positionJoueurCible, Joueur joueur) {
-        if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Depot) {
+    private static void utiliser(Transformateur transformateur) {
+        if (transformateur.getInventaire() != null) {
+            transformateur.setBloque(true);
+        }
+    }
+
+    private static void poser(Bloc objetFixe, Joueur joueur) {
+        if (objetFixe instanceof Depot) {
             if (joueur.getInventaire() != null) {
-                Depot depot = (Depot) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
+                Depot depot = (Depot) objetFixe;
                 depot.deposerPlat(joueur.poser());
                 return;
             }
         }
 
-        if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Transformateur transformateur) {
+        if (objetFixe instanceof Transformateur transformateur) {
             if (transformateur.getInventaire() != null) return;
             transformateur.ajouterElem(joueur.poser());
             System.out.println("Poser : " + transformateur.getInventaire().getRecettesComposees().getFirst().getEtat());
             return;
         }
 
-        if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof PlanDeTravail planDeTravail) {
+        if (objetFixe instanceof PlanDeTravail planDeTravail) {
             if (planDeTravail.getInventaire() == null) {
                 planDeTravail.poserDessus(joueur.poser());
                 return;
@@ -170,7 +168,9 @@ public class GestionActions {
         // Position cible du joueur en fonction de sa direction
         int[] positionJoueurCible = joueur.getPositionCible();
 //        System.out.println(Arrays.toString(joueur.getPosition()));
+        int[] positionJoueur = joueur.getPosition();
         Plat objetsDeplacableCible = objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]];
+        Plat objetsDeplacable = objetsDeplacables[positionJoueur[0]][positionJoueur[1]];
         if (objetsDeplacableCible != null) {
             joueur.prendre(objetsDeplacableCible);
             objetsDeplacables[positionJoueurCible[0]][positionJoueurCible[1]] = null;
@@ -202,13 +202,10 @@ public class GestionActions {
 
             default -> throw new IllegalArgumentException("DonneesJeu.prendre, bloc invalide" + objetsFix);
         }
+        if (objetsDeplacable == null) return;
         //Prendre un objet déjà présent sur la carte
-        int[] positionJoueur = joueur.getPosition();
-        Plat objetsDeplacable = objetsDeplacables[positionJoueur[0]][positionJoueur[1]];
-        if (objetsDeplacable != null) {
-            joueur.prendre(objetsDeplacable);
-            objetsDeplacables[positionJoueur[0]][positionJoueur[1]] = null;
-        }
+        joueur.prendre(objetsDeplacable);
+        objetsDeplacables[positionJoueur[0]][positionJoueur[1]] = null;
     }
 
 }
