@@ -38,7 +38,7 @@ public class ClavierControlleur {
             plateau.afficherBlocs(jeu);
             plateau.afficherJoueurs(jeu);
             plateau.afficherInventaireBloc(jeu);
-            plateau.affichageProgressBar(jeu);
+//            plateau.affichageProgressBar(jeu);
         });
     }
 
@@ -63,9 +63,9 @@ public class ClavierControlleur {
             case E:
                 if (isLegal(Action.UTILISER, joueur.getNumJoueur(), jeu)) {
                     faireAction(Action.UTILISER, joueur.getNumJoueur(), jeu);
-                    int[] cible = joueur.getPositionCible();
-                    Transformateur transformateur = (Transformateur) jeu.getObjetsFixes()[cible[0]][cible[1]];
-                    plateau.genererTask(transformateur, jeu);
+//                    int[] cible = joueur.getPositionCible();
+//                    Transformateur transformateur = (Transformateur) jeu.getObjetsFixes()[cible[0]][cible[1]];
+//                    plateau.genererTask(transformateur, jeu);
                 }
                 break;
             case SPACE:

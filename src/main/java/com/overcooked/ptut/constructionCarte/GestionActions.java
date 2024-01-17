@@ -135,7 +135,8 @@ public class GestionActions {
 
     private static void utiliser(Transformateur transformateur) {
         if (transformateur.getInventaire() != null) {
-            transformateur.setBloque(true);
+//            transformateur.setBloque(true);
+            transformateur.transform();
         }
     }
 

@@ -12,6 +12,7 @@ import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.vue.bloc.*;
 import com.overcooked.ptut.vue.joueur.JoueurVue;
+import javafx.concurrent.Task;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -113,28 +114,27 @@ public class Plateau extends GridPane {
         return caseBloc;
     }
 
-    public void affichageProgressBar(DonneesJeu jeu) {
-        for (int i = 0; i < jeu.getHauteur(); i++) {
-            for (int j = 0; j < jeu.getLongueur(); j++) {
-                StackPane caseBloc = (StackPane) this.getChildren().get(i * jeu.getLongueur() + j);
-                if (jeu.getObjetsFixes()[i][j] instanceof Transformateur transformateur) {
-                    if (transformateur.isBloque()) {
-                        ProgressBar progressBar = new ProgressBar(0);
-                        progressBar.progressProperty().bind(transformateur.getTransformation().progressProperty());
-                        caseBloc.getChildren().add(progressBar);
-                        transformateur.setProgressBar(progressBar);
-                    } else {
-                        if (transformateur.getTransformation() != null) {
-                            caseBloc.getChildren().remove(transformateur.getProgressBar());
-                        }
-                    }
-                }
-            }
-        }
+//    public void affichageProgressBar(DonneesJeu jeu) {
+//        for (int i = 0; i < jeu.getHauteur(); i++) {
+//            for (int j = 0; j < jeu.getLongueur(); j++) {
+//                StackPane caseBloc = (StackPane) this.getChildren().get(i * jeu.getLongueur() + j);
+//                if (jeu.getObjetsFixes()[i][j] instanceof Transformateur transformateur) {
+//                    if (transformateur.isBloque()) {
+//                        ProgressBar progressBar = new ProgressBar(0);
+//                        progressBar.progressProperty().bind(transformateur.getTransformation().progressProperty());
+//                        caseBloc.getChildren().add(progressBar);
+//                        transformateur.setProgressBar(progressBar);
+//                    } else {
+//                        if (transformateur.getTransformation() != null) {
+//                            caseBloc.getChildren().remove(transformateur.getProgressBar());
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
-    }
-
-    public void genererTask(Transformateur transformateur, DonneesJeu jeu) {
+//    public void genererTask(Transformateur transformateur, DonneesJeu jeu) {
 //        // Création d'une tâche pour simuler une opération prenant 3 secondes
 //        Task<Void> task = new Task<Void>() {
 //            @Override
@@ -146,18 +146,18 @@ public class Plateau extends GridPane {
 //                return null;
 //            }
 //        };
-
+//
 //        task.setOnSucceeded(e -> {
-        transformateur.setBloque(false);
-        transformateur.transform();
-        afficherInventaireBloc(jeu);
-        affichageProgressBar(jeu);
+//        transformateur.setBloque(false);
+//        transformateur.transform();
+//        afficherInventaireBloc(jeu);
+//        affichageProgressBar(jeu);
 //        });
-
+//
 //        new Thread(task).start();
-
+//
 //        transformateur.setTransformation(task);
-    }
+//    }
 
     public ClavierControlleur getClavierController() {
         return clavierController;
