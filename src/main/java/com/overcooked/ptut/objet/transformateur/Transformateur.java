@@ -70,7 +70,7 @@ public class Transformateur extends Bloc {
             return null;
 
         //Si l'aliment est déjà dans l'état voulu, on ne fait rien
-        if (inventaire.getRecettesComposees().getFirst().equals(etat)) return inventaire;
+        if (inventaire.getRecettesComposees().getFirst().getEtat() == etat) return inventaire;
 
         //Si l'aliment n'est pas dans l'état voulu, on le transforme
         Aliment alim = inventaire.getRecettesComposees().getFirst();
@@ -78,7 +78,6 @@ public class Transformateur extends Bloc {
         alim.setEtat(etat);
         inventaire.viderAliments();
         inventaire.ajouterAliment(alim);
-        // System.out.println("Aliment transformé : " + inventaire.getRecettesComposees().getFirst().getEtat());
         return inventaire;
     }
 
