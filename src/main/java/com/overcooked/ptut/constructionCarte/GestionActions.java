@@ -36,10 +36,7 @@ public class GestionActions {
         caseDevant = joueur.getPositionCible();
 
         return switch (a) {
-            case HAUT -> positionJoueur[0] != 0 || direction != HAUT;
-            case GAUCHE -> positionJoueur[1] != 0 || direction != GAUCHE;
-            case BAS -> positionJoueur[0] != hauteur - 1 || direction != BAS;
-            case DROITE -> positionJoueur[1] != longueur - 1 || direction != DROITE;
+            case HAUT, BAS, GAUCHE, DROITE -> objetsFixes[caseDevant[0]][caseDevant[1]] == null || joueur.getDirection() != a;
             case PRENDRE -> {
                 //On vérifie que ses mains sont libres
                 if (joueur.getInventaire() != null) {
@@ -114,6 +111,8 @@ public class GestionActions {
             //Deplacement du joueur si possible
             case DROITE, GAUCHE, HAUT, BAS -> {
                 joueur.changeDirection(a);
+                // On remet le joueur dans la bonne direction, car il change sa direction avant de se déplacer
+                positionJoueurCible = joueur.getPositionCible();
                 if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] == null) {
                     joueur.deplacer(a);
                 }
