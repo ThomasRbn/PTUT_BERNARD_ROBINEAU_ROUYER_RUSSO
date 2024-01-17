@@ -7,13 +7,11 @@ public class Tomate extends Aliment {
 
     public Tomate() {
         nom = "Tomate";
-        description = "Tomate";
     }
 
     public Tomate(int etat) {
         super(etat);
         nom = "Tomate";
-        description = "Tomate";
     }
 
     @Override

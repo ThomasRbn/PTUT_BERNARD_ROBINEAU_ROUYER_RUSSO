@@ -7,13 +7,11 @@ public class Salade extends Aliment {
 
     public Salade() {
         nom = "Salade";
-        description = "Salade";
     }
 
     public Salade(int etat) {
         super(etat);
         nom = "Salade";
-        description = "Salade";
     }
 
     @Override

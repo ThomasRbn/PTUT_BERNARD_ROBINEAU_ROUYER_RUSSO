@@ -2,6 +2,7 @@ package systemeRecette;
 
 import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.objet.transformateur.Transformateur;
+import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.recettes.aliment.Pain;
 import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Salade;
@@ -11,11 +12,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestTranformationAliment {
-    Plat painCuit;
+    Plat painCuitPlat;
     Transformateur transformateur;
     @BeforeEach
     public void setUp() {
-        painCuit = new Plat(new Pain());
+        Aliment painCuit = new Pain();
+        painCuit.cuire();
+        painCuitPlat = new Plat(painCuit);
         transformateur = new Poele(0, 0);
     }
 
@@ -25,7 +28,9 @@ public class TestTranformationAliment {
     @Test
     public void testTransformationReussie() {
         transformateur.ajouterElem(new Plat( new Pain()));
-        assertEquals(transformateur.transform(), painCuit);
+        Plat transform = transformateur.transform();
+        System.out.println(transform);
+        assertTrue(transform.equals(painCuitPlat));
     }
 
     /**
@@ -42,6 +47,6 @@ public class TestTranformationAliment {
     @Test
     public void testTransformationEchouee2() {
         transformateur.ajouterElem(new Plat(new Salade()));
-        assertFalse(transformateur.transform().equals(painCuit));
+        assertFalse(transformateur.transform().equals(painCuitPlat));
     }
 }

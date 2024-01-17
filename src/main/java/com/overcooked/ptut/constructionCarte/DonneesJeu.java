@@ -1,14 +1,16 @@
 package com.overcooked.ptut.constructionCarte;
 
-import com.overcooked.ptut.objet.Depot;
-import com.overcooked.ptut.objet.Generateur;
-import com.overcooked.ptut.objet.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.objet.Bloc;
+import com.overcooked.ptut.objet.Depot;
+import com.overcooked.ptut.objet.Generateur;
+import com.overcooked.ptut.objet.PlanDeTravail;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
-import com.overcooked.ptut.recettes.aliment.*;
+import com.overcooked.ptut.recettes.aliment.Aliment;
+import com.overcooked.ptut.recettes.aliment.Plat;
+import com.overcooked.ptut.recettes.aliment.Tomate;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -153,125 +155,33 @@ public class DonneesJeu {
 
 
     public List<int[]> getCoordonneesElement(String element) {
-        switch (element) {
-            case "Tomate":
-                List<int[]> coordonneesTomates = new ArrayList<>();
-                for (int i = 0; i < hauteur; i++) {
-                    for (int j = 0; j < longueur; j++) {
-                        if (objetsFixes[i][j] instanceof Generateur && ((Generateur) objetsFixes[i][j]).getAliment().getRecettesComposees().get(0) instanceof Tomate) {
-                            coordonneesTomates.add(new int[]{i, j});
-                        } else if (objetsFixes[i][j] instanceof PlanDeTravail) {
-                            PlanDeTravail planDeTravail = ((PlanDeTravail) objetsFixes[i][j]);
-                            if (planDeTravail.getInventaire() != null && planDeTravail.getInventaire().getRecettesComposees().get(0) instanceof Tomate)
-                                coordonneesTomates.add(new int[]{i, j});
+        List<int[]> coordonneesElem = new ArrayList<>();
+
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < longueur; j++) {
+                Bloc currBloc = objetsFixes[i][j];
+                if (currBloc instanceof PlanDeTravail planDeTravail && planDeTravail.getNomPlat().equals(element)) {
+                    coordonneesElem.add(new int[]{i, j});
+                }
+                if (currBloc != null) {
+                    if(currBloc instanceof Generateur){
+                        if(element.equals("Generateur")){
+                            coordonneesElem.add(new int[]{i, j});
                         }
-                        if (objetsDeplacables[i][j] != null) {
-                            if (objetsDeplacables[i][j].getRecettesComposees().get(0) instanceof Tomate) {
-                                coordonneesTomates.add(new int[]{i, j});
-                            }
-                        }
+                    }
+                    if (currBloc.getType().equals(element)) {
+                        coordonneesElem.add(new int[]{i, j});
                     }
                 }
-                return coordonneesTomates;
-
-            case "Salade":
-                List<int[]> coordonneesSalades = new ArrayList<>();
-                for (int i = 0; i < hauteur; i++) {
-                    for (int j = 0; j < longueur; j++) {
-                        if (objetsFixes[i][j] instanceof Generateur && ((Generateur) objetsFixes[i][j]).getAliment().getRecettesComposees().get(0) instanceof Salade) {
-                            coordonneesSalades.add(new int[]{i, j});
-                        } else if (objetsFixes[i][j] instanceof PlanDeTravail) {
-                            PlanDeTravail planDeTravail = ((PlanDeTravail) objetsFixes[i][j]);
-                            if (planDeTravail.getInventaire() != null && planDeTravail.getInventaire().getRecettesComposees().get(0) instanceof Salade)
-                                coordonneesSalades.add(new int[]{i, j});
-                        }
-                        if (objetsDeplacables[i][j] != null) {
-                            if (objetsDeplacables[i][j].getRecettesComposees().get(0) instanceof Salade) {
-                                coordonneesSalades.add(new int[]{i, j});
-                            }
-                        }
+                Plat objetsDeplacable = objetsDeplacables[i][j];
+                if (objetsDeplacable != null) {
+                    if (objetsDeplacable.getNom().equals(element)) {
+                        coordonneesElem.add(new int[]{i, j});
                     }
                 }
-                return coordonneesSalades;
-
-                case "SaladeTomate", "TomateSalade":
-                    List<int[]> coordonneesSaladeTomate = new ArrayList<>();
-                    for (int i = 0; i < hauteur; i++) {
-                        for (int j = 0; j < longueur; j++) {
-                                    if (objetsFixes[i][j] instanceof PlanDeTravail) {
-                                    PlanDeTravail planDeTravail = ((PlanDeTravail) objetsFixes[i][j]);
-                                    if (planDeTravail.getInventaire() != null && planDeTravail.getInventaire().getRecettesComposees().get(0) instanceof Salade && planDeTravail.getInventaire().getRecettesComposees().get(1) instanceof Tomate
-                                    || planDeTravail.getInventaire() != null && planDeTravail.getInventaire().getRecettesComposees().get(0) instanceof Tomate && planDeTravail.getInventaire().getRecettesComposees().get(1) instanceof Salade)
-                                        coordonneesSaladeTomate.add(new int[]{i, j});
-                                }
-                            if (objetsDeplacables[i][j] != null) {
-                                if (objetsDeplacables[i][j].getRecettesComposees().get(0) instanceof Salade && objetsDeplacables[i][j].getRecettesComposees().get(1) instanceof Tomate) {
-                                    coordonneesSaladeTomate.add(new int[]{i, j});
-                                }
-                            }
-                        }
-                    }
-                    return coordonneesSaladeTomate;
-
-
-            case "Plan de travail":
-                List<int[]> coordonneesPlanDeTravail = new ArrayList<>();
-                for (int i = 0; i < hauteur; i++) {
-                    for (int j = 0; j < longueur; j++) {
-                        if (objetsFixes[i][j] instanceof PlanDeTravail) {
-                            coordonneesPlanDeTravail.add(new int[]{i, j});
-                        }
-                    }
-                }
-                return coordonneesPlanDeTravail;
-
-                case "Generateur":
-                List<int[]> coordonneesGenerateur = new ArrayList<>();
-                for (int i = 0; i < hauteur; i++) {
-                    for (int j = 0; j < longueur; j++) {
-                        if (objetsFixes[i][j] instanceof Generateur) {
-                            coordonneesGenerateur.add(new int[]{i, j});
-                        }
-                    }
-                }
-                return coordonneesGenerateur;
-
-                case "Cuisson":
-                List<int[]> coordonneesPoele = new ArrayList<>();
-                for (int i = 0; i < hauteur; i++) {
-                    for (int j = 0; j < longueur; j++) {
-                        if (objetsFixes[i][j] instanceof Poele) {
-                            coordonneesPoele.add(new int[]{i, j});
-                        }
-                    }
-                }
-                return coordonneesPoele;
-
-                case "Planche":
-                List<int[]> coordonneesPlanche = new ArrayList<>();
-                for (int i = 0; i < hauteur; i++) {
-                    for (int j = 0; j < longueur; j++) {
-                        if (objetsFixes[i][j] instanceof Planche) {
-                            coordonneesPlanche.add(new int[]{i, j});
-                        }
-                    }
-                }
-                return coordonneesPlanche;
-
-                case "Depot":
-                List<int[]> coordonneesDepot = new ArrayList<>();
-                for (int i = 0; i < hauteur; i++) {
-                    for (int j = 0; j < longueur; j++) {
-                        if (objetsFixes[i][j] instanceof Depot) {
-                            coordonneesDepot.add(new int[]{i, j});
-                        }
-                    }
-                }
-                return coordonneesDepot;
-
-            default:
-                throw new IllegalArgumentException("DonneesJeu.getCoordonneesAliment, Aliment pas encore implémenté");
+            }
         }
+        return coordonneesElem;
     }
 
 
@@ -321,9 +231,9 @@ public class DonneesJeu {
         //On affiche la direction de chaque joueur
         for (Joueur joueur : joueurs) {
             s.append("Le joueur ").append(joueur.getNumJoueur()).append(" est orienté vers : ").append(joueur.getDirection().getName()).append("\n");
-            if(joueur.getInventaire() != null) {
+            if (joueur.getInventaire() != null) {
                 s.append("Et possède dans son inventaire: ");
-                for (Aliment aliment : joueur.getInventaire().getRecettesComposees()){
+                for (Aliment aliment : joueur.getInventaire().getRecettesComposees()) {
                     s.append(aliment);
                 }
                 s.append("\n");

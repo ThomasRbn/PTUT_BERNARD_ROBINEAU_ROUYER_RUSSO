@@ -11,6 +11,7 @@ public class Poele extends Transformateur {
      */
     public Poele(int x, int y) {
         super(x, y);
+        type = "Cuisson";
         etat = Etat.CUIT;
     }
 
@@ -20,5 +21,7 @@ public class Poele extends Transformateur {
      */
     public Poele(Poele poele) {
         super(poele);
+        this.type = poele.type;
+        this.etat = poele.etat;
     }
 }

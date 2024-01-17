@@ -93,10 +93,20 @@ public class TestRecette {
     }
 
     @Test
-    public void testRecetteDoublonNotEquals(){
+    public void testRecetteDoublonEqualsCarMap(){
         Plat plat1 = new Plat(new Pain(), new Salade());
         Plat plat2 = new Plat(new Pain(), new Salade());
         plat2.ajouterAliment(new Pain());
-        assertFalse(plat1.equals(plat2));
+        assertEquals(plat1, plat2);
+    }
+
+    @Test
+    public void testRecetteEtatNotEquals(){
+        Plat plat1 = new Plat(new Pain(), new Salade());
+        Aliment salade = new Salade();
+        salade.cuire();
+        Plat plat2 = new Plat(new Pain());
+        plat2.ajouterAliment(salade);
+        assertNotEquals(plat1, plat2);
     }
 }
