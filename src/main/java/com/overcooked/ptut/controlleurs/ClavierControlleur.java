@@ -44,19 +44,24 @@ public class ClavierControlleur {
     private void handleHumainInput(KeyEvent key, Joueur joueur, Plateau plateau) {
         switch (key.getCode()) {
             case Z:
-                faireAction(Action.HAUT, joueur.getNumJoueur(), jeu);
+                if (isLegal(Action.HAUT, joueur.getNumJoueur(), jeu))
+                    faireAction(Action.HAUT, joueur.getNumJoueur(), jeu);
                 break;
             case S:
-                faireAction(Action.BAS, joueur.getNumJoueur(), jeu);
+                if (isLegal(Action.BAS, joueur.getNumJoueur(), jeu))
+                    faireAction(Action.BAS, joueur.getNumJoueur(), jeu);
                 break;
             case Q:
-                faireAction(Action.GAUCHE, joueur.getNumJoueur(), jeu);
+                if (isLegal(Action.GAUCHE, joueur.getNumJoueur(), jeu))
+                    faireAction(Action.GAUCHE, joueur.getNumJoueur(), jeu);
                 break;
             case D:
-                faireAction(Action.DROITE, joueur.getNumJoueur(), jeu);
+                if (isLegal(Action.DROITE, joueur.getNumJoueur(), jeu))
+                    faireAction(Action.DROITE, joueur.getNumJoueur(), jeu);
                 break;
             case E:
-                faireAction(Action.UTILISER, joueur.getNumJoueur(), jeu, plateau);
+                if (isLegal(Action.UTILISER, joueur.getNumJoueur(), jeu))
+                    faireAction(Action.UTILISER, joueur.getNumJoueur(), jeu, plateau);
                 break;
             case SPACE:
                 if (isLegal(Action.PRENDRE, joueur.getNumJoueur(), jeu)) {

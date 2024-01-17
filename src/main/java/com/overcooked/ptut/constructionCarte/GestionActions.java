@@ -58,7 +58,6 @@ public class GestionActions {
                             || objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Transformateur && ((Transformateur) objetsFixes[caseDevant[0]][caseDevant[1]]).getInventaire() != null;
                 }
             }
-
             case POSER -> {
                 int[] caseDevant = new int[2];
                 caseDevant = joueur.getPositionCible();
@@ -74,6 +73,23 @@ public class GestionActions {
                 //Recherche dans objetDeplacable s'il y a un objet devant le joueur
                 yield objetsDeplacables[caseDevant[0]][caseDevant[1]] == null;
                 //TODO: Vérifier que la case devant soit compatible avec l'objet à déplacer (ex: pas d'aliment sur le feu sans poele)
+            }
+            case UTILISER -> {
+                int[] positionJoueurCible = joueur.getPositionCible();
+                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Transformateur transformateur) {
+                    if (joueur.getInventaire() != null || transformateur.isBloque()) yield false;
+                    if (transformateur instanceof Planche
+                            && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.COUPE
+                            || transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT_ET_COUPE)
+                        yield false;
+                    if (transformateur instanceof Poele
+                            && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT
+                            || transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT_ET_COUPE)
+                        yield false;
+                    //Rajouter les autres cas ici si besoin
+                    yield true;
+                }
+                yield false;
             }
             //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.isLegal, action invalide" + a);
@@ -112,21 +128,10 @@ public class GestionActions {
             }
             //Utiliser un transformateur
             case UTILISER -> {
-                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Transformateur transformateur) {
-                    if (joueur.getInventaire() != null || transformateur.isBloque()) return;
-                    if (transformateur instanceof Planche
-                            && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.COUPE
-                            || transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT_ET_COUPE)
-                        return;
-                    if (transformateur instanceof Poele
-                            && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT
-                            || transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT_ET_COUPE)
-                        return;
-
-                    if (transformateur.getInventaire() != null) {
-                        transformateur.setBloque(true);
-                        plateau[0].genererTask(transformateur, donneesJeu);
-                    }
+                Transformateur transformateur = (Transformateur) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]];
+                if (transformateur.getInventaire() != null) {
+                    transformateur.setBloque(true);
+                    plateau[0].genererTask(transformateur, donneesJeu);
                 }
             }
             //Exception si l'action n'est pas reconnue
