@@ -83,6 +83,7 @@ public class GestionActions {
                 yield objetFixe instanceof Transformateur transformateur
                         && !transformateur.isBloque() && transformateur.getInventaire() != null
                         && joueur.getInventaire() == null
+                        && transformateur.getInventaire().getRecettesComposees().size() == 1
                         && !transformateur.estTransforme(transformateur.getInventaire());
             }
 
@@ -150,7 +151,7 @@ public class GestionActions {
         if (objetFixe instanceof Transformateur transformateur) {
             if (transformateur.getInventaire() != null) return;
             transformateur.ajouterElem(joueur.poser());
-            System.out.println("Poser : " + transformateur.getInventaire().getRecettesComposees().getFirst().getEtat());
+//            System.out.println("Poser : " + transformateur.getInventaire().getRecettesComposees().getFirst().getEtat());
             return;
         }
 
