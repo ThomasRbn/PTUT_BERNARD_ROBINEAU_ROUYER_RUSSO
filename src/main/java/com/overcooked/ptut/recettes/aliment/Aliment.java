@@ -87,7 +87,7 @@ public class Aliment extends Mouvable {
 	}
 
 	public String toString(){
-		return this.getNom();
+		return this.getNom() + " " + this.getEtat();
 	}
 
 	@Override
