@@ -6,7 +6,7 @@ import com.overcooked.ptut.recettes.aliment.Plat;
 import javafx.concurrent.Task;
 import javafx.scene.control.ProgressBar;
 
-public abstract class Transformateur extends Bloc {
+public class Transformateur extends Bloc {
 
     /**
      * Temps de transformation de l'aliment
@@ -77,6 +77,7 @@ public abstract class Transformateur extends Bloc {
         alim.setEtat(etat);
         inventaire.viderAliments();
         inventaire.ajouterAliment(alim);
+        // System.out.println("Aliment transformé : " + inventaire.getRecettesComposees().getFirst().getEtat());
         return inventaire;
     }
 
