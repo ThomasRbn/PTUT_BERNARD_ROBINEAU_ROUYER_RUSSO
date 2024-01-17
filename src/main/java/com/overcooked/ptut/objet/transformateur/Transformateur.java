@@ -118,8 +118,9 @@ public class Transformateur extends Bloc {
         if (!(o instanceof Transformateur that)) return false;
         return etat == that.etat && tempsRestant == that.tempsRestant
                 && isBloque == that.isBloque
-                &&  ((inventaire == null && that.inventaire == null)
-                ||(inventaire.equals(that.inventaire)));
+                && ((inventaire == null && that.inventaire == null)
+                ||(!(inventaire == null || that.inventaire == null))
+                && inventaire.equals(that.inventaire));
     }
 
     public Plat getInventaire() {
