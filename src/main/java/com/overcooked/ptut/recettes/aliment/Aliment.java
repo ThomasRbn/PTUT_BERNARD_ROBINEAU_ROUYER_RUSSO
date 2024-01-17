@@ -3,6 +3,7 @@ package com.overcooked.ptut.recettes.aliment;
 import com.overcooked.ptut.objet.Mouvable;
 import com.overcooked.ptut.recettes.etat.Etat;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -73,6 +74,51 @@ public class Aliment extends Mouvable {
 
 	public void cuire(){
 		this.setEtat(Etat.CUIT);
+	}
+
+	public boolean doitCuire(Plat platBut){
+		// Aliment correspondant dans le plat but
+		List<Aliment> alimentsBut = platBut.getRecettesComposees();
+		Aliment alimentBut = null;
+		for (Aliment a : alimentsBut) {
+			if (a.getNom().equals(this.getNom())) {
+				alimentBut = a;
+				break;
+			}
+		}
+		// On récupère l'état de l'aliment actuellement et on vérifie
+		if(alimentBut == null){
+			return false;
+		}
+		int etat = this.getEtat();
+		int etatBut = alimentBut.getEtat();
+		if(etat == 0 && etatBut == 1){
+			return true;
+		}
+		return etat == 2 && etatBut == 3;
+
+	}
+
+	public boolean doitEtreCoupe(Plat platBut) {
+		Aliment alimentBut = null;
+		List<Aliment> alimentsBut = platBut.getRecettesComposees();
+		for (Aliment a : alimentsBut) {
+			if (a.getNom().equals(this.getNom())) {
+				alimentBut = a;
+				break;
+			}
+		}
+		// On récupère l'état de l'aliment actuellement et on vérifie
+
+		if(alimentBut == null){
+			return false;
+		}
+		int etat = this.getEtat();
+		int etatBut = alimentBut.getEtat();
+		if(etat == 0 && etatBut == 2){
+			return true;
+		}
+		return etat == 1 && etatBut == 3;
 	}
 
 	/**
