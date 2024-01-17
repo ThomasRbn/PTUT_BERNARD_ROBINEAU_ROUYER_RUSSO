@@ -29,9 +29,12 @@ public class CalculHeuristiquePlatState extends State {
         coutTot = 0;
     }
 
-    public CalculHeuristiquePlatState(DonneesJeu donneesJeu, List<Aliment> visitees, int[] coordonneesActuelles, int coutTot) {
+    public CalculHeuristiquePlatState(DonneesJeu donneesJeu, List<Aliment> visiteesAncien, int[] coordonneesActuelles, int coutTot) {
         this.donneesJeu = donneesJeu;
-        this.visitees = new ArrayList<>(visitees);
+        this.visitees = new ArrayList<>();
+        for(Aliment aliment : visiteesAncien){
+            this.visitees.add(new Aliment(aliment));
+        }
         this.coordonneesActuelles = coordonneesActuelles.clone();
         this.coutTot = coutTot;
     }
@@ -70,9 +73,9 @@ public class CalculHeuristiquePlatState extends State {
 
     public void deplacement(int[] nouvelleCo, Aliment a) {
         if(Objects.equals(a.getNom(), "Decoupe")){
-            visitees.getLast(); // TODO: le decouper
+            visitees.getLast().decouper();
         } else if (Objects.equals(a.getNom(), "Cuisson")){
-            visitees.getLast(); // TODO: le cuire
+            visitees.getLast().cuire();
         }else {
             visitees.add(a);
         }
@@ -93,51 +96,12 @@ public class CalculHeuristiquePlatState extends State {
 
     public boolean doitCuire(Plat platBut){
         if(visitees.isEmpty())return false;
-        Aliment aliment = visitees.getLast();
-        // Aliment correspondant dans le plat but
-        List<Aliment> alimentsBut = platBut.getRecettesComposees();
-        Aliment alimentBut = null;
-        for (Aliment a : alimentsBut) {
-            if (a.getNom().equals(aliment.getNom())) {
-                alimentBut = a;
-                break;
-            }
-        }
-        // On récupère l'état de l'aliment actuellement et on vérifie
-        if(alimentBut == null){
-            return false;
-        }
-        int etat = aliment.getEtat();
-        int etatBut = alimentBut.getEtat();
-        if(etat == 0 && etatBut == 1){
-            return true;
-        }
-        return etat == 2 && etatBut == 3;
+        return visitees.getLast().doitCuire(platBut);
 
     }
 
     public boolean doitEtreCoupe(Plat platBut) {
         if(visitees.isEmpty())return false;
-        Aliment aliment = visitees.getLast();
-        // Aliment correspondant dans le plat but
-        List<Aliment> alimentsBut = platBut.getRecettesComposees();
-        Aliment alimentBut = null;
-        for (Aliment a : alimentsBut) {
-            if (a.getNom().equals(aliment.getNom())) {
-                alimentBut = a;
-                break;
-            }
-        }
-        // On récupère l'état de l'aliment actuellement et on vérifie
-
-        if(alimentBut == null){
-            return false;
-        }
-        int etat = aliment.getEtat();
-        int etatBut = alimentBut.getEtat();
-        if(etat == 0 && etatBut == 2){
-            return true;
-        }
-        return etat == 1 && etatBut == 3;
+        return visitees.getLast().doitEtreCoupe(platBut); // this
     }
 }

@@ -55,22 +55,31 @@ public class AStar extends TreeSearch {
             } else {
                 // On ajoute l'état du nœud dans l'ensemble des nœuds explorés
                 explored.add(node.getState());
+//                System.out.println("-----------------------------");
 //                System.out.println(node.getState());
 
                 // Les actions possibles depuis cet état
                 ArrayList<Action> actions = problem.getActions(node.getState());
 //                System.out.println(actions);
+//                System.out.println("------------------------------");
                 // Pour chaque nœud enfant
                 for (Action a : actions) {
 //                    explore++;
 //                    System.out.println(a);
+//                    if(a== Action.UTILISER){
+//                        System.out.println("??");
+//                        System.out.println("nfnfjfjfj");
+//                    }
 //                    System.out.println(node.getState());
                     // Nœud enfant
                     SearchNode child = SearchNode.makeChildSearchNode(problem, node, a);
 //                    System.out.println(child.getHeuristic());
 //                    System.out.println(child.getState());
+
+                    // Si pas de solution on le met dans les explorer
+                    if(child.getHeuristic() == -1) explored.add(child.getState());
                     // S'il n'est pas dans la frontière et si son état n'a pas été visité
-                    if (!frontier.contains(child) && !explored.contains(child.getState())) {
+                    else if (!frontier.contains(child) && !explored.contains(child.getState())) {
                         // L'insérer dans la frontière avec la priorité du coût
                         frontier.add(child);
                     }else if(frontier.contains(child)){

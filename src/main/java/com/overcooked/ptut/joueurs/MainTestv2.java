@@ -25,10 +25,11 @@ public class MainTestv2 {
              + "-h    : afficher ceci (mettre à la fin)"
              );
 
-        DonneesJeu donneesJeu = new DonneesJeu("niveaux/niveau2.txt");
+        DonneesJeu donneesJeu = new DonneesJeu("niveaux/niveau4.txt");
         while (donneesJeu.getPlatDepose().isEmpty()) {
             Joueur j = donneesJeu.getJoueur(0);
             Action action = j.demanderAction(donneesJeu);
+            System.out.println("end");
             System.out.println(action);
             faireAction(action, 0, donneesJeu);
             System.out.println(donneesJeu);

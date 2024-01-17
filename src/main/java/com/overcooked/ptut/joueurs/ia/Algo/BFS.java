@@ -84,9 +84,10 @@ public class BFS extends TreeSearchAC {
             }
         }
 
-//        return 999;
+        System.out.println("return -1");
+        return -1;
         // Pas de solutions trouvées
-        throw new IllegalArgumentException("Pas de solution trouvée BFS.solve");
+//        throw new IllegalArgumentException("Pas de solution trouvée BFS.solve");
 
 
     }
