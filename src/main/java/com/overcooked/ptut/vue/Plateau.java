@@ -3,9 +3,6 @@ package com.overcooked.ptut.vue;
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.controlleurs.ClavierControlleur;
 import com.overcooked.ptut.joueurs.Joueur;
-import com.overcooked.ptut.joueurs.JoueurHumain;
-import com.overcooked.ptut.joueurs.ia.JoueurIA;
-import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.objet.Depot;
 import com.overcooked.ptut.objet.Generateur;
@@ -13,21 +10,16 @@ import com.overcooked.ptut.objet.PlanDeTravail;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.objet.transformateur.Transformateur;
-import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.vue.bloc.*;
 import com.overcooked.ptut.vue.joueur.JoueurVue;
 import javafx.concurrent.Task;
-import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 
-import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
-import static com.overcooked.ptut.constructionCarte.GestionActions.isLegal;
 import static com.overcooked.ptut.vue.AfficheurInfobulle.afficherEtatCercle;
 
 public class Plateau extends GridPane {
@@ -85,29 +77,25 @@ public class Plateau extends GridPane {
                 StackPane caseBloc = (StackPane) this.getChildren().get(i * jeu.getLongueur() + j);
                 if (jeu.getObjetsFixes()[i][j] instanceof PlanDeTravail planDeTravail) {
                     if (planDeTravail.getInventaire() != null) {
-                        Circle cercle = new Circle(tailleCellule / 10 * 3);
+                        System.out.println(planDeTravail.getInventaire().getRecettesComposees());
 
-                        cercle = setCircle(planDeTravail, cercle);
-                        caseBloc.getChildren().add(cercle);
+                        caseBloc.getChildren().add(empilagePlat(planDeTravail));
                     }
                 } else if (jeu.getObjetsFixes()[i][j] instanceof Transformateur transformateur) {
                     if (transformateur.getInventaire() != null) {
-                        Circle cercle = new Circle(tailleCellule / 10 * 3);
-
-                        cercle = setCircle(transformateur, cercle);
-                        caseBloc.getChildren().add(cercle);
+                        caseBloc.getChildren().add(empilagePlat(transformateur));
                     }
                 }
             }
         }
     }
 
-    private Circle setCircle(Bloc planDeTravail, Circle cercle) {
-
+    private StackPane empilagePlat(Bloc planDeTravail) {
+        StackPane caseBloc = new StackPane();
         for (int i = 0; i < planDeTravail.getInventaire().getRecettesComposees().size(); i++) {
-            cercle = afficherEtatCercle(planDeTravail.getInventaire().getRecettesComposees().get(i), tailleCellule, i + 1);
+            caseBloc.getChildren().add(afficherEtatCercle(planDeTravail.getInventaire().getRecettesComposees().get(i), tailleCellule, i + 1));
         }
-        return cercle;
+        return caseBloc;
     }
 
     public void afficherPB(DonneesJeu jeu) {
