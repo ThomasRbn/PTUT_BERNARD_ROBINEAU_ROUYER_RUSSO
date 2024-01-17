@@ -59,9 +59,18 @@ public class GestionActions {
                 if (joueur.getInventaire() == null) {
                     yield false;
                 } else {
+                    //On vérifie le cas où on a un transformateur
                     if (objetFixe instanceof Transformateur) {
                         yield joueur.getInventaire().getRecettesComposees().size() == 1;
-                    } else if (objetDeplacable != null) {
+
+                    } //Il faut vérifier que l'aliment est fusionnable avec l'objet fixe
+                    if (objetFixe instanceof Generateur generateur) {
+                        yield joueur.getInventaire().estFusionnable(generateur.getAliment());
+                    }
+                    if (objetFixe instanceof PlanDeTravail && objetFixe.getInventaire() != null) {
+                        yield joueur.getInventaire().estFusionnable(objetFixe.getInventaire());
+                    }
+                    else if (objetDeplacable != null ) {
                         yield true;
                     }
                 }
