@@ -73,7 +73,9 @@ public class TestCoordonnees {
         faireAction(POSER, 0, donneesJeu);
         System.out.println(donneesJeu.getCoordonneesElement("SaladeTomate"));
         int[] coordonneesSaladeTomate= donneesJeu.getCoordonneesElement("SaladeTomate").getFirst();
+        int [] coordonneesSaladeTomate2= donneesJeu.getCoordonneesElement("TomateSalade").getFirst();
         assertEquals(Arrays.toString(coordonneesSaladeTomate), Arrays.toString(new int[]{2, 2}));
+        assertEquals(Arrays.toString(coordonneesSaladeTomate2), Arrays.toString(new int[]{2, 2}));
     }
 
 }

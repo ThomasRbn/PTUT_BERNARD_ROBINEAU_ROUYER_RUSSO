@@ -73,24 +73,16 @@ public class GestionActions {
                 yield objetsDeplacables[caseDevant[0]][caseDevant[1]] == null;
                 //TODO: Vérifier que la case devant soit compatible avec l'objet à déplacer (ex: pas d'aliment sur le feu sans poele)
             }
+
             case UTILISER -> {
-                int[] positionJoueurCible = joueur.getPositionCible();
-                if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Transformateur transformateur) {
-                    if (joueur.getInventaire() != null || transformateur.getInventaire() == null) yield false; //Si le joueur a quelque chose dans les mains ou si le transformateur n'a rien dans son inventaire
-                    if (transformateur.isBloque()) yield false; //Si le transformateur est bloqué (en train de transformer un aliment)
-                    if (transformateur instanceof Planche
-                            && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.COUPE
-                            || transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT_ET_COUPE) // Si il a déjà eu une coupe
-                        yield false;
-                    if (transformateur instanceof Poele
-                            && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT
-                            || transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT_ET_COUPE) // Sil il a déjà eu une cuisson
-                        yield false;
-                    //Rajouter les autres cas ici si besoin
-                    yield true;
-                }
-                yield false;
+                caseDevant = joueur.getPositionCible();
+                yield objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Transformateur transformateur
+                        && !transformateur.isBloque() && transformateur.getInventaire() != null
+                        && joueur.getInventaire() == null
+                        && ((transformateur instanceof Poele && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() != Etat.CUIT && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() != Etat.CUIT_ET_COUPE)
+                        || (transformateur instanceof Planche && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() != Etat.COUPE && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() != Etat.CUIT_ET_COUPE));
             }
+
             //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.isLegal, action invalide" + a);
         };
