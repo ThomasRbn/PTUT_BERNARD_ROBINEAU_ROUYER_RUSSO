@@ -36,8 +36,14 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
         }
 
         for (Aliment a : plat.getRecettesComposees()) {
-            if (inventaire != null && inventaire.getRecettesComposees().contains(a)) {
-                continue;
+            if (inventaire != null) {
+                boolean continu = false;
+                for (Aliment aliment: inventaire.getRecettesComposees()) {
+                    if(aliment.equalsType(a)){
+                        continu = true;
+                    }
+                }
+                if (continu) continue;
             }
             List<int[]> listeCoordonnees = donneesJeu.getCoordonneesElement(a.getNom());
             for (int[] coordonnees : listeCoordonnees) {
@@ -62,7 +68,7 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
         CalculHeuristiquePlatState o = (CalculHeuristiquePlatState) s;
         if(o.doitEtreCoupe(platBut)){
             Aliment alimentFictifDecoupe = new Aliment("Decoupe", "Aliment fictif");
-            for (int[] coordonnees: listeCoordonneesCuisson) {
+            for (int[] coordonnees: listeCoordonneesPlanche) {
                 actions.add(new AlimentCoordonnees(alimentFictifDecoupe,coordonnees));
             }
             return actions;

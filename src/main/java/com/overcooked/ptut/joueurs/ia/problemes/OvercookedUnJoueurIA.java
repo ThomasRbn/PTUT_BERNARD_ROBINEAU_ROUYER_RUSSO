@@ -12,7 +12,7 @@ public class OvercookedUnJoueurIA extends SearchProblem {
 
     public OvercookedUnJoueurIA() {
         // La liste des actions possibles
-        ACTIONS = new Action[]{HAUT, GAUCHE, BAS, DROITE, PRENDRE, POSER};
+        ACTIONS = new Action[]{HAUT, GAUCHE, BAS, DROITE, PRENDRE, POSER, UTILISER};
     }
 
     /**
