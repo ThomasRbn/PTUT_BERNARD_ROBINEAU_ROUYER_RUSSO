@@ -43,8 +43,7 @@ public class JoueurVue extends Pane {
         List<AlimentVue> aliments = new ArrayList<>();
         List<Aliment> recettesComposees = joueur.getInventaire().getRecettesComposees();
         for (int i = 0; i < recettesComposees.size(); i++) {
-            AlimentVue alimentVue = afficherEtatCercle(recettesComposees.get(i), tailleCellule);
-           ;
+            AlimentVue alimentVue = afficherEtatCercle(recettesComposees.get(i), tailleCellule, i + 1);
             aliments.add(alimentVue);
         }
         return aliments;
