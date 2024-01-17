@@ -67,6 +67,14 @@ public class Aliment extends Mouvable {
 		this.etat = Etat.transformEtat(this.etat, etat);
 	}
 
+	public void decouper(){
+		this.setEtat(Etat.COUPE);
+	}
+
+	public void cuire(){
+		this.setEtat(Etat.CUIT);
+	}
+
 	/**
 	 * @return la description de la boisson  
 	 */
