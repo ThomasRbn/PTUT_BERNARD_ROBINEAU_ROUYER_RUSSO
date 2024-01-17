@@ -2,6 +2,7 @@ package donneesJeu;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.Joueur;
+import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Salade;
 import com.overcooked.ptut.recettes.aliment.Tomate;
@@ -86,6 +87,27 @@ public class TestEquals {
         faireAction(HAUT, 0, donneesJeu);
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         faireAction(PRENDRE, 0, clone);
+        assertFalse(ComparerDonneesJeu(donneesJeu,clone));
+    }
+
+    @Test
+    public void testEqualsTransformateur(){
+        donneesJeu = new DonneesJeu("niveaux/niveauTest.txt", true);
+        faireAction(PRENDRE, 0, donneesJeu);
+        faireAction(GAUCHE, 0, donneesJeu);
+        DonneesJeu clone = new DonneesJeu(donneesJeu);
+        faireAction(POSER, 0, clone);
+        assertFalse(ComparerDonneesJeu(donneesJeu,clone));
+    }
+
+    @Test
+    public void testEqualsTransformateur2(){
+        donneesJeu = new DonneesJeu("niveaux/niveauTest.txt", true);
+        faireAction(PRENDRE, 0, donneesJeu);
+        faireAction(GAUCHE, 0, donneesJeu);
+        faireAction(POSER, 0, donneesJeu);
+        DonneesJeu clone = new DonneesJeu(donneesJeu);
+        faireAction(UTILISER, 0, clone);
         assertFalse(ComparerDonneesJeu(donneesJeu,clone));
     }
 
