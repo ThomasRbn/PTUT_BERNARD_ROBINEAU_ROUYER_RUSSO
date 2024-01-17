@@ -6,10 +6,12 @@ import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.objet.Depot;
 import com.overcooked.ptut.objet.Generateur;
 import com.overcooked.ptut.objet.PlanDeTravail;
+import com.overcooked.ptut.objet.transformateur.Planche;
+import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.Plat;
+import com.overcooked.ptut.recettes.etat.Etat;
 import com.overcooked.ptut.vue.Plateau;
-import javafx.concurrent.Task;
 
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
 
@@ -38,10 +40,10 @@ public class GestionActions {
                 caseDevant = joueur.getPositionCible();
                 //On vérifie que ses mains sont libres
                 if (joueur.getInventaire() != null) {
-                    if(objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur generateur){
+                    if (objetsFixes[caseDevant[0]][caseDevant[1]] instanceof Generateur generateur) {
                         yield joueur.getInventaire().estFusionnable(generateur.getAliment());
                     }
-                    if(objetsFixes[caseDevant[0]][caseDevant[1]] instanceof PlanDeTravail && objetsFixes[caseDevant[0]][caseDevant[1]].getInventaire() != null){
+                    if (objetsFixes[caseDevant[0]][caseDevant[1]] instanceof PlanDeTravail && objetsFixes[caseDevant[0]][caseDevant[1]].getInventaire() != null) {
                         yield joueur.getInventaire().estFusionnable(objetsFixes[caseDevant[0]][caseDevant[1]].getInventaire());
                     }
                     yield false;
@@ -99,7 +101,11 @@ public class GestionActions {
                 }
             }
             //Prendre un objet
-            case PRENDRE -> prendre(joueur, objetsFixes, objetsDeplacables);
+            case PRENDRE -> {
+                prendre(joueur, objetsFixes, objetsDeplacables);
+//                System.out.println("Prendre : " + joueur.getInventaire().getRecettesComposees());
+            }
+
             //Poser un objet (dans la case devant le joueur)
             case POSER -> {
                 poser(objetsFixes, positionJoueurCible, joueur);
@@ -107,7 +113,16 @@ public class GestionActions {
             //Utiliser un transformateur
             case UTILISER -> {
                 if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Transformateur transformateur) {
-                    if (joueur.getInventaire() != null) return;
+                    if (joueur.getInventaire() != null || transformateur.isBloque()) return;
+                    if (transformateur instanceof Planche
+                            && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.COUPE
+                            || transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT_ET_COUPE)
+                        return;
+                    if (transformateur instanceof Poele
+                            && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT
+                            || transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT_ET_COUPE)
+                        return;
+
                     if (transformateur.getInventaire() != null) {
                         transformateur.setBloque(true);
                         plateau[0].genererTask(transformateur, donneesJeu);
@@ -131,6 +146,7 @@ public class GestionActions {
         if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Transformateur transformateur) {
             if (transformateur.getInventaire() != null) return;
             transformateur.ajouterElem(joueur.poser());
+            System.out.println("Poser : " + transformateur.getInventaire().getRecettesComposees().getFirst().getEtat());
             return;
         }
 
@@ -140,7 +156,7 @@ public class GestionActions {
                 return;
             }
             if (planDeTravail.getInventaire() instanceof Plat plat) {
-                if(joueur.getInventaire() != null){
+                if (joueur.getInventaire() != null) {
                     plat.fusionerPlat(joueur.poser());
                 }
             }
@@ -176,6 +192,7 @@ public class GestionActions {
             case Transformateur transformateur -> {
                 if (transformateur.isBloque()) return;
                 joueur.prendre(transformateur.retirerElem());
+//                System.out.println("Prendre : " + joueur.getInventaire().getRecettesComposees().getFirst().getEtat());
                 return;
             }
             case PlanDeTravail planDeTravail -> {

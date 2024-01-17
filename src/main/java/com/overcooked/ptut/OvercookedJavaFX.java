@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public class OvercookedJavaFX extends Application {
 
-    public String chemin = "niveaux/niveau4.txt";
+    public String chemin = "niveaux/niveau1.txt";
     public double tailleCellule = 100;
 
     public static void main(String[] args) {
