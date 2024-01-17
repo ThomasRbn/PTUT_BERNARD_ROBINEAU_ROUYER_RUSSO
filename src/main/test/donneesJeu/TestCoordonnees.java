@@ -54,12 +54,13 @@ public class TestCoordonnees {
     public void testGetCoordonneesTomate(){
         donneesJeu = new DonneesJeu("niveaux/niveauTest.txt", true);
         faireAction(PRENDRE, 0, donneesJeu);
+        faireAction(DROITE, 0, donneesJeu);
         faireAction(BAS, 0, donneesJeu);
         faireAction(POSER, 0, donneesJeu);
         int[] coordonneesTomate= donneesJeu.getCoordonneesElement("Tomate").getFirst();
         int[] coordonneesTomate2= donneesJeu.getCoordonneesElement("Tomate").get(1);
         assertEquals(Arrays.toString(coordonneesTomate), Arrays.toString(new int[]{0, 1}));
-        assertEquals(Arrays.toString(coordonneesTomate2), Arrays.toString(new int[]{2, 1}));
+        assertEquals(Arrays.toString(coordonneesTomate2), Arrays.toString(new int[]{2, 2}));
     }
 
     @Test

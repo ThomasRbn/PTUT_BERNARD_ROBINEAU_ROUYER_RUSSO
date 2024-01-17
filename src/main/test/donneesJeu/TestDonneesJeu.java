@@ -104,11 +104,12 @@ public class TestDonneesJeu {
         DonneesJeu clone = new DonneesJeu(donneesJeu);
         faireAction(PRENDRE, 0, clone);
         DonneesJeu clone2 = new DonneesJeu(clone);
-        faireAction(BAS, 0, clone2);
+        faireAction(DROITE, 0, clone2);
         DonneesJeu clone3 = new DonneesJeu(clone2);
-        faireAction(POSER, 0, clone3);
+        faireAction(BAS, 0, clone3);
         DonneesJeu clone4 = new DonneesJeu(clone3);
-        Bloc planDeTravail = clone4.getObjetsFixes()[2][1];
+        faireAction(POSER, 0, clone4);
+        Bloc planDeTravail = clone4.getObjetsFixes()[2][2];
         assertNotNull(((PlanDeTravail) planDeTravail).getInventaire());
     }
 
@@ -119,9 +120,10 @@ public class TestDonneesJeu {
         System.setIn(in);
         Joueur joueur = donneesJeu.getJoueurs().get(0);
         faireAction(PRENDRE, 0, donneesJeu);
+        faireAction(DROITE, 0, donneesJeu);
         faireAction(BAS, 0, donneesJeu);
         faireAction(POSER, 0, donneesJeu);
-        Bloc planDeTravail = donneesJeu.getObjetsFixes()[2][1];
+        Bloc planDeTravail = donneesJeu.getObjetsFixes()[2][2];
         assertNotNull(((PlanDeTravail) planDeTravail).getInventaire());
     }
 
