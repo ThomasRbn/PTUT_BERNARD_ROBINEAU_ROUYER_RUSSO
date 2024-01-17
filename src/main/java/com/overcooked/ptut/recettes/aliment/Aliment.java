@@ -147,7 +147,7 @@ public class Aliment extends Mouvable {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (o == null ) return false;
 		Aliment aliment = (Aliment) o;
 		return etat == aliment.etat && Objects.equals(nom, aliment.nom) && Objects.equals(description, aliment.description);
 	}
