@@ -49,8 +49,8 @@ public class Creation {
                 case "T" -> currAliment = new Tomate();
                 case "P" -> currAliment = new Pain();
                 case "V" -> currAliment = new Viande();
-                case "C" -> currAliment.setEtat(Etat.COUPE);
-                case "R" -> currAliment.setEtat(Etat.CUIT);
+                case "C" -> currAliment.decouper();
+                case "R" -> currAliment.cuire();
                 default -> throw new IllegalStateException("Unexpected value: " + s);
             }
         }
