@@ -76,14 +76,15 @@ public class GestionActions {
             case UTILISER -> {
                 int[] positionJoueurCible = joueur.getPositionCible();
                 if (objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]] instanceof Transformateur transformateur) {
-                    if (joueur.getInventaire() != null || transformateur.isBloque()) yield false;
+                    if (joueur.getInventaire() != null || transformateur.getInventaire() == null) yield false; //Si le joueur a quelque chose dans les mains ou si le transformateur n'a rien dans son inventaire
+                    if (transformateur.isBloque()) yield false; //Si le transformateur est bloqué (en train de transformer un aliment)
                     if (transformateur instanceof Planche
                             && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.COUPE
-                            || transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT_ET_COUPE)
+                            || transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT_ET_COUPE) // Si il a déjà eu une coupe
                         yield false;
                     if (transformateur instanceof Poele
                             && transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT
-                            || transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT_ET_COUPE)
+                            || transformateur.getInventaire().getRecettesComposees().getFirst().getEtat() == Etat.CUIT_ET_COUPE) // Sil il a déjà eu une cuisson
                         yield false;
                     //Rajouter les autres cas ici si besoin
                     yield true;
