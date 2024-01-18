@@ -17,8 +17,8 @@ public class Plat extends Aliment {
 
     public String getNomPlat() {
         String nomPlat = "";
-        for (String aliment : recettesComposees.keySet()) {
-            nomPlat += aliment;
+        for (Aliment aliment : recettesComposees.values()) {
+            nomPlat += aliment.getEtatNom();
         }
         return nomPlat;
     }
@@ -40,8 +40,8 @@ public class Plat extends Aliment {
     public Plat(Aliment aliment1, Aliment aliment2) {
         super();
         this.recettesComposees = new TreeMap<>();
-        this.recettesComposees.put(aliment1.getNom(), aliment1.cloneAlim());
-        this.recettesComposees.put(aliment2.getNom(), aliment2.cloneAlim());
+        this.recettesComposees.put(aliment1.getEtatNom(), aliment1.cloneAlim());
+        this.recettesComposees.put(aliment2.getEtatNom(), aliment2.cloneAlim());
         this.nom = getNomPlat();
     }
 
@@ -49,11 +49,12 @@ public class Plat extends Aliment {
         super();
         this.nom = "Plat";
         this.recettesComposees = new TreeMap<>();
-        this.recettesComposees.put(aliment.getNom(), aliment.cloneAlim());
+        this.recettesComposees.put(aliment.getEtatNom(), aliment.cloneAlim());
+        this.nom = getNomPlat();
     }
 
     public void ajouterAliment(Aliment aliment) {
-        String nomAlim = aliment.getSimplifiedNom();
+        String nomAlim = aliment.getNom();
         recettesComposees.put(nomAlim, aliment);
         this.nom = getNomPlat();
     }
@@ -84,7 +85,7 @@ public class Plat extends Aliment {
     public Map<String, Aliment> getRecettesComposeesMap() {
         Map<String, Aliment> recettesComposees = new TreeMap<>();
         for (Aliment aliment : this.recettesComposees.values()) {
-            recettesComposees.put(aliment.getNom(), aliment.cloneAlim());
+            recettesComposees.put(aliment.getEtatNom(), aliment.cloneAlim());
         }
         return recettesComposees;
     }
@@ -99,22 +100,21 @@ public class Plat extends Aliment {
         return getNomPlat();
     }
 
+    @Override
     public boolean equals(Object o) {
         Plat plat = (Plat) o;
-        System.out.println(plat);
-        System.out.println(this);
         if (this == plat) return true;
         if (plat == null || getClass() != plat.getClass()) return false;
-        List<Aliment> currAliments = new ArrayList<>(recettesComposees.values());
-        for (Aliment aliment : plat.recettesComposees.values()) {
-            int currIndex = currAliments.indexOf(aliment);
-            if (currIndex != -1) {
-                currAliments.remove(currIndex);
-            } else {
-                return false;
-            }
+        return this.getNomPlat().equals(plat.getNomPlat());
+    }
+
+    @Override
+    public String getNom() {
+        String s = "";
+        for(Aliment a : recettesComposees.values()){
+            s += a.getNom();
         }
-        return currAliments.isEmpty();
+        return s;
     }
 
     @Override

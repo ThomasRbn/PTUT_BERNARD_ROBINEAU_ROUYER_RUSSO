@@ -29,7 +29,7 @@ public class TestTransformateur {
         DonneesJeu clone4 = new DonneesJeu(clone3);
         faireAction(HAUT, 0, clone4);
         DonneesJeu clone5 = new DonneesJeu(clone4);
-        System.out.println(clone5.getJoueurs().get(0).getInventaire().getNom());
+        System.out.println(clone5.getJoueurs().get(0).getInventaire().getEtatNom());
         faireAction(POSER, 0,clone5);
         Transformateur t = (Transformateur) clone5.getObjetsFixes()[0][3];
         t.ajouterElem(clone4.getJoueurs().get(0).getInventaire());
@@ -72,7 +72,7 @@ public class TestTransformateur {
         Plat plat = t.transform();
         DonneesJeu clone6 = new DonneesJeu(clone5);
         faireAction(PRENDRE, 0, clone6);
-        System.out.println(clone6.getJoueurs().get(0).getInventaire().getNom());
+        System.out.println(clone6.getJoueurs().get(0).getInventaire().getEtatNom());
         DonneesJeu clone7 = new DonneesJeu(clone6);
         faireAction(BAS, 0, clone7);
         DonneesJeu clone8 = new DonneesJeu(clone7);
