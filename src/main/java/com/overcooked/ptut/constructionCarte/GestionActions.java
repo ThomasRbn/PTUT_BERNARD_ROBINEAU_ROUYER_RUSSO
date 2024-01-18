@@ -6,11 +6,8 @@ import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.objet.Depot;
 import com.overcooked.ptut.objet.Generateur;
 import com.overcooked.ptut.objet.PlanDeTravail;
-import com.overcooked.ptut.objet.transformateur.Planche;
-import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.Plat;
-import com.overcooked.ptut.recettes.etat.Etat;
 
 public class GestionActions {
 
@@ -79,13 +76,11 @@ public class GestionActions {
                 yield true;
             }
 
-            case UTILISER -> {
-                yield objetFixe instanceof Transformateur transformateur
-                        && !transformateur.isBloque() && transformateur.getInventaire() != null
-                        && joueur.getInventaire() == null
-                        && transformateur.getInventaire().getRecettesComposees().size() == 1
-                        && !transformateur.estTransforme(transformateur.getInventaire());
-            }
+            case UTILISER -> objetFixe instanceof Transformateur transformateur
+                    && !transformateur.isBloque() && transformateur.getInventaire() != null
+                    && joueur.getInventaire() == null
+                    && transformateur.getInventaire().getRecettesComposees().size() == 1
+                    && !transformateur.estTransforme(transformateur.getInventaire());
 
             //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.isLegal, action invalide" + a);
@@ -152,7 +147,6 @@ public class GestionActions {
         if (objetFixe instanceof Transformateur transformateur) {
             if (transformateur.getInventaire() != null) return;
             transformateur.ajouterElem(joueur.poser());
-//            System.out.println("Poser : " + transformateur.getInventaire().getRecettesComposees().getFirst().getEtat());
             return;
         }
 
@@ -200,7 +194,6 @@ public class GestionActions {
             case Transformateur transformateur -> {
                 if (transformateur.isBloque()) return;
                 joueur.prendre(transformateur.retirerElem());
-//                System.out.println("Prendre : " + joueur.getInventaire().getRecettesComposees().getFirst().getEtat());
                 return;
             }
             case PlanDeTravail planDeTravail -> {

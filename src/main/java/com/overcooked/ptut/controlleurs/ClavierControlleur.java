@@ -21,6 +21,11 @@ public class ClavierControlleur {
         this.jeu = jeu;
     }
 
+    /**
+     * Initialise les évènements clavier et met à jour l'affichage à chaque entrée
+     * @param scene Scene
+     * @param plateau Plateau
+     */
     public void initEventClavier(Scene scene, Plateau plateau) {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, key -> {
             for (Joueur joueur : jeu.getJoueurs()) {
@@ -42,6 +47,12 @@ public class ClavierControlleur {
         });
     }
 
+    /**
+     * Gère les entrées clavier pour un joueur humain
+     * @param key KeyEvent
+     * @param joueur Joueur
+     * @param plateau Plateau
+     */
     private void handleHumainInput(KeyEvent key, Joueur joueur, Plateau plateau) {
         switch (key.getCode()) {
             case Z:
