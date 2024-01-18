@@ -21,6 +21,6 @@ public class AlimentCoordonnees implements Comparable<AlimentCoordonnees> {
 
     @Override
     public int compareTo(AlimentCoordonnees o) {
-        return aliment.getNom() == o.getAliment().getNom() && coordonnees[0] == o.getCoordonnees()[0] && coordonnees[1] == o.getCoordonnees()[1] ? 0 : -1;
+        return aliment.getEtatNom() == o.getAliment().getEtatNom() && coordonnees[0] == o.getCoordonnees()[0] && coordonnees[1] == o.getCoordonnees()[1] ? 0 : -1;
     }
 }
