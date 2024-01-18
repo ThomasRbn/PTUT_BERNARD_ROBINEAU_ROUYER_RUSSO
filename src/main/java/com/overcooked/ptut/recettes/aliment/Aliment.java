@@ -87,18 +87,20 @@ public class Aliment extends Mouvable {
 		if(etat == 0 && etatBut == 1){
 			return true;
 		}
-		return etat == 2 && etatBut == 3;
+		return (etat == 2 || etat == 0) && etatBut == 3;
 
 	}
 
 	public boolean doitEtreCoupe(Plat platBut) {
 		Aliment alimentBut = null;
 		List<Aliment> alimentsBut = platBut.getRecettesComposees();
+		int iterations = 0;
 		for (Aliment a : alimentsBut) {
 			if (a.getNom().equals(this.getNom())) {
 				alimentBut = a;
 				break;
 			}
+			iterations++;
 		}
 		// On récupère l'état de l'aliment actuellement et on vérifie
 
@@ -110,19 +112,19 @@ public class Aliment extends Mouvable {
 		if(etat == 0 && etatBut == 2){
 			return true;
 		}
-		return etat == 1 && etatBut == 3;
+		return (etat == 1 || etat == 0) && etatBut == 3;
 	}
 
-	public String getNom() {
+	public String getEtatNom() {
 		return this.etat > 0 ? this.nom + this.etat : this.nom;
 	}
 
-	public String getSimplifiedNom() {
+	public String getNom() {
 		return this.nom;
 	}
 
 	public String toString(){
-		return this.getNom();
+		return this.getEtatNom();
 	}
 
 	@Override
@@ -130,7 +132,7 @@ public class Aliment extends Mouvable {
 		if (this == o) return true;
 		if (o == null ) return false;
 		Aliment aliment = (Aliment) o;
-		return etat == aliment.etat && Objects.equals(nom, aliment.nom);
+		return etat == aliment.etat && nom.equals(aliment.nom);
 	}
 
 	public boolean equalsType(Aliment aliment){
