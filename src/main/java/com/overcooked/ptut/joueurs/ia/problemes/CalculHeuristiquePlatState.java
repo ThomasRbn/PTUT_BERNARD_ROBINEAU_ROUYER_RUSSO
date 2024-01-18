@@ -20,9 +20,9 @@ public class CalculHeuristiquePlatState extends State {
 
     public CalculHeuristiquePlatState(DonneesJeu donneesJeu) {
         this.donneesJeu = donneesJeu;
-        if(donneesJeu.getJoueur(0).getInventaire() != null) {
+        if (donneesJeu.getJoueur(0).getInventaire() != null) {
             this.visitees = new ArrayList<>(donneesJeu.getJoueur(0).getInventaire().getRecettesComposees());
-        }else {
+        } else {
             this.visitees = new ArrayList<>();
         }
         this.coordonneesActuelles = donneesJeu.getJoueur(0).getPosition();
@@ -32,7 +32,7 @@ public class CalculHeuristiquePlatState extends State {
     public CalculHeuristiquePlatState(DonneesJeu donneesJeu, List<Aliment> visiteesAncien, int[] coordonneesActuelles, int coutTot) {
         this.donneesJeu = donneesJeu;
         this.visitees = new ArrayList<>();
-        for(Aliment aliment : visiteesAncien){
+        for (Aliment aliment : visiteesAncien) {
             this.visitees.add(new Aliment(aliment));
         }
         this.coordonneesActuelles = coordonneesActuelles.clone();
@@ -51,7 +51,7 @@ public class CalculHeuristiquePlatState extends State {
         if (coordonneesActuelles[0] != etat.coordonneesActuelles[0] || coordonneesActuelles[1] != etat.coordonneesActuelles[1]) {
             return false;
         }
-        if(visitees.size() != etat.visitees.size()){
+        if (visitees.size() != etat.visitees.size()) {
             return false;
         }
         for (Aliment a : visitees) {
@@ -72,11 +72,11 @@ public class CalculHeuristiquePlatState extends State {
     }
 
     public void deplacement(int[] nouvelleCo, Aliment a) {
-        if(Objects.equals(a.getNom(), "Decoupe")){
+        if (Objects.equals(a.getNom(), "Decoupe")) {
             visitees.getLast().decouper();
-        } else if (Objects.equals(a.getNom(), "Cuisson")){
+        } else if (Objects.equals(a.getNom(), "Cuisson")) {
             visitees.getLast().cuire();
-        }else {
+        } else {
             visitees.add(a);
         }
         coordonneesActuelles = nouvelleCo;
@@ -86,22 +86,22 @@ public class CalculHeuristiquePlatState extends State {
         return coordonneesActuelles;
     }
 
-    public boolean estAuDepot(){
-        return !visitees.isEmpty() && visitees.getLast().getNom() == "Depot";
+    public boolean estAuDepot() {
+        return !visitees.isEmpty() && visitees.getLast().getEtatNom() == "Depot";
     }
 
-    public boolean estDepose(){
+    public boolean estDepose() {
         return !donneesJeu.getPlatDepose().isEmpty();
     }
 
-    public boolean doitCuire(Plat platBut){
-        if(visitees.isEmpty())return false;
+    public boolean doitCuire(Plat platBut) {
+        if (visitees.isEmpty()) return false;
         return visitees.getLast().doitCuire(platBut);
 
     }
 
     public boolean doitEtreCoupe(Plat platBut) {
-        if(visitees.isEmpty())return false;
+        if (visitees.isEmpty()) return false;
         return visitees.getLast().doitEtreCoupe(platBut); // this
     }
 }

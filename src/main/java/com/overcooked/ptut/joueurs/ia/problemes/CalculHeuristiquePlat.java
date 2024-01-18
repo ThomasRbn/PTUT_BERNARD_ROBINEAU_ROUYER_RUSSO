@@ -38,18 +38,27 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
         for (Aliment a : plat.getRecettesComposees()) {
             if (inventaire != null) {
                 boolean continu = false;
-                for (Aliment aliment: inventaire.getRecettesComposees()) {
-                    if(aliment.equalsType(a)){
+                for (Aliment aliment : inventaire.getRecettesComposees()) {
+                    if (aliment.equalsType(a)) {
                         continu = true;
                     }
                 }
                 if (continu) continue;
             }
-            List<int[]> listeCoordonnees = donneesJeu.getCoordonneesElement(a.getNom());
-            for (int[] coordonnees : listeCoordonnees) {
-                alimentCoordonneesList.add(new AlimentCoordonnees(a, coordonnees));
-                num++;
+            List<int[]> listeCoordonnees2 = donneesJeu.getCoordonneesElement(a.getEtatNom());
+            if (!listeCoordonnees2.isEmpty()) {
+                for (int[] coordonnees : listeCoordonnees2) {
+                    alimentCoordonneesList.add(new AlimentCoordonnees(a, coordonnees));
+                    num++;
+                }
+            } else {
+                List<int[]> listeCoordonnees = donneesJeu.getCoordonneesElement(a.getNom());
+                for (int[] coordonnees : listeCoordonnees) {
+                    alimentCoordonneesList.add(new AlimentCoordonnees(a, coordonnees));
+                    num++;
+                }
             }
+
         }
 
         ALIMENTCO = alimentCoordonneesList.toArray(new AlimentCoordonnees[0]);
@@ -66,17 +75,17 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
             return actions;
         }
         CalculHeuristiquePlatState o = (CalculHeuristiquePlatState) s;
-        if(o.doitEtreCoupe(platBut)){
+        if (o.doitEtreCoupe(platBut)) {
             Aliment alimentFictifDecoupe = new Aliment("Decoupe", "Aliment fictif");
-            for (int[] coordonnees: listeCoordonneesPlanche) {
-                actions.add(new AlimentCoordonnees(alimentFictifDecoupe,coordonnees));
+            for (int[] coordonnees : listeCoordonneesPlanche) {
+                actions.add(new AlimentCoordonnees(alimentFictifDecoupe, coordonnees));
             }
             return actions;
         }
-        if(o.doitCuire(platBut)){
+        if (o.doitCuire(platBut)) {
             Aliment alimentFictifCuisson = new Aliment("Cuisson", "Aliment fictif");
-            for (int[] coordonnees: listeCoordonneesCuisson) {
-                actions.add(new AlimentCoordonnees(alimentFictifCuisson,coordonnees));
+            for (int[] coordonnees : listeCoordonneesCuisson) {
+                actions.add(new AlimentCoordonnees(alimentFictifCuisson, coordonnees));
             }
             return actions;
         }
@@ -101,7 +110,7 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
     }
 
     public boolean isDerniereAction(State s) {
-        if(retourDepot){
+        if (retourDepot) {
             return true;
         }
         CalculHeuristiquePlatState o = (CalculHeuristiquePlatState) s;
@@ -120,7 +129,7 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
 
     @Override
     public double getAlimentCost(State s, AlimentCoordonnees a) {
-        if(((CalculHeuristiquePlatState)s).estDepose()){
+        if (((CalculHeuristiquePlatState) s).estDepose()) {
             return 0;
         }
         int[] coordonneesActuelle = ((CalculHeuristiquePlatState) s).getCoordonneesActuelles();
