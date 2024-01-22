@@ -33,15 +33,17 @@ public class Plat extends Aliment {
         super();
         this.recettesComposees = new TreeMap<>();
         this.recettesComposees.putAll(plat1.getRecettesComposeesMap());
-        this.recettesComposees.putAll(plat2.getRecettesComposeesMap());
+        for (Aliment aliment : plat2.getRecettesComposees()) {
+            this.recettesComposees.putIfAbsent(aliment.getNom(), aliment.cloneAlim());
+        }
         this.nom = getNomPlat();
     }
 
     public Plat(Aliment aliment1, Aliment aliment2) {
         super();
         this.recettesComposees = new TreeMap<>();
-        this.recettesComposees.put(aliment1.getEtatNom(), aliment1.cloneAlim());
-        this.recettesComposees.put(aliment2.getEtatNom(), aliment2.cloneAlim());
+        this.recettesComposees.putIfAbsent(aliment1.getNom(), aliment1.cloneAlim());
+        this.recettesComposees.putIfAbsent(aliment2.getNom(), aliment2.cloneAlim());
         this.nom = getNomPlat();
     }
 
@@ -49,26 +51,27 @@ public class Plat extends Aliment {
         super();
         this.nom = "Plat";
         this.recettesComposees = new TreeMap<>();
-        this.recettesComposees.put(aliment.getEtatNom(), aliment.cloneAlim());
+        this.recettesComposees.put(aliment.getNom(), aliment.cloneAlim());
         this.nom = getNomPlat();
     }
 
     public void ajouterAliment(Aliment aliment) {
         String nomAlim = aliment.getNom();
-        if (!recettesComposees.containsKey(aliment.getNom()))
-            recettesComposees.put(nomAlim, aliment);
+        recettesComposees.putIfAbsent(nomAlim, aliment);
         this.nom = getNomPlat();
     }
 
     public void fusionerPlat(Plat plat) {
-        this.recettesComposees.putAll(plat.recettesComposees);
+        for (Aliment aliment : plat.recettesComposees.values()) {
+            recettesComposees.putIfAbsent(aliment.getNom(), aliment);
+        }
         this.nom = getNomPlat();
     }
 
     public boolean estFusionnable(Plat plat) {
         //On vérifie qu'il n'y a aucun aliment en commun dans chaque plat
         for (Aliment aliment : plat.recettesComposees.values()) {
-            if (recettesComposees.containsValue(aliment)) {
+            if (recettesComposees.containsKey(aliment.getNom())) {
                 return false;
             }
         }
@@ -86,7 +89,7 @@ public class Plat extends Aliment {
     public Map<String, Aliment> getRecettesComposeesMap() {
         Map<String, Aliment> recettesComposees = new TreeMap<>();
         for (Aliment aliment : this.recettesComposees.values()) {
-            recettesComposees.put(aliment.getEtatNom(), aliment.cloneAlim());
+            recettesComposees.put(aliment.getNom(), aliment.cloneAlim());
         }
         return recettesComposees;
     }
