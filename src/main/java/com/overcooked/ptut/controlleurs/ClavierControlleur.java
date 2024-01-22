@@ -5,8 +5,10 @@ import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
-import com.overcooked.ptut.objet.transformateur.Transformateur;
+import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.vue.Plateau;
+import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 
@@ -23,7 +25,8 @@ public class ClavierControlleur {
 
     /**
      * Initialise les évènements clavier et met à jour l'affichage à chaque entrée
-     * @param scene Scene
+     *
+     * @param scene   Scene
      * @param plateau Plateau
      */
     public void initEventClavier(Scene scene, Plateau plateau) {
@@ -31,8 +34,6 @@ public class ClavierControlleur {
             for (Joueur joueur : jeu.getJoueurs()) {
                 if (joueur instanceof JoueurHumain) {
                     handleHumainInput(key, joueur, plateau);
-                } else if (joueur instanceof JoueurIA) {
-                    handleIAInput(key, joueur);
                 }
             }
 
@@ -49,8 +50,9 @@ public class ClavierControlleur {
 
     /**
      * Gère les entrées clavier pour un joueur humain
-     * @param key KeyEvent
-     * @param joueur Joueur
+     *
+     * @param key     KeyEvent
+     * @param joueur  Joueur
      * @param plateau Plateau
      */
     private void handleHumainInput(KeyEvent key, Joueur joueur, Plateau plateau) {
@@ -94,6 +96,46 @@ public class ClavierControlleur {
     private void handleIAInput(KeyEvent key, Joueur joueur) {
         if (key.getCode() == javafx.scene.input.KeyCode.ENTER) {
             faireAction(joueur.demanderAction(jeu), joueur.getNumJoueur(), jeu);
+        }
+    }
+
+    public void lancerThreadIA(DonneesJeu jeu, Plateau plateau) {
+        for (Joueur joueur : jeu.getJoueurs()) {
+            if (joueur instanceof JoueurIA) {
+                new Thread(() -> {
+                    while (true) {
+                        try {
+                            Thread.sleep(1000);
+                            faireAction(joueur.demanderAction(jeu), joueur.getNumJoueur(), jeu);
+                            System.out.println(jeu);
+                            AnimationTimer animationTimer = new AnimationTimer() {
+                                @Override
+                                public void handle(long now) {
+                                    plateau.getChildren().clear();
+                                    jeu.getDepot().viderDepot();
+                                    plateau.afficherBlocs(jeu);
+                                    plateau.afficherJoueurs(jeu);
+                                    plateau.afficherInventaireBloc(jeu);
+                                }
+                            };
+                            animationTimer.start();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+//                Platform.runLater(() -> {
+//                    while (true) {
+//                        try {
+//                            Thread.sleep(1000);
+//                            faireAction(joueur.demanderAction(jeu), joueur.getNumJoueur(), jeu);
+//                            System.out.println(jeu);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+            }
         }
     }
 }

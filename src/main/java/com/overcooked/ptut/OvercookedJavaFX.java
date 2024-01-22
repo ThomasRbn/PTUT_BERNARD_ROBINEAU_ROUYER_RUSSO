@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 public class OvercookedJavaFX extends Application {
 
-    public String chemin = "niveaux/niveau5.txt";
+    public String chemin = "niveaux/niveau1.txt";
     public double tailleCellule = 100;
 
     public static void main(String[] args) {
@@ -35,6 +35,8 @@ public class OvercookedJavaFX extends Application {
         commandeVue.setPrefSize(jeu.getLongueur() * tailleCellule, jeu.getHauteur() * tailleCellule);
         commandeVue.setBorder(Border.EMPTY);
         root.setRight(commandeVue);
+
+        plateau.getClavierController().lancerThreadIA(jeu, plateau);
 
         primaryStage.setScene(scene);
         primaryStage.show();
