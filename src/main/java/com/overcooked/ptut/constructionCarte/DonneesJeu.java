@@ -254,6 +254,31 @@ public class DonneesJeu {
     }
 
     /**
+     * Retourne les coordonnées du plan de travail vide le plus proche
+     * @param position
+     * @return
+     */
+    public int[] getPlanDeTravailVidePlusProche(int[] position){
+        int[] planDeTravailVide = new int[2];
+        int distanceMin = Integer.MAX_VALUE;
+        for (int i = 0; i < objetsFixes.length; i++) {
+            for (int j = 0; j < objetsFixes[i].length; j++) {
+                if(objetsFixes[i][j] instanceof PlanDeTravail planDeTravail){
+                    if(planDeTravail.getInventaire() == null){
+                        int distance = Math.abs(position[0] - i) + Math.abs(position[1] - j);
+                        if(distance < distanceMin){
+                            distanceMin = distance;
+                            planDeTravailVide[0] = i;
+                            planDeTravailVide[1] = j;
+                        }
+                    }
+                }
+            }
+        }
+        return planDeTravailVide;
+    }
+
+    /**
      * Retourne la longueur du fichier (taille des lignes)
      *
      * @param f
