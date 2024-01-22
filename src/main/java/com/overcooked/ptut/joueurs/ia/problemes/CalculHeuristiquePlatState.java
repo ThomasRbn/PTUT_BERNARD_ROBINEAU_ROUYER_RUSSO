@@ -18,14 +18,14 @@ public class CalculHeuristiquePlatState extends State {
 
     int coutTot;
 
-    public CalculHeuristiquePlatState(DonneesJeu donneesJeu) {
+    public CalculHeuristiquePlatState(DonneesJeu donneesJeu, int numJoueur) {
         this.donneesJeu = donneesJeu;
-        if (donneesJeu.getJoueur(0).getInventaire() != null) {
-            this.visitees = new ArrayList<>(donneesJeu.getJoueur(0).getInventaire().getRecettesComposees());
+        if (donneesJeu.getJoueur(numJoueur).getInventaire() != null) {
+            this.visitees = new ArrayList<>(donneesJeu.getJoueur(numJoueur).getInventaire().getRecettesComposees());
         } else {
             this.visitees = new ArrayList<>();
         }
-        this.coordonneesActuelles = donneesJeu.getJoueur(0).getPosition();
+        this.coordonneesActuelles = donneesJeu.getJoueur(numJoueur).getPosition();
         coutTot = 0;
     }
 
