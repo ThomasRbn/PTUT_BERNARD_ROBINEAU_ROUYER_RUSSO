@@ -12,8 +12,6 @@ import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.vue.bloc.*;
 import com.overcooked.ptut.vue.joueur.JoueurVue;
-import javafx.concurrent.Task;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -109,7 +107,7 @@ public class Plateau extends GridPane {
     private StackPane empilagePlat(Bloc bloc) {
         StackPane caseBloc = new StackPane();
         for (int i = 0; i < bloc.getInventaire().getRecettesComposees().size(); i++) {
-            caseBloc.getChildren().add(afficherEtatCercle(bloc.getInventaire().getRecettesComposees().get(i), tailleCellule, i + 1));
+            caseBloc.getChildren().add(afficherEtatCercle(bloc.getInventaire().getRecettesComposees().get(i), tailleCellule / 10 * 3, i + 1));
         }
         return caseBloc;
     }
