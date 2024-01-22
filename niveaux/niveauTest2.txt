@@ -2,4 +2,4 @@ XTX
 XJD
 XCX
 -
-C T
+T 2

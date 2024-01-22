@@ -1,15 +1,14 @@
 package com.overcooked.ptut.constructionCarte;
 
-import com.overcooked.ptut.objet.Generateur;
-import com.overcooked.ptut.objet.PlanDeTravail;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.objet.Bloc;
+import com.overcooked.ptut.objet.Generateur;
+import com.overcooked.ptut.objet.PlanDeTravail;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
 import com.overcooked.ptut.recettes.aliment.*;
-import com.overcooked.ptut.recettes.etat.Etat;
 
 import java.util.List;
 import java.util.Scanner;
@@ -17,11 +16,11 @@ import java.util.Scanner;
 import static com.overcooked.ptut.constructionCarte.CaracteresCarte.*;
 
 public class Creation {
-    static Joueur CreationJoueur(int indexLigne, int indexColonne){
+    static Joueur CreationJoueur(int indexLigne, int indexColonne) {
         // Création du joueur
-        return demanderTypeJoueur().equalsIgnoreCase("H")?
-            new JoueurHumain(indexLigne, indexColonne)
-            : new JoueurIA(indexLigne, indexColonne);
+        return demanderTypeJoueur().equalsIgnoreCase("H") ?
+                new JoueurHumain(indexLigne, indexColonne)
+                : new JoueurIA(indexLigne, indexColonne);
     }
 
     private static String demanderTypeJoueur() {
@@ -49,8 +48,12 @@ public class Creation {
                 case "T" -> currAliment = new Tomate();
                 case "P" -> currAliment = new Pain();
                 case "V" -> currAliment = new Viande();
-                case "C" -> currAliment.decouper();
-                case "R" -> currAliment.cuire();
+                case "1" -> currAliment.cuire();
+                case "2" -> currAliment.decouper();
+                case "3" -> {
+                    currAliment.cuire();
+                    currAliment.decouper();
+                }
                 default -> throw new IllegalStateException("Unexpected value: " + s);
             }
         }
@@ -64,7 +67,7 @@ public class Creation {
             case GENERATEURPAINBURGER -> new Generateur(indexLigne, indexColonne, new Plat(new Pain()), "Pain");
             case PLAN_DE_TRAVAIL -> new PlanDeTravail(indexLigne, indexColonne);
             case PLANCHE -> new Planche(indexLigne, indexColonne);
-            case POELE ->  new Poele(indexLigne, indexColonne);
+            case POELE -> new Poele(indexLigne, indexColonne);
             // Exception si le caractère lu est inconnu
             default -> throw new IllegalArgumentException("DonneesJeu.constructeur, caractère inconnu : " + c);
         };

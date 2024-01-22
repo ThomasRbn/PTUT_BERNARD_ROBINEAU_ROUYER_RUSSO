@@ -23,13 +23,13 @@ public class Plat extends Aliment {
         return nomPlat;
     }
 
-    public Plat(Plat plat){
+    public Plat(Plat plat) {
         super();
         this.nom = plat.nom;
         this.recettesComposees = new TreeMap<>(plat.getRecettesComposeesMap());
     }
 
-    public Plat(Plat plat1, Plat plat2){
+    public Plat(Plat plat1, Plat plat2) {
         super();
         this.recettesComposees = new TreeMap<>();
         this.recettesComposees.putAll(plat1.getRecettesComposeesMap());
@@ -45,7 +45,7 @@ public class Plat extends Aliment {
         this.nom = getNomPlat();
     }
 
-    public Plat(Aliment aliment){
+    public Plat(Aliment aliment) {
         super();
         this.nom = "Plat";
         this.recettesComposees = new TreeMap<>();
@@ -55,19 +55,20 @@ public class Plat extends Aliment {
 
     public void ajouterAliment(Aliment aliment) {
         String nomAlim = aliment.getNom();
-        recettesComposees.put(nomAlim, aliment);
+        if (!recettesComposees.containsKey(aliment.getNom()))
+            recettesComposees.put(nomAlim, aliment);
         this.nom = getNomPlat();
     }
 
-    public void fusionerPlat(Plat plat){
+    public void fusionerPlat(Plat plat) {
         this.recettesComposees.putAll(plat.recettesComposees);
         this.nom = getNomPlat();
     }
 
-    public boolean estFusionnable(Plat plat){
+    public boolean estFusionnable(Plat plat) {
         //On vérifie qu'il n'y a aucun aliment en commun dans chaque plat
-        for (Aliment aliment : plat.recettesComposees.values()){
-            if (recettesComposees.containsValue(aliment)){
+        for (Aliment aliment : plat.recettesComposees.values()) {
+            if (recettesComposees.containsValue(aliment)) {
                 return false;
             }
         }
@@ -90,7 +91,7 @@ public class Plat extends Aliment {
         return recettesComposees;
     }
 
-    public void viderAliments(){
+    public void viderAliments() {
         recettesComposees.clear();
         this.nom = getNomPlat();
     }
@@ -111,7 +112,7 @@ public class Plat extends Aliment {
     @Override
     public String getNom() {
         String s = "";
-        for(Aliment a : recettesComposees.values()){
+        for (Aliment a : recettesComposees.values()) {
             s += a.getNom();
         }
         return s;

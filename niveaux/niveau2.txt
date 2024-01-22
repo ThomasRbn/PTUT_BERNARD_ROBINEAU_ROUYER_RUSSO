@@ -4,4 +4,4 @@ X.CC.X
 XJ..JX
 XXDXXX
 -
-T,S
+T, S

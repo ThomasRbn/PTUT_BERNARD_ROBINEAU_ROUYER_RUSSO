@@ -64,11 +64,10 @@ public class DonneesJeu {
         try {
             String ligne = bfRead.readLine();
             while (ligne != null) {
-                String[] plat = ligne.split(",");
+                String[] plat = ligne.split(", ");
                 Plat currPlat = new Plat();
                 for (String s : plat) {
                     List<String> recette = new ArrayList<>(List.of(s.split(" ")));
-                    Collections.reverse(recette);
                     Aliment currAliment = getCurrentPlatBut(recette);
                     currPlat.ajouterAliment(currAliment);
                 }
