@@ -118,6 +118,8 @@ public class GestionActions {
             //Utiliser un transformateur
             case UTILISER -> utiliser((Transformateur) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]]);
 
+            case RIEN -> {}
+
             //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.faireAction, action invalide" + a);
         }
