@@ -126,6 +126,10 @@ public class Transformateur extends Bloc {
         return inventaire;
     }
 
+    public String getNomPlat() {
+        return inventaire != null ? inventaire.getNomPlat() : "";
+    }
+
     public boolean isBloque() {
         return isBloque;
     }

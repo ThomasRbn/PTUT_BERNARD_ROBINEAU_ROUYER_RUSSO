@@ -8,6 +8,7 @@ import com.overcooked.ptut.objet.Generateur;
 import com.overcooked.ptut.objet.PlanDeTravail;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
+import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Tomate;
@@ -159,6 +160,9 @@ public class DonneesJeu {
             for (int j = 0; j < longueur; j++) {
                 Bloc currBloc = objetsFixes[i][j];
                 if (currBloc instanceof PlanDeTravail planDeTravail && planDeTravail.getNomPlat().equals(element)) {
+                    coordonneesElem.add(new int[]{i, j});
+                }
+                if (currBloc instanceof Transformateur transformateur && transformateur.getNomPlat().equals(element)) {
                     coordonneesElem.add(new int[]{i, j});
                 }
                 if (currBloc != null) {
