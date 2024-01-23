@@ -10,6 +10,9 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
 import static com.overcooked.ptut.constructionCarte.GestionActions.isLegal;
 
@@ -99,33 +102,38 @@ public class ClavierControlleur {
     }
 
     public void lancerThreadIA(DonneesJeu jeu, Plateau plateau) {
-        for (Joueur joueur : jeu.getJoueurs()) {
-            if (joueur instanceof JoueurIA) {
-                new Thread(() -> {
-                    while (true) {
-                        Action actionIA = joueur.demanderAction(jeu);
-                        jeu.getActionsDuTour().ajouterAction(joueur, actionIA);
-                        while (!jeu.getActionsDuTour().isTourTermine()){
-                            try {
-                                Thread.sleep(100);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        AnimationTimer animationTimer = new AnimationTimer() {
-                            @Override
-                            public void handle(long now) {
-                                plateau.getChildren().clear();
-                                jeu.getDepot().viderDepot();
-                                plateau.afficherBlocs(jeu);
-                                plateau.afficherJoueurs(jeu);
-                                plateau.afficherInventaireBloc(jeu);
-                            }
-                        };
-                        animationTimer.start();
+        List<Joueur> joueursIA = jeu.getJoueurs().stream().filter(joueur -> joueur instanceof JoueurIA).toList();
+        new Thread(() -> {
+            while (true) {
+                for (Joueur joueur : joueursIA) {
+                    Action actionIA = joueur.demanderAction(jeu);
+                    System.out.println("Action IA : " + actionIA);
+                    jeu.getActionsDuTour().ajouterAction(joueur, actionIA);
+                }
+                while (!jeu.getActionsDuTour().isTourTermine()){
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                }).start();
+                }
+                AnimationTimer animationTimer = new AnimationTimer() {
+                    @Override
+                    public void handle(long now) {
+                        plateau.getChildren().clear();
+                        jeu.getDepot().viderDepot();
+                        plateau.afficherBlocs(jeu);
+                        plateau.afficherJoueurs(jeu);
+                        plateau.afficherInventaireBloc(jeu);
+                    }
+                };
+                animationTimer.start();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        }
+        }).start();
     }
 }
