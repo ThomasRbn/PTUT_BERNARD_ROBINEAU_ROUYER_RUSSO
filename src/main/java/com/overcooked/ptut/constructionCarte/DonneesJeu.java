@@ -178,6 +178,17 @@ public class DonneesJeu {
                         coordonneesElem.add(new int[]{i, j});
                     }
                 }
+
+                // Trouver un joueur
+                for (Joueur joueur : joueurs) {
+                    int[] position = joueur.getPosition();
+                    if (position[0] == i && position[1] == j) {
+                        String numJoueur = joueur.getNumJoueur() + "";
+                        if (element.equals(numJoueur)) {
+                            coordonneesElem.add(new int[]{i, j});
+                        }
+                    }
+                }
             }
         }
         return coordonneesElem;

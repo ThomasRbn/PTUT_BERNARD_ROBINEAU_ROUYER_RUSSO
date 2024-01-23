@@ -1,6 +1,7 @@
 package com.overcooked.ptut.joueurs.ia.problemes;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
+import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
 import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
@@ -10,7 +11,7 @@ import com.overcooked.ptut.recettes.aliment.Plat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CalculHeuristiquePlat extends SearchProblemAC {
+public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
 
     int[] coordonneesDepart;
 
@@ -23,7 +24,10 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
     List<int[]> listeCoordonneesPlanche;
     boolean retourDepot;
 
-    public CalculHeuristiquePlat(Plat plat, int[] coordonneesDepart, DonneesJeu donneesJeu, int numJoueur) {
+    int numJoueur;
+
+    public CalculHeuristiquePlatDecentr(Plat plat, int[] coordonneesDepart, DonneesJeu donneesJeu, int numJoueur) {
+        this.numJoueur = numJoueur;
         retourDepot = false;
         platBut = plat;
         List<AlimentCoordonnees> alimentCoordonneesList = new ArrayList<>();
@@ -81,6 +85,14 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
                 actions.add(new AlimentCoordonnees(alimentFictifDecoupe, coordonnees));
             }
             return actions;
+        }
+        if (o.donneesJeu.getJoueurs().size() > 1){
+            for (Joueur j : o.donneesJeu.getJoueurs()){
+                if (j.getNumJoueur() != numJoueur){
+                    Aliment joueurAlim = new Aliment("Joueur", "Aliment fictif");
+                    actions.add(new AlimentCoordonnees(joueurAlim, j.getPosition()));
+                }
+            }
         }
         if (o.doitCuire(platBut)) {
             Aliment alimentFictifCuisson = new Aliment("Cuisson", "Aliment fictif");

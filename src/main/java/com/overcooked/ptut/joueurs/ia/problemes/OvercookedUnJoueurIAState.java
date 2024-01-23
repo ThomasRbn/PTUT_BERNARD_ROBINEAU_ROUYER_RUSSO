@@ -64,7 +64,7 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
         // On parcours l'ensemble des plats but
         for (Plat plat : donnees.getPlatsBut()) {
             //On calcule le cout de l'état courant pour chaque plat
-            SearchProblemAC p = new CalculHeuristiquePlat(plat, donnees.getJoueur(numJoueur).getPosition(), donnees);
+            SearchProblemAC p = new CalculHeuristiquePlat(plat, donnees.getJoueur(numJoueur).getPosition(), donnees, numJoueur);
             State s = new CalculHeuristiquePlatState(donnees, numJoueur);
             BFS algo = new BFS(p, s);
             double cout = algo.solve();
