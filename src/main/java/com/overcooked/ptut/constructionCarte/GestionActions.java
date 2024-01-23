@@ -67,9 +67,13 @@ public class GestionActions {
                     if (objetFixe instanceof PlanDeTravail && objetFixe.getInventaire() != null) {
                         yield joueur.getInventaire().estFusionnable(objetFixe.getInventaire());
                     }
+                    if (objetFixe instanceof PlanDeTravail && objetFixe.getInventaire() == null) {
+                        yield true;
+                    }
+                    //On vérifie que l'on ne peut pas poser par terre
+                    yield objetFixe != null;
                 }
 
-                yield false;
             }
 
             case UTILISER -> objetFixe instanceof Transformateur transformateur
