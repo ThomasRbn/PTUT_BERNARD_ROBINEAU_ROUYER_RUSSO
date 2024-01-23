@@ -110,19 +110,14 @@ public class GestionActions {
                 }
             }
             //Prendre un objet
-            case PRENDRE -> {
-                prendre(joueur, objetsFixes, objetsDeplacables);
-//                System.out.println("Prendre : " + joueur.getInventaire().getRecettesComposees());
-            }
+            case PRENDRE -> prendre(joueur, objetsFixes, objetsDeplacables);
 
             //Poser un objet (dans la case devant le joueur)
-            case POSER -> {
-                poser(objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]], joueur);
-            }
+            case POSER -> poser(objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]], joueur);
+
             //Utiliser un transformateur
-            case UTILISER -> {
-                utiliser((Transformateur) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]]);
-            }
+            case UTILISER -> utiliser((Transformateur) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]]);
+
             //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.faireAction, action invalide" + a);
         }

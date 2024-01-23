@@ -1,5 +1,6 @@
 package com.overcooked.ptut.constructionCarte;
 
+import com.overcooked.ptut.controlleurs.ActionsDuTour;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.objet.Bloc;
@@ -34,6 +35,8 @@ public class DonneesJeu {
     private final List<Plat> platsBut;
     private Depot depot;
 
+    private ActionsDuTour actionsDuTour;
+
     /**
      * Constructeur de DonneesJeu
      *
@@ -47,6 +50,7 @@ public class DonneesJeu {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        actionsDuTour = new ActionsDuTour(this);
     }
 
     private void initialiserDonnees(String chemin, boolean... test) throws IOException {
@@ -367,6 +371,10 @@ public class DonneesJeu {
      */
     public Depot getDepot() {
         return depot;
+    }
+
+    public ActionsDuTour getActionsDuTour() {
+        return actionsDuTour;
     }
 
     public Plat[][] getObjetsDeplacables() {
