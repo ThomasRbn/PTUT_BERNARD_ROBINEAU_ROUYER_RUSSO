@@ -67,13 +67,9 @@ public class GestionActions {
                     if (objetFixe instanceof PlanDeTravail && objetFixe.getInventaire() != null) {
                         yield joueur.getInventaire().estFusionnable(objetFixe.getInventaire());
                     }
-                    else if (objetDeplacable != null ) {
-                        yield true;
-                    }
                 }
-                // Calcul des coordonnés de la case devant le joueur
-                //Recherche dans objetDeplacable s'il y a un objet devant le joueur
-                yield true;
+
+                yield false;
             }
 
             case UTILISER -> objetFixe instanceof Transformateur transformateur

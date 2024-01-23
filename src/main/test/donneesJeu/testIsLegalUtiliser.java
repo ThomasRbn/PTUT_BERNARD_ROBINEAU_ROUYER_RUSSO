@@ -124,4 +124,11 @@ public class testIsLegalUtiliser {
         assertFalse(isLegal(Action.UTILISER, 0, donneesJeu));
     }
 
+    @Test
+    public void testIsLegalPoserParTerre(){
+        donneesJeu = new DonneesJeu("niveaux/niveauTest.txt", true);
+        faireAction(Action.PRENDRE, 0, donneesJeu);
+        faireAction(Action.DROITE, 0, donneesJeu);
+        assertFalse(isLegal(Action.POSER, 0, donneesJeu));
+    }
 }
