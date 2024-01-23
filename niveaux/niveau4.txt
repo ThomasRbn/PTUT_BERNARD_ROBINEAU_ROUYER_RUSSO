@@ -1,7 +1,7 @@
 XSXXTX
 X....X
-X.CC.C
+X.CC.X
 XJ..JP
 XXDXXX
 -
-T 3
+T 3, S

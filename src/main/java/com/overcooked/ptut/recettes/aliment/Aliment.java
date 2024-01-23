@@ -37,6 +37,12 @@ public class Aliment extends Mouvable {
 		this.etat = etat;
 	}
 
+	public Aliment(String nom){
+		super();
+		this.nom = nom;
+		this.etat = 0;
+	}
+
 	public Aliment(Aliment a){
 		super(a);
 		this.nom = a.nom;
