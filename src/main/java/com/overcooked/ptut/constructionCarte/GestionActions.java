@@ -58,7 +58,8 @@ public class GestionActions {
                 } else {
                     //On vérifie le cas où on a un transformateur
                     if (objetFixe instanceof Transformateur) {
-                        yield joueur.getInventaire().getRecettesComposees().size() == 1;
+                        yield joueur.getInventaire().getRecettesComposees().size() == 1
+                                && objetFixe.getInventaire() == null;
 
                     } //Il faut vérifier que l'aliment est fusionnable avec l'objet fixe
                     if (objetFixe instanceof Generateur generateur) {
