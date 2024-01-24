@@ -149,4 +149,14 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
         int[] coordonneesAliment = a.getCoordonnees();
         return Math.abs(coordonneesActuelle[0] - coordonneesAliment[0]) + Math.abs(coordonneesActuelle[1] - coordonneesAliment[1]);
     }
+
+
+    public double getJoueurCost(State s, Joueur j) {
+        if (((CalculHeuristiquePlatStateDecentr) s).estDepose()) {
+            return 0;
+        }
+        int[] coordonneesActuelle = ((CalculHeuristiquePlatStateDecentr) s).getCoordonneesActuelles();
+        int[] coordonneesJoueur = j.getPosition();
+        return Math.abs(coordonneesActuelle[0] - coordonneesJoueur[0]) + Math.abs(coordonneesActuelle[1] - coordonneesJoueur[1]);
+    }
 }
