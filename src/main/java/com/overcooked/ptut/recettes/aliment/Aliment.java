@@ -55,6 +55,12 @@ public class Aliment extends Mouvable {
 		this.etat = 0;
 	}
 
+	public Aliment(String nom, String description, int[] coordonnees) {
+		super(coordonnees);
+		this.nom = nom;
+		this.etat = 0;
+	}
+
 	public int getEtat() {
 		return etat;
 	}

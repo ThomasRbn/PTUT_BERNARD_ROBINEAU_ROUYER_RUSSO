@@ -70,7 +70,7 @@ public class CalculHeuristiquePlatState extends State {
     public boolean isLegal(Aliment a) {
         //on parcout visite et on vérifie si il y a un nom en commun
         for (Aliment aliment : visitees) {
-            if(Objects.equals(aliment.getNom(), a.getNom()))return false;
+            if (Objects.equals(aliment.getNom(), a.getNom())) return false;
         }
         return true;
     }
@@ -109,17 +109,17 @@ public class CalculHeuristiquePlatState extends State {
         return visitees.getLast().doitEtreCoupe(platBut); // this
     }
 
-    public boolean aPoser(){
+    public boolean aPoser() {
         return visitees.isEmpty() || Objects.equals(visitees.getLast().getNom(), "pdt");
     }
 
-    public int[] getCoordonneeVisitePDT(){
+    public int[] getCoordonneeVisitePDT() { // TODO: pouvoir récupéré pls aliment
         int[] pdt = null;
-        for (Aliment a:visitees) {
-            if(Objects.equals(a.getNom(), "pdt")){
-                if(pdt == null) {
-                    pdt = a.getCoordonnees();
-                }else pdt = null;
+        for (Aliment a : visitees) {
+            if (Objects.equals(a.getNom(), "pdt")) {
+                pdt = a.getCoordonnees();
+            }else if (Objects.equals(a.getNom(), "pdt2")) {
+                pdt = null;
             }
         }
         return pdt;

@@ -92,7 +92,8 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
             if(pdt == null) {
                 actions.add(depot);
             }else {
-                actions.add(new AlimentCoordonnees(new Aliment("pdt", "Aliment ficitif"), pdt));
+                // On récupère l'aliment sur le plan de travail
+                actions.add(new AlimentCoordonnees(new Aliment("pdt2", "Aliment ficitif", pdt), pdt));
             }
             return actions;
 
@@ -114,7 +115,8 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
         for (AlimentCoordonnees a : ALIMENTCO) {
             if (o.isLegal(a.getAliment())) {
                 if ((a.getAliment().doitCuire(platBut) || a.getAliment().doitEtreCoupe(platBut)) && !o.aPoser()) {
-                    actions.add(new AlimentCoordonnees(new Aliment("pdt", "Aliment ficitif"), donneesJeu.getPlanDeTravailVidePlusProche(o.getCoordonneesActuelles())));
+                    int[] coordonnees = donneesJeu.getPlanDeTravailVidePlusProche(o.getCoordonneesActuelles());
+                    actions.add(new AlimentCoordonnees(new Aliment("pdt", "Aliment ficitif", coordonnees), coordonnees));
                 } else {
                     actions.add(a);
                 }
@@ -162,7 +164,7 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
         List<Aliment> alimentSansPDT = new ArrayList<>();
 
         for (Aliment a:aliments) {
-            if(!Objects.equals(a.getNom(), "pdt")){
+            if(!(Objects.equals(a.getNom(), "pdt") || Objects.equals(a.getNom(), "pdt2"))){
                 alimentSansPDT.add(a);
             }
         }

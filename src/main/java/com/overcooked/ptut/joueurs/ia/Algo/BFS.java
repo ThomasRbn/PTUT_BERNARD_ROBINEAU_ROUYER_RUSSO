@@ -28,7 +28,7 @@ public class BFS extends TreeSearchAC {
     }
 
 //    @Override
-    public double solve() {
+    public SearchNodeAC solve() {
 //        System.out.println("Algo choisi: BFS");
         SearchNodeAC node = SearchNodeAC.makeRootSearchNode(intial_state);
         State state = node.getState();
@@ -53,7 +53,7 @@ public class BFS extends TreeSearchAC {
                 end_node = node;
                 // On retourne vrai
 //                System.out.println("Cout: "+end_node.getCost());
-                return end_node.getCost();
+                return end_node;
             } else {
                 // On ajoute l'état du nœud dans l'ensemble des nœuds explorés
                 explored.add(node.getState());
@@ -93,7 +93,7 @@ public class BFS extends TreeSearchAC {
         }
 
         System.out.println("return -1");
-        return -1;
+        return null;
         // Pas de solutions trouvées
 //        throw new IllegalArgumentException("Pas de solution trouvée BFS.solve");
 
