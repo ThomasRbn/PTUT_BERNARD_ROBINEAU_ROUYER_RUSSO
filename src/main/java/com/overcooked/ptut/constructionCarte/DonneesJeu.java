@@ -170,8 +170,8 @@ public class DonneesJeu {
                     coordonneesElem.add(new int[]{i, j});
                 }
                 if (currBloc != null) {
-                    if(currBloc instanceof Generateur){
-                        if(element.equals("Generateur")){
+                    if (currBloc instanceof Generateur) {
+                        if (element.equals("Generateur")) {
                             coordonneesElem.add(new int[]{i, j});
                         }
                     }
@@ -273,18 +273,19 @@ public class DonneesJeu {
 
     /**
      * Retourne les coordonnées du plan de travail vide le plus proche
+     *
      * @param position
      * @return
      */
-    public int[] getPlanDeTravailVidePlusProche(int[] position){
+    public int[] getPlanDeTravailVidePlusProche(int[] position) {
         int[] planDeTravailVide = new int[2];
         int distanceMin = Integer.MAX_VALUE;
         for (int i = 0; i < objetsFixes.length; i++) {
             for (int j = 0; j < objetsFixes[i].length; j++) {
-                if(objetsFixes[i][j] instanceof PlanDeTravail planDeTravail){
-                    if(planDeTravail.getInventaire() == null){
+                if (objetsFixes[i][j] instanceof PlanDeTravail planDeTravail) {
+                    if (planDeTravail.getInventaire() == null) {
                         int distance = Math.abs(position[0] - i) + Math.abs(position[1] - j);
-                        if(distance < distanceMin){
+                        if (distance < distanceMin) {
                             distanceMin = distance;
                             planDeTravailVide[0] = i;
                             planDeTravailVide[1] = j;
@@ -390,5 +391,12 @@ public class DonneesJeu {
 
     public Plat[][] getObjetsDeplacables() {
         return objetsDeplacables;
+    }
+
+    public void supprimerElementPlatBut(Aliment aliment) {
+        for (Plat plat : platsBut) {
+            plat.supprimerAliment(aliment);
+            return;
+        }
     }
 }

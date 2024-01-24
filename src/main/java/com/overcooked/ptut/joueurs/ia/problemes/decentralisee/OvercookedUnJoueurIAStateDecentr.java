@@ -22,8 +22,6 @@ public class OvercookedUnJoueurIAStateDecentr extends State implements HasHeuris
     //Données
     private DonneesJeu donnees;
 
-    List<Joueur> joueurList;
-
     private int numJoueur;
 
     /**
@@ -36,32 +34,6 @@ public class OvercookedUnJoueurIAStateDecentr extends State implements HasHeuris
         //Constructeur par copie
         this.donnees = new DonneesJeu(donneesJeu);
         this.numJoueur = numJoueur;
-        this.joueurList = new ArrayList<>();
-        // Trouver les joueurs autres que celui que nous controlons
-        if (donneesJeu.getJoueurs().size() > 1) {
-            for (Joueur j : donneesJeu.getJoueurs()) {
-                if (j.getNumJoueur() != numJoueur) {
-                    joueurList.add(j);
-                }
-            }
-        }
-        // Simuler leur choix d'action
-        for (Joueur j : joueurList) {
-            SearchProblemAC p = new CalculHeuristiquePlatDecentr(donneesJeu.getPlatsBut().getFirst(), donneesJeu.getJoueur(numJoueur).getPosition(), donneesJeu, numJoueur);
-            State s = new CalculHeuristiquePlatStateDecentr(donneesJeu, numJoueur);
-            BFS algo = new BFS(p, s);
-                // résoudre
-            SearchNodeAC solution = algo.solve();
-            List<AlimentCoordonnees> listeActions = new ArrayList<>();
-                //Boucle pour récupéré le dernier Aliment coordonnee du resultat
-            if (solution != null && solution.getAlimentCoordonnees() != null) {
-                listeActions.add(solution.getAlimentCoordonnees());
-            }
-                // Affichage listeActions
-            for (AlimentCoordonnees action : listeActions) {
-                System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
-            }
-        }
     }
 
     public DonneesJeu getDonnees() {

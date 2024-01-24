@@ -3,19 +3,27 @@ package com.overcooked.ptut.joueurs.ia;
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.algo.AStar;
+import com.overcooked.ptut.joueurs.ia.algo.BFS;
 import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
-import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIA;
-import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIAState;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
+import com.overcooked.ptut.joueurs.ia.problemes.decentralisee.CalculHeuristiquePlatDecentr;
+import com.overcooked.ptut.joueurs.ia.problemes.decentralisee.CalculHeuristiquePlatStateDecentr;
 import com.overcooked.ptut.joueurs.ia.problemes.decentralisee.OvercookedUnJoueurIADecentr;
 import com.overcooked.ptut.joueurs.ia.problemes.decentralisee.OvercookedUnJoueurIAStateDecentr;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
+import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class JoueurIADecentr extends JoueurIA {
+
+    List<Joueur> joueurList;
+    DonneesJeu donneesJeuClone;
 
     public JoueurIADecentr(int x, int y) {
         super(x, y);
@@ -28,13 +36,64 @@ public class JoueurIADecentr extends JoueurIA {
     // Utilisera Problème
     @Override
     public Action demanderAction(DonneesJeu donneesJeu) {
+        this.donneesJeuClone = new DonneesJeu(donneesJeu);
         // créer un problème, un état initial et un algo
         SearchProblem p = new OvercookedUnJoueurIADecentr();
-        State s = new OvercookedUnJoueurIAStateDecentr(donneesJeu, numJoueur);
+
+        this.joueurList = new ArrayList<>();
+        genererAutresJoueurs(numJoueur);
+
+        State s = new OvercookedUnJoueurIAStateDecentr(donneesJeuClone, numJoueur);
         AStar algo = (AStar) ArgParse.makeAlgo("astar", p, s);
 
         // résoudre
         ArrayList<Action> solution = algo.solve();
         return solution != null ? solution.getFirst() : Action.RIEN;
+
+    }
+
+    private void genererAutresJoueurs(int numJoueur) {
+        // Trouver les joueurs autres que celui que nous controlons
+        if (this.donneesJeuClone.getJoueurs().size() > 1) {
+            for (Joueur j : this.donneesJeuClone.getJoueurs()) {
+                if (j.getNumJoueur() != numJoueur) {
+                    joueurList.add(j);
+                }
+            }
+        }
+        simulerActionsJoueurs(numJoueur);
+    }
+
+    private void simulerActionsJoueurs(int numJoueur) {
+        // Simuler leur choix d'action
+        for (Joueur j : joueurList) {
+            trouverCible(numJoueur, j);
+        }
+    }
+
+    private void trouverCible(int numJoueur, Joueur j) {
+        int numJoueurOther = j.getNumJoueur();
+        if (numJoueurOther != numJoueur) {
+            SearchProblemAC p = new CalculHeuristiquePlatDecentr(this.donneesJeuClone.getPlatsBut().getFirst(), this.donneesJeuClone.getJoueur(numJoueurOther).getPosition(), this.donneesJeuClone, numJoueurOther);
+            State s = new CalculHeuristiquePlatStateDecentr(this.donneesJeuClone, numJoueurOther);
+            BFS algo = new BFS(p, s);
+            // résoudre
+            SearchNodeAC solution = algo.solve();
+            List<AlimentCoordonnees> listeActions = new ArrayList<>();
+            // Boucle pour récupéré le dernier Aliment coordonnee du resultat
+            while (solution.getAlimentCoordonnees() != null) {
+                listeActions.add(solution.getAlimentCoordonnees());
+                solution = solution.getParent();
+            }
+            AlimentCoordonnees action = null;
+            // Affichage listeActions
+            if (!listeActions.isEmpty()) {
+                action = listeActions.getLast();
+                System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
+            }
+            if (action != null) {
+                this.donneesJeuClone.supprimerElementPlatBut(action.getAliment());
+            }
+        }
     }
 }
