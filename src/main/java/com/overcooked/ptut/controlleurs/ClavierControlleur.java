@@ -31,6 +31,7 @@ public class ClavierControlleur {
      */
     public void initEventClavier(Scene scene, PlateauVue plateau, HeaderVue header) {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, key -> {
+            if (jeu.isJeuTermine()) return;
             for (Joueur joueur : jeu.getJoueurs()) {
                 if (joueur instanceof JoueurHumain) {
                     handleHumainInput(key, joueur, plateau, jeu);
@@ -44,7 +45,7 @@ public class ClavierControlleur {
             plateau.afficherBlocs(jeu);
             plateau.afficherJoueurs(jeu);
             plateau.afficherInventaireBloc(jeu);
-            header.afficher(jeu.getDepot().getPoints());
+            header.afficher();
 //            plateau.affichageProgressBar(jeu);
         });
     }
@@ -104,13 +105,13 @@ public class ClavierControlleur {
     public void lancerThreadIA(DonneesJeu jeu, PlateauVue plateau, HeaderVue header) {
         List<Joueur> joueursIA = jeu.getJoueurs().stream().filter(joueur -> joueur instanceof JoueurIA).toList();
         new Thread(() -> {
-            while (true) {
+            while (!jeu.isJeuTermine()) {
                 for (Joueur joueur : joueursIA) {
                     Action actionIA = joueur.demanderAction(jeu);
                     System.out.println("Action IA : " + actionIA);
                     jeu.getActionsDuTour().ajouterAction(joueur, actionIA);
                 }
-                while (!jeu.getActionsDuTour().isTourTermine()){
+                while (!jeu.getActionsDuTour().isTourTermine()) {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
@@ -125,7 +126,7 @@ public class ClavierControlleur {
                         plateau.afficherBlocs(jeu);
                         plateau.afficherJoueurs(jeu);
                         plateau.afficherInventaireBloc(jeu);
-                        header.afficher(jeu.getDepot().getPoints());
+                        header.afficher();
                     }
                 };
                 animationTimer.start();
