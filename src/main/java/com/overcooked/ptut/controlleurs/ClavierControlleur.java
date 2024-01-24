@@ -5,12 +5,13 @@ import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
-import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.vue.Plateau;
 import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
 import static com.overcooked.ptut.constructionCarte.GestionActions.isLegal;
@@ -33,7 +34,7 @@ public class ClavierControlleur {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, key -> {
             for (Joueur joueur : jeu.getJoueurs()) {
                 if (joueur instanceof JoueurHumain) {
-                    handleHumainInput(key, joueur, plateau);
+                    handleHumainInput(key, joueur, plateau, jeu);
                 }
             }
 
@@ -55,27 +56,32 @@ public class ClavierControlleur {
      * @param joueur  Joueur
      * @param plateau Plateau
      */
-    private void handleHumainInput(KeyEvent key, Joueur joueur, Plateau plateau) {
+    private void handleHumainInput(KeyEvent key, Joueur joueur, Plateau plateau, DonneesJeu jeu) {
         switch (key.getCode()) {
             case Z:
                 if (isLegal(Action.HAUT, joueur.getNumJoueur(), jeu))
-                    faireAction(Action.HAUT, joueur.getNumJoueur(), jeu);
+//                    faireAction(Action.HAUT, joueur.getNumJoueur(), jeu);
+                    jeu.getActionsDuTour().ajouterAction(joueur, Action.HAUT);
                 break;
             case S:
                 if (isLegal(Action.BAS, joueur.getNumJoueur(), jeu))
-                    faireAction(Action.BAS, joueur.getNumJoueur(), jeu);
+//                    faireAction(Action.BAS, joueur.getNumJoueur(), jeu);
+                    jeu.getActionsDuTour().ajouterAction(joueur, Action.BAS);
                 break;
             case Q:
                 if (isLegal(Action.GAUCHE, joueur.getNumJoueur(), jeu))
-                    faireAction(Action.GAUCHE, joueur.getNumJoueur(), jeu);
+//                    faireAction(Action.GAUCHE, joueur.getNumJoueur(), jeu);
+                    jeu.getActionsDuTour().ajouterAction(joueur, Action.GAUCHE);
                 break;
             case D:
                 if (isLegal(Action.DROITE, joueur.getNumJoueur(), jeu))
-                    faireAction(Action.DROITE, joueur.getNumJoueur(), jeu);
+//                    faireAction(Action.DROITE, joueur.getNumJoueur(), jeu);
+                    jeu.getActionsDuTour().ajouterAction(joueur, Action.DROITE);
                 break;
             case E:
                 if (isLegal(Action.UTILISER, joueur.getNumJoueur(), jeu)) {
-                    faireAction(Action.UTILISER, joueur.getNumJoueur(), jeu);
+                    jeu.getActionsDuTour().ajouterAction(joueur, Action.UTILISER);
+//                    faireAction(Action.UTILISER, joueur.getNumJoueur(), jeu);
 //                    int[] cible = joueur.getPositionCible();
 //                    Transformateur transformateur = (Transformateur) jeu.getObjetsFixes()[cible[0]][cible[1]];
 //                    plateau.genererTask(transformateur, jeu);
@@ -83,9 +89,11 @@ public class ClavierControlleur {
                 break;
             case SPACE:
                 if (isLegal(Action.PRENDRE, joueur.getNumJoueur(), jeu)) {
-                    faireAction(Action.PRENDRE, joueur.getNumJoueur(), jeu);
+//                    faireAction(Action.PRENDRE, joueur.getNumJoueur(), jeu);
+                    jeu.getActionsDuTour().ajouterAction(joueur, Action.PRENDRE);
                 } else if (isLegal(Action.POSER, joueur.getNumJoueur(), jeu)) {
-                    faireAction(Action.POSER, joueur.getNumJoueur(), jeu);
+//                    faireAction(Action.POSER, joueur.getNumJoueur(), jeu);
+                    jeu.getActionsDuTour().ajouterAction(joueur, Action.POSER);
                 }
                 break;
             default:
@@ -93,49 +101,39 @@ public class ClavierControlleur {
         }
     }
 
-    private void handleIAInput(KeyEvent key, Joueur joueur) {
-        if (key.getCode() == javafx.scene.input.KeyCode.ENTER) {
-            faireAction(joueur.demanderAction(jeu), joueur.getNumJoueur(), jeu);
-        }
-    }
-
     public void lancerThreadIA(DonneesJeu jeu, Plateau plateau) {
-        for (Joueur joueur : jeu.getJoueurs()) {
-            if (joueur instanceof JoueurIA) {
-                new Thread(() -> {
-                    while (true) {
-                        try {
-                            Thread.sleep(1000);
-                            faireAction(joueur.demanderAction(jeu), joueur.getNumJoueur(), jeu);
-                            System.out.println(jeu);
-                            AnimationTimer animationTimer = new AnimationTimer() {
-                                @Override
-                                public void handle(long now) {
-                                    plateau.getChildren().clear();
-                                    jeu.getDepot().viderDepot();
-                                    plateau.afficherBlocs(jeu);
-                                    plateau.afficherJoueurs(jeu);
-                                    plateau.afficherInventaireBloc(jeu);
-                                }
-                            };
-                            animationTimer.start();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+        List<Joueur> joueursIA = jeu.getJoueurs().stream().filter(joueur -> joueur instanceof JoueurIA).toList();
+        new Thread(() -> {
+            while (true) {
+                for (Joueur joueur : joueursIA) {
+                    Action actionIA = joueur.demanderAction(jeu);
+                    System.out.println("Action IA : " + actionIA);
+                    jeu.getActionsDuTour().ajouterAction(joueur, actionIA);
+                }
+                while (!jeu.getActionsDuTour().isTourTermine()){
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                }).start();
-//                Platform.runLater(() -> {
-//                    while (true) {
-//                        try {
-//                            Thread.sleep(1000);
-//                            faireAction(joueur.demanderAction(jeu), joueur.getNumJoueur(), jeu);
-//                            System.out.println(jeu);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
+                }
+                AnimationTimer animationTimer = new AnimationTimer() {
+                    @Override
+                    public void handle(long now) {
+                        plateau.getChildren().clear();
+                        jeu.getDepot().viderDepot();
+                        plateau.afficherBlocs(jeu);
+                        plateau.afficherJoueurs(jeu);
+                        plateau.afficherInventaireBloc(jeu);
+                    }
+                };
+                animationTimer.start();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        }
+        }).start();
     }
 }
