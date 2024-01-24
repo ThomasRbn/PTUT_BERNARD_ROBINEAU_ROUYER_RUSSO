@@ -54,9 +54,8 @@ public class OvercookedUnJoueurIAStateDecentr extends State implements HasHeuris
             SearchNodeAC solution = algo.solve();
             List<AlimentCoordonnees> listeActions = new ArrayList<>();
                 //Boucle pour récupéré le dernier Aliment coordonnee du resultat
-            while (solution.getAlimentCoordonnees() != null) {
+            if (solution.getAlimentCoordonnees() != null) {
                 listeActions.add(solution.getAlimentCoordonnees());
-                solution = solution.getParent();
             }
                 // Affichage listeActions
             for (AlimentCoordonnees action : listeActions) {
