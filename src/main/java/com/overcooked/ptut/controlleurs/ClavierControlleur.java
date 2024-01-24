@@ -5,15 +5,14 @@ import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
-import com.overcooked.ptut.vue.Plateau;
+import com.overcooked.ptut.vue.HeaderVue;
+import com.overcooked.ptut.vue.PlateauVue;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
 import static com.overcooked.ptut.constructionCarte.GestionActions.isLegal;
 
 public class ClavierControlleur {
@@ -30,7 +29,7 @@ public class ClavierControlleur {
      * @param scene   Scene
      * @param plateau Plateau
      */
-    public void initEventClavier(Scene scene, Plateau plateau) {
+    public void initEventClavier(Scene scene, PlateauVue plateau, HeaderVue header) {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, key -> {
             for (Joueur joueur : jeu.getJoueurs()) {
                 if (joueur instanceof JoueurHumain) {
@@ -45,6 +44,7 @@ public class ClavierControlleur {
             plateau.afficherBlocs(jeu);
             plateau.afficherJoueurs(jeu);
             plateau.afficherInventaireBloc(jeu);
+            header.afficher(jeu.getDepot().getPoints());
 //            plateau.affichageProgressBar(jeu);
         });
     }
@@ -56,7 +56,7 @@ public class ClavierControlleur {
      * @param joueur  Joueur
      * @param plateau Plateau
      */
-    private void handleHumainInput(KeyEvent key, Joueur joueur, Plateau plateau, DonneesJeu jeu) {
+    private void handleHumainInput(KeyEvent key, Joueur joueur, PlateauVue plateau, DonneesJeu jeu) {
         switch (key.getCode()) {
             case Z:
                 if (isLegal(Action.HAUT, joueur.getNumJoueur(), jeu))
@@ -101,7 +101,7 @@ public class ClavierControlleur {
         }
     }
 
-    public void lancerThreadIA(DonneesJeu jeu, Plateau plateau) {
+    public void lancerThreadIA(DonneesJeu jeu, PlateauVue plateau, HeaderVue header) {
         List<Joueur> joueursIA = jeu.getJoueurs().stream().filter(joueur -> joueur instanceof JoueurIA).toList();
         new Thread(() -> {
             while (true) {
@@ -125,6 +125,7 @@ public class ClavierControlleur {
                         plateau.afficherBlocs(jeu);
                         plateau.afficherJoueurs(jeu);
                         plateau.afficherInventaireBloc(jeu);
+                        header.afficher(jeu.getDepot().getPoints());
                     }
                 };
                 animationTimer.start();

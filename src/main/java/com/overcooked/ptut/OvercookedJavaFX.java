@@ -2,12 +2,12 @@ package com.overcooked.ptut;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.vue.CommandeVue;
-import com.overcooked.ptut.vue.Plateau;
+import com.overcooked.ptut.vue.HeaderVue;
+import com.overcooked.ptut.vue.PlateauVue;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class OvercookedJavaFX extends Application {
@@ -25,18 +25,22 @@ public class OvercookedJavaFX extends Application {
 
         BorderPane root = new BorderPane();
 
-        Plateau plateau = new Plateau(jeu, tailleCellule);
+        PlateauVue plateau = new PlateauVue(jeu, tailleCellule);
         root.setCenter(plateau);
 
-        Scene scene = new Scene(root, (jeu.getLongueur() * tailleCellule) * 2, jeu.getHauteur() * tailleCellule);
-        plateau.getClavierController().initEventClavier(scene, plateau);
+        Scene scene = new Scene(root, (jeu.getLongueur() * tailleCellule) * 2, jeu.getHauteur() * tailleCellule + tailleCellule);
 
         CommandeVue commandeVue = new CommandeVue(jeu.getPlatsBut());
         commandeVue.setPrefSize(jeu.getLongueur() * tailleCellule, jeu.getHauteur() * tailleCellule);
         commandeVue.setBorder(Border.EMPTY);
         root.setRight(commandeVue);
 
-        plateau.getClavierController().lancerThreadIA(jeu, plateau);
+        HeaderVue headerVue = new HeaderVue(jeu);
+        headerVue.setPrefSize(jeu.getLongueur() * tailleCellule * 2, tailleCellule);
+        root.setTop(headerVue);
+
+        plateau.getClavierController().initEventClavier(scene, plateau, headerVue);
+        plateau.getClavierController().lancerThreadIA(jeu, plateau, headerVue);
 
         primaryStage.setScene(scene);
         primaryStage.show();

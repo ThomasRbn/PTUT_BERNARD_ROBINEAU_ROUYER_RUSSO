@@ -19,12 +19,12 @@ import javafx.scene.layout.StackPane;
 
 import static com.overcooked.ptut.vue.AfficheurInfobulle.afficherEtatCercle;
 
-public class Plateau extends GridPane {
+public class PlateauVue extends GridPane {
 
     public double tailleCellule;
     private ClavierControlleur clavierController;
 
-    public Plateau(DonneesJeu jeu, double tailleCellule) {
+    public PlateauVue(DonneesJeu jeu, double tailleCellule) {
         this.tailleCellule = tailleCellule;
         this.setGridLinesVisible(true);
 
