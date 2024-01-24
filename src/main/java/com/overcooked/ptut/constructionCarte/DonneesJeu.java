@@ -125,7 +125,7 @@ public class DonneesJeu {
                 }
                 //Création des objets fixes
                 case DEPOT -> {
-                    objetsFixes[indexLigne][indexColonne] = new Depot(indexLigne, indexColonne);
+                    objetsFixes[indexLigne][indexColonne] = new Depot(indexLigne, indexColonne, platsBut);
                     depot = (Depot) objetsFixes[indexLigne][indexColonne];
                 }
                 default -> objetsFixes[indexLigne][indexColonne] = Creation.CreationBloc(c, indexColonne, indexLigne);

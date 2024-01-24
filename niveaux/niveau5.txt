@@ -1,6 +1,7 @@
-XXTX
+XBTX
 S..C
 DJPX
 XXXX
 -
 T 3, S
+S 1, T 2, B 3
