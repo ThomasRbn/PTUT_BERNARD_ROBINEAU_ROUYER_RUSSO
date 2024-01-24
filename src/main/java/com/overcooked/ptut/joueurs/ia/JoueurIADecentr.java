@@ -8,12 +8,14 @@ import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
 import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIA;
 import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIAState;
+import com.overcooked.ptut.joueurs.ia.problemes.decentralisee.OvercookedUnJoueurIADecentr;
+import com.overcooked.ptut.joueurs.ia.problemes.decentralisee.OvercookedUnJoueurIAStateDecentr;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
 import java.util.ArrayList;
 
-public class JoueurIADecentr extends Joueur {
+public class JoueurIADecentr extends JoueurIA {
 
     public JoueurIADecentr(int x, int y) {
         super(x, y);
@@ -27,8 +29,8 @@ public class JoueurIADecentr extends Joueur {
     @Override
     public Action demanderAction(DonneesJeu donneesJeu) {
         // créer un problème, un état initial et un algo
-        SearchProblem p = new OvercookedUnJoueurIA();
-        State s = new OvercookedUnJoueurIAState(donneesJeu, numJoueur);
+        SearchProblem p = new OvercookedUnJoueurIADecentr();
+        State s = new OvercookedUnJoueurIAStateDecentr(donneesJeu, numJoueur);
         AStar algo = (AStar) ArgParse.makeAlgo("astar", p, s);
 
         // résoudre

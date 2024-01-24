@@ -23,7 +23,7 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
     List<int[]> listeCoordonneesPlanche;
     boolean retourDepot;
 
-    public CalculHeuristiquePlat(Plat plat, int[] coordonneesDepart, DonneesJeu donneesJeu, int numJoueur) {
+    public CalculHeuristiquePlat(Plat plat, int[] coordonneesDepart, DonneesJeu donneesJeu) {
         retourDepot = false;
         platBut = plat;
         List<AlimentCoordonnees> alimentCoordonneesList = new ArrayList<>();

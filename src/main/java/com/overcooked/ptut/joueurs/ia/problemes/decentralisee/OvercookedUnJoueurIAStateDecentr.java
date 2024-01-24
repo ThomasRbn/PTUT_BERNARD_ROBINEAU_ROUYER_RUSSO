@@ -1,4 +1,4 @@
-package com.overcooked.ptut.joueurs.ia.problemes;
+package com.overcooked.ptut.joueurs.ia.problemes.decentralisee;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.constructionCarte.GestionActions;
@@ -11,7 +11,7 @@ import com.overcooked.ptut.recettes.aliment.Plat;
 
 import static com.overcooked.ptut.constructionCarte.ComparateurDonneesJeu.ComparerDonneesJeu;
 
-public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
+public class OvercookedUnJoueurIAStateDecentr extends State implements HasHeuristic {
 
     //Données
     private DonneesJeu donnees;
@@ -24,7 +24,7 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
      * @param donneesJeu Données du jeu
      * @param numJoueur  Numéro du joueur courant
      */
-    public OvercookedUnJoueurIAState(DonneesJeu donneesJeu, int numJoueur) {
+    public OvercookedUnJoueurIAStateDecentr(DonneesJeu donneesJeu, int numJoueur) {
         this.numJoueur = numJoueur;
         //Constructeur par copie
         this.donnees = new DonneesJeu(donneesJeu);
@@ -39,7 +39,7 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
      */
     @Override
     protected State cloneState() {
-        return new OvercookedUnJoueurIAState(donnees, numJoueur);
+        return new OvercookedUnJoueurIAStateDecentr(donnees, numJoueur);
     }
 
     /**
@@ -47,7 +47,7 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
      */
     @Override
     protected boolean equalsState(State o) {
-        return ComparerDonneesJeu(donnees, ((OvercookedUnJoueurIAState) o).getDonnees());
+        return ComparerDonneesJeu(donnees, ((OvercookedUnJoueurIAStateDecentr) o).getDonnees());
     }
 
     @Override
@@ -64,8 +64,8 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
         // On parcours l'ensemble des plats but
         for (Plat plat : donnees.getPlatsBut()) {
             //On calcule le cout de l'état courant pour chaque plat
-            SearchProblemAC p = new CalculHeuristiquePlat(plat, donnees.getJoueur(numJoueur).getPosition(), donnees);
-            State s = new CalculHeuristiquePlatState(donnees, numJoueur);
+            SearchProblemAC p = new CalculHeuristiquePlatDecentr(plat, donnees.getJoueur(numJoueur).getPosition(), donnees, numJoueur);
+            State s = new CalculHeuristiquePlatStateDecentr(donnees, numJoueur);
             BFS algo = new BFS(p, s);
             double cout = algo.solve();
             //On garde le cout minimum

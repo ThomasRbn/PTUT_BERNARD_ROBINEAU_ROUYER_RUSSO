@@ -1,4 +1,4 @@
-package com.overcooked.ptut.joueurs.ia.problemes;
+package com.overcooked.ptut.joueurs.ia.problemes.decentralisee;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.Joueur;
@@ -22,12 +22,14 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
     List<int[]> listeCoordonneesCuisson;
 
     List<int[]> listeCoordonneesPlanche;
+    List<Joueur> joueurList;
     boolean retourDepot;
 
     int numJoueur;
 
     public CalculHeuristiquePlatDecentr(Plat plat, int[] coordonneesDepart, DonneesJeu donneesJeu, int numJoueur) {
         this.numJoueur = numJoueur;
+        this.joueurList = new ArrayList<>();
         retourDepot = false;
         platBut = plat;
         List<AlimentCoordonnees> alimentCoordonneesList = new ArrayList<>();
@@ -62,7 +64,13 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
                     num++;
                 }
             }
-
+        }
+        if (donneesJeu.getJoueurs().size() > 1){
+            for (Joueur j : donneesJeu.getJoueurs()){
+                if (j.getNumJoueur() != numJoueur){
+                    joueurList.add(j);
+                }
+            }
         }
 
         ALIMENTCO = alimentCoordonneesList.toArray(new AlimentCoordonnees[0]);
@@ -78,7 +86,7 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
             actions.add(depot);
             return actions;
         }
-        CalculHeuristiquePlatState o = (CalculHeuristiquePlatState) s;
+        CalculHeuristiquePlatStateDecentr o = (CalculHeuristiquePlatStateDecentr) s;
         if (o.doitEtreCoupe(platBut)) {
             Aliment alimentFictifDecoupe = new Aliment("Decoupe", "Aliment fictif");
             for (int[] coordonnees : listeCoordonneesPlanche) {
@@ -86,14 +94,7 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
             }
             return actions;
         }
-        if (o.donneesJeu.getJoueurs().size() > 1){
-            for (Joueur j : o.donneesJeu.getJoueurs()){
-                if (j.getNumJoueur() != numJoueur){
-                    Aliment joueurAlim = new Aliment("Joueur", "Aliment fictif");
-                    actions.add(new AlimentCoordonnees(joueurAlim, j.getPosition()));
-                }
-            }
-        }
+
         if (o.doitCuire(platBut)) {
             Aliment alimentFictifCuisson = new Aliment("Cuisson", "Aliment fictif");
             for (int[] coordonnees : listeCoordonneesCuisson) {
@@ -111,21 +112,21 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
 
     @Override
     public State doAlimentCoordonnees(State s, AlimentCoordonnees a) {
-        CalculHeuristiquePlatState o = (CalculHeuristiquePlatState) s.clone();
+        CalculHeuristiquePlatStateDecentr o = (CalculHeuristiquePlatStateDecentr) s.clone();
         o.deplacement(a.getCoordonnees(), a.getAliment());
         return o;
     }
 
     @Override
     public boolean isGoalState(State s) {
-        return ((CalculHeuristiquePlatState) s).estAuDepot();
+        return ((CalculHeuristiquePlatStateDecentr) s).estAuDepot();
     }
 
     public boolean isDerniereAction(State s) {
         if (retourDepot) {
             return true;
         }
-        CalculHeuristiquePlatState o = (CalculHeuristiquePlatState) s;
+        CalculHeuristiquePlatStateDecentr o = (CalculHeuristiquePlatStateDecentr) s;
         List<Aliment> aliments = o.visitees;
         List<Aliment> alimentBut = platBut.getRecettesComposees();
         if (aliments.size() != alimentBut.size()) {
@@ -141,10 +142,10 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
 
     @Override
     public double getAlimentCost(State s, AlimentCoordonnees a) {
-        if (((CalculHeuristiquePlatState) s).estDepose()) {
+        if (((CalculHeuristiquePlatStateDecentr) s).estDepose()) {
             return 0;
         }
-        int[] coordonneesActuelle = ((CalculHeuristiquePlatState) s).getCoordonneesActuelles();
+        int[] coordonneesActuelle = ((CalculHeuristiquePlatStateDecentr) s).getCoordonneesActuelles();
         int[] coordonneesAliment = a.getCoordonnees();
         return Math.abs(coordonneesActuelle[0] - coordonneesAliment[0]) + Math.abs(coordonneesActuelle[1] - coordonneesAliment[1]);
     }
