@@ -42,7 +42,8 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
             retourDepot = true;
             return;
         }
-
+        listeCoordonneesCuisson = donneesJeu.getCoordonneesElement("Cuisson");
+        listeCoordonneesPlanche = donneesJeu.getCoordonneesElement("Planche");
         for (Aliment a : plat.getRecettesComposees()) {
             if (inventaire != null) {
                 boolean continu = false;
