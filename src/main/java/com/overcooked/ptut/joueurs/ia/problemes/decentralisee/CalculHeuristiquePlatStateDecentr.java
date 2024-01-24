@@ -68,7 +68,11 @@ public class CalculHeuristiquePlatStateDecentr extends State {
     }
 
     public boolean isLegal(Aliment a) {
-        return !visitees.contains(a);
+        //on parcout visite et on vérifie si il y a un nom en commun
+        for (Aliment aliment : visitees) {
+            if (Objects.equals(aliment.getNom(), a.getNom())) return false;
+        }
+        return true;
     }
 
     public void deplacement(int[] nouvelleCo, Aliment a) {
@@ -103,5 +107,21 @@ public class CalculHeuristiquePlatStateDecentr extends State {
     public boolean doitEtreCoupe(Plat platBut) {
         if (visitees.isEmpty()) return false;
         return visitees.getLast().doitEtreCoupe(platBut); // this
+    }
+
+    public boolean aPoser() {
+        return visitees.isEmpty() || Objects.equals(visitees.getLast().getNom(), "pdt");
+    }
+
+    public int[] getCoordonneeVisitePDT() { // TODO: pouvoir récupéré pls aliment
+        int[] pdt = null;
+        for (Aliment a : visitees) {
+            if (Objects.equals(a.getNom(), "pdt")) {
+                pdt = a.getCoordonnees();
+            }else if (Objects.equals(a.getNom(), "pdt2")) {
+                pdt = null;
+            }
+        }
+        return pdt;
     }
 }

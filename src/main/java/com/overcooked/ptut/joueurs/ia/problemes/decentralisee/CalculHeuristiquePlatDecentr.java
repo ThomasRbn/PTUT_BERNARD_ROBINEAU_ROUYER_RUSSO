@@ -10,6 +10,7 @@ import com.overcooked.ptut.recettes.aliment.Plat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
 
@@ -22,14 +23,15 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
     List<int[]> listeCoordonneesCuisson;
 
     List<int[]> listeCoordonneesPlanche;
-    List<Joueur> joueurList;
     boolean retourDepot;
 
     int numJoueur;
 
+    DonneesJeu donneesJeu;
+
     public CalculHeuristiquePlatDecentr(Plat plat, int[] coordonneesDepart, DonneesJeu donneesJeu, int numJoueur) {
         this.numJoueur = numJoueur;
-        this.joueurList = new ArrayList<>();
+        this.donneesJeu = donneesJeu;
         retourDepot = false;
         platBut = plat;
         List<AlimentCoordonnees> alimentCoordonneesList = new ArrayList<>();
@@ -51,42 +53,54 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
                 }
                 if (continu) continue;
             }
-            List<int[]> listeCoordonnees2 = donneesJeu.getCoordonneesElement(a.getEtatNom());
-            if (!listeCoordonnees2.isEmpty()) {
-                for (int[] coordonnees : listeCoordonnees2) {
+            List<int[]> listeCoordonneesEtatNom = donneesJeu.getCoordonneesElement(a.getEtatNom());
+            if (!listeCoordonneesEtatNom.isEmpty()) {
+                for (int[] coordonnees : listeCoordonneesEtatNom) {
                     alimentCoordonneesList.add(new AlimentCoordonnees(a, coordonnees));
                     num++;
                 }
             } else {
+                if(a.getEtat() == 3){
+                    List<int[]> listeCoordonneesEtat2 = donneesJeu.getCoordonneesElement(a.getNom()+"2");//si 3, aller prendre 2
+                    if (!listeCoordonneesEtat2.isEmpty()) {
+                        for (int[] coordonnees : listeCoordonneesEtat2) {
+                            Aliment aliment = new Aliment(a.getNom());
+                            aliment.setEtat(2);
+                            alimentCoordonneesList.add(new AlimentCoordonnees(aliment, coordonnees));
+                            num++;
+                        }
+                        break;
+                    }
+                }
                 List<int[]> listeCoordonnees = donneesJeu.getCoordonneesElement(a.getNom());
                 for (int[] coordonnees : listeCoordonnees) {
-                    alimentCoordonneesList.add(new AlimentCoordonnees(a, coordonnees));
+                    alimentCoordonneesList.add(new AlimentCoordonnees(new Aliment(a.getNom()), coordonnees));
                     num++;
                 }
             }
         }
-        if (donneesJeu.getJoueurs().size() > 1){
-            for (Joueur j : donneesJeu.getJoueurs()){
-                if (j.getNumJoueur() != numJoueur){
-                    joueurList.add(j);
-                }
-            }
-        }
+
 
         ALIMENTCO = alimentCoordonneesList.toArray(new AlimentCoordonnees[0]);
 
-        listeCoordonneesCuisson = donneesJeu.getCoordonneesElement("Cuisson");
-        listeCoordonneesPlanche = donneesJeu.getCoordonneesElement("Planche");
+
     }
 
     @Override
     public ArrayList<AlimentCoordonnees> getAlimentCoordonnees(State s) {
         ArrayList<AlimentCoordonnees> actions = new ArrayList<>();
-        if (isDerniereAction(s)) {
-            actions.add(depot);
-            return actions;
-        }
         CalculHeuristiquePlatStateDecentr o = (CalculHeuristiquePlatStateDecentr) s;
+        if (isDerniereAction(s)) {
+            int[] pdt = o.getCoordonneeVisitePDT();
+            if(pdt == null) {
+                actions.add(depot);
+            }else {
+                // On récupère l'aliment sur le plan de travail
+                actions.add(new AlimentCoordonnees(new Aliment("pdt2", "Aliment ficitif", pdt), pdt));
+            }
+            return actions;
+
+        }
         if (o.doitEtreCoupe(platBut)) {
             Aliment alimentFictifDecoupe = new Aliment("Decoupe", "Aliment fictif");
             for (int[] coordonnees : listeCoordonneesPlanche) {
@@ -104,7 +118,12 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
         }
         for (AlimentCoordonnees a : ALIMENTCO) {
             if (o.isLegal(a.getAliment())) {
-                actions.add(a);
+                if ((a.getAliment().doitCuire(platBut) || a.getAliment().doitEtreCoupe(platBut)) && !o.aPoser()) {
+                    int[] coordonnees = donneesJeu.getPlanDeTravailVidePlusProche(o.getCoordonneesActuelles());
+                    actions.add(new AlimentCoordonnees(new Aliment("pdt", "Aliment ficitif", coordonnees), coordonnees));
+                } else {
+                    actions.add(a);
+                }
             }
         }
         return actions;
@@ -114,6 +133,22 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
     public State doAlimentCoordonnees(State s, AlimentCoordonnees a) {
         CalculHeuristiquePlatStateDecentr o = (CalculHeuristiquePlatStateDecentr) s.clone();
         o.deplacement(a.getCoordonnees(), a.getAliment());
+        if(o.doitCuire(platBut)){
+            for (int[] coordonnees : listeCoordonneesCuisson){
+                if(coordonnees[0] == a.getCoordonnees()[0] && coordonnees[1] == a.getCoordonnees()[1]){
+                    o.deplacement(coordonnees, new Aliment("Cuisson", "Aliment fictif"));
+                    break;
+                }
+            }
+        }
+        if(o.doitEtreCoupe(platBut)){
+            for (int[] coordonnees : listeCoordonneesPlanche){
+                if(coordonnees[0] == a.getCoordonnees()[0] && coordonnees[1] == a.getCoordonnees()[1]){
+                    o.deplacement(coordonnees, new Aliment("Decoupe", "Aliment fictif"));
+                    break;
+                }
+            }
+        }
         return o;
     }
 
@@ -129,11 +164,20 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
         CalculHeuristiquePlatStateDecentr o = (CalculHeuristiquePlatStateDecentr) s;
         List<Aliment> aliments = o.visitees;
         List<Aliment> alimentBut = platBut.getRecettesComposees();
-        if (aliments.size() != alimentBut.size()) {
+
+        List<Aliment> alimentSansPDT = new ArrayList<>();
+
+        for (Aliment a:aliments) {
+            if(!(Objects.equals(a.getNom(), "pdt") || Objects.equals(a.getNom(), "pdt2"))){
+                alimentSansPDT.add(a);
+            }
+        }
+
+        if (alimentSansPDT.size() != alimentBut.size()) {
             return false;
         }
         for (Aliment a : alimentBut) {
-            if (!aliments.contains(a)) {
+            if (!alimentSansPDT.contains(a)) {
                 return false;
             }
         }

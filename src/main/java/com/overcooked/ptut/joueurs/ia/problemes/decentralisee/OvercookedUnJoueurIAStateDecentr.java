@@ -2,13 +2,18 @@ package com.overcooked.ptut.joueurs.ia.problemes.decentralisee;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.constructionCarte.GestionActions;
+import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.algo.BFS;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.HasHeuristic;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
+import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
 import com.overcooked.ptut.recettes.aliment.Plat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.overcooked.ptut.constructionCarte.ComparateurDonneesJeu.ComparerDonneesJeu;
 
@@ -16,6 +21,8 @@ public class OvercookedUnJoueurIAStateDecentr extends State implements HasHeuris
 
     //Données
     private DonneesJeu donnees;
+
+    List<Joueur> joueurList;
 
     private int numJoueur;
 
@@ -26,9 +33,36 @@ public class OvercookedUnJoueurIAStateDecentr extends State implements HasHeuris
      * @param numJoueur  Numéro du joueur courant
      */
     public OvercookedUnJoueurIAStateDecentr(DonneesJeu donneesJeu, int numJoueur) {
-        this.numJoueur = numJoueur;
         //Constructeur par copie
         this.donnees = new DonneesJeu(donneesJeu);
+        this.numJoueur = numJoueur;
+        this.joueurList = new ArrayList<>();
+        // Trouver les joueurs autres que celui que nous controlons
+        if (donneesJeu.getJoueurs().size() > 1) {
+            for (Joueur j : donneesJeu.getJoueurs()) {
+                if (j.getNumJoueur() != numJoueur) {
+                    joueurList.add(j);
+                }
+            }
+        }
+        // Simuler leur choix d'action
+        for (Joueur j : joueurList) {
+            SearchProblemAC p = new CalculHeuristiquePlatDecentr(donneesJeu.getPlatsBut().getFirst(), donneesJeu.getJoueur(numJoueur).getPosition(), donneesJeu, numJoueur);
+            State s = new CalculHeuristiquePlatStateDecentr(donneesJeu, numJoueur);
+            BFS algo = new BFS(p, s);
+                // résoudre
+            SearchNodeAC solution = algo.solve();
+            List<AlimentCoordonnees> listeActions = new ArrayList<>();
+                //Boucle pour récupéré le dernier Aliment coordonnee du resultat
+            while (solution.getAlimentCoordonnees() != null) {
+                listeActions.add(solution.getAlimentCoordonnees());
+                solution = solution.getParent();
+            }
+                // Affichage listeActions
+            for (AlimentCoordonnees action : listeActions) {
+                System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
+            }
+        }
     }
 
     public DonneesJeu getDonnees() {
@@ -72,7 +106,7 @@ public class OvercookedUnJoueurIAStateDecentr extends State implements HasHeuris
             double cout;
             if (searchNodeAC != null) {
                 cout = searchNodeAC.getCost();
-                if(coutMin==-1){
+                if (coutMin == -1) {
                     coutMin = Double.MAX_VALUE;
                 }
                 if (cout < coutMin) {
