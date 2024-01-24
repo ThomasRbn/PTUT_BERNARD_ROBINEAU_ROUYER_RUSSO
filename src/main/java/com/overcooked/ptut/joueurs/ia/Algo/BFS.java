@@ -10,6 +10,7 @@ import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.PriorityQueue;
 
 public class BFS extends TreeSearchAC {
@@ -27,7 +28,7 @@ public class BFS extends TreeSearchAC {
     }
 
 //    @Override
-    public double solve() {
+    public SearchNodeAC solve() {
 //        System.out.println("Algo choisi: BFS");
         SearchNodeAC node = SearchNodeAC.makeRootSearchNode(intial_state);
         State state = node.getState();
@@ -52,7 +53,7 @@ public class BFS extends TreeSearchAC {
                 end_node = node;
                 // On retourne vrai
 //                System.out.println("Cout: "+end_node.getCost());
-                return end_node.getCost();
+                return end_node;
             } else {
                 // On ajoute l'état du nœud dans l'ensemble des nœuds explorés
                 explored.add(node.getState());
@@ -72,12 +73,19 @@ public class BFS extends TreeSearchAC {
                     }else if(frontier.contains(child)){
                         // Si le nœud est déjà dans la frontière
                         // On récupère le nœud de la frontière
-                        SearchNodeAC frontier_node = frontier.stream().filter(n -> n.equals(child)).findFirst().get();
-                        // Si le cout du nœud enfant est inférieur au cout du nœud de la frontière
-                        if(child.getCost() < frontier_node.getCost()){
-                            // On le remplace
-                            frontier.remove(frontier_node);
-                            frontier.add(child);
+                        Optional<SearchNodeAC> optionalFrontierNode = frontier.stream().filter(n -> n.equals(child)).findFirst();
+
+                        if (optionalFrontierNode.isPresent()) {
+                            SearchNodeAC frontier_node = optionalFrontierNode.get();
+                            // Si le cout du nœud enfant est inférieur au cout du nœud de la frontière
+                            if (child.getCost() < frontier_node.getCost()) {
+                                // On le remplace
+                                frontier.remove(frontier_node);
+                                frontier.add(child);
+                            }
+                        }else{
+                            System.out.println("??");
+                            System.out.println("ok?");
                         }
                     }
                 }
@@ -85,7 +93,7 @@ public class BFS extends TreeSearchAC {
         }
 
         System.out.println("return -1");
-        return -1;
+        return null;
         // Pas de solutions trouvées
 //        throw new IllegalArgumentException("Pas de solution trouvée BFS.solve");
 

@@ -50,7 +50,7 @@ public class Creation {
             switch (s) {
                 case "S" -> currAliment = new Salade();
                 case "T" -> currAliment = new Tomate();
-                case "P" -> currAliment = new Pain();
+                case "B" -> currAliment = new Pain();
                 case "V" -> currAliment = new Viande();
                 case "1" -> currAliment.cuire();
                 case "2" -> currAliment.decouper();

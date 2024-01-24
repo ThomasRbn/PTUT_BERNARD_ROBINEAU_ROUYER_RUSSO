@@ -4,8 +4,9 @@ import com.overcooked.ptut.objet.transformateur.PatternTransformateur;
 import javafx.scene.shape.Circle;
 
 public class AlimentVue extends Circle {
+
     public AlimentVue(double tailleCellule) {
-        super(tailleCellule / 10 * 3);
+        super(tailleCellule);
     }
 
     public AlimentVue couper() {

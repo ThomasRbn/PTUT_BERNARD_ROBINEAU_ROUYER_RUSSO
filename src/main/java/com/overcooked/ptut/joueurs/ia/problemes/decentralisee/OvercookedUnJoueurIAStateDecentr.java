@@ -5,6 +5,7 @@ import com.overcooked.ptut.constructionCarte.GestionActions;
 import com.overcooked.ptut.joueurs.ia.algo.BFS;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.HasHeuristic;
+import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.recettes.aliment.Plat;
@@ -60,18 +61,25 @@ public class OvercookedUnJoueurIAStateDecentr extends State implements HasHeuris
      */
     @Override
     public double getHeuristic() {
-        double coutMin = Double.MAX_VALUE;
+        double coutMin = -1;
         // On parcours l'ensemble des plats but
         for (Plat plat : donnees.getPlatsBut()) {
             //On calcule le cout de l'état courant pour chaque plat
             SearchProblemAC p = new CalculHeuristiquePlatDecentr(plat, donnees.getJoueur(numJoueur).getPosition(), donnees, numJoueur);
             State s = new CalculHeuristiquePlatStateDecentr(donnees, numJoueur);
             BFS algo = new BFS(p, s);
-            double cout = algo.solve();
-            //On garde le cout minimum
-            if (cout < coutMin) {
-                coutMin = cout;
+            SearchNodeAC searchNodeAC = algo.solve();
+            double cout;
+            if (searchNodeAC != null) {
+                cout = searchNodeAC.getCost();
+                if(coutMin==-1){
+                    coutMin = Double.MAX_VALUE;
+                }
+                if (cout < coutMin) {
+                    coutMin = cout;
+                }
             }
+            //On garde le cout minimum
         }
 
         // résoudre

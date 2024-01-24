@@ -1,5 +1,6 @@
 package com.overcooked.ptut.constructionCarte;
 
+import com.overcooked.ptut.controlleurs.ActionsDuTour;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.objet.Bloc;
@@ -8,6 +9,7 @@ import com.overcooked.ptut.objet.Generateur;
 import com.overcooked.ptut.objet.PlanDeTravail;
 import com.overcooked.ptut.objet.transformateur.Planche;
 import com.overcooked.ptut.objet.transformateur.Poele;
+import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.recettes.aliment.Plat;
 import com.overcooked.ptut.recettes.aliment.Tomate;
@@ -18,7 +20,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static com.overcooked.ptut.constructionCarte.CaracteresCarte.*;
@@ -34,6 +35,8 @@ public class DonneesJeu {
     private final List<Plat> platsBut;
     private Depot depot;
 
+    private ActionsDuTour actionsDuTour;
+
     /**
      * Constructeur de DonneesJeu
      *
@@ -47,6 +50,7 @@ public class DonneesJeu {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        actionsDuTour = new ActionsDuTour(this);
     }
 
     private void initialiserDonnees(String chemin, boolean... test) throws IOException {
@@ -121,7 +125,7 @@ public class DonneesJeu {
                 }
                 //Création des objets fixes
                 case DEPOT -> {
-                    objetsFixes[indexLigne][indexColonne] = new Depot(indexLigne, indexColonne);
+                    objetsFixes[indexLigne][indexColonne] = new Depot(indexLigne, indexColonne, platsBut);
                     depot = (Depot) objetsFixes[indexLigne][indexColonne];
                 }
                 default -> objetsFixes[indexLigne][indexColonne] = Creation.CreationBloc(c, indexColonne, indexLigne);
@@ -160,6 +164,9 @@ public class DonneesJeu {
             for (int j = 0; j < longueur; j++) {
                 Bloc currBloc = objetsFixes[i][j];
                 if (currBloc instanceof PlanDeTravail planDeTravail && planDeTravail.getNomPlat().equals(element)) {
+                    coordonneesElem.add(new int[]{i, j});
+                }
+                if (currBloc instanceof Transformateur transformateur && transformateur.getNomPlat().equals(element)) {
                     coordonneesElem.add(new int[]{i, j});
                 }
                 if (currBloc != null) {
@@ -375,6 +382,10 @@ public class DonneesJeu {
      */
     public Depot getDepot() {
         return depot;
+    }
+
+    public ActionsDuTour getActionsDuTour() {
+        return actionsDuTour;
     }
 
     public Plat[][] getObjetsDeplacables() {

@@ -1,6 +1,9 @@
-XXXTX
-S...C
-DJJPX
-XXXXX
+XXTXXXXX
+X.....JX
+XJ.....X
+S......C
+P......X
+X......C
+XDXXXXXX
 -
 T 3, S

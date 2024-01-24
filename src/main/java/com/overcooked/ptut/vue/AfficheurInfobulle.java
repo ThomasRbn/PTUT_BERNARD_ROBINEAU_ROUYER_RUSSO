@@ -11,38 +11,48 @@ public class AfficheurInfobulle {
 
     public static AlimentVue afficherEtatCercle(Aliment currAliment, double tailleCellule, int i) {
         tailleCellule = i == 1 ? tailleCellule : tailleCellule / (i + 1) * 2;
+        return switchAlimentVue(currAliment, (int) tailleCellule);
+    }
+
+    public static AlimentVue afficherEtatCercle(Aliment currAliment, int tailleCercle) {
+        AlimentVue alimentVue = switchAlimentVue(currAliment, tailleCercle);
+        alimentVue.setRadius(tailleCercle);
+        return alimentVue;
+    }
+
+    public static AlimentVue switchAlimentVue(Aliment currAliment, int taille) {
         return switch (currAliment.getNom()) {
             case "Salade" -> {
                 if (currAliment.getEtat() == Etat.COUPE) {
-                    yield new SaladeVue(tailleCellule).couper();
+                    yield new SaladeVue(taille).couper();
                 } else if (currAliment.getEtat() == Etat.CUIT) {
-                    yield new SaladeVue(tailleCellule).cuire();
+                    yield new SaladeVue(taille).cuire();
                 } else if (currAliment.getEtat() == Etat.CUIT_ET_COUPE) {
-                    yield new SaladeVue(tailleCellule).cuireEtCouper();
+                    yield new SaladeVue(taille).cuireEtCouper();
                 }
-                yield new SaladeVue(tailleCellule);
+                yield new SaladeVue(taille);
             }
             case "Tomate" -> {
                 if (currAliment.getEtat() == Etat.COUPE) {
-                    yield new TomateVue(tailleCellule).couper();
+                    yield new TomateVue(taille).couper();
                 } else if (currAliment.getEtat() == Etat.CUIT) {
-                    yield new TomateVue(tailleCellule).cuire();
+                    yield new TomateVue(taille).cuire();
                 } else if (currAliment.getEtat() == Etat.CUIT_ET_COUPE) {
-                    yield new TomateVue(tailleCellule).cuireEtCouper();
+                    yield new TomateVue(taille).cuireEtCouper();
                 }
-                yield new TomateVue(tailleCellule);
+                yield new TomateVue(taille);
             }
             case "Pain" -> {
                 if (currAliment.getEtat() == Etat.COUPE) {
-                    yield new PainVue(tailleCellule).couper();
+                    yield new PainVue(taille).couper();
                 } else if (currAliment.getEtat() == Etat.CUIT) {
-                    yield new PainVue(tailleCellule).cuire();
+                    yield new PainVue(taille).cuire();
                 } else if (currAliment.getEtat() == Etat.CUIT_ET_COUPE) {
-                    yield new PainVue(tailleCellule).cuireEtCouper();
+                    yield new PainVue(taille).cuireEtCouper();
                 }
-                yield new PainVue(tailleCellule);
+                yield new PainVue(taille);
             }
-            case null, default -> new AlimentVue(tailleCellule);
+            case null, default -> new AlimentVue(taille);
         };
     }
 }
