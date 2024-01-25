@@ -91,7 +91,10 @@ public class PlateauVue extends GridPane {
                 if (jeu.getObjetsFixes()[i][j] instanceof PlanDeTravail || jeu.getObjetsFixes()[i][j] instanceof Transformateur) {
                     Bloc bloc = jeu.getObjetsFixes()[i][j];
                     if (bloc.getInventaire() != null) {
-                        caseBloc.getChildren().add(empilagePlat(bloc));
+                        try {
+                            caseBloc.getChildren().add(empilagePlat(bloc));
+                        } catch (NullPointerException ignored) {
+                        }
                     }
                 }
             }
