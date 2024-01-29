@@ -31,45 +31,45 @@ public class JoueurIA extends Joueur {
     @Override
     public Action demanderAction(DonneesJeu donneesJeu) {
         // créer un problème, un état initial et un algo
-        SearchProblem p = new OvercookedUnJoueurIA();
-        State s = new OvercookedUnJoueurIAState(donneesJeu, numJoueur);
-        AStar algo = new AStar(p, s);;
-
-        // résoudre
-        ArrayList<Action> solution = algo.solve();
-        return solution != null ? solution.getFirst() : Action.RIEN;
+//        SearchProblem p = new OvercookedUnJoueurIA();
+//        State s = new OvercookedUnJoueurIAState(donneesJeu, numJoueur);
+//        AStar algo = new AStar(p, s);;
+//
+//        // résoudre
+//        ArrayList<Action> solution = algo.solve();
+//        return solution != null ? solution.getFirst() : Action.RIEN;
 
         // créer un problème, un état initial et un algo
 
-//        SearchProblemAC p = new CalculHeuristiquePlat(donneesJeu.getPlatsBut().getFirst(), donneesJeu.getJoueur(numJoueur).getPosition(), donneesJeu);
-//        State s = new CalculHeuristiquePlatState(donneesJeu, numJoueur);
-//        BFS algo = new BFS(p, s);
-//
-//        // résoudre
-////        ArrayList<Action> solution = algo.solve();
-//
-//
-//        SearchNodeAC solution = algo.solve();
-//        SearchNodeAC derniereSolution = solution;
-//        List<AlimentCoordonnees> listeActions = new ArrayList<>();
-//        //Boucle pour récupéré le dernier Aliment coordonnee du resultat
-//        while (solution.getAlimentCoordonnees() != null) {
-//            listeActions.add(solution.getAlimentCoordonnees());
-//            derniereSolution = solution;
-//            solution = solution.getParent();
-//        }
-//
-//        // Affichage listeActions
-//        for(AlimentCoordonnees action : listeActions){
-//            System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
-//        }
-//
-//        AlimentCoordonnees alimentCoordonnees = derniereSolution.getAlimentCoordonnees();
-//
-//        SearchProblem p2 = new OvercookedUnJoueurIAv2();
-//        State s2 = new OvercookedUnJoueurIAv2State(donneesJeu, numJoueur, alimentCoordonnees.getAliment(), alimentCoordonnees.getCoordonnees());
-//        AStar algoAstar = new AStar(p2, s2);
-//        List<Action> listeAction = algoAstar.solve();
-//        return listeAction.getFirst();
+        SearchProblemAC p = new CalculHeuristiquePlat(donneesJeu.getPlatsBut().getFirst(), donneesJeu.getJoueur(numJoueur).getPosition(), donneesJeu);
+        State s = new CalculHeuristiquePlatState(donneesJeu, numJoueur);
+        BFS algo = new BFS(p, s);
+
+        // résoudre
+//        ArrayList<Action> solution = algo.solve();
+
+
+        SearchNodeAC solution = algo.solve();
+        SearchNodeAC derniereSolution = solution;
+        List<AlimentCoordonnees> listeActions = new ArrayList<>();
+        //Boucle pour récupéré le dernier Aliment coordonnee du resultat
+        while (solution.getAlimentCoordonnees() != null) {
+            listeActions.add(solution.getAlimentCoordonnees());
+            derniereSolution = solution;
+            solution = solution.getParent();
+        }
+
+        // Affichage listeActions
+        for(AlimentCoordonnees action : listeActions){
+            System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
+        }
+
+        AlimentCoordonnees alimentCoordonnees = derniereSolution.getAlimentCoordonnees();
+
+        SearchProblem p2 = new OvercookedUnJoueurIAv2();
+        State s2 = new OvercookedUnJoueurIAv2State(donneesJeu, numJoueur, alimentCoordonnees.getAliment(), alimentCoordonnees.getCoordonnees());
+        AStar algoAstar = new AStar(p2, s2);
+        List<Action> listeAction = algoAstar.solve();
+        return listeAction.getFirst();
     }
 }
