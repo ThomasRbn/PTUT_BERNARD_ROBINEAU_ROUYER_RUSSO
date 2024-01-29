@@ -50,6 +50,7 @@ public class JoueurIADecentr extends JoueurIA {
         State s = new OvercookedUnJoueurIAStateDecentr(donneesJeuClone, numJoueur);
         AStar algo = (AStar) ArgParse.makeAlgo("astar", p, s);
 
+
         // résoudre
         ArrayList<Action> solution = algo.solve();
         return solution != null ? solution.getFirst() : Action.RIEN;
@@ -60,7 +61,7 @@ public class JoueurIADecentr extends JoueurIA {
         // Trouver les joueurs autres que celui que nous controlons
         if (this.donneesJeuClone.getJoueurs().size() > 1) {
             for (Joueur j : this.donneesJeuClone.getJoueurs()) {
-                if (j.getNumJoueur() != numJoueur) {
+                if (j.getNumJoueur() != numJoueur && j.getInventaire() == null) {
                     joueurList.add(j);
                 }
             }

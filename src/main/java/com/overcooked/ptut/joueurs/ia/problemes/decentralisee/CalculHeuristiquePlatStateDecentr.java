@@ -1,7 +1,11 @@
 package com.overcooked.ptut.joueurs.ia.problemes.decentralisee;
 
+import com.overcooked.ptut.constructionCarte.ComparateurDonneesJeu;
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
+import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
+import com.overcooked.ptut.objet.Bloc;
+import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
@@ -20,17 +24,30 @@ public class CalculHeuristiquePlatStateDecentr extends State {
 
     public CalculHeuristiquePlatStateDecentr(DonneesJeu donneesJeu, int numJoueur) {
         this.donneesJeu = donneesJeu;
+        coordonneesActuelles = donneesJeu.getJoueur(numJoueur).getPosition();
         if (donneesJeu.getJoueur(numJoueur).getInventaire() != null) {
             this.visitees = new ArrayList<>(donneesJeu.getJoueur(numJoueur).getInventaire().getRecettesComposees());
         } else {
-            this.visitees = new ArrayList<>();
+            Bloc[][] carte = donneesJeu.getObjetsFixes();
+            Bloc bloc = carte[coordonneesActuelles[0]][coordonneesActuelles[1]];
+            if(bloc instanceof Transformateur transformateur) {
+                Plat plat = bloc.getInventaire();
+                if (plat != null && !transformateur.estTransforme()) {
+                    this.visitees = new ArrayList<>(transformateur.getInventaire().getRecettesComposees());
+                }else {
+                    this.visitees = new ArrayList<>();
+                }
+            } else{
+                this.visitees = new ArrayList<>();
+            }
         }
         this.coordonneesActuelles = donneesJeu.getJoueur(numJoueur).getPosition();
+
         coutTot = 0;
     }
 
     public CalculHeuristiquePlatStateDecentr(DonneesJeu donneesJeu, List<Aliment> visiteesAncien, int[] coordonneesActuelles, int coutTot) {
-        this.donneesJeu = donneesJeu;
+        this.donneesJeu = new DonneesJeu(donneesJeu);
         this.visitees = new ArrayList<>();
         for (Aliment aliment : visiteesAncien) {
             this.visitees.add(new Aliment(aliment));
@@ -59,7 +76,7 @@ public class CalculHeuristiquePlatStateDecentr extends State {
                 return false;
             }
         }
-        return true;
+        return ComparateurDonneesJeu.ComparerDonneesJeu(donneesJeu,etat.donneesJeu);
     }
 
     @Override
@@ -67,23 +84,47 @@ public class CalculHeuristiquePlatStateDecentr extends State {
         return 0;
     }
 
-    public boolean isLegal(Aliment a) {
+    public boolean isLegal(AlimentCoordonnees a) {
+        if(Objects.equals(a.getAliment().getNom(), "Decoupe") || Objects.equals(a.getAliment().getNom(), "Cuisson")){
+            for (Aliment aliment : visitees) {
+                if (Objects.equals(aliment.getNom(), a.getAliment().getNom()) && aliment.getCoordonnees()[0] == a.getCoordonnees()[0] && aliment.getCoordonnees()[1] == a.getCoordonnees()[1]) return false;
+            }
+        }
         //on parcout visite et on vérifie si il y a un nom en commun
         for (Aliment aliment : visitees) {
-            if (Objects.equals(aliment.getNom(), a.getNom())) return false;
+            if (Objects.equals(aliment.getNom(), a.getAliment().getNom())) return false;
         }
         return true;
     }
 
     public void deplacement(int[] nouvelleCo, Aliment a) {
+        coordonneesActuelles = nouvelleCo;
         if (Objects.equals(a.getNom(), "Decoupe")) {
-            visitees.getLast().decouper();
+//            Bloc[][] carte = donneesJeu.getObjetsFixes();
+//            Bloc bloc = carte[coordonneesActuelles[0]][coordonneesActuelles[1]];
+//            if(bloc instanceof Transformateur transformateur) {
+//                Plat plat = bloc.getInventaire();
+//                if (plat != null) {
+//                    transformateur.transform();
+//                    System.out.println("transform");
+//                } else {
+                    visitees.getLast().decouper();
+//                }
+//            }
         } else if (Objects.equals(a.getNom(), "Cuisson")) {
-            visitees.getLast().cuire();
+//            Bloc[][] carte = donneesJeu.getObjetsFixes();
+//            Bloc bloc = carte[coordonneesActuelles[0]][coordonneesActuelles[1]];
+//            if(bloc instanceof Transformateur transformateur) {
+//                Plat plat = bloc.getInventaire();
+//                if (plat != null) {
+//                    transformateur.transform(); // TODO: vérifier le getblock
+//                } else {
+                    visitees.getLast().cuire();
+//                }
+//            }
         } else {
             visitees.add(a);
         }
-        coordonneesActuelles = nouvelleCo;
     }
 
     public int[] getCoordonneesActuelles() {
@@ -98,15 +139,43 @@ public class CalculHeuristiquePlatStateDecentr extends State {
         return !donneesJeu.getPlatDepose().isEmpty();
     }
 
+    public boolean estSurPlaqueEtDoitCuire(Plat platBut){
+        Bloc[][] carte = donneesJeu.getObjetsFixes();
+        Bloc bloc = carte[coordonneesActuelles[0]][coordonneesActuelles[1]];
+        if (bloc instanceof Transformateur) {
+            Plat plat = bloc.getInventaire();
+            if (plat != null) {
+                if (plat.getRecettesComposees().getFirst().doitCuire(platBut)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public boolean doitCuire(Plat platBut) {
         if (visitees.isEmpty()) return false;
         return visitees.getLast().doitCuire(platBut);
 
     }
 
+    public boolean estSurPlancheEtDoitEtreCoupe(Plat platBut){
+        Bloc[][] carte = donneesJeu.getObjetsFixes();
+        Bloc bloc = carte[coordonneesActuelles[0]][coordonneesActuelles[1]];
+        if (bloc instanceof Transformateur) {
+            Plat plat = bloc.getInventaire();
+            if (plat != null) {
+                if (plat.getRecettesComposees().getFirst().doitEtreCoupe(platBut)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public boolean doitEtreCoupe(Plat platBut) {
+
         if (visitees.isEmpty()) return false;
-        return visitees.getLast().doitEtreCoupe(platBut); // this
+        return visitees.getLast().doitEtreCoupe(platBut);
     }
 
     public boolean aPoser() {
@@ -118,7 +187,7 @@ public class CalculHeuristiquePlatStateDecentr extends State {
         for (Aliment a : visitees) {
             if (Objects.equals(a.getNom(), "pdt")) {
                 pdt = a.getCoordonnees();
-            }else if (Objects.equals(a.getNom(), "pdt2")) {
+            } else if (Objects.equals(a.getNom(), "pdt2")) {
                 pdt = null;
             }
         }
