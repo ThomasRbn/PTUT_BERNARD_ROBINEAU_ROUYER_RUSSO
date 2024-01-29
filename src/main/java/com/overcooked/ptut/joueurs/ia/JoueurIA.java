@@ -30,7 +30,10 @@ public class JoueurIA extends Joueur {
     // Utilisera Problème
     @Override
     public Action demanderAction(DonneesJeu donneesJeu) {
-        // créer un problème, un état initial et un algo
+
+        // VERSION 1
+
+//        // créer un problème, un état initial et un algo
 //        SearchProblem p = new OvercookedUnJoueurIA();
 //        State s = new OvercookedUnJoueurIAState(donneesJeu, numJoueur);
 //        AStar algo = new AStar(p, s);;
@@ -40,6 +43,10 @@ public class JoueurIA extends Joueur {
 //        return solution != null ? solution.getFirst() : Action.RIEN;
 
         // créer un problème, un état initial et un algo
+
+
+        // VERSION 2
+
 
         SearchProblemAC p = new CalculHeuristiquePlat(donneesJeu.getPlatsBut().getFirst(), donneesJeu.getJoueur(numJoueur).getPosition(), donneesJeu);
         State s = new CalculHeuristiquePlatState(donneesJeu, numJoueur);

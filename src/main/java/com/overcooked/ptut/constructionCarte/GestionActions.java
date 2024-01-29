@@ -38,6 +38,8 @@ public class GestionActions {
                     if (objetFixe instanceof PlanDeTravail && objetFixe.getInventaire() != null) {
                         yield joueur.getInventaire().estFusionnable(objetFixe.getInventaire());
                     }
+                    if(objetFixe instanceof Transformateur transformateur && transformateur.getInventaire() != null)
+                        yield joueur.getInventaire().estFusionnable(transformateur.getInventaire());
                     yield false;
                 } else {
                     // Calcul des coordonnes de la case devant le joueur
@@ -58,7 +60,8 @@ public class GestionActions {
                 } else {
                     //On vérifie le cas où on a un transformateur
                     if (objetFixe instanceof Transformateur) {
-                        yield joueur.getInventaire().getRecettesComposees().size() == 1;
+                        yield joueur.getInventaire().getRecettesComposees().size() == 1
+                                && objetFixe.getInventaire() == null;
 
                     } //Il faut vérifier que l'aliment est fusionnable avec l'objet fixe
                     if (objetFixe instanceof Generateur generateur) {
@@ -80,7 +83,7 @@ public class GestionActions {
                     && !transformateur.isBloque() && transformateur.getInventaire() != null
                     && joueur.getInventaire() == null
                     && transformateur.getInventaire().getRecettesComposees().size() == 1
-                    && !transformateur.estTransforme(transformateur.getInventaire());
+                    && !transformateur.estTransforme();
 
             //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.isLegal, action invalide" + a);
