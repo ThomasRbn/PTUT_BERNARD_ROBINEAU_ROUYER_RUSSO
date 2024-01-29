@@ -63,6 +63,7 @@ public class BFS extends TreeSearchAC {
 
                 // Pour chaque nœud enfant
                 for (AlimentCoordonnees a : alimentCoordonnees) {
+
                     // Nœud enfant
                     SearchNodeAC child = SearchNodeAC.makeChildSearchNode(problem, node, a);
 
