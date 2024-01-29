@@ -70,8 +70,10 @@ public class JoueurIADecentr extends JoueurIA {
 
     private void simulerActionsJoueurs(int numJoueur) {
         // Simuler leur choix d'action
-        for (Joueur j : joueurList) {
-            trouverCible(numJoueur, j);
+        if (inventaire == null) {
+            for (Joueur j : joueurList) {
+                trouverCible(numJoueur, j);
+            }
         }
     }
 
