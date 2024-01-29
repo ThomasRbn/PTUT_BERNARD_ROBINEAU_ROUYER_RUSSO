@@ -19,11 +19,14 @@ public class HeaderVue extends HBox {
     private boolean actionJ0;
     private boolean actionJ1;
     private long tempsRestant;
+    private int dureeDuJeu;
 
-    public HeaderVue(DonneesJeu jeu) {
+
+    public HeaderVue(DonneesJeu jeu, int duree) {
         this.jeu = jeu;
         this.actionJ0 = false;
         this.actionJ1 = false;
+        this.dureeDuJeu = duree;
         lancerTimer();
     }
 
@@ -75,7 +78,7 @@ public class HeaderVue extends HBox {
 
     public void lancerTimer() {
         Timer timer = new Timer();
-        long delai = 60000; // Changer ici le temps de la partie
+        long delai = dureeDuJeu * 1000L; // Changer ici le temps de la partie
         long delaiMAJ = 1000;
 
         TimerTask timerTask = new TimerTask() {
