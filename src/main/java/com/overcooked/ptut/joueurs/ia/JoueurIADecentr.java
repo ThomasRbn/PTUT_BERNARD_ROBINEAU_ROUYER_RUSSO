@@ -15,6 +15,7 @@ import com.overcooked.ptut.joueurs.ia.problemes.decentralisee.OvercookedUnJoueur
 import com.overcooked.ptut.joueurs.ia.problemes.decentralisee.OvercookedUnJoueurIAStateDecentr;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
+import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class JoueurIADecentr extends JoueurIA {
 
     List<Joueur> joueurList;
     DonneesJeu donneesJeuClone;
+
+    private List<Plat> platsBut;
 
     public JoueurIADecentr(int x, int y) {
         super(x, y);
@@ -37,6 +40,7 @@ public class JoueurIADecentr extends JoueurIA {
     @Override
     public Action demanderAction(DonneesJeu donneesJeu) {
         this.donneesJeuClone = new DonneesJeu(donneesJeu);
+        this.platsBut = donneesJeuClone.getPlatsBut();
         // créer un problème, un état initial et un algo
         SearchProblem p = new OvercookedUnJoueurIADecentr();
 
@@ -74,7 +78,8 @@ public class JoueurIADecentr extends JoueurIA {
     private void trouverCible(int numJoueur, Joueur j) {
         int numJoueurOther = j.getNumJoueur();
         if (numJoueurOther != numJoueur) {
-            SearchProblemAC p = new CalculHeuristiquePlatDecentr(this.donneesJeuClone.getPlatsBut().getFirst(), this.donneesJeuClone.getJoueur(numJoueurOther).getPosition(), this.donneesJeuClone, numJoueurOther);
+            int[] positionOtherJoueur = this.donneesJeuClone.getJoueur(numJoueurOther).getPosition();
+            SearchProblemAC p = new CalculHeuristiquePlatDecentr(this.platsBut.getFirst(), positionOtherJoueur, this.donneesJeuClone, numJoueurOther);
             State s = new CalculHeuristiquePlatStateDecentr(this.donneesJeuClone, numJoueurOther);
             BFS algo = new BFS(p, s);
             // résoudre
@@ -92,8 +97,15 @@ public class JoueurIADecentr extends JoueurIA {
                 System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
             }
             if (action != null) {
-                this.donneesJeuClone.supprimerElementPlatBut(action.getAliment());
+                supprimerElementPlatBut(action.getAliment());
             }
+        }
+    }
+
+    public void supprimerElementPlatBut(Aliment aliment) {
+        for (Plat plat : this.platsBut) {
+            plat.supprimerAliment(aliment);
+            return;
         }
     }
 }

@@ -393,10 +393,5 @@ public class DonneesJeu {
         return objetsDeplacables;
     }
 
-    public void supprimerElementPlatBut(Aliment aliment) {
-        for (Plat plat : platsBut) {
-            plat.supprimerAliment(aliment);
-            return;
-        }
-    }
+
 }
