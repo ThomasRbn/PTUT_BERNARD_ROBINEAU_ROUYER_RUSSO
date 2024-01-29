@@ -2,6 +2,7 @@ package com.overcooked.ptut.vue;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.JoueurHumain;
+import com.overcooked.ptut.joueurs.autonome.JoueurAutoN4;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -38,6 +39,7 @@ public class OptionsSelecteurVue extends VBox {
             comboBox.setValue("Choisir un type de joueur");
             comboBox.getItems().add("Humain");
             comboBox.getItems().add("IA");
+            comboBox.getItems().add("AutoN4");
             this.getChildren().add(comboBox);
             comboList.add(comboBox);
             this.setAlignment(Pos.CENTER);
@@ -66,7 +68,7 @@ public class OptionsSelecteurVue extends VBox {
         //Action du bouton de validation
         valider.setOnAction(e2 -> {
             //Si il n'y a pas de durée ou si le joueur n'a pas choisi de type de joueur
-            if (dureeJeu.getText().equals("") || comboList.stream().anyMatch(comboBox -> comboBox.getValue().equals("Choisir un type de joueur"))) {
+            if (dureeJeu.getText().isEmpty() || comboList.stream().anyMatch(comboBox -> comboBox.getValue().equals("Choisir un type de joueur"))) {
                 return;
             }
 
@@ -77,6 +79,8 @@ public class OptionsSelecteurVue extends VBox {
                             jeu.getJoueurs().add(new JoueurHumain(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
                     case "IA" ->
                             jeu.getJoueurs().add(new JoueurIA(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
+                    case "AutoN4" ->
+                            jeu.getJoueurs().add(new JoueurAutoN4(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
                 }
                 jeu.getJoueur(i).setNumJoueur(i);
             }
