@@ -29,9 +29,9 @@ public class TestCoordonnees {
         int[] coordonneesPlanDeTravail= donneesJeu.getCoordonneesElement("PlanDeTravail").getFirst();
         int[] coordonneesPlanDeTravail2= donneesJeu.getCoordonneesElement("PlanDeTravail").get(1);
         int[] coordonneesPlanDeTravail3= donneesJeu.getCoordonneesElement("PlanDeTravail").get(2);
-        assertEquals(Arrays.toString(coordonneesPlanDeTravail), Arrays.toString(new int[]{0, 0}));
-        assertEquals(Arrays.toString(coordonneesPlanDeTravail2), Arrays.toString(new int[]{0, 1}));
-        assertEquals(Arrays.toString(coordonneesPlanDeTravail3), Arrays.toString(new int[]{0, 2}));
+        assertEquals(Arrays.toString(coordonneesPlanDeTravail), Arrays.toString(new int[]{0, 1}));
+        assertEquals(Arrays.toString(coordonneesPlanDeTravail2), Arrays.toString(new int[]{0, 2}));
+        assertEquals(Arrays.toString(coordonneesPlanDeTravail3), Arrays.toString(new int[]{1, 0}));
     }
 
     @Test
