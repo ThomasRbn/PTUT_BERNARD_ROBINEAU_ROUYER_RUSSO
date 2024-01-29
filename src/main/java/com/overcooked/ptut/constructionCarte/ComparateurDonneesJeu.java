@@ -60,18 +60,7 @@ public class ComparateurDonneesJeu {
         //On regarde que les transformateurs sont identiques
         for (int i = 0; i < donneesJeu1.getObjetsFixes().length; i++) {
             for (int j = 0; j < donneesJeu1.getObjetsFixes()[i].length; j++) {
-                if (donneesJeu1.getObjetsFixes()[i][j] instanceof Transformateur) {
-                    if (!donneesJeu1.getObjetsFixes()[i][j].equals(donneesJeu2.getObjetsFixes()[i][j])) {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        //On vérifie que les plans de travail sont identiques
-        for (int i = 0; i < donneesJeu1.getObjetsFixes().length; i++) {
-            for (int j = 0; j < donneesJeu1.getObjetsFixes()[i].length; j++) {
-                if (donneesJeu1.getObjetsFixes()[i][j] instanceof PlanDeTravail) {
+                if (donneesJeu1.getObjetsFixes()[i][j] instanceof Transformateur || donneesJeu1.getObjetsFixes()[i][j] instanceof PlanDeTravail) {
                     if (!donneesJeu1.getObjetsFixes()[i][j].equals(donneesJeu2.getObjetsFixes()[i][j])) {
                         return false;
                     }
