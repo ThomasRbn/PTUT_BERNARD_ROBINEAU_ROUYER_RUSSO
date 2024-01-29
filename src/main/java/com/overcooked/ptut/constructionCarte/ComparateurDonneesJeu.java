@@ -1,6 +1,7 @@
 package com.overcooked.ptut.constructionCarte;
 
 import com.overcooked.ptut.joueurs.Joueur;
+import com.overcooked.ptut.objet.PlanDeTravail;
 import com.overcooked.ptut.objet.transformateur.Transformateur;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
@@ -60,6 +61,17 @@ public class ComparateurDonneesJeu {
         for (int i = 0; i < donneesJeu1.getObjetsFixes().length; i++) {
             for (int j = 0; j < donneesJeu1.getObjetsFixes()[i].length; j++) {
                 if (donneesJeu1.getObjetsFixes()[i][j] instanceof Transformateur) {
+                    if (!donneesJeu1.getObjetsFixes()[i][j].equals(donneesJeu2.getObjetsFixes()[i][j])) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        //On vérifie que les plans de travail sont identiques
+        for (int i = 0; i < donneesJeu1.getObjetsFixes().length; i++) {
+            for (int j = 0; j < donneesJeu1.getObjetsFixes()[i].length; j++) {
+                if (donneesJeu1.getObjetsFixes()[i][j] instanceof PlanDeTravail) {
                     if (!donneesJeu1.getObjetsFixes()[i][j].equals(donneesJeu2.getObjetsFixes()[i][j])) {
                         return false;
                     }

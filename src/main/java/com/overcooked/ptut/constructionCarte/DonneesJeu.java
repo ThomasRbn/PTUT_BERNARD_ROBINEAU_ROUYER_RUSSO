@@ -166,15 +166,7 @@ public class DonneesJeu {
                 Bloc currBloc = objetsFixes[i][j];
 
                 //On regarde si le bloc est accessible
-                if ((i == 0 && j == 0 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null)
-                        || (i == 0 && j == longueur - 1 && j - 1 >= 0 && objetsFixes[i][j - 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null)
-                        || (i == hauteur - 1 && j == 0 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null)
-                        || (i == 0 && j < longueur - 1 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && j - 1 >= 0 && objetsFixes[i][j - 1] != null)
-                        || (i < hauteur - 1 && j == 0 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null)
-                        || (i == hauteur - 1 && j < longueur - 1 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null && j - 1 >= 0 && objetsFixes[i][j - 1] != null)
-                        || (i < hauteur - 1 && j == longueur - 1 && j - 1 >= 0 && objetsFixes[i][j - 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null)
-                        || (i < hauteur - 1 && j < longueur - 1 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && j - 1 >= 0 && objetsFixes[i][j - 1] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null))
-                    continue;
+                if ((estPasAccessible(i, j))) continue;
 
 
                 if (currBloc instanceof PlanDeTravail planDeTravail && planDeTravail.getNomPlat().equals(element)) {
@@ -313,6 +305,17 @@ public class DonneesJeu {
             }
         }
         return planDeTravailVide;
+    }
+
+    public boolean estPasAccessible(int i, int j){
+        return ((i == 0 && j == 0 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null)
+                || (i == 0 && j == longueur - 1 && j - 1 >= 0 && objetsFixes[i][j - 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null)
+                || (i == hauteur - 1 && j == 0 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null)
+                || (i == 0 && j < longueur - 1 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && j - 1 >= 0 && objetsFixes[i][j - 1] != null)
+                || (i < hauteur - 1 && j == 0 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null)
+                || (i == hauteur - 1 && j < longueur - 1 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null && j - 1 >= 0 && objetsFixes[i][j - 1] != null)
+                || (i < hauteur - 1 && j == longueur - 1 && j - 1 >= 0 && objetsFixes[i][j - 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null)
+                || (i < hauteur - 1 && j < longueur - 1 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && j - 1 >= 0 && objetsFixes[i][j - 1] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null));
     }
 
     /**
