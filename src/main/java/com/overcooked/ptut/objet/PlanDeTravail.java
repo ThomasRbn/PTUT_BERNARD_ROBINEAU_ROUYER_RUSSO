@@ -46,6 +46,15 @@ public class PlanDeTravail extends Bloc {
         return plat;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof PlanDeTravail) {
+            PlanDeTravail planDeTravail = (PlanDeTravail) o;
+            return planDeTravail.getX() == this.getX() && planDeTravail.getY() == this.getY() && planDeTravail.inventaire == this.inventaire;
+        }
+        return false;
+    }
+
     public String getNomPlat() {
         return inventaire != null ? inventaire.getNomPlat() : "";
     }
