@@ -169,7 +169,8 @@ public class DonneesJeu {
                     if (transformateur.getInventaire() == null && transformateur.getType().equals(element)) {
                         coordonneesElem.add(new int[]{i, j});
                         continue;
-                    }
+                    } else if (transformateur.getNomPlat().equals(element))
+                        coordonneesElem.add(new int[]{i, j});
                 }
                 if (currBloc != null) {
                     if (currBloc instanceof Generateur) {
