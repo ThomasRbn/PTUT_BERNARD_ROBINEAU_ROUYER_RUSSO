@@ -162,6 +162,19 @@ public class DonneesJeu {
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < longueur; j++) {
                 Bloc currBloc = objetsFixes[i][j];
+
+                //On regarde si le bloc est accessible
+                if ((i == 0 && j == 0 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null)
+                        || (i == 0 && j == longueur - 1 && j - 1 >= 0 && objetsFixes[i][j - 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null)
+                        || (i == hauteur - 1 && j == 0 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null)
+                        || (i == 0 && j < longueur - 1 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && j - 1 >= 0 && objetsFixes[i][j - 1] != null)
+                        || (i < hauteur - 1 && j == 0 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null)
+                        || (i == hauteur - 1 && j < longueur - 1 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null && j - 1 >= 0 && objetsFixes[i][j - 1] != null)
+                        || (i < hauteur - 1 && j == longueur - 1 && j - 1 >= 0 && objetsFixes[i][j - 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null)
+                        || (i < hauteur - 1 && j < longueur - 1 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && j - 1 >= 0 && objetsFixes[i][j - 1] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null))
+                    continue;
+
+
                 if (currBloc instanceof PlanDeTravail planDeTravail && planDeTravail.getNomPlat().equals(element)) {
                     coordonneesElem.add(new int[]{i, j});
                 }
