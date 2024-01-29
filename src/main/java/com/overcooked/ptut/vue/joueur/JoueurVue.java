@@ -2,6 +2,8 @@ package com.overcooked.ptut.vue.joueur;
 
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
+import com.overcooked.ptut.joueurs.autonome.JoueurAutoN4;
+import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.vue.aliment.AlimentVue;
 import javafx.scene.layout.Pane;
@@ -23,7 +25,12 @@ public class JoueurVue extends Pane {
         visuelJoueur.setLayoutY(tailleCellule / 10);
 
         Circle cercle = new Circle(tailleCellule / 2 - tailleCellule / 10);
-        cercle.setFill(joueur instanceof JoueurHumain ? Color.PURPLE : Color.PINK);
+        cercle.setFill(switch (joueur){
+            case JoueurHumain ignored -> Color.PURPLE;
+            case JoueurAutoN4 ignored -> Color.YELLOW;
+            case JoueurIA ignored -> Color.PINK;
+            default -> Color.BLACK;
+        });
 
         Arc arc = new Arc(tailleCellule / 2, tailleCellule / 2, tailleCellule / 2 - 5, tailleCellule / 2 - 5, 45 + getAngleDirection(joueur), 90);
         arc.setFill(Color.BLACK);
