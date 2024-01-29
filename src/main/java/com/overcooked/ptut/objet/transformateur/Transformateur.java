@@ -102,8 +102,8 @@ public class Transformateur extends Bloc {
         return elem;
     }
 
-    public boolean estTransforme(Plat plat){
-        int etatPlat = plat.getRecettesComposees().getFirst().getEtat();
+    public boolean estTransforme(){
+        int etatPlat = inventaire.getRecettesComposees().getFirst().getEtat();
         return etatPlat == this.etat || etatPlat == Etat.CUIT_ET_COUPE;
     }
 

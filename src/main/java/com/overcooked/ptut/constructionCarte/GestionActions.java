@@ -81,7 +81,7 @@ public class GestionActions {
                     && !transformateur.isBloque() && transformateur.getInventaire() != null
                     && joueur.getInventaire() == null
                     && transformateur.getInventaire().getRecettesComposees().size() == 1
-                    && !transformateur.estTransforme(transformateur.getInventaire());
+                    && !transformateur.estTransforme();
 
             //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.isLegal, action invalide" + a);
