@@ -19,12 +19,12 @@ import javafx.scene.layout.StackPane;
 
 import static com.overcooked.ptut.vue.AfficheurInfobulle.afficherEtatCercle;
 
-public class Plateau extends GridPane {
+public class PlateauVue extends GridPane {
 
     public double tailleCellule;
     private ClavierControlleur clavierController;
 
-    public Plateau(DonneesJeu jeu, double tailleCellule) {
+    public PlateauVue(DonneesJeu jeu, double tailleCellule) {
         this.tailleCellule = tailleCellule;
         this.setGridLinesVisible(true);
 
@@ -91,7 +91,10 @@ public class Plateau extends GridPane {
                 if (jeu.getObjetsFixes()[i][j] instanceof PlanDeTravail || jeu.getObjetsFixes()[i][j] instanceof Transformateur) {
                     Bloc bloc = jeu.getObjetsFixes()[i][j];
                     if (bloc.getInventaire() != null) {
-                        caseBloc.getChildren().add(empilagePlat(bloc));
+                        try {
+                            caseBloc.getChildren().add(empilagePlat(bloc));
+                        } catch (NullPointerException ignored) {
+                        }
                     }
                 }
             }

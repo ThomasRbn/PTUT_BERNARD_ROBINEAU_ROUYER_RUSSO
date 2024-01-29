@@ -71,4 +71,7 @@ public class Depot extends Bloc {
         platsDeposes.clear();
     }
 
+    public int getPoints() {
+        return points;
+    }
 }

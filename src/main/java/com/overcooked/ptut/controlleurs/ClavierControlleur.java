@@ -5,15 +5,14 @@ import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
-import com.overcooked.ptut.vue.Plateau;
+import com.overcooked.ptut.vue.HeaderVue;
+import com.overcooked.ptut.vue.PlateauVue;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
 import static com.overcooked.ptut.constructionCarte.GestionActions.isLegal;
 
 public class ClavierControlleur {
@@ -30,8 +29,9 @@ public class ClavierControlleur {
      * @param scene   Scene
      * @param plateau Plateau
      */
-    public void initEventClavier(Scene scene, Plateau plateau) {
+    public void initEventClavier(Scene scene, PlateauVue plateau, HeaderVue header) {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, key -> {
+            if (jeu.isJeuTermine()) return;
             for (Joueur joueur : jeu.getJoueurs()) {
                 if (joueur instanceof JoueurHumain) {
                     handleHumainInput(key, joueur, plateau, jeu);
@@ -45,6 +45,7 @@ public class ClavierControlleur {
             plateau.afficherBlocs(jeu);
             plateau.afficherJoueurs(jeu);
             plateau.afficherInventaireBloc(jeu);
+            header.afficher();
 //            plateau.affichageProgressBar(jeu);
         });
     }
@@ -56,7 +57,7 @@ public class ClavierControlleur {
      * @param joueur  Joueur
      * @param plateau Plateau
      */
-    private void handleHumainInput(KeyEvent key, Joueur joueur, Plateau plateau, DonneesJeu jeu) {
+    private void handleHumainInput(KeyEvent key, Joueur joueur, PlateauVue plateau, DonneesJeu jeu) {
         switch (key.getCode()) {
             case Z:
                 if (isLegal(Action.HAUT, joueur.getNumJoueur(), jeu))
@@ -101,16 +102,16 @@ public class ClavierControlleur {
         }
     }
 
-    public void lancerThreadIA(DonneesJeu jeu, Plateau plateau) {
+    public void lancerThreadIA(DonneesJeu jeu, PlateauVue plateau, HeaderVue header) {
         List<Joueur> joueursIA = jeu.getJoueurs().stream().filter(joueur -> joueur instanceof JoueurIA).toList();
         new Thread(() -> {
-            while (true) {
+            while (!jeu.isJeuTermine()) {
                 for (Joueur joueur : joueursIA) {
                     Action actionIA = joueur.demanderAction(jeu);
                     System.out.println("Action IA : " + actionIA);
                     jeu.getActionsDuTour().ajouterAction(joueur, actionIA);
                 }
-                while (!jeu.getActionsDuTour().isTourTermine()){
+                while (!jeu.getActionsDuTour().isTourTermine()) {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
@@ -125,6 +126,7 @@ public class ClavierControlleur {
                         plateau.afficherBlocs(jeu);
                         plateau.afficherJoueurs(jeu);
                         plateau.afficherInventaireBloc(jeu);
+                        header.afficher();
                     }
                 };
                 animationTimer.start();
