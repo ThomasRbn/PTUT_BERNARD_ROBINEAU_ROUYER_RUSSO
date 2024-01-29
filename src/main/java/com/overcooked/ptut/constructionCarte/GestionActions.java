@@ -38,6 +38,8 @@ public class GestionActions {
                     if (objetFixe instanceof PlanDeTravail && objetFixe.getInventaire() != null) {
                         yield joueur.getInventaire().estFusionnable(objetFixe.getInventaire());
                     }
+                    if(objetFixe instanceof Transformateur transformateur && transformateur.getInventaire() != null)
+                        yield joueur.getInventaire().estFusionnable(transformateur.getInventaire());
                     yield false;
                 } else {
                     // Calcul des coordonnes de la case devant le joueur
