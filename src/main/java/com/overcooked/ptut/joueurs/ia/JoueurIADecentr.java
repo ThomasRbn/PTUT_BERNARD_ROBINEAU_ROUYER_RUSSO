@@ -59,7 +59,7 @@ public class JoueurIADecentr extends JoueurIA {
         SearchNodeAC sol = algo2.solve();
         List<AlimentCoordonnees> lisAction = new ArrayList<>();
         // Boucle pour récupéré le dernier Aliment coordonnee du resultat
-        while (sol.getAlimentCoordonnees() != null) {
+        while (sol != null && sol.getAlimentCoordonnees() != null) {
             lisAction.add(sol.getAlimentCoordonnees());
             sol = sol.getParent();
         }
@@ -95,7 +95,7 @@ public class JoueurIADecentr extends JoueurIA {
         SearchNodeAC solution = algo.solve();
         List<AlimentCoordonnees> listeActions = new ArrayList<>();
         // Boucle pour récupéré le dernier Aliment coordonnee du resultat
-        while (solution.getAlimentCoordonnees() != null) {
+        while (solution != null && solution.getAlimentCoordonnees() != null) {
             listeActions.add(solution.getAlimentCoordonnees());
             solution = solution.getParent();
         }
