@@ -27,16 +27,17 @@ import static com.overcooked.ptut.constructionCarte.Creation.getCurrentPlatBut;
 
 public class DonneesJeu {
 
+    private final List<Plat> platsBut;
     //Initialisation des attributs
     private Bloc[][] objetsFixes;
     private int longueur, hauteur;
     private List<Joueur> joueurs;
     private Plat[][] objetsDeplacables;
-    private final List<Plat> platsBut;
     private Depot depot;
 
     private ActionsDuTour actionsDuTour;
     private boolean jeuTermine;
+    private List<int[]> coordonneesJoueurs;
 
     /**
      * Constructeur de DonneesJeu
@@ -46,6 +47,7 @@ public class DonneesJeu {
     public DonneesJeu(String chemin, boolean... test) {
         platsBut = new ArrayList<>();
         platsBut.add(new Plat(new Tomate()));
+        coordonneesJoueurs = new ArrayList<>();
         try {
             initialiserDonnees(chemin, test);
         } catch (IOException e) {
@@ -104,8 +106,10 @@ public class DonneesJeu {
         hauteur = indexLigne;
 
         objetsDeplacables = new Plat[getHauteur()][getLongueur()];
-        for (int i = 0; i < joueurs.size(); i++) {
-            joueurs.get(i).setNumJoueur(i);
+        if (test.length > 0) {
+            for (int i = 0; i < joueurs.size(); i++) {
+                joueurs.get(i).setNumJoueur(i);
+            }
         }
     }
 
@@ -119,9 +123,9 @@ public class DonneesJeu {
                     if (test.length > 0) {
                         joueurs.add(new JoueurHumain(indexLigne, indexColonne));
                         break;
+                    } else {
+                        coordonneesJoueurs.add(new int[]{indexLigne, indexColonne});
                     }
-                    joueurs.add(Creation.CreationJoueur(indexLigne, indexColonne));
-
                     objetsFixes[indexLigne][indexColonne] = null;
                 }
                 //Création des objets fixes
@@ -421,5 +425,9 @@ public class DonneesJeu {
     public DonneesJeu setJeuTermine(boolean jeuTermine) {
         this.jeuTermine = jeuTermine;
         return this;
+    }
+
+    public List<int[]> getCoordonneesJoueurs() {
+        return coordonneesJoueurs;
     }
 }
