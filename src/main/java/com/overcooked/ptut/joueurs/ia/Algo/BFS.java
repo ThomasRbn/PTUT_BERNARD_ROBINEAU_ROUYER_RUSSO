@@ -42,7 +42,7 @@ public class BFS extends TreeSearchAC {
         if (ArgParse.DEBUG)
             System.out.print("[" + state);
 
-        while (!frontier.isEmpty()){
+        while (!frontier.isEmpty() && (explored.size() < 500)){
             // Stratégie: BFS
             node = frontier.poll();
 
