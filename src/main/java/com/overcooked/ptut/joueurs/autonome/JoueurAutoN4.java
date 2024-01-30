@@ -21,17 +21,17 @@ public class JoueurAutoN4 extends JoueurIA {
     @Override
     public Action demanderAction(DonneesJeu donneesJeu) {
         Action action = switch (iteration) {
-            case 0, 1, 5, 14, 15, 32, 33 -> Action.HAUT;
-            case 9, 10, 11, 22, 25, 37, 40, 41 -> Action.DROITE;
-            case 7, 8, 12, 18, 23, 24, 35, 36, 38 -> Action.BAS;
-            case 2, 3, 4, 17, 29, 30, 31 -> Action.GAUCHE;
-            case 6, 16, 21, 28, 34 -> Action.PRENDRE;
-            case 13, 19, 26, 39 -> Action.POSER;
-            case 20, 27 -> Action.UTILISER;
+            case 0, 1, 5, 14, 15, 26, 27, 40, 41, 48 -> Action.HAUT;
+            case 9, 10, 11, 22, 34, 37-> Action.DROITE;
+            case 7, 8, 12, 18, 23, 24, 30, 35, 36, 44, 52, 53 -> Action.BAS;
+            case 2, 3, 4, 17, 29, 43, 50, 51 -> Action.GAUCHE;
+            case 6, 16, 21, 28, 33, 42, 47-> Action.PRENDRE;
+            case 13, 19, 25, 31, 38, 45, 49 -> Action.POSER;
+            case 20, 32, 39, 46 -> Action.UTILISER;
             default -> throw new IllegalStateException("Unexpected value: " + iteration);
         };
         iteration++;
-        if (iteration > 41) iteration = 0;
+        if (iteration > 53) iteration = 0;
         return action;
     }
 }
