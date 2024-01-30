@@ -75,7 +75,7 @@ public class HeaderVue extends HBox {
 
     public void lancerTimer() {
         Timer timer = new Timer();
-        long delai = 60000; // Changer ici le temps de la partie
+        long delai = 6000000; // Changer ici le temps de la partie
         long delaiMAJ = 1000;
 
         TimerTask timerTask = new TimerTask() {
