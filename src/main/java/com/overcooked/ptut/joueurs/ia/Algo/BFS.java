@@ -72,6 +72,7 @@ public class BFS extends TreeSearchAC {
                         // L'insérer dans la frontière avec la priorité du coût
                         frontier.add(child);
                     }else if(frontier.contains(child)){
+
                         // Si le nœud est déjà dans la frontière
                         // On récupère le nœud de la frontière
                         Optional<SearchNodeAC> optionalFrontierNode = frontier.stream().filter(n -> n.equals(child)).findFirst();

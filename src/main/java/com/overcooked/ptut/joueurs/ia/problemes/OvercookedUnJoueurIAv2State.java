@@ -110,56 +110,57 @@ public class OvercookedUnJoueurIAv2State extends State implements HasHeuristic {
             Aliment aliment2 = plat.getRecettesComposees().getFirst();
             return Objects.equals(aliment.getNom(), "Decoupe")? aliment2.getEtat() == 2 || aliment2.getEtat() == 3 : aliment2.getEtat() == 1 || aliment2.getEtat() == 3;
         }
-        if(aliment.getEtat() == 1 || aliment.getEtat() == 3){
-            //On vérifie si l'aliment à la position cible du joueur est cuit
-            int[] coordonneesCible = joueur.getPositionCible();
-            Bloc[][] carte = donnees.getObjetsFixes();
-            Plat plat = carte[coordonneesCible[0]][coordonneesCible[1]].getInventaire();
-            Plat inventaire = donnees.getJoueur(numJoueur).getInventaire();
-            if(inventaire == null)return false;
-            for(Aliment alimentInv : inventaire.getRecettesComposees()) {
-                if (alimentInv.equalsType(aliment)) {
-                    return alimentInv.getEtat() == 1 || alimentInv.getEtat() == 3;
-                }
-            }
-            return false;
-//            return donnees.getJoueur(numJoueur).getInventaire().getRecettesComposees().getFirst().getEtat() == 1 || donnees.getJoueur(numJoueur).getInventaire().getRecettesComposees().getFirst().getEtat() == 3;
-        }
-        if(aliment.getEtat() == 2 || aliment.getEtat() == 3){
-            //On vérifie si l'aliment à la position cible du joueur est cuit
-            int[] coordonneesCible = joueur.getPositionCible();
-            Bloc[][] carte = donnees.getObjetsFixes();
-            Plat plat = carte[coordonneesCible[0]][coordonneesCible[1]].getInventaire();
-            Plat inventaire = donnees.getJoueur(numJoueur).getInventaire();
-            if(inventaire == null)return false;
-            for(Aliment alimentInv : inventaire.getRecettesComposees()) {
-                if (alimentInv.equalsType(aliment)) {
-                    return alimentInv.getEtat() == 2 || alimentInv.getEtat() == 3;
-                }
-            }
-            return false;
-//            return donnees.getJoueur(numJoueur).getInventaire().getRecettesComposees().getFirst().getEtat() == 2 || donnees.getJoueur(numJoueur).getInventaire().getRecettesComposees().getFirst().getEtat() == 3;
-        }
+//        if(aliment.getEtat() == 1 || aliment.getEtat() == 3){
+//            //On vérifie si l'aliment à la position cible du joueur est cuit
+//            int[] coordonneesCible = joueur.getPositionCible();
+//            Bloc[][] carte = donnees.getObjetsFixes();
+//            Plat plat = carte[coordonneesCible[0]][coordonneesCible[1]].getInventaire();
+//            Plat inventaire = donnees.getJoueur(numJoueur).getInventaire();
+//            if(inventaire == null)return false;
+//            for(Aliment alimentInv : inventaire.getRecettesComposees()) {
+//                if (alimentInv.equalsType(aliment)) {
+//                    return alimentInv.getEtat() == 1 || alimentInv.getEtat() == 3;
+//                }
+//            }
+//            return false;
+////            return donnees.getJoueur(numJoueur).getInventaire().getRecettesComposees().getFirst().getEtat() == 1 || donnees.getJoueur(numJoueur).getInventaire().getRecettesComposees().getFirst().getEtat() == 3;
+//        }
+//        if(aliment.getEtat() == 2 || aliment.getEtat() == 3){
+//            //On vérifie si l'aliment à la position cible du joueur est cuit
+//            int[] coordonneesCible = joueur.getPositionCible();
+//            Bloc[][] carte = donnees.getObjetsFixes();
+//            Plat plat = carte[coordonneesCible[0]][coordonneesCible[1]].getInventaire();
+//            Plat inventaire = donnees.getJoueur(numJoueur).getInventaire();
+//            if(inventaire == null)return false;
+//            for(Aliment alimentInv : inventaire.getRecettesComposees()) {
+//                if (alimentInv.equalsType(aliment)) {
+//                    return alimentInv.getEtat() == 2 || alimentInv.getEtat() == 3;
+//                }
+//            }
+//            return false;
+////            return donnees.getJoueur(numJoueur).getInventaire().getRecettesComposees().getFirst().getEtat() == 2 || donnees.getJoueur(numJoueur).getInventaire().getRecettesComposees().getFirst().getEtat() == 3;
+//        }
         if(Objects.equals(aliment.getNom(), "Depot")){
             return !donnees.getPlatDepose().isEmpty();
         }
         if(Objects.equals(aliment.getNom(), "pdt")){
             return joueur.getInventaire()== null;
         }
-        if(Objects.equals(aliment.getNom(), "pdt2")){
-            int[] coordonneesCible = joueur.getPositionCible();
-            Bloc[][] carte = donnees.getObjetsFixes();
-            Plat plat = carte[coordonneesCible[0]][coordonneesCible[1]].getInventaire();
-            return plat == null;
-        }
+//        if(Objects.equals(aliment.getNom(), "pdt2")){
+//            int[] coordonneesCible = joueur.getPositionCible();
+//            Bloc[][] carte = donnees.getObjetsFixes();
+//            Plat plat = carte[coordonneesCible[0]][coordonneesCible[1]].getInventaire();
+//            return plat == null;
+//        }
 
         Plat inventaireJoueur = joueur.getInventaire();
         if(inventaireJoueur == null)return false;
         //Parcours de l'inventaire pour savoir s'il contient le plat
         List<Aliment> recetteComposee = inventaireJoueur.getRecettesComposees();
         for(Aliment aliment : recetteComposee){
+//            if(aliment.getEtatNom() == this.aliment.getNom()){
             if(aliment.equals(this.aliment)){
-                return true;
+                return true; // TODO: false?
             }
         }
         return false;
