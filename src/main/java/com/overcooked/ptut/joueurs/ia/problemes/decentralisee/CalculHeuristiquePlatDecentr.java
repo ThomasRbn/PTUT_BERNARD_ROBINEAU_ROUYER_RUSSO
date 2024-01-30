@@ -24,6 +24,7 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
     List<int[]> listeCoordonneesCuisson;
 
     List<int[]> listeCoordonneesPlanche;
+    List<int[]> listeCoordonneesPDT;
     boolean retourDepot;
 
     DonneesJeu donneesJeu;
@@ -46,24 +47,14 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
     private void calculerDonnees(DonneesJeu donneesJeu) {
         // récupération des données
         List<AlimentCoordonnees> alimentCoordonneesList = new ArrayList<>();
-        Plat inventaire = donneesJeu.getJoueur(numJoueur).getInventaire();
         int num = 0;
         depot = new AlimentCoordonnees(new Aliment("Depot", "Aliment fictif"), donneesJeu.getCoordonneesElement("Depot").get(0));
         listeCoordonneesCuisson = donneesJeu.getCoordonneesElement("Cuisson");
         listeCoordonneesPlanche = donneesJeu.getCoordonneesElement("Planche");
+        listeCoordonneesPDT = donneesJeu.getCoordonneesElement("PlanDeTravail");
 
         // On cherche à récupéré les actions possibles, donc on regarde ce dont on a besoin
         for (Aliment a : platBut.getRecettesComposees()) {
-            if (inventaire != null) {
-                // On commence par regarder l'inventaire du joueur pour savoir ce qui est en cours
-                boolean continu = false;
-                // Si l'aliment du plat but est dans l'inventaire, on passe l'aliment
-                for (Aliment aliment : inventaire.getRecettesComposees()) {
-                    if (aliment.equalsType(a)) continu = true;
-
-                }
-                if (continu) continue;
-            }
             // Récupération des aliments en état but
             List<int[]> listeCoordonneesEtatNom = donneesJeu.getCoordonneesElement(a.getEtatNom());
 

@@ -48,10 +48,29 @@ public class JoueurIADecentr extends JoueurIA {
 
         State s = new OvercookedUnJoueurIAStateDecentr(donneesJeuClone, numJoueur);
         AStar algo = (AStar) ArgParse.makeAlgo("astar", p, s);
+        List<AlimentCoordonnees> listeActions = new ArrayList<>();
+        // Boucle pour récupéré le dernier Aliment coordonnee du resultat
+        ArrayList<Action> solution = algo.solve();
 
+        SearchProblemAC prob = new CalculHeuristiquePlatDecentr(this.platsBut.getFirst(), numJoueur, this.donneesJeuClone);
+        State state = new CalculHeuristiquePlatStateDecentr(this.donneesJeuClone, numJoueur);
+        BFS algo2 = new BFS(prob, state);
+        // résoudre
+        SearchNodeAC sol = algo2.solve();
+        List<AlimentCoordonnees> lisAction = new ArrayList<>();
+        // Boucle pour récupéré le dernier Aliment coordonnee du resultat
+        while (sol.getAlimentCoordonnees() != null) {
+            lisAction.add(sol.getAlimentCoordonnees());
+            sol = sol.getParent();
+        }
+        AlimentCoordonnees action = null;
+        // Affichage lisAction
+        if (!lisAction.isEmpty()) {
+            action = lisAction.getLast();
+            System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
+        }
 
         // résoudre
-        ArrayList<Action> solution = algo.solve();
         return solution != null ? solution.getFirst() : Action.RIEN;
     }
 
@@ -84,9 +103,13 @@ public class JoueurIADecentr extends JoueurIA {
         // Affichage listeActions
         if (!listeActions.isEmpty()) {
             action = listeActions.getLast();
-            System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
+            //listeActions.forEach(alimentCoordonnees -> {
+            //    System.out.println(alimentCoordonnees.getAliment().getEtatNom() + " " + alimentCoordonnees.getCoordonnees()[0] + " " + alimentCoordonnees.getCoordonnees()[1]);
+            //});
+            //System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
         }
         if (action != null) {
+            System.out.println("Suppression de : " + action.getAliment().getEtatNom());
             supprimerElementPlatBut(action.getAliment());
         }
     }
