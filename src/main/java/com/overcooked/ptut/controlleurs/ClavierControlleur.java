@@ -79,6 +79,8 @@ public class ClavierControlleur {
 //                    faireAction(Action.DROITE, joueur.getNumJoueur(), jeu);
                     jeu.getActionsDuTour().ajouterAction(joueur, Action.DROITE);
                 break;
+            case R:
+                jeu.getActionsDuTour().ajouterAction(joueur, Action.RIEN);
             case E:
                 if (isLegal(Action.UTILISER, joueur.getNumJoueur(), jeu)) {
                     jeu.getActionsDuTour().ajouterAction(joueur, Action.UTILISER);

@@ -48,7 +48,7 @@ public class JoueurIA extends Joueur {
         // VERSION 2
 
 
-        SearchProblemAC p = new CalculHeuristiquePlat(donneesJeu.getPlatsBut().getFirst(), donneesJeu.getJoueur(numJoueur).getPosition(), donneesJeu);
+        SearchProblemAC p = new CalculHeuristiquePlat(donneesJeu.getPlatsBut().getFirst(), numJoueur, donneesJeu);
         State s = new CalculHeuristiquePlatState(donneesJeu, numJoueur);
         BFS algo = new BFS(p, s);
 
