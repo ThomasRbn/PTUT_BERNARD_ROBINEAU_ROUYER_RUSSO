@@ -69,7 +69,7 @@ public class JoueurIADecentr extends JoueurIA {
     private void trouverCible(Joueur j) {
         int numJoueurOther = j.getNumJoueur();
         int[] positionOtherJoueur = this.donneesJeuClone.getJoueur(numJoueurOther).getPosition();
-        SearchProblemAC p = new CalculHeuristiquePlatDecentr(this.platsBut.getFirst(), positionOtherJoueur, this.donneesJeuClone, numJoueurOther);
+        SearchProblemAC p = new CalculHeuristiquePlatDecentr(this.platsBut.getFirst(), numJoueurOther, this.donneesJeuClone);
         State s = new CalculHeuristiquePlatStateDecentr(this.donneesJeuClone, numJoueurOther);
         BFS algo = new BFS(p, s);
         // résoudre

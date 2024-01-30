@@ -70,7 +70,7 @@ public class OvercookedUnJoueurIAStateDecentr extends State implements HasHeuris
         // On parcours l'ensemble des plats but
         for (Plat plat : donnees.getPlatsBut()) {
             //On calcule le cout de l'état courant pour chaque plat
-            SearchProblemAC p = new CalculHeuristiquePlatDecentr(plat, donnees.getJoueur(numJoueur).getPosition(), donnees, numJoueur);
+            SearchProblemAC p = new CalculHeuristiquePlatDecentr(plat, numJoueur, donnees);
             State s = new CalculHeuristiquePlatStateDecentr(donnees, numJoueur);
             BFS algo = new BFS(p, s);
             SearchNodeAC searchNodeAC = algo.solve();
