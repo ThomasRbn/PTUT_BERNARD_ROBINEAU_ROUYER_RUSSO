@@ -23,8 +23,9 @@ public class CalculHeuristiquePlatStateDecentr extends State {
     int coutTot;
 
     public CalculHeuristiquePlatStateDecentr(DonneesJeu donneesJeu, int numJoueur) {
-        this.donneesJeu = donneesJeu;
-        coordonneesActuelles = donneesJeu.getJoueur(numJoueur).getPosition();
+        this.coordonneesActuelles = donneesJeu.getJoueur(numJoueur).getPositionCible();
+
+        this.donneesJeu = new DonneesJeu(donneesJeu);
         if (donneesJeu.getJoueur(numJoueur).getInventaire() != null) {
             this.visitees = new ArrayList<>(donneesJeu.getJoueur(numJoueur).getInventaire().getRecettesComposees());
         } else {

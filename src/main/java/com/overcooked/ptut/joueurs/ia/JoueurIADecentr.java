@@ -23,7 +23,6 @@ import java.util.List;
 
 public class JoueurIADecentr extends JoueurIA {
 
-    List<Joueur> joueurList;
     DonneesJeu donneesJeuClone;
 
     private List<Plat> platsBut;
@@ -44,8 +43,8 @@ public class JoueurIADecentr extends JoueurIA {
         // créer un problème, un état initial et un algo
         SearchProblem p = new OvercookedUnJoueurIADecentr();
 
-        this.joueurList = new ArrayList<>();
-        genererAutresJoueurs(numJoueur);
+        if (inventaire == null)
+            genererAutresJoueurs(numJoueur);
 
         State s = new OvercookedUnJoueurIAStateDecentr(donneesJeuClone, numJoueur);
         AStar algo = (AStar) ArgParse.makeAlgo("astar", p, s);
@@ -54,7 +53,6 @@ public class JoueurIADecentr extends JoueurIA {
         // résoudre
         ArrayList<Action> solution = algo.solve();
         return solution != null ? solution.getFirst() : Action.RIEN;
-
     }
 
     private void genererAutresJoueurs(int numJoueur) {
@@ -62,46 +60,34 @@ public class JoueurIADecentr extends JoueurIA {
         if (this.donneesJeuClone.getJoueurs().size() > 1) {
             for (Joueur j : this.donneesJeuClone.getJoueurs()) {
                 if (j.getNumJoueur() != numJoueur && j.getInventaire() == null) {
-                    joueurList.add(j);
+                    trouverCible(j);
                 }
             }
         }
-        simulerActionsJoueurs(numJoueur);
     }
 
-    private void simulerActionsJoueurs(int numJoueur) {
-        // Simuler leur choix d'action
-        if (inventaire == null) {
-            for (Joueur j : joueurList) {
-                trouverCible(numJoueur, j);
-            }
-        }
-    }
-
-    private void trouverCible(int numJoueur, Joueur j) {
+    private void trouverCible(Joueur j) {
         int numJoueurOther = j.getNumJoueur();
-        if (numJoueurOther != numJoueur) {
-            int[] positionOtherJoueur = this.donneesJeuClone.getJoueur(numJoueurOther).getPosition();
-            SearchProblemAC p = new CalculHeuristiquePlatDecentr(this.platsBut.getFirst(), positionOtherJoueur, this.donneesJeuClone, numJoueurOther);
-            State s = new CalculHeuristiquePlatStateDecentr(this.donneesJeuClone, numJoueurOther);
-            BFS algo = new BFS(p, s);
-            // résoudre
-            SearchNodeAC solution = algo.solve();
-            List<AlimentCoordonnees> listeActions = new ArrayList<>();
-            // Boucle pour récupéré le dernier Aliment coordonnee du resultat
-            while (solution.getAlimentCoordonnees() != null) {
-                listeActions.add(solution.getAlimentCoordonnees());
-                solution = solution.getParent();
-            }
-            AlimentCoordonnees action = null;
-            // Affichage listeActions
-            if (!listeActions.isEmpty()) {
-                action = listeActions.getLast();
-                System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
-            }
-            if (action != null) {
-                supprimerElementPlatBut(action.getAliment());
-            }
+        int[] positionOtherJoueur = this.donneesJeuClone.getJoueur(numJoueurOther).getPosition();
+        SearchProblemAC p = new CalculHeuristiquePlatDecentr(this.platsBut.getFirst(), positionOtherJoueur, this.donneesJeuClone, numJoueurOther);
+        State s = new CalculHeuristiquePlatStateDecentr(this.donneesJeuClone, numJoueurOther);
+        BFS algo = new BFS(p, s);
+        // résoudre
+        SearchNodeAC solution = algo.solve();
+        List<AlimentCoordonnees> listeActions = new ArrayList<>();
+        // Boucle pour récupéré le dernier Aliment coordonnee du resultat
+        while (solution.getAlimentCoordonnees() != null) {
+            listeActions.add(solution.getAlimentCoordonnees());
+            solution = solution.getParent();
+        }
+        AlimentCoordonnees action = null;
+        // Affichage listeActions
+        if (!listeActions.isEmpty()) {
+            action = listeActions.getLast();
+            System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
+        }
+        if (action != null) {
+            supprimerElementPlatBut(action.getAliment());
         }
     }
 
