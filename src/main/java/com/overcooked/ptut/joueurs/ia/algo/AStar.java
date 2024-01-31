@@ -36,7 +36,7 @@ public class AStar extends TreeSearch {
         // On initialise l'ensemble des nœuds déjà explorés a vide
         explored.clear();
 
-        while (!frontier.isEmpty() && explored.toArray().length<150){
+        while (!frontier.isEmpty() && explored.toArray().length<500){
             // Stratégie: Astar
             node = frontier.poll();
 //            System.out.println(node.getState());

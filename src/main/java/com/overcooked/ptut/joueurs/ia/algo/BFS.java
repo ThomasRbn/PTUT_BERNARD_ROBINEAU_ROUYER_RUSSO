@@ -1,7 +1,6 @@
 package com.overcooked.ptut.joueurs.ia.algo;
 
 
-import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
@@ -39,7 +38,7 @@ public class BFS extends TreeSearchAC {
         // On initialise l'ensemble des nœuds déjà explorés a vide
         explored.clear();
 
-        while (!frontier.isEmpty() && (explored.size() < 500)) {
+        while (!frontier.isEmpty() && (explored.size() < 5000)) {
             // Stratégie: BFS
             node = frontier.poll();
 
