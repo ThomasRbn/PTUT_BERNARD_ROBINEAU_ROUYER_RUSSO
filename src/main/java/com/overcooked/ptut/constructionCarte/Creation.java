@@ -40,6 +40,11 @@ public class Creation {
         return choix;
     }
 
+    /**
+     * Retourne le plat correspondant à une chaine de caractère pour la génération d'un fichier
+     * @param recette Liste de caractères correspondant à un plat
+     * @return Le plat correspondant à la liste de caractères
+     */
     public static Aliment getCurrentPlatBut(List<String> recette) {
         Aliment currAliment = new Aliment();
         for (String s : recette) {
@@ -60,6 +65,13 @@ public class Creation {
         return currAliment;
     }
 
+    /**
+     * Retourne le plat correspondant à une chaine de caractère pour la génération d'un fichier
+     * @param c Caractère correspondant à un plat
+     * @param indexColonne Index de la colonne
+     * @param indexLigne Index de la ligne
+     * @return Le plat correspondant au caractère
+     */
     public static Bloc CreationBloc(char c, int indexColonne, int indexLigne) {
         return switch (c) {
             case GENERATEURSALADE -> new Generateur(indexLigne, indexColonne, new Plat(new Salade()), "Salade");

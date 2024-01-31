@@ -14,8 +14,6 @@ import java.util.Objects;
 
 public class CalculHeuristiquePlat extends SearchProblemAC {
 
-    int[] coordonneesDepart;
-
     Plat platBut;
 
     AlimentCoordonnees depot;
@@ -35,43 +33,36 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
         retourDepot = false;
         platBut = plat;
         Plat inventaire = donneesJeu.getJoueur(numJoueur).getInventaire();
-        int num = 0;
         depot = new AlimentCoordonnees(new Aliment("Depot", "Aliment fictif"), donneesJeu.getCoordonneesElement("Depot").get(0));
         if (platBut.equals(inventaire)) retourDepot = true;
-
-
     }
 
     private void calculerDonnees(DonneesJeu donneesJeu) {
         // récupération des données
         List<AlimentCoordonnees> alimentCoordonneesList = new ArrayList<>();
-        Plat inventaire = donneesJeu.getJoueur(numJoueur).getInventaire();
-        int num = 0;
         depot = new AlimentCoordonnees(new Aliment("Depot", "Aliment fictif"), donneesJeu.getCoordonneesElement("Depot").get(0));
         listeCoordonneesCuisson = donneesJeu.getCoordonneesElement("Cuisson");
         listeCoordonneesPlanche = donneesJeu.getCoordonneesElement("Planche");
 
-        // On cherche à récupéré les actions possibles, donc on regarde ce dont on a besoin
+        // On cherche à récupérer les actions possibles, donc on regarde ce dont on a besoin
         for (Aliment a : platBut.getRecettesComposees()) {
              // Récupération des aliments en état but
             List<int[]> listeCoordonneesEtatNom = donneesJeu.getCoordonneesElement(a.getEtatNom());
 
-            // Si la liste n'est pas vide, on ajoute ces aliments dans ce que l'ont doit aller chercher
+            // Si la liste n'est pas vide, on ajoute ces aliments dans ce que l'on doit aller chercher
             if (!listeCoordonneesEtatNom.isEmpty()) {
                 for (int[] coordonnees : listeCoordonneesEtatNom) {
                     alimentCoordonneesList.add(new AlimentCoordonnees(a, coordonnees));
-                    num++;
                 }
             } else {
                 if (a.getEtat() == 3) {
-                    // Si l'état but est coupé et cuit et qu'il n'y a pas de coupé et cuit, on va chercher les coupé
+                    // Si l'état but est coupé et cuit et qu'il n'y a pas de coupé et cuit, on va chercher le coupé
                     List<int[]> listeCoordonneesEtat2 = donneesJeu.getCoordonneesElement(a.getNom() + "2");//si 3, aller prendre 2
                     if (!listeCoordonneesEtat2.isEmpty()) {
                         for (int[] coordonnees : listeCoordonneesEtat2) {
                             Aliment aliment = new Aliment(a.getNom());
                             aliment.setEtat(2);
                             alimentCoordonneesList.add(new AlimentCoordonnees(aliment, coordonnees));
-                            num++;
                         }
                         break;
                     }
@@ -80,7 +71,6 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
                 List<int[]> listeCoordonnees = donneesJeu.getCoordonneesElement(a.getNom());
                 for (int[] coordonnees : listeCoordonnees) {
                     alimentCoordonneesList.add(new AlimentCoordonnees(new Aliment(a.getNom()), coordonnees));
-                    num++;
                 }
             }
 
@@ -93,10 +83,9 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
     public ArrayList<AlimentCoordonnees> getAlimentCoordonnees(State s) {
         ArrayList<AlimentCoordonnees> actions = new ArrayList<>();
         CalculHeuristiquePlatState o = (CalculHeuristiquePlatState) s;
-        DonneesJeu donneesJeuO = o.getDonneesJeu();
-        this.donneesJeu = donneesJeuO;
+        this.donneesJeu = o.getDonneesJeu();
 
-        // Si on est a la derneire action, on va au plan de travail
+        // Si on est à la dernière action, on va au plan de travail
         if (isDerniereAction(s)) {
             actions.add(depot);
             return actions;
@@ -104,12 +93,12 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
 
         calculerDonnees(donneesJeu);
 
-        // On regarde si l'élément en main fait partit des éléments envisagé (dans ALIMENTCO)
+        // On regarde si l'élément en main fait partie des éléments envisagée (dans ALIMENTCO)
         Aliment alimentVisitee = o.getDernierAliment();
         if (alimentVisitee != null) {
             for (AlimentCoordonnees a : ALIMENTCO) {
                 if (a.getAliment().equalsType(alimentVisitee)) {
-                    //On regarde si l'état de l'aliment visitee est plus avancé que les états de ALIMENTCO
+                    //On regarde si l'état de l'aliment visité est plus avancé que les états de ALIMENTCO
                     int etatVisite = alimentVisitee.getEtat();
                     int etatEnCours = a.getAliment().getEtat();
                     if (etatVisite != etatEnCours) {// Si l'état visite n'est pas le meme que ceux qu'on veut chercher
@@ -144,7 +133,7 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
             // Si aucune action n'est permise, on doit libérer une planche ou une plaque
             // Rappel: nous sommes ici dans le cas ou l'inventaire n'est pas vide
             if (actions.isEmpty()) {
-                // Actions dans l'ordre: on pose sur un plan de travail - on récupere ce qu'il y a sur la planche
+                // Actions dans l'ordre : on pose sur un plan de travail - on récupère ce qu'il y a sur la planche
                 // - on pose sur un autre plan de travail - on récupère le premier element - reprise du processus classique
                 actions.add(pdt);
             }
@@ -157,7 +146,7 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
                     actions.add(pdt);
                 } else {
                     Bloc[][] objetsFixes = donneesJeu.getObjetsFixes();
-                    // Si l'aliment doit être transformer
+                    // Si l'aliment doit être transformé
                     if (a.getAliment().doitEtreCoupe(platBut) || a.getAliment().doitCuire(platBut)) {
                         // On vérifie que tous les transformateurs (selon ceux voulus) sont libres
                         boolean transformateurLibre = false;
