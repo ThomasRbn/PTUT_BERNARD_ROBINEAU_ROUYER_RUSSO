@@ -67,7 +67,7 @@ public class JoueurIADecentr extends JoueurIA {
         // Affichage lisAction
         if (!lisAction.isEmpty()) {
             action = lisAction.getLast();
-            System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
+            //System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
         }
 
         // résoudre
@@ -109,7 +109,7 @@ public class JoueurIADecentr extends JoueurIA {
             //System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
         }
         if (action != null) {
-            System.out.println("Suppression de : " + action.getAliment().getEtatNom());
+            //System.out.println("Suppression de : " + action.getAliment().getEtatNom());
             supprimerElementPlatBut(action.getAliment());
         }
     }
