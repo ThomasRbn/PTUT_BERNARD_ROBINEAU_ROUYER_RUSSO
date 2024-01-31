@@ -4,6 +4,7 @@ import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.autonome.JoueurAutoN4;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
+import com.overcooked.ptut.joueurs.ia.JoueurIADecentr;
 import com.overcooked.ptut.recettes.aliment.Aliment;
 import com.overcooked.ptut.vue.aliment.AlimentVue;
 import javafx.scene.layout.Pane;
@@ -28,6 +29,7 @@ public class JoueurVue extends Pane {
         cercle.setFill(switch (joueur){
             case JoueurHumain ignored -> Color.PURPLE;
             case JoueurAutoN4 ignored -> Color.YELLOW;
+            case JoueurIADecentr ignored -> Color.BLUE;
             case JoueurIA ignored -> Color.PINK;
             default -> Color.BLACK;
         });
