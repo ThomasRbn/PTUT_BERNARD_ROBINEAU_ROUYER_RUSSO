@@ -54,30 +54,6 @@ public class DonneesJeu {
             e.printStackTrace();
         }
         actionsDuTour = new ActionsDuTour(this);
-        jeuTermine = false;
-    }
-
-    /**
-     * Constructeur par copie de DonneesJeu
-     *
-     * @param donneesJeu DonneesJeu à copier
-     */
-    public DonneesJeu(DonneesJeu donneesJeu) {
-        platsBut = new ArrayList<>();
-        // Copie des plats but
-        for (Plat plat : donneesJeu.platsBut) {
-            platsBut.add(new Plat(plat));
-        }
-        // Copie des objets fixes
-        this.longueur = donneesJeu.longueur;
-        this.hauteur = donneesJeu.hauteur;
-        this.objetsFixes = Copie.CopieObjetFixe(hauteur, longueur, donneesJeu.objetsFixes);
-
-        // Copie des objets déplacables
-        this.objetsDeplacables = Copie.CopieObjetDeplacables(hauteur, longueur, donneesJeu.objetsDeplacables);
-
-        // Copie des joueurs
-        this.joueurs = Copie.CopieJoueurs(donneesJeu.joueurs);
     }
 
     /**
@@ -188,6 +164,30 @@ public class DonneesJeu {
         }
     }
 
+
+    /**
+     * Constructeur par copie de DonneesJeu
+     *
+     * @param donneesJeu DonneesJeu à copier
+     */
+    public DonneesJeu(DonneesJeu donneesJeu) {
+        platsBut = new ArrayList<>();
+        // Copie des plats but
+        for (Plat plat : donneesJeu.platsBut) {
+            platsBut.add(new Plat(plat));
+        }
+        // Copie des objets fixes
+        this.longueur = donneesJeu.longueur;
+        this.hauteur = donneesJeu.hauteur;
+        this.objetsFixes = Copie.CopieObjetFixe(hauteur, longueur, donneesJeu.objetsFixes);
+
+        // Copie des objets déplacables
+        this.objetsDeplacables = Copie.CopieObjetDeplacables(hauteur, longueur, donneesJeu.objetsDeplacables);
+
+        // Copie des joueurs
+        this.joueurs = Copie.CopieJoueurs(donneesJeu.joueurs);
+    }
+
     /**
      * Retourne les coordonnées des éléments correspondant au paramètre
      *
@@ -229,6 +229,17 @@ public class DonneesJeu {
                 if (objetsDeplacable != null) {
                     if (objetsDeplacable.getNom().equals(element)) {
                         coordonneesElem.add(new int[]{i, j});
+                    }
+                }
+
+                // Trouver un joueur
+                for (Joueur joueur : joueurs) {
+                    int[] position = joueur.getPosition();
+                    if (position[0] == i && position[1] == j) {
+                        String numJoueur = joueur.getNumJoueur() + "";
+                        if (element.equals(numJoueur)) {
+                            coordonneesElem.add(new int[]{i, j});
+                        }
                     }
                 }
             }
