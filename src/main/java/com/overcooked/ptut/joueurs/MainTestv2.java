@@ -1,7 +1,6 @@
 package com.overcooked.ptut.joueurs;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
-import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
@@ -13,17 +12,6 @@ import static com.overcooked.ptut.constructionCarte.GestionActions.faireAction;
 public class MainTestv2 {
 
     public static void main(String[] args){
-
-        // fixer le message d'aide
-        ArgParse.setUsage
-            ("Utilisation :\n\n"
-             + "java LancerRecherche [-prob problem] [-algo algoname]"
-             + "[-v] [-h]\n"
-             + "-prob : Le nom du problem {dum, map, vac, puz, rush}. Par défaut vac\n"
-             + "-algo : L'algorithme {rnd, bfs, dfs, ucs, gfs, astar}. Par défault rnd\n"
-             + "-v    : Rendre bavard (mettre à la fin)\n"
-             + "-h    : afficher ceci (mettre à la fin)"
-             );
 
         DonneesJeu donneesJeu = new DonneesJeu("niveaux/niveau4.txt");
         while (donneesJeu.getPlatDepose().isEmpty()) {
