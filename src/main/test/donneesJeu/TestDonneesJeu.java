@@ -127,4 +127,12 @@ public class TestDonneesJeu {
         assertNotNull(((PlanDeTravail) planDeTravail).getInventaire());
     }
 
+    @Test
+    public void testgetPlanDeTravailVidePlusProche(){
+        donneesJeu = new DonneesJeu("niveaux/niveauTest.txt", true);
+        Joueur joueur = donneesJeu.getJoueurs().get(0);
+        System.out.println();
+        assertEquals(Arrays.toString(donneesJeu.getPlanDeTravailVidePlusProche(joueur.getPosition())), Arrays.toString(new int[]{0, 0}));
+    }
+
 }

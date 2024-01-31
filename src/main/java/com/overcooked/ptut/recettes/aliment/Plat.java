@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class Plat extends Aliment {
     // Liste des recettes qui composent la recette en question
-    Map<String, Aliment> recettesComposees;
+    public Map<String, Aliment> recettesComposees;
 
     public Plat() {
         super();
@@ -58,6 +58,12 @@ public class Plat extends Aliment {
     public void ajouterAliment(Aliment aliment) {
         String nomAlim = aliment.getNom();
         recettesComposees.putIfAbsent(nomAlim, aliment);
+        this.nom = getNomPlat();
+    }
+
+    public void supprimerAliment(Aliment aliment){
+        String nomAlim = aliment.getNom();
+        recettesComposees.remove(nomAlim);
         this.nom = getNomPlat();
     }
 
