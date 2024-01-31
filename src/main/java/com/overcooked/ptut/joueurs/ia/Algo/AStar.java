@@ -40,7 +40,7 @@ public class AStar extends TreeSearch {
         if (ArgParse.DEBUG)
             System.out.print("[" + state);
 
-        while (!frontier.isEmpty()){
+        while (!frontier.isEmpty() && explored.toArray().length<150){
             // Stratégie: Astar
             node = frontier.poll();
 //            System.out.println(node.getState());
@@ -73,11 +73,14 @@ public class AStar extends TreeSearch {
 //                    System.out.println(node.getState());
                     // Nœud enfant
                     SearchNode child = SearchNode.makeChildSearchNode(problem, node, a);
-//                    System.out.println(child.getHeuristic());
+                    double heuristique = child.getHeuristic();
+//                    double cout = child.getCost();
+//                    System.out.println("heuristie: "+heuristique);
+//                    System.out.println("Cout: +"+cout);
 //                    System.out.println(child.getState());
 
                     // Si pas de solution on le met dans les explorer
-                    if(child.getHeuristic() == -1) explored.add(child.getState());
+                    if(heuristique == -1) explored.add(child.getState()); // || (heuristique!=0 && cout>2*heuristique) || cout>=9
                     // S'il n'est pas dans la frontière et si son état n'a pas été visité
                     else if (!frontier.contains(child) && !explored.contains(child.getState())) {
                         // L'insérer dans la frontière avec la priorité du coût

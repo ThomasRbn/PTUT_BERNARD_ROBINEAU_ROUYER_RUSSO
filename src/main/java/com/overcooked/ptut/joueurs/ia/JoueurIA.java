@@ -77,6 +77,6 @@ public class JoueurIA extends Joueur {
         State s2 = new OvercookedUnJoueurIAv2State(donneesJeu, numJoueur, alimentCoordonnees.getAliment(), alimentCoordonnees.getCoordonnees());
         AStar algoAstar = new AStar(p2, s2);
         List<Action> listeAction = algoAstar.solve();
-        return listeAction.getFirst();
+        return listeAction == null? Action.RIEN: listeAction.getFirst();
     }
 }

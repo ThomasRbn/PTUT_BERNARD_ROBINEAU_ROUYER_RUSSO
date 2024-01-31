@@ -53,17 +53,7 @@ public class CalculHeuristiquePlat extends SearchProblemAC {
 
         // On cherche à récupéré les actions possibles, donc on regarde ce dont on a besoin
         for (Aliment a : platBut.getRecettesComposees()) {
-            if (inventaire != null) {
-                // On commence par regarder l'inventaire du joueur pour savoir ce qui est en cours
-                boolean continu = false;
-                // Si l'aliment du plat but est dans l'inventaire, on passe l'aliment
-                for (Aliment aliment : inventaire.getRecettesComposees()) {
-                    if (aliment.equalsType(a)) continu = true;
-
-                }
-                if (continu) continue;
-            }
-            // Récupération des aliments en état but
+             // Récupération des aliments en état but
             List<int[]> listeCoordonneesEtatNom = donneesJeu.getCoordonneesElement(a.getEtatNom());
 
             // Si la liste n'est pas vide, on ajoute ces aliments dans ce que l'ont doit aller chercher

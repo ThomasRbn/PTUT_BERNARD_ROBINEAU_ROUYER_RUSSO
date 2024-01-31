@@ -1,0 +1,7 @@
+XSXXXTX
+C..C..C
+X..X..X
+XJ.P.JX
+XDPXPXX
+-
+T 3, S 3
