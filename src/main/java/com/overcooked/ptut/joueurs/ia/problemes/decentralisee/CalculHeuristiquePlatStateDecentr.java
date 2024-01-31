@@ -168,7 +168,7 @@ public class CalculHeuristiquePlatStateDecentr extends State {
         return visitees.isEmpty() || Objects.equals(visitees.getLast().getNom(), "pdt");
     }
 
-    public int[] getCoordonneeVisitePDT() { // TODO: pouvoir récupéré pls aliment?
+    public int[] getCoordonneeVisitePDT() {
         int[] pdt = null;
         for (Aliment a : visitees) {
             if (Objects.equals(a.getNom(), "pdt")) pdt = a.getCoordonnees();
