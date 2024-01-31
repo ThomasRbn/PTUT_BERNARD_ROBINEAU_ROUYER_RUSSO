@@ -2,12 +2,10 @@ package com.overcooked.ptut.joueurs.ia.algo;
 
 
 import com.overcooked.ptut.joueurs.Joueur;
-import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNode;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.TreeSearch;
-import com.overcooked.ptut.joueurs.ia.problemes.decentralisee.OvercookedUnJoueurIADecentr;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import java.util.ArrayList;
@@ -23,6 +21,7 @@ public class AStarDecentr extends TreeSearch {
      * @param s L'état initial
      */
     List<Joueur> joueurList;
+
     public AStarDecentr(SearchProblem p, State s) {
         super(p, s);
         joueurList = new ArrayList<>();
@@ -30,7 +29,7 @@ public class AStarDecentr extends TreeSearch {
         frontier = new PriorityQueue<>(new SearchNodeComparator());
     }
 
-//    @Override
+    //    @Override
     public ArrayList<Action> solve() {
 //        int explore = 0;
         SearchNode node = SearchNode.makeRootSearchNode(intial_state);
@@ -42,10 +41,7 @@ public class AStarDecentr extends TreeSearch {
         // On initialise l'ensemble des nœuds déjà explorés a vide
         explored.clear();
 
-        if (ArgParse.DEBUG)
-            System.out.print("[" + state);
-
-        while (!frontier.isEmpty()){
+        while (!frontier.isEmpty()) {
             // Stratégie: Astar
             node = frontier.poll();
 //            System.out.println(node.getState());
@@ -82,17 +78,17 @@ public class AStarDecentr extends TreeSearch {
 //                    System.out.println(child.getState());
 
                     // Si pas de solution on le met dans les explorer
-                    if(child.getHeuristic() == -1) explored.add(child.getState());
-                    // S'il n'est pas dans la frontière et si son état n'a pas été visité
+                    if (child.getHeuristic() == -1) explored.add(child.getState());
+                        // S'il n'est pas dans la frontière et si son état n'a pas été visité
                     else if (!frontier.contains(child) && !explored.contains(child.getState())) {
                         // L'insérer dans la frontière avec la priorité du coût
                         frontier.add(child);
-                    }else if(frontier.contains(child)){
+                    } else if (frontier.contains(child)) {
                         // Si le nœud est déjà dans la frontière
                         // On récupère le nœud de la frontière
                         SearchNode frontier_node = frontier.stream().filter(n -> n.equals(child)).findFirst().get();
                         // Si la somme heuristique + cout du nœud enfant est inférieur à celle du nœud de la frontière
-                        if((child.getHeuristic() + child.getCost()) < (frontier_node.getHeuristic() + frontier_node.getCost())){
+                        if ((child.getHeuristic() + child.getCost()) < (frontier_node.getHeuristic() + frontier_node.getCost())) {
                             // On le remplace
                             frontier.remove(frontier_node);
                             frontier.add(child);

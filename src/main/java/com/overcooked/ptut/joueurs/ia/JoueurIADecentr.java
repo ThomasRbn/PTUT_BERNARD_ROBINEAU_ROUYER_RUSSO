@@ -4,7 +4,6 @@ import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.algo.AStar;
 import com.overcooked.ptut.joueurs.ia.algo.BFS;
-import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
@@ -47,7 +46,7 @@ public class JoueurIADecentr extends JoueurIA {
             genererAutresJoueurs(numJoueur);
 
         State s = new OvercookedUnJoueurIAStateDecentr(donneesJeuClone, numJoueur);
-        AStar algo = (AStar) ArgParse.makeAlgo("astar", p, s);
+        AStar algo = new AStar(p, s);
         List<AlimentCoordonnees> listeActions = new ArrayList<>();
         // Boucle pour récupéré le dernier Aliment coordonnee du resultat
         ArrayList<Action> solution = algo.solve();

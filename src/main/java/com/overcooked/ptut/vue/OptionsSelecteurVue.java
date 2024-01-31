@@ -75,7 +75,6 @@ public class OptionsSelecteurVue extends VBox {
             }
 
             for (int i = 0; i < comboList.size(); i++) {
-                System.out.println(jeu.getCoordonneesJoueurs().get(i)[0] + " " + jeu.getCoordonneesJoueurs().get(i)[1]);
                 switch (comboList.get(i).getValue()) {
                     case "Humain" ->
                             jeu.getJoueurs().add(new JoueurHumain(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));

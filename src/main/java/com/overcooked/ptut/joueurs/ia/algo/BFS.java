@@ -1,7 +1,6 @@
 package com.overcooked.ptut.joueurs.ia.algo;
 
 
-import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
@@ -27,7 +26,7 @@ public class BFS extends TreeSearchAC {
         frontier = new PriorityQueue<>(new SearchNodeComparator());
     }
 
-//    @Override
+    //    @Override
     public SearchNodeAC solve() {
 //        System.out.println("Algo choisi: BFS");
         SearchNodeAC node = SearchNodeAC.makeRootSearchNode(intial_state);
@@ -39,10 +38,7 @@ public class BFS extends TreeSearchAC {
         // On initialise l'ensemble des nœuds déjà explorés a vide
         explored.clear();
 
-        if (ArgParse.DEBUG)
-            System.out.print("[" + state);
-
-        while (!frontier.isEmpty() && (explored.size() < 500)){
+        while (!frontier.isEmpty() && (explored.size() < 500)) {
             // Stratégie: BFS
             node = frontier.poll();
 
@@ -71,7 +67,7 @@ public class BFS extends TreeSearchAC {
                     if (!frontier.contains(child) && !explored.contains(child.getState())) {
                         // L'insérer dans la frontière avec la priorité du coût
                         frontier.add(child);
-                    }else if(frontier.contains(child)){
+                    } else if (frontier.contains(child)) {
 
                         // Si le nœud est déjà dans la frontière
                         // On récupère le nœud de la frontière
@@ -85,7 +81,7 @@ public class BFS extends TreeSearchAC {
                                 frontier.remove(frontier_node);
                                 frontier.add(child);
                             }
-                        }else{
+                        } else {
                             System.out.println("??");
                             System.out.println("ok?");
                         }

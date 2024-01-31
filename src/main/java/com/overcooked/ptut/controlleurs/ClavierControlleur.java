@@ -61,22 +61,18 @@ public class ClavierControlleur {
         switch (key.getCode()) {
             case Z:
                 if (isLegal(Action.HAUT, joueur.getNumJoueur(), jeu))
-//                    faireAction(Action.HAUT, joueur.getNumJoueur(), jeu);
                     jeu.getActionsDuTour().ajouterAction(joueur, Action.HAUT);
                 break;
             case S:
                 if (isLegal(Action.BAS, joueur.getNumJoueur(), jeu))
-//                    faireAction(Action.BAS, joueur.getNumJoueur(), jeu);
                     jeu.getActionsDuTour().ajouterAction(joueur, Action.BAS);
                 break;
             case Q:
                 if (isLegal(Action.GAUCHE, joueur.getNumJoueur(), jeu))
-//                    faireAction(Action.GAUCHE, joueur.getNumJoueur(), jeu);
                     jeu.getActionsDuTour().ajouterAction(joueur, Action.GAUCHE);
                 break;
             case D:
                 if (isLegal(Action.DROITE, joueur.getNumJoueur(), jeu))
-//                    faireAction(Action.DROITE, joueur.getNumJoueur(), jeu);
                     jeu.getActionsDuTour().ajouterAction(joueur, Action.DROITE);
                 break;
             case R:
@@ -84,7 +80,6 @@ public class ClavierControlleur {
             case E:
                 if (isLegal(Action.UTILISER, joueur.getNumJoueur(), jeu)) {
                     jeu.getActionsDuTour().ajouterAction(joueur, Action.UTILISER);
-//                    faireAction(Action.UTILISER, joueur.getNumJoueur(), jeu);
 //                    int[] cible = joueur.getPositionCible();
 //                    Transformateur transformateur = (Transformateur) jeu.getObjetsFixes()[cible[0]][cible[1]];
 //                    plateau.genererTask(transformateur, jeu);
@@ -92,10 +87,8 @@ public class ClavierControlleur {
                 break;
             case SPACE:
                 if (isLegal(Action.PRENDRE, joueur.getNumJoueur(), jeu)) {
-//                    faireAction(Action.PRENDRE, joueur.getNumJoueur(), jeu);
                     jeu.getActionsDuTour().ajouterAction(joueur, Action.PRENDRE);
                 } else if (isLegal(Action.POSER, joueur.getNumJoueur(), jeu)) {
-//                    faireAction(Action.POSER, joueur.getNumJoueur(), jeu);
                     jeu.getActionsDuTour().ajouterAction(joueur, Action.POSER);
                 }
                 break;
@@ -109,7 +102,9 @@ public class ClavierControlleur {
         new Thread(() -> {
             while (!jeu.isJeuTermine()) {
                 for (Joueur joueur : joueursIA) {
+                    long now = System.nanoTime();
                     Action actionIA = joueur.demanderAction(jeu);
+                    System.out.println("Temps IA : " + (System.nanoTime() - now) / 1_000 + "µs");
                     System.out.println("Action IA : " + actionIA);
                     jeu.getActionsDuTour().ajouterAction(joueur, actionIA);
                 }

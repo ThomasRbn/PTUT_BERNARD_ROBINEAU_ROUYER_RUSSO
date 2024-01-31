@@ -1,7 +1,6 @@
 package com.overcooked.ptut.joueurs.ia.algo;
 
 
-import com.overcooked.ptut.joueurs.ia.framework.common.ArgParse;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNode;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
@@ -36,9 +35,6 @@ public class AStar extends TreeSearch {
 
         // On initialise l'ensemble des nœuds déjà explorés a vide
         explored.clear();
-
-        if (ArgParse.DEBUG)
-            System.out.print("[" + state);
 
         while (!frontier.isEmpty() && explored.toArray().length<150){
             // Stratégie: Astar
