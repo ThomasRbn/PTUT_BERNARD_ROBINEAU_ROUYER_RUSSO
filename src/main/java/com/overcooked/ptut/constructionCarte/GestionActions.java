@@ -38,7 +38,7 @@ public class GestionActions {
                     if (objetFixe instanceof PlanDeTravail && objetFixe.getInventaire() != null) {
                         yield joueur.getInventaire().estFusionnable(objetFixe.getInventaire());
                     }
-                    if(objetFixe instanceof Transformateur transformateur && transformateur.getInventaire() != null)
+                    if (objetFixe instanceof Transformateur transformateur && transformateur.getInventaire() != null)
                         yield joueur.getInventaire().estFusionnable(transformateur.getInventaire());
                     yield false;
                 } else {
@@ -94,8 +94,8 @@ public class GestionActions {
     /**
      * Methode permettant de faire une action
      *
-     * @param a           Action à faire
-     * @param numJoueur   Numéro du joueur
+     * @param a         Action à faire
+     * @param numJoueur Numéro du joueur
      */
     public static void faireAction(Action a, int numJoueur, DonneesJeu donneesJeu) {
         Bloc[][] objetsFixes = donneesJeu.getObjetsFixes();
@@ -121,7 +121,8 @@ public class GestionActions {
             //Utiliser un transformateur
             case UTILISER -> utiliser((Transformateur) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]]);
 
-            case RIEN -> {}
+            case RIEN -> {
+            }
 
             //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.faireAction, action invalide" + a);
