@@ -57,55 +57,66 @@ public class ClavierControlleur {
      * @param joueur  Joueur
      * @param plateau Plateau
      */
-    private void handleHumainInput(KeyEvent key, Joueur joueur, PlateauVue plateau, DonneesJeu jeu) {
+    private Action handleHumainInput(KeyEvent key, Joueur joueur, PlateauVue plateau, DonneesJeu jeu) {
+        Action action = null;
         switch (key.getCode()) {
             case Z:
-                if (isLegal(Action.HAUT, joueur.getNumJoueur(), jeu))
-                    jeu.getActionsDuTour().ajouterAction(joueur, Action.HAUT);
+                action = Action.HAUT;
                 break;
             case S:
-                if (isLegal(Action.BAS, joueur.getNumJoueur(), jeu))
-                    jeu.getActionsDuTour().ajouterAction(joueur, Action.BAS);
+                action = Action.BAS;
                 break;
             case Q:
-                if (isLegal(Action.GAUCHE, joueur.getNumJoueur(), jeu))
-                    jeu.getActionsDuTour().ajouterAction(joueur, Action.GAUCHE);
+                action = Action.GAUCHE;
                 break;
             case D:
-                if (isLegal(Action.DROITE, joueur.getNumJoueur(), jeu))
-                    jeu.getActionsDuTour().ajouterAction(joueur, Action.DROITE);
+                action = Action.DROITE;
                 break;
             case R:
-                jeu.getActionsDuTour().ajouterAction(joueur, Action.RIEN);
+                action = Action.RIEN;
             case E:
-                if (isLegal(Action.UTILISER, joueur.getNumJoueur(), jeu)) {
-                    jeu.getActionsDuTour().ajouterAction(joueur, Action.UTILISER);
+                action = Action.UTILISER;
 //                    int[] cible = joueur.getPositionCible();
 //                    Transformateur transformateur = (Transformateur) jeu.getObjetsFixes()[cible[0]][cible[1]];
 //                    plateau.genererTask(transformateur, jeu);
-                }
                 break;
             case SPACE:
-                if (isLegal(Action.PRENDRE, joueur.getNumJoueur(), jeu)) {
-                    jeu.getActionsDuTour().ajouterAction(joueur, Action.PRENDRE);
-                } else if (isLegal(Action.POSER, joueur.getNumJoueur(), jeu)) {
-                    jeu.getActionsDuTour().ajouterAction(joueur, Action.POSER);
-                }
+                action = Action.PRENDRE;
                 break;
             default:
                 break;
         }
+        if (action == Action.PRENDRE) {
+            if (isLegal(Action.PRENDRE, joueur.getNumJoueur(), jeu)) {
+                jeu.getActionsDuTour().ajouterAction(joueur, Action.PRENDRE);
+            } else if (isLegal(Action.POSER, joueur.getNumJoueur(), jeu)) {
+                jeu.getActionsDuTour().ajouterAction(joueur, Action.POSER);
+            }
+        }
+        if (action != null && isLegal(action, joueur.getNumJoueur(), jeu)) {
+            jeu.getActionsDuTour().ajouterAction(joueur, action);
+        }
+        return action;
     }
 
     public void lancerThreadIA(DonneesJeu jeu, PlateauVue plateau, HeaderVue header) {
         List<Joueur> joueursIA = jeu.getJoueurs().stream().filter(joueur -> joueur instanceof JoueurIA).toList();
         new Thread(() -> {
+            Action actionIA = null;
             while (!jeu.isJeuTermine()) {
                 for (Joueur joueur : joueursIA) {
                     long now = System.nanoTime();
-                    Action actionIA = joueur.demanderAction(jeu);
+                    actionIA = joueur.demanderAction(jeu);
                     System.out.println("Temps IA : " + (System.nanoTime() - now) / 1_000 + "µs");
                     System.out.println("Action IA : " + actionIA);
+                    Action finalActionIA = actionIA;
+                    AnimationTimer an =  new AnimationTimer() {
+                        @Override
+                        public void handle(long now) {
+                            plateau.ajouterPoint(joueur, finalActionIA);
+                        }
+                    };
+                    an.start();
                     jeu.getActionsDuTour().ajouterAction(joueur, actionIA);
                 }
                 while (!jeu.getActionsDuTour().isTourTermine()) {
