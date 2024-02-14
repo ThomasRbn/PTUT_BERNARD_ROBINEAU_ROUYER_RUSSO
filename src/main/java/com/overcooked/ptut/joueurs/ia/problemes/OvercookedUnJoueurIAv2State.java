@@ -71,8 +71,14 @@ public class OvercookedUnJoueurIAv2State extends State implements HasHeuristic {
      */
     @Override
     public double getHeuristic() {
+        int[] positionJoueur;
+        if(Objects.equals(aliment.getNom(), "j")) {
+           positionJoueur = donnees.getJoueur(numJoueur).getPosition();
 
-        int[] positionJoueur = donnees.getJoueur(numJoueur).getPositionCible();
+        }else {
+
+            positionJoueur = donnees.getJoueur(numJoueur).getPositionCible();
+        }
 
         return Math.abs(positionJoueur[0] - objectif[0]) + Math.abs(positionJoueur[1] - objectif[1]);
     }
@@ -98,6 +104,9 @@ public class OvercookedUnJoueurIAv2State extends State implements HasHeuristic {
 
     public boolean isGoalState() {
         Joueur joueur = donnees.getJoueur(numJoueur);
+        if(Objects.equals(aliment.getNom(), "j")){
+            return joueur.getPosition()[0] == objectif[0] && joueur.getPosition()[1] == objectif[1];
+        }
         if (!(joueur.getPositionCible()[0] == objectif[0] && joueur.getPositionCible()[1] == objectif[1]) )return false;
         if(Objects.equals(aliment.getNom(), "Decoupe") || Objects.equals(aliment.getNom(), "Cuisson") ){
             //On vérifie si l'aliment à la position cible du joueur est découpé
@@ -114,6 +123,7 @@ public class OvercookedUnJoueurIAv2State extends State implements HasHeuristic {
         if(Objects.equals(aliment.getNom(), "pdt")){
             return joueur.getInventaire()== null;
         }
+
 
         Plat inventaireJoueur = joueur.getInventaire();
         if(inventaireJoueur == null)return false;
