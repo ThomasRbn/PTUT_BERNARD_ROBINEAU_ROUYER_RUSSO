@@ -3,6 +3,7 @@ package com.overcooked.ptut.vue;
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.controlleurs.ClavierControlleur;
 import com.overcooked.ptut.joueurs.Joueur;
+import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.objet.Depot;
 import com.overcooked.ptut.objet.Generateur;
@@ -16,6 +17,8 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import static com.overcooked.ptut.vue.AfficheurInfobulle.afficherEtatCercle;
 
@@ -162,5 +165,25 @@ public class PlateauVue extends GridPane {
 
     public ClavierControlleur getClavierController() {
         return clavierController;
+    }
+
+    public void ajouterPoint(Joueur joueur, Action actionIA) {
+        int[] position = new int[2];
+        position[0] = joueur.getPosition()[0];
+        position[1] = joueur.getPosition()[1];
+        switch (actionIA) {
+            case DROITE -> position[1]++;
+            case GAUCHE -> position[1]--;
+            case HAUT -> position[0]--;
+            case BAS -> position[0]++;
+            default -> {}
+        }
+        StackPane caseBloc = new StackPane();
+        Circle cercle = new Circle(tailleCellule / 10 * 3);
+        cercle.setFill(Color.TRANSPARENT);
+        cercle.setStroke(Color.GRAY);
+        cercle.setStrokeWidth(3);
+        caseBloc.getChildren().add(cercle);
+        this.add(caseBloc, position[1], position[0]);
     }
 }
