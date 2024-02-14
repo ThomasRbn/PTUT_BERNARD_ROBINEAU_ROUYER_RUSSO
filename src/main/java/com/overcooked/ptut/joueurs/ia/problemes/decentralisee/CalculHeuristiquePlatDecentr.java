@@ -18,15 +18,11 @@ public class CalculHeuristiquePlatDecentr extends SearchProblemAC {
     int[] coordonneesDepart;
 
     Plat platBut;
-
     AlimentCoordonnees depot;
-
     List<int[]> listeCoordonneesCuisson;
-
     List<int[]> listeCoordonneesPlanche;
     List<int[]> listeCoordonneesPDT;
     boolean retourDepot;
-
     DonneesJeu donneesJeu;
 
     int numJoueur;

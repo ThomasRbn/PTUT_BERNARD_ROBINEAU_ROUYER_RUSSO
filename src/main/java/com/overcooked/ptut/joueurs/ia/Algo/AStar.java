@@ -40,7 +40,7 @@ public class AStar extends TreeSearch {
         if (ArgParse.DEBUG)
             System.out.print("[" + state);
 
-        while (!frontier.isEmpty() && (explored.size() < 1500)){
+        while (!frontier.isEmpty()){
             // Stratégie: Astar
             node = frontier.poll();
 //            System.out.println(node.getState());
