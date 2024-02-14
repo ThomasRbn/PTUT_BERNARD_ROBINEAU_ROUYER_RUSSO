@@ -47,29 +47,9 @@ public class JoueurIADecentr extends JoueurIA {
             genererAutresJoueurs(numJoueur);
 
         State s = new OvercookedUnJoueurIAStateDecentr(donneesJeuClone, numJoueur);
-        AStar algo = (AStar) ArgParse.makeAlgo("astar", p, s);
-        List<AlimentCoordonnees> listeActions = new ArrayList<>();
-        // Boucle pour récupéré le dernier Aliment coordonnee du resultat
+        AStar algo = new AStar(p, s);
+        // Boucle pour récupérer le dernier Aliment coordonnee du resultat
         ArrayList<Action> solution = algo.solve();
-
-        SearchProblemAC prob = new CalculHeuristiquePlatDecentr(this.platsBut.getFirst(), numJoueur, this.donneesJeuClone);
-        State state = new CalculHeuristiquePlatStateDecentr(this.donneesJeuClone, numJoueur);
-        BFS algo2 = new BFS(prob, state);
-        // résoudre
-        SearchNodeAC sol = algo2.solve();
-        List<AlimentCoordonnees> lisAction = new ArrayList<>();
-        // Boucle pour récupéré le dernier Aliment coordonnee du resultat
-        while (sol != null && sol.getAlimentCoordonnees() != null) {
-            lisAction.add(sol.getAlimentCoordonnees());
-            sol = sol.getParent();
-        }
-        AlimentCoordonnees action = null;
-        // Affichage lisAction
-        if (!lisAction.isEmpty()) {
-            action = lisAction.getLast();
-            //System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
-        }
-
         // résoudre
         return solution != null ? solution.getFirst() : Action.RIEN;
     }
@@ -100,7 +80,6 @@ public class JoueurIADecentr extends JoueurIA {
             solution = solution.getParent();
         }
         AlimentCoordonnees action = null;
-        // Affichage listeActions
         if (!listeActions.isEmpty()) {
             action = listeActions.getLast();
             //listeActions.forEach(alimentCoordonnees -> {
