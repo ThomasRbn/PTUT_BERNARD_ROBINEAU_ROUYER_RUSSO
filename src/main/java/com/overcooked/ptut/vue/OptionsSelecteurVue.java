@@ -2,6 +2,7 @@ package com.overcooked.ptut.vue;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.JoueurHumain;
+import com.overcooked.ptut.joueurs.autonome.JoueurAutoN0;
 import com.overcooked.ptut.joueurs.autonome.JoueurAutoN4;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.ia.JoueurIADecentr;
@@ -40,6 +41,7 @@ public class OptionsSelecteurVue extends VBox {
             comboBox.setValue("Choisir un type de joueur");
             comboBox.getItems().add("Humain");
             comboBox.getItems().add("IA");
+            comboBox.getItems().add("AutoN0");
             comboBox.getItems().add("AutoN4");
             comboBox.getItems().add("IADecentralisee");
             this.getChildren().add(comboBox);
@@ -80,6 +82,8 @@ public class OptionsSelecteurVue extends VBox {
                             jeu.getJoueurs().add(new JoueurHumain(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
                     case "IA" ->
                             jeu.getJoueurs().add(new JoueurIA(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
+                    case "AutoN0" ->
+                            jeu.getJoueurs().add(new JoueurAutoN0(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
                     case "AutoN4" ->
                             jeu.getJoueurs().add(new JoueurAutoN4(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
                     case "IADecentralisee" ->

@@ -2,6 +2,7 @@ package com.overcooked.ptut.vue.joueur;
 
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
+import com.overcooked.ptut.joueurs.autonome.JoueurAutoN0;
 import com.overcooked.ptut.joueurs.autonome.JoueurAutoN4;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.ia.JoueurIADecentr;
@@ -26,8 +27,9 @@ public class JoueurVue extends Pane {
         visuelJoueur.setLayoutY(tailleCellule / 10);
 
         Circle cercle = new Circle(tailleCellule / 2 - tailleCellule / 10);
-        cercle.setFill(switch (joueur){
+        cercle.setFill(switch (joueur) {
             case JoueurHumain ignored -> Color.PURPLE;
+            case JoueurAutoN0 ignored -> Color.YELLOW;
             case JoueurAutoN4 ignored -> Color.YELLOW;
             case JoueurIADecentr ignored -> Color.BLUE;
             case JoueurIA ignored -> Color.PINK;
@@ -53,7 +55,7 @@ public class JoueurVue extends Pane {
         List<AlimentVue> aliments = new ArrayList<>();
         List<Aliment> recettesComposees = joueur.getInventaire().getRecettesComposees();
         for (int i = 0; i < recettesComposees.size(); i++) {
-            AlimentVue alimentVue = afficherEtatCercle(recettesComposees.get(i), tailleCellule  / 10 * 3, i + 1);
+            AlimentVue alimentVue = afficherEtatCercle(recettesComposees.get(i), tailleCellule / 10 * 3, i + 1);
             aliments.add(alimentVue);
         }
         return aliments;
