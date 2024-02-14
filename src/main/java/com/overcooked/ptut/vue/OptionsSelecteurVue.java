@@ -5,6 +5,7 @@ import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.autonome.JoueurAutoN4;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.ia.JoueurIADecentr;
+import com.overcooked.ptut.joueurs.ia.JoueurIADecentrV2;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -85,6 +86,8 @@ public class OptionsSelecteurVue extends VBox {
                             jeu.getJoueurs().add(new JoueurAutoN4(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
                     case "IADecentralisee" ->
                             jeu.getJoueurs().add(new JoueurIADecentr(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
+                    case "IADecentraliseeV2" ->
+                            jeu.getJoueurs().add(new JoueurIADecentrV2(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
                 }
                 jeu.getJoueur(i).setNumJoueur(i);
             }

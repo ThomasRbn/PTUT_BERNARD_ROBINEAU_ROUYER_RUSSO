@@ -4,6 +4,7 @@ import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.JoueurHumain;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.ia.JoueurIADecentr;
+import com.overcooked.ptut.joueurs.ia.JoueurIADecentrV2;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.objet.Generateur;
 import com.overcooked.ptut.objet.PlanDeTravail;
@@ -23,6 +24,7 @@ public class Creation {
             case "H" -> new JoueurHumain(indexLigne, indexColonne);
             case "IA" -> new JoueurIA(indexLigne, indexColonne);
             case "IAD" -> new JoueurIADecentr(indexLigne, indexColonne);
+            case "IAD2" -> new JoueurIADecentrV2(indexLigne, indexColonne);
             default -> throw new IllegalStateException("Unexpected value: " + demanderTypeJoueur());
         };
     }
