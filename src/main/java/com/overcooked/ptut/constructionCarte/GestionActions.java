@@ -22,7 +22,7 @@ public class GestionActions {
         Joueur joueur = donneesJeu.getJoueur(numJoueur);
         int[] positionJoueur = joueur.getPosition();
 
-        int[] caseDevant = new int[2];
+        int[] caseDevant;
         caseDevant = joueur.getPositionCible();
 
         final Bloc objetFixe = objetsFixes[caseDevant[0]][caseDevant[1]];
@@ -38,11 +38,11 @@ public class GestionActions {
                     if (objetFixe instanceof PlanDeTravail && objetFixe.getInventaire() != null) {
                         yield joueur.getInventaire().estFusionnable(objetFixe.getInventaire());
                     }
-                    if(objetFixe instanceof Transformateur transformateur && transformateur.getInventaire() != null)
+                    if (objetFixe instanceof Transformateur transformateur && transformateur.getInventaire() != null)
                         yield joueur.getInventaire().estFusionnable(transformateur.getInventaire());
                     yield false;
                 } else {
-                    // Calcul des coordonnes de la case devant le joueur
+                    // Calcul des coordonnés de la case devant le joueur
 
                     //Recherche dans objetDeplacable s'il y a un objet à prendre
                     yield objetDeplacable != null
@@ -53,7 +53,6 @@ public class GestionActions {
                 }
             }
             case POSER -> {
-
                 // On vérifie si le joueur à quelque chose dans les mains
                 if (joueur.getInventaire() == null) {
                     yield false;
@@ -63,7 +62,7 @@ public class GestionActions {
                         yield joueur.getInventaire().getRecettesComposees().size() == 1
                                 && objetFixe.getInventaire() == null;
 
-                    } //Il faut vérifier que l'aliment est fusionnable avec l'objet fixe
+                    } //Il faut vérifier que l'aliment est fusionable avec l'objet fixe
                     if (objetFixe instanceof Generateur generateur) {
                         yield joueur.getInventaire().estFusionnable(generateur.getAliment());
                     }
@@ -84,6 +83,7 @@ public class GestionActions {
                     && joueur.getInventaire() == null
                     && transformateur.getInventaire().getRecettesComposees().size() == 1
                     && !transformateur.estTransforme();
+            case RIEN -> true;
 
             //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.isLegal, action invalide" + a);
@@ -94,8 +94,8 @@ public class GestionActions {
     /**
      * Methode permettant de faire une action
      *
-     * @param a
-     * @param numJoueur
+     * @param a         Action à faire
+     * @param numJoueur Numéro du joueur
      */
     public static void faireAction(Action a, int numJoueur, DonneesJeu donneesJeu) {
         Bloc[][] objetsFixes = donneesJeu.getObjetsFixes();
@@ -103,7 +103,7 @@ public class GestionActions {
         Joueur joueur = donneesJeu.getJoueur(numJoueur);
         int[] positionJoueurCible = joueur.getPositionCible();
         switch (a) {
-            //Deplacement du joueur si possible
+            // Deplacement du joueur si possible
             case DROITE, GAUCHE, HAUT, BAS -> {
                 joueur.changeDirection(a);
                 // On remet le joueur dans la bonne direction, car il change sa direction avant de se déplacer
@@ -121,7 +121,8 @@ public class GestionActions {
             //Utiliser un transformateur
             case UTILISER -> utiliser((Transformateur) objetsFixes[positionJoueurCible[0]][positionJoueurCible[1]]);
 
-            case RIEN -> {}
+            case RIEN -> {
+            }
 
             //Exception si l'action n'est pas reconnue
             default -> throw new IllegalArgumentException("DonneesJeu.faireAction, action invalide" + a);
@@ -167,7 +168,7 @@ public class GestionActions {
     /**
      * Methode permettant de prendre un objet
      *
-     * @param joueur
+     * @param joueur Joueur qui prend l'objet
      */
     private static void prendre(Joueur joueur, Bloc[][] objetsFixes, Plat[][] objetsDeplacables) {
         // Position cible du joueur en fonction de sa direction

@@ -15,6 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Copie {
+
+    /**
+     * Retourne une copie des objets fixes du jeu de données
+     *
+     * @param hauteur Hauteur de la carte
+     * @param longueur Longueur de la carte
+     * @param objetsFixes Ensemble d'objets fixes à copier
+     * @return Une copie des objets fixes
+     */
     static Bloc[][] CopieObjetFixe(int hauteur, int longueur, Bloc[][] objetsFixes) {
         Bloc[][] objetsFixesCopie = new Bloc[hauteur][longueur];
         for (int i = 0; i < objetsFixes.length; i++) {
@@ -34,6 +43,14 @@ public class Copie {
         return objetsFixesCopie;
     }
 
+    /**
+     * Retourne une copie des objets déplaçables du jeu de données
+     *
+     * @param hauteur Hauteur de la carte
+     * @param longueur Longueur de la carte
+     * @param objetsDeplacables Ensemble d'objets déplaçables à copier
+     * @return Une copie des objets déplaçables
+     */
     static Plat[][] CopieObjetDeplacables(int hauteur, int longueur, Plat[][] objetsDeplacables) {
         Plat[][] objetsDeplacablesCopie = new Plat[hauteur][longueur];
         for (int i = 0; i < objetsDeplacables.length; i++) {
@@ -46,6 +63,12 @@ public class Copie {
         return objetsDeplacablesCopie;
     }
 
+    /**
+     * Retourne une copie des joueurs du jeu de données
+     *
+     * @param joueurs Ensemble de joueurs à copier
+     * @return Une copie des joueurs
+     */
     static List<Joueur> CopieJoueurs(List<Joueur> joueurs) {
         ArrayList<Joueur> joueursCopie = new ArrayList<>();
         for (Joueur joueur : joueurs) {

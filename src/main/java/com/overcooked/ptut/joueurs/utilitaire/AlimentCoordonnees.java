@@ -23,4 +23,12 @@ public class AlimentCoordonnees implements Comparable<AlimentCoordonnees> {
     public int compareTo(AlimentCoordonnees o) {
         return aliment.getEtatNom() == o.getAliment().getEtatNom() && coordonnees[0] == o.getCoordonnees()[0] && coordonnees[1] == o.getCoordonnees()[1] ? 0 : -1;
     }
+
+    @Override
+    public String toString() {
+        return "AlimentCoordonnees{" +
+                "aliment=" + aliment +
+                ", coordonnees=" + coordonnees[0] + " " + coordonnees[1] +
+                '}';
+    }
 }

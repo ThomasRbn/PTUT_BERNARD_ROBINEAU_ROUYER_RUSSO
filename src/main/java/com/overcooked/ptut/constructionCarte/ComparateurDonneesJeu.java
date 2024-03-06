@@ -9,9 +9,9 @@ public class ComparateurDonneesJeu {
     /**
      * Retourne vrai si deux jeux de données sont strictement identiques
      *
-     * @param donneesJeu1
-     * @param donneesJeu2
-     * @return
+     * @param donneesJeu1 Données du jeu 1
+     * @param donneesJeu2 Données du jeu 2
+     * @return Vrai si les deux jeux de données sont identiques
      */
     public static boolean ComparerDonneesJeu(DonneesJeu donneesJeu1, DonneesJeu donneesJeu2){
         //Lève une exception si le jeu de données est null
@@ -31,24 +31,24 @@ public class ComparateurDonneesJeu {
 
         Plat[][] objetsDeplacables1 = donneesJeu1.getObjetsDeplacables();
         Plat[][] objetsDeplacables2 = donneesJeu2.getObjetsDeplacables();
-        //On parcours l'ensemble des objets deplacables
+        //On parcourt l'ensemble des objets déplaçables
         for (int i = 0; i < objetsDeplacables1.length; i++) {
             for (int j = 0; j < objetsDeplacables1[i].length; j++) {
                 if (objetsDeplacables1[i][j] == null) {
-                    //Si l'objet est null, on vérifie que l'objet deplacable de l'autre jeu de données est null
+                    //Si l'objet est null, on vérifie que l'objet deplaçable de l'autre jeu de données est null
                     //Si ce n'est pas le cas, on retourne faux
                     if (objetsDeplacables2[i][j] != null) {
                         return false;
                     }
 
-                    //On verifie que les deux objets deplacables sont identiques
+                    //On vérifie que les deux objets deplaçables sont identiques
                 } else if (!objetsDeplacables1[i][j].equals(objetsDeplacables2[i][j])) {
                     return false;
                 }
             }
         }
 
-        //On parcours l'ensemble des joueurs
+        //On parcourt l'ensemble des joueurs
         for (Joueur joueur : donneesJeu1.getJoueurs()) {
             int numJoueur = joueur.getNumJoueur();
             //Si joueur différent, on retourne faux

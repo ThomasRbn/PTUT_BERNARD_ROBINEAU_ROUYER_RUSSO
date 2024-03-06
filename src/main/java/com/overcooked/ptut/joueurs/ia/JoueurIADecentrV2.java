@@ -12,6 +12,8 @@ import com.overcooked.ptut.joueurs.ia.problemes.CalculHeuristiquePlat;
 import com.overcooked.ptut.joueurs.ia.problemes.CalculHeuristiquePlatState;
 import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIAv2;
 import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIAv2State;
+import com.overcooked.ptut.joueurs.ia.problemes.decentraliseeV2.CalculHeuristiquePlatDecentV2;
+import com.overcooked.ptut.joueurs.ia.problemes.decentraliseeV2.CalculHeuristiquePlatStateDecentV2;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
 import com.overcooked.ptut.recettes.aliment.Plat;
@@ -19,13 +21,13 @@ import com.overcooked.ptut.recettes.aliment.Plat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JoueurIA extends Joueur {
+public class JoueurIADecentrV2 extends JoueurIA {
 
-    public JoueurIA(int x, int y) {
+    public JoueurIADecentrV2(int x, int y) {
         super(x, y);
     }
 
-    public JoueurIA(int x, int y, Plat inventaire, Action direction, int numJoueur) {
+    public JoueurIADecentrV2(int x, int y, Plat inventaire, Action direction, int numJoueur) {
         super(x, y, inventaire, direction, numJoueur);
     }
 
@@ -33,30 +35,31 @@ public class JoueurIA extends Joueur {
     @Override
     public Action demanderAction(DonneesJeu donneesJeu) {
 
-        // VERSION 1
-
-//        // créer un problème, un état initial et un algo
-//        SearchProblem p = new OvercookedUnJoueurIA();
-//        State s = new OvercookedUnJoueurIAState(donneesJeu, numJoueur);
-//        AStar algo = new AStar(p, s);;
-//
-//        // résoudre
-//        ArrayList<Action> solution = algo.solve();
-//        return solution != null ? solution.getFirst() : Action.RIEN;
-
-        // créer un problème, un état initial et un algo
-
-
-        // VERSION 2
-
-
-        SearchProblemAC p = new CalculHeuristiquePlat(donneesJeu.getPlatsBut().getFirst(), numJoueur, donneesJeu);
-        State s = new CalculHeuristiquePlatState(donneesJeu, numJoueur);
-        BFS algo = new BFS(p, s);
+    // Pour plus tard: on récupère la premiere action de l'autre joueur
+//        SearchProblemAC p = new CalculHeuristiquePlat(donneesJeu.getPlatsBut().getFirst(), numJoueur==0? 1 : 0, donneesJeu);
+//        State s = new CalculHeuristiquePlatState(donneesJeu, numJoueur==0? 1 : 0);
+//        BFS algo = new BFS(p, s);
 
         // résoudre
 //        ArrayList<Action> solution = algo.solve();
 
+
+//        SearchNodeAC solution = algo.solve();
+//        SearchNodeAC derniereSolution = solution;
+//        List<AlimentCoordonnees> listeActions = new ArrayList<>();
+//        //Boucle pour récupéré le dernier Aliment coordonnee du resultat de l'autre joueur.
+//        while (solution.getAlimentCoordonnees() != null) {
+//            listeActions.add(solution.getAlimentCoordonnees());
+//            derniereSolution = solution;
+//            solution = solution.getParent();
+//        }
+
+        //TODO: prendre en compte le cas ou c'est un plan de travail, etc
+
+
+        SearchProblemAC p = new CalculHeuristiquePlatDecentV2(donneesJeu.getPlatsBut().getFirst(), numJoueur, donneesJeu);
+        State s = new CalculHeuristiquePlatStateDecentV2(donneesJeu, numJoueur);
+        BFS algo = new BFS(p, s);
 
         SearchNodeAC solution = algo.solve();
         SearchNodeAC derniereSolution = solution;
@@ -67,6 +70,7 @@ public class JoueurIA extends Joueur {
             derniereSolution = solution;
             solution = solution.getParent();
         }
+
 
         // Affichage listeActions
         for(AlimentCoordonnees action : listeActions){
@@ -79,6 +83,6 @@ public class JoueurIA extends Joueur {
         State s2 = new OvercookedUnJoueurIAv2State(donneesJeu, numJoueur, alimentCoordonnees.getAliment(), alimentCoordonnees.getCoordonnees());
         AStar algoAstar = new AStar(p2, s2);
         List<Action> listeAction = algoAstar.solve();
-        return listeAction == null? Action.RIEN: listeAction.getFirst();
+        return listeAction == null || listeAction.isEmpty() ? Action.RIEN: listeAction.getFirst();
     }
 }

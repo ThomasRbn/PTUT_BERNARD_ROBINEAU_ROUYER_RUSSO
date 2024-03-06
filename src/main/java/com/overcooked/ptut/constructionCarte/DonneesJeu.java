@@ -56,6 +56,12 @@ public class DonneesJeu {
         actionsDuTour = new ActionsDuTour(this);
     }
 
+    /**
+     * Initialise les données du jeu
+     *
+     * @param chemin chemin du fichier texte
+     * @throws IOException
+     */
     private void initialiserDonnees(String chemin, boolean... test) throws IOException {
         // ouvrir fichier
         File fichier = new File(chemin);
@@ -66,6 +72,11 @@ public class DonneesJeu {
         loadRecipes(bfRead);
     }
 
+    /**
+     * Charge les recettes
+     *
+     * @param bfRead BufferedReader du fichier
+     */
     private void loadRecipes(BufferedReader bfRead) {
         platsBut.clear();
         try {
@@ -86,6 +97,14 @@ public class DonneesJeu {
         }
     }
 
+    /**
+     * Charge le niveau complet
+     *
+     * @param test
+     * @param fichier
+     * @param bfRead
+     * @throws IOException
+     */
     private void loadLevel(boolean[] test, File fichier, BufferedReader bfRead) throws IOException {
         joueurs = new ArrayList<>();
         objetsFixes = new Bloc[getHauteur(fichier)][getLongueur(fichier)];
@@ -113,6 +132,13 @@ public class DonneesJeu {
         }
     }
 
+    /**
+     * Traite une ligne du fichier pour la charger dans les données du jeu
+     *
+     * @param ligne
+     * @param indexLigne
+     * @param test
+     */
     private void traiterLigne(String ligne, int indexLigne, boolean... test) {
         for (int indexColonne = 0; indexColonne < ligne.length(); indexColonne++) {
             char c = ligne.charAt(indexColonne);
@@ -138,6 +164,7 @@ public class DonneesJeu {
         }
     }
 
+
     /**
      * Constructeur par copie de DonneesJeu
      *
@@ -161,7 +188,12 @@ public class DonneesJeu {
         this.joueurs = Copie.CopieJoueurs(donneesJeu.joueurs);
     }
 
-
+    /**
+     * Retourne les coordonnées des éléments correspondant au paramètre
+     *
+     * @param element String correspondant au nom de l'élément
+     * @return Liste de coordonnées
+     */
     public List<int[]> getCoordonneesElement(String element) {
         List<int[]> coordonneesElem = new ArrayList<>();
 
@@ -315,8 +347,8 @@ public class DonneesJeu {
         return ((i == 0 && j == 0 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null)
                 || (i == 0 && j == longueur - 1 && j - 1 >= 0 && objetsFixes[i][j - 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null)
                 || (i == hauteur - 1 && j == 0 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null)
-                || (i == 0 && j < longueur - 1 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && j - 1 >= 0 && objetsFixes[i][j - 1] != null)
-                || (i < hauteur - 1 && j == 0 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null)
+                || (i == 0 && j < longueur - 1 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && objetsFixes[i][j - 1] != null)
+                || (i < hauteur - 1 && j == 0 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && objetsFixes[i - 1][j] != null)
                 || (i == hauteur - 1 && j < longueur - 1 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null && j - 1 >= 0 && objetsFixes[i][j - 1] != null)
                 || (i < hauteur - 1 && j == longueur - 1 && j - 1 >= 0 && objetsFixes[i][j - 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null)
                 || (i < hauteur - 1 && j < longueur - 1 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null && j - 1 >= 0 && objetsFixes[i][j - 1] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null));
@@ -324,10 +356,6 @@ public class DonneesJeu {
 
     /**
      * Retourne la longueur du fichier (taille des lignes)
-     *
-     * @param f
-     * @return
-     * @throws IOException
      */
     public int getLongueur(File f) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(f));
@@ -336,10 +364,6 @@ public class DonneesJeu {
 
     /**
      * Retourne la hauteur du fichier (nombre de lignes)
-     *
-     * @param f
-     * @return
-     * @throws IOException
      */
     public int getHauteur(File f) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(f));
@@ -352,11 +376,6 @@ public class DonneesJeu {
         return hauteur;
     }
 
-    /**
-     * Retourne la liste des joueurs
-     *
-     * @return
-     */
     public List<Joueur> getJoueurs() {
         return joueurs;
     }
@@ -365,47 +384,22 @@ public class DonneesJeu {
         return joueurs.get(numJoueur);
     }
 
-    /**
-     * Retourne la longueur de la carte
-     *
-     * @return
-     */
     public int getLongueur() {
         return longueur;
     }
 
-    /**
-     * Retourne la hauteur de la carte
-     *
-     * @return
-     */
     public int getHauteur() {
         return hauteur;
     }
 
-    /**
-     * Retourne la liste des blocs
-     *
-     * @return
-     */
     public Bloc[][] getObjetsFixes() {
         return objetsFixes;
     }
 
-    /**
-     * Retourne les plats but
-     *
-     * @return
-     */
     public List<Plat> getPlatsBut() {
         return platsBut;
     }
 
-    /**
-     * Retourne le dépot
-     *
-     * @return
-     */
     public Depot getDepot() {
         return depot;
     }

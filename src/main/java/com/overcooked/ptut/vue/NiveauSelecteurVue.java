@@ -31,7 +31,7 @@ public class NiveauSelecteurVue extends VBox {
         Arrays.sort(listOfFiles);
         for (File file : listOfFiles) {
             if (file.isFile()) {
-                comboBox.getItems().add(file.getName());
+                comboBox.getItems().add(file.getName().substring(0, file.getName().length() - 4));
             }
         }
 
@@ -41,7 +41,7 @@ public class NiveauSelecteurVue extends VBox {
             String niveauSelectionne = comboBox.getValue();
             if (niveauSelectionne.equals("Choisir un niveau")) return;
 
-            DonneesJeu jeu = new DonneesJeu("niveaux/" + niveauSelectionne);
+            DonneesJeu jeu = new DonneesJeu("niveaux/" + niveauSelectionne + ".txt");
 
             OptionsSelecteurVue optionsSelecteurVue = new OptionsSelecteurVue(jeu, primaryStage);
             Scene sceneJoueur = new Scene(optionsSelecteurVue, 300, 300);

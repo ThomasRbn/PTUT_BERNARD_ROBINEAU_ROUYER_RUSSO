@@ -2,9 +2,11 @@ package com.overcooked.ptut.vue;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.JoueurHumain;
+import com.overcooked.ptut.joueurs.autonome.JoueurAutoN0;
 import com.overcooked.ptut.joueurs.autonome.JoueurAutoN4;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.ia.JoueurIADecentr;
+import com.overcooked.ptut.joueurs.ia.JoueurIADecentrV2;
 import com.overcooked.ptut.joueurs.ia.JoueurIADecentrV3;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -41,8 +43,10 @@ public class OptionsSelecteurVue extends VBox {
             comboBox.setValue("Choisir un type de joueur");
             comboBox.getItems().add("Humain");
             comboBox.getItems().add("IA");
+            comboBox.getItems().add("AutoN0");
             comboBox.getItems().add("AutoN4");
             comboBox.getItems().add("IADecentralisee");
+            comboBox.getItems().add("IADecentrv2");
             comboBox.getItems().add("IADecentraliseeV3");
             this.getChildren().add(comboBox);
             comboList.add(comboBox);
@@ -77,16 +81,19 @@ public class OptionsSelecteurVue extends VBox {
             }
 
             for (int i = 0; i < comboList.size(); i++) {
-                System.out.println(jeu.getCoordonneesJoueurs().get(i)[0] + " " + jeu.getCoordonneesJoueurs().get(i)[1]);
                 switch (comboList.get(i).getValue()) {
                     case "Humain" ->
                             jeu.getJoueurs().add(new JoueurHumain(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
                     case "IA" ->
                             jeu.getJoueurs().add(new JoueurIA(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
+                    case "AutoN0" ->
+                            jeu.getJoueurs().add(new JoueurAutoN0(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
                     case "AutoN4" ->
                             jeu.getJoueurs().add(new JoueurAutoN4(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
                     case "IADecentralisee" ->
                             jeu.getJoueurs().add(new JoueurIADecentr(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
+                    case "IADecentrv2" ->
+                            jeu.getJoueurs().add(new JoueurIADecentrV2(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
                     case "IADecentraliseeV3" ->
                             jeu.getJoueurs().add(new JoueurIADecentrV3(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
                 }

@@ -1,7 +1,6 @@
 package com.overcooked.ptut.joueurs.ia.problemes;
 
 import com.overcooked.ptut.constructionCarte.ComparateurDonneesJeu;
-import com.overcooked.ptut.constructionCarte.Copie;
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
@@ -40,9 +39,9 @@ public class CalculHeuristiquePlatState extends State {
 
             Bloc[][] carte = donneesJeu.getObjetsFixes();
             Bloc bloc = carte[coordonneesActuelles[0]][coordonneesActuelles[1]];
-            // Si on est face a un transformateur (avec plat non transfo): on considére que l'on a visité l'aliment
+            // Si on est face à un transformateur (avec plat non-transfo) : on considère que l'on a visité l'aliment
             // et que l'on doit le transformer
-            // Pb: si on est face a un transformateur avec aliment a transformer sans que cela nous interesse
+            // Pb: si on est face a un transformateur avec aliment à transformer sans que cela nous interesse
             if (bloc instanceof Transformateur transformateur) {
                 Plat plat = bloc.getInventaire();
                 if (plat != null && !transformateur.estTransforme()) {
@@ -108,7 +107,7 @@ public class CalculHeuristiquePlatState extends State {
                     return false;
             }
         }
-        //on parcout visite et on vérifie si il y a un nom en commun
+        //on parcourt visite et on vérifie s'il y a un nom en commun
         for (Aliment aliment : visitees) {
             if (Objects.equals(aliment.getNom(), a.getAliment().getNom())) return false;
         }
@@ -137,7 +136,7 @@ public class CalculHeuristiquePlatState extends State {
             ((PlanDeTravail) bloc).poserDessus(new Plat(visitees.getLast()));
             visitees.clear();
         } else {
-            // Si l'action est lié a un plan de travail ou un transformateur, on vide ce dernier
+            // Si l'action est lié à un plan de travail ou un transformateur, on vide ce dernier
             if (bloc instanceof PlanDeTravail planDeTravail) planDeTravail.prendre();
             else if (bloc instanceof Transformateur transformateur) transformateur.retirerElem();
 
@@ -170,18 +169,11 @@ public class CalculHeuristiquePlatState extends State {
         return visitees.isEmpty() || Objects.equals(visitees.getLast().getNom(), "pdt");
     }
 
-    public int[] getCoordonneeVisitePDT() { // TODO: pouvoir récupéré pls aliment?
-        int[] pdt = null;
-        for (Aliment a : visitees) {
-            if (Objects.equals(a.getNom(), "pdt")) pdt = a.getCoordonnees();
-        }
-        return pdt;
-    }
 
     /**
-     * Méthode permettant de savoir si l'aliment en cours doit être transformer maintenant (sans déplacement)
+     * Méthode permettant de savoir si l'aliment en cours doit être transformé maintenant (sans déplacement)
      *
-     * @return
+     * @return true si l'aliment doit être transformé maintenant, false sinon
      */
     public boolean doitEtreTransformer() {
         return doitEtreTransformer;

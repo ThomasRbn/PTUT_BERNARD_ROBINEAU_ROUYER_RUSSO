@@ -1,7 +1,8 @@
-package com.overcooked.ptut.joueurs.ia.problemes.decentralisee;
+package com.overcooked.ptut.joueurs.ia.problemes.decentraliseeV2;
 
 import com.overcooked.ptut.constructionCarte.ComparateurDonneesJeu;
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
+import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
 import com.overcooked.ptut.objet.Bloc;
@@ -14,18 +15,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CalculHeuristiquePlatStateDecentr extends State {
+public class CalculHeuristiquePlatStateDecentV2 extends State {
 
-    public List<Aliment> visitees;
+    List<Aliment> visitees;
 
-    public DonneesJeu donneesJeu;
+    DonneesJeu donneesJeu;
     int[] coordonneesActuelles;
 
     int coutTot;
 
     boolean doitEtreTransformer;
+    int numJoueur;
 
-    public CalculHeuristiquePlatStateDecentr(DonneesJeu donneesJeu2, int numJoueur) {
+    public CalculHeuristiquePlatStateDecentV2(DonneesJeu donneesJeu2, int numJoueur) {
+        this.numJoueur = numJoueur;
         this.doitEtreTransformer = false;
         this.coordonneesActuelles = donneesJeu2.getJoueur(numJoueur).getPositionCible();
 
@@ -39,9 +42,9 @@ public class CalculHeuristiquePlatStateDecentr extends State {
 
             Bloc[][] carte = donneesJeu.getObjetsFixes();
             Bloc bloc = carte[coordonneesActuelles[0]][coordonneesActuelles[1]];
-            // Si on est face a un transformateur (avec plat non transfo): on considére que l'on a visité l'aliment
+            // Si on est face à un transformateur (avec plat non-transfo) : on considère que l'on a visité l'aliment
             // et que l'on doit le transformer
-            // Pb: si on est face a un transformateur avec aliment a transformer sans que cela nous interesse
+            // Pb: si on est face a un transformateur avec aliment à transformer sans que cela nous interesse
             if (bloc instanceof Transformateur transformateur) {
                 Plat plat = bloc.getInventaire();
                 if (plat != null && !transformateur.estTransforme()) {
@@ -57,7 +60,7 @@ public class CalculHeuristiquePlatStateDecentr extends State {
         coutTot = 0;
     }
 
-    public CalculHeuristiquePlatStateDecentr(DonneesJeu donneesJeu, List<Aliment> visiteesAncien, int[] coordonneesActuelles, int coutTot) {
+    public CalculHeuristiquePlatStateDecentV2(DonneesJeu donneesJeu, List<Aliment> visiteesAncien, int[] coordonneesActuelles, int coutTot, boolean doitEtreTransformer) {
         this.donneesJeu = new DonneesJeu(donneesJeu);
         this.visitees = new ArrayList<>();
         for (Aliment aliment : visiteesAncien) {
@@ -70,13 +73,13 @@ public class CalculHeuristiquePlatStateDecentr extends State {
 
     @Override
     protected State cloneState() {
-        return new CalculHeuristiquePlatStateDecentr(donneesJeu, visitees, coordonneesActuelles, coutTot);
+        return new CalculHeuristiquePlatStateDecentV2(donneesJeu, visitees, coordonneesActuelles, coutTot, doitEtreTransformer);
     }
 
     @Override
     protected boolean equalsState(State o) {
         //on vérifie les coordonnees actuelle et les aliments visités
-        CalculHeuristiquePlatStateDecentr etat = (CalculHeuristiquePlatStateDecentr) o;
+        CalculHeuristiquePlatStateDecentV2 etat = (CalculHeuristiquePlatStateDecentV2) o;
         if (coordonneesActuelles[0] != etat.coordonneesActuelles[0] || coordonneesActuelles[1] != etat.coordonneesActuelles[1]) {
             return false;
         }
@@ -107,7 +110,7 @@ public class CalculHeuristiquePlatStateDecentr extends State {
                     return false;
             }
         }
-        //on parcout visite et on vérifie si il y a un nom en commun
+        //on parcourt visite et on vérifie s'il y a un nom en commun
         for (Aliment aliment : visitees) {
             if (Objects.equals(aliment.getNom(), a.getAliment().getNom())) return false;
         }
@@ -135,14 +138,19 @@ public class CalculHeuristiquePlatStateDecentr extends State {
             // On pose le plat visite sur le plan de travail
             ((PlanDeTravail) bloc).poserDessus(new Plat(visitees.getLast()));
             visitees.clear();
+        } else if (Objects.equals(a.getNom(), "j")) {
+            Joueur j = donneesJeu.getJoueur(numJoueur == 0? 1 : 0);
+            visitees.add(j.getInventaire().getRecettesComposees().getFirst());
         } else {
-            // Si l'action est lié a un plan de travail ou un transformateur, on vide ce dernier
+            // Si l'action est lié à un plan de travail ou un transformateur, on vide ce dernier
             if (bloc instanceof PlanDeTravail planDeTravail) planDeTravail.prendre();
             else if (bloc instanceof Transformateur transformateur) transformateur.retirerElem();
 
             visitees.add(a);
         }
     }
+
+
 
     public int[] getCoordonneesActuelles() {
         return coordonneesActuelles;
@@ -168,18 +176,11 @@ public class CalculHeuristiquePlatStateDecentr extends State {
         return visitees.isEmpty() || Objects.equals(visitees.getLast().getNom(), "pdt");
     }
 
-    public int[] getCoordonneeVisitePDT() {
-        int[] pdt = null;
-        for (Aliment a : visitees) {
-            if (Objects.equals(a.getNom(), "pdt")) pdt = a.getCoordonnees();
-        }
-        return pdt;
-    }
 
     /**
-     * Méthode permettant de savoir si l'aliment en cours doit être transformer maintenant (sans déplacement)
+     * Méthode permettant de savoir si l'aliment en cours doit être transformé maintenant (sans déplacement)
      *
-     * @return
+     * @return true si l'aliment doit être transformé maintenant, false sinon
      */
     public boolean doitEtreTransformer() {
         return doitEtreTransformer;
