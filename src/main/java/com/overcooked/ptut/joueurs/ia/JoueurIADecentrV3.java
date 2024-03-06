@@ -57,15 +57,16 @@ public class JoueurIADecentrV3 extends JoueurIA {
         SearchNodeAC derniereSolution = solution;
         this.listeActions = new ArrayList<>();
         //Boucle pour récupéré le dernier Aliment coordonnee du resultat
-        while (solution != null) {
+        while (solution.getAlimentCoordonnees() != null) {
             listeActions.add(solution.getAlimentCoordonnees());
             solution = solution.getParent();
         }
 
         // Affichage listeActions
-        for (AlimentCoordonnees action : listeActions)
+        for (AlimentCoordonnees action : listeActions) {
+            System.out.println(action);
             System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
-
+        }
         genererAutresJoueurs(numJoueur);
 
         this.elementCible = listeActions.getLast();
@@ -108,11 +109,12 @@ public class JoueurIADecentrV3 extends JoueurIA {
         }
         if (action != null) {
             System.out.println("Suppression de : " + action.getAliment().getEtatNom());
-            supprimerElementPlatBut(action.getAliment());
+            supprimerElementLisAction(action.getAliment());
         }
+        listeActions.forEach(System.out::println);
     }
 
-    public void supprimerElementPlatBut(Aliment aliment) {
+    public void supprimerElementLisAction(Aliment aliment) {
         listeActions.removeIf(alimentCoordonnees -> alimentCoordonnees.getAliment().equals(aliment));
     }
 }
