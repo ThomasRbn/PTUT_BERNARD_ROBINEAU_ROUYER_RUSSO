@@ -1,4 +1,4 @@
-package com.overcooked.ptut.joueurs.ia.problemes.experience;
+package com.overcooked.ptut.joueurs.ia.problemes.planificateurSemiDecentralise;
 
 import com.overcooked.ptut.constructionCarte.ComparateurDonneesJeu;
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class AlgoPlanificationLargeEtat extends State {
+public class AlgoPlanificationEtat extends State {
 
     List<Aliment> visitees;
 
@@ -27,7 +27,7 @@ public class AlgoPlanificationLargeEtat extends State {
     boolean doitEtreTransformer;
     int numJoueur;
 
-    public AlgoPlanificationLargeEtat(DonneesJeu donneesJeu2, int numJoueur) {
+    public AlgoPlanificationEtat(DonneesJeu donneesJeu2, int numJoueur) {
         this.numJoueur = numJoueur;
         this.doitEtreTransformer = false;
         this.coordonneesActuelles = donneesJeu2.getJoueur(numJoueur).getPositionCible();
@@ -60,7 +60,7 @@ public class AlgoPlanificationLargeEtat extends State {
         coutTot = 0;
     }
 
-    public AlgoPlanificationLargeEtat(DonneesJeu donneesJeu, List<Aliment> visiteesAncien, int[] coordonneesActuelles, int coutTot, boolean doitEtreTransformer) {
+    public AlgoPlanificationEtat(DonneesJeu donneesJeu, List<Aliment> visiteesAncien, int[] coordonneesActuelles, int coutTot, boolean doitEtreTransformer) {
         this.donneesJeu = new DonneesJeu(donneesJeu);
         this.visitees = new ArrayList<>();
         for (Aliment aliment : visiteesAncien) {
@@ -73,13 +73,13 @@ public class AlgoPlanificationLargeEtat extends State {
 
     @Override
     protected State cloneState() {
-        return new AlgoPlanificationLargeEtat(donneesJeu, visitees, coordonneesActuelles, coutTot, doitEtreTransformer);
+        return new AlgoPlanificationEtat(donneesJeu, visitees, coordonneesActuelles, coutTot, doitEtreTransformer);
     }
 
     @Override
     protected boolean equalsState(State o) {
         //on vérifie les coordonnees actuelle et les aliments visités
-        AlgoPlanificationLargeEtat etat = (AlgoPlanificationLargeEtat) o;
+        AlgoPlanificationEtat etat = (AlgoPlanificationEtat) o;
         if (coordonneesActuelles[0] != etat.coordonneesActuelles[0] || coordonneesActuelles[1] != etat.coordonneesActuelles[1]) {
             return false;
         }
@@ -196,16 +196,5 @@ public class AlgoPlanificationLargeEtat extends State {
 
     public Aliment getDernierAliment() {
         return visitees.isEmpty() ? null : visitees.getLast();
-    }
-
-    @Override
-    public String toString() {
-        return "CalculHeuristiqueTestState{" +
-                "visitees=" + visitees +
-                ", donneesJeu=" + donneesJeu +
-                ", coordonneesActuelles=" + coordonneesActuelles[0] + " " + coordonneesActuelles[1] +
-                ", coutTot=" + coutTot +
-                ", doitEtreTransformer=" + doitEtreTransformer +
-                '}';
     }
 }

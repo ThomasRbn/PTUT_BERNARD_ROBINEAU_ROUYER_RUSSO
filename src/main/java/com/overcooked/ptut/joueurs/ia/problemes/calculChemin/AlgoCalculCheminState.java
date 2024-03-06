@@ -1,4 +1,4 @@
-package com.overcooked.ptut.joueurs.ia.problemes;
+package com.overcooked.ptut.joueurs.ia.problemes.calculChemin;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.constructionCarte.GestionActions;
@@ -15,7 +15,7 @@ import java.util.Objects;
 
 import static com.overcooked.ptut.constructionCarte.ComparateurDonneesJeu.ComparerDonneesJeu;
 
-public class OvercookedUnJoueurIAv2State extends State implements HasHeuristic {
+public class AlgoCalculCheminState extends State implements HasHeuristic {
 
     //Données
     private final DonneesJeu donnees;
@@ -33,7 +33,7 @@ public class OvercookedUnJoueurIAv2State extends State implements HasHeuristic {
      * @param numJoueur  Numéro du joueur courant
      * @param aliment   Aliment à récupérer
      */
-    public OvercookedUnJoueurIAv2State(DonneesJeu donneesJeu, int numJoueur, Aliment aliment, int[] objectif) {
+    public AlgoCalculCheminState(DonneesJeu donneesJeu, int numJoueur, Aliment aliment, int[] objectif) {
         this.numJoueur = numJoueur;
         //Constructeur par copie
         this.donnees = new DonneesJeu(donneesJeu);
@@ -50,7 +50,7 @@ public class OvercookedUnJoueurIAv2State extends State implements HasHeuristic {
      */
     @Override
     protected State cloneState() {
-        return new OvercookedUnJoueurIAv2State(donnees, numJoueur, aliment, objectif);
+        return new AlgoCalculCheminState(donnees, numJoueur, aliment, objectif);
     }
 
     /**
@@ -58,7 +58,7 @@ public class OvercookedUnJoueurIAv2State extends State implements HasHeuristic {
      */
     @Override
     protected boolean equalsState(State o) {
-        return ComparerDonneesJeu(donnees, ((OvercookedUnJoueurIAv2State) o).getDonnees());
+        return ComparerDonneesJeu(donnees, ((AlgoCalculCheminState) o).getDonnees());
     }
 
     @Override

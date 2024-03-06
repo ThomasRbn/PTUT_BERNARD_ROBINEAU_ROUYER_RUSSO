@@ -1,4 +1,4 @@
-package com.overcooked.ptut.joueurs.ia.problemes;
+package com.overcooked.ptut.joueurs.ia.problemes.calculCheminV0;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.constructionCarte.GestionActions;
@@ -7,6 +7,8 @@ import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.HasHeuristic;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
+import com.overcooked.ptut.joueurs.ia.problemes.planificateurSimple.AlgoPlanificationPrimaire;
+import com.overcooked.ptut.joueurs.ia.problemes.planificateurSimple.AlgoPlanificationPrimaireEtat;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.recettes.aliment.Plat;
 
@@ -65,8 +67,8 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
         // On parcours l'ensemble des plats but
         for (Plat plat : donnees.getPlatsBut()) {
             //On calcule le cout de l'état courant pour chaque plat
-            SearchProblemAC p = new CalculHeuristiquePlat(plat, numJoueur, donnees);
-            State s = new CalculHeuristiquePlatState(donnees, numJoueur);
+            SearchProblemAC p = new AlgoPlanificationPrimaire(plat, numJoueur, donnees);
+            State s = new AlgoPlanificationPrimaireEtat(donnees, numJoueur);
             BFS algo = new BFS(p, s);
             SearchNodeAC searchNodeAC = algo.solve();
             double cout;

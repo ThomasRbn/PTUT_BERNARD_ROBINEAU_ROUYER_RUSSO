@@ -1,4 +1,4 @@
-package com.overcooked.ptut.joueurs.ia.problemes.experience;
+package com.overcooked.ptut.joueurs.ia.problemes.planificateurLarge;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.Joueur;
