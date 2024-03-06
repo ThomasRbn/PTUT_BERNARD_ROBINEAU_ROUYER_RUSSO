@@ -1,19 +1,16 @@
 package com.overcooked.ptut.joueurs.ia;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
-import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.algo.AStar;
 import com.overcooked.ptut.joueurs.ia.algo.BFS;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
-import com.overcooked.ptut.joueurs.ia.problemes.CalculHeuristiquePlat;
-import com.overcooked.ptut.joueurs.ia.problemes.CalculHeuristiquePlatState;
 import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIAv2;
 import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIAv2State;
-import com.overcooked.ptut.joueurs.ia.problemes.decentraliseeV2.CalculHeuristiquePlatDecentV2;
-import com.overcooked.ptut.joueurs.ia.problemes.decentraliseeV2.CalculHeuristiquePlatStateDecentV2;
+import com.overcooked.ptut.joueurs.ia.problemes.decentraliseeV2.AlgoPlanification;
+import com.overcooked.ptut.joueurs.ia.problemes.decentraliseeV2.AlgoPlanificationEtat;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
 import com.overcooked.ptut.recettes.aliment.Plat;
@@ -57,8 +54,8 @@ public class JoueurIADecentrV2 extends JoueurIA {
         //TODO: prendre en compte le cas ou c'est un plan de travail, etc
 
 
-        SearchProblemAC p = new CalculHeuristiquePlatDecentV2(donneesJeu.getPlatsBut().getFirst(), numJoueur, donneesJeu);
-        State s = new CalculHeuristiquePlatStateDecentV2(donneesJeu, numJoueur);
+        SearchProblemAC p = new AlgoPlanification(donneesJeu.getPlatsBut().getFirst(), numJoueur, donneesJeu);
+        State s = new AlgoPlanificationEtat(donneesJeu, numJoueur);
         BFS algo = new BFS(p, s);
 
         SearchNodeAC solution = algo.solve();

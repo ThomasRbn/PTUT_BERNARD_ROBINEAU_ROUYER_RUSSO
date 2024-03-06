@@ -4,7 +4,6 @@ import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
-import com.overcooked.ptut.joueurs.ia.problemes.decentraliseeV2.CalculHeuristiquePlatStateDecentV2;
 import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
 import com.overcooked.ptut.objet.Bloc;
 import com.overcooked.ptut.recettes.aliment.Aliment;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CalculHeuristiquePlatDecentV2 extends SearchProblemAC {
+public class AlgoPlanification extends SearchProblemAC {
 
     Plat platBut;
 
@@ -29,7 +28,7 @@ public class CalculHeuristiquePlatDecentV2 extends SearchProblemAC {
 
     int numJoueur;
 
-    public CalculHeuristiquePlatDecentV2(Plat plat, int numJoueur, DonneesJeu donneesJeu) {
+    public AlgoPlanification(Plat plat, int numJoueur, DonneesJeu donneesJeu) {
         this.numJoueur = numJoueur;
         this.donneesJeu = donneesJeu;
         retourDepot = false;
@@ -111,7 +110,7 @@ public class CalculHeuristiquePlatDecentV2 extends SearchProblemAC {
     @Override
     public ArrayList<AlimentCoordonnees> getAlimentCoordonnees(State s) {
         ArrayList<AlimentCoordonnees> actions = new ArrayList<>();
-        CalculHeuristiquePlatStateDecentV2 o = (CalculHeuristiquePlatStateDecentV2) s;
+        AlgoPlanificationEtat o = (AlgoPlanificationEtat) s;
         this.donneesJeu = o.getDonneesJeu();
 
         // Si on est à la dernière action, on va au plan de travail
@@ -240,20 +239,20 @@ public class CalculHeuristiquePlatDecentV2 extends SearchProblemAC {
 
     @Override
     public State doAlimentCoordonnees(State s, AlimentCoordonnees a) {
-        CalculHeuristiquePlatStateDecentV2 o = (CalculHeuristiquePlatStateDecentV2) s.clone();
+        AlgoPlanificationEtat o = (AlgoPlanificationEtat) s.clone();
         o.deplacement(a.getCoordonnees(), a.getAliment());
         return o;
     }
 
     @Override
     public boolean isGoalState(State s) {
-        return ((CalculHeuristiquePlatStateDecentV2) s).estAuDepot();
+        return ((AlgoPlanificationEtat) s).estAuDepot();
     }
 
     public boolean isDerniereAction(State s) {
         if (retourDepot) return true;
 
-        CalculHeuristiquePlatStateDecentV2 o = (CalculHeuristiquePlatStateDecentV2) s;
+        AlgoPlanificationEtat o = (AlgoPlanificationEtat) s;
         List<Aliment> aliments = o.visitees;
         List<Aliment> alimentBut = platBut.getRecettesComposees();
         List<Aliment> alimentSansPDT = new ArrayList<>();
@@ -272,9 +271,9 @@ public class CalculHeuristiquePlatDecentV2 extends SearchProblemAC {
 
     @Override
     public double getAlimentCost(State s, AlimentCoordonnees a) {
-        if (((CalculHeuristiquePlatStateDecentV2) s).estDepose()) return 0;
+        if (((AlgoPlanificationEtat) s).estDepose()) return 0;
 
-        int[] coordonneesActuelle = ((CalculHeuristiquePlatStateDecentV2) s).getCoordonneesActuelles();
+        int[] coordonneesActuelle = ((AlgoPlanificationEtat) s).getCoordonneesActuelles();
         int[] coordonneesAliment = a.getCoordonnees();
         double cout = Math.abs(coordonneesActuelle[0] - coordonneesAliment[0]) + Math.abs(coordonneesActuelle[1] - coordonneesAliment[1]);
 
