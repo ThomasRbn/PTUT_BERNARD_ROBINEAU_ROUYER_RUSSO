@@ -49,12 +49,10 @@ public class JoueurIADecentrV3 extends JoueurIA {
         SearchProblemAC p = new CalculHeuristiquePlatDecentr(donneesJeuClone.getPlatsBut().getFirst(), numJoueur, donneesJeuClone);
         State s = new CalculHeuristiquePlatStateDecentr(donneesJeuClone, numJoueur);
 
-
         BFS algo = new BFS(p, s);
 
         // résoudre
 //        ArrayList<Action> solution = algo.solve();
-
 
         SearchNodeAC solution = algo.solve();
         SearchNodeAC derniereSolution = solution;
@@ -114,7 +112,7 @@ public class JoueurIADecentrV3 extends JoueurIA {
             System.out.println("Suppression de : " + action.getAliment().getEtatNom());
             supprimerElementLisAction(action.getAliment());
         }
-        listeActions.forEach(System.out::println);
+        //listeActions.forEach(System.out::println);
     }
 
     public void supprimerElementLisAction(Aliment aliment) {
