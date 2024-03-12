@@ -1,4 +1,4 @@
-package com.overcooked.ptut.joueurs.ia.problemes;
+package com.overcooked.ptut.joueurs.ia.problemes.calculChemin;
 
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 import static com.overcooked.ptut.joueurs.utilitaire.Action.*;
 
-public class OvercookedUnJoueurIA extends SearchProblem {
+public class AlgoCalculChemin extends SearchProblem {
 
-    public OvercookedUnJoueurIA() {
+    public AlgoCalculChemin() {
         // La liste des actions possibles
         ACTIONS = new Action[]{HAUT, GAUCHE, BAS, DROITE, PRENDRE, POSER, UTILISER};
     }
@@ -22,7 +22,7 @@ public class OvercookedUnJoueurIA extends SearchProblem {
     public ArrayList<Action> getActions(State s) {
         ArrayList<Action> actions = new ArrayList<>();
         for (Action a : ACTIONS){
-            if (((OvercookedUnJoueurIAState)s).isLegal(a)){
+            if (((AlgoCalculCheminState)s).isLegal(a)){
                 actions.add(a);
             }
         }
@@ -34,7 +34,7 @@ public class OvercookedUnJoueurIA extends SearchProblem {
      */
     @Override
     public State doAction(State s, Action a) {
-        OvercookedUnJoueurIAState o = (OvercookedUnJoueurIAState) s.clone();
+        AlgoCalculCheminState o = (AlgoCalculCheminState) s.clone();
         o.faireAction(a);
         return o;
     }
@@ -44,7 +44,7 @@ public class OvercookedUnJoueurIA extends SearchProblem {
      */
     @Override
     public boolean isGoalState(State s) {
-        OvercookedUnJoueurIAState o = (OvercookedUnJoueurIAState) s;
+        AlgoCalculCheminState o = (AlgoCalculCheminState) s;
         return o.isGoalState();
     }
 

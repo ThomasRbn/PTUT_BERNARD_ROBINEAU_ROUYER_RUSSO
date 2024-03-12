@@ -1,4 +1,4 @@
-package com.overcooked.ptut.joueurs.ia.problemes;
+package com.overcooked.ptut.joueurs.ia.problemes.calculCheminVersionFictive;
 
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.HasHeuristic;

@@ -302,6 +302,35 @@ public class DonneesJeu {
                 s.append("\n");
             }
         }
+        // On affiche les coordonnees de tomates:
+//        s.append("Coordonnees des tomates: ");
+//        getCoordonneesElement("Tomate").forEach(co -> s.append(Arrays.toString(co)).append(","));
+//        s.append("\n");
+//        s.append("Coordonnees des tomates1: ");
+//        getCoordonneesElement("Tomate1").forEach(co -> s.append(Arrays.toString(co)).append(","));
+//        s.append("\n");
+//        s.append("Coordonnees des tomates2: ");
+//        getCoordonneesElement("Tomate2").forEach(co -> s.append(Arrays.toString(co)).append(","));
+//        s.append("\n");
+//        s.append("Coordonnees des tomates2: ");
+//        getCoordonneesElement("Tomate3").forEach(co -> s.append(Arrays.toString(co)).append(","));
+//        s.append("\n");
+//
+//        // On affiche les coordonnees des saldades:
+//        s.append("Coordonnees des salades: ");
+//        getCoordonneesElement("Salade").forEach(co -> s.append(Arrays.toString(co)).append(","));
+//        s.append("\n");
+//        s.append("Coordonnees des salades1: ");
+//        getCoordonneesElement("Salade1").forEach(co -> s.append(Arrays.toString(co)).append(","));
+//        s.append("\n");
+//        s.append("Coordonnees des salades2: ");
+//        getCoordonneesElement("Salade2").forEach(co -> s.append(Arrays.toString(co)).append(","));
+//        s.append("\n");
+//        s.append("Coordonnees des salades3: ");
+//        getCoordonneesElement("Salade3").forEach(co -> s.append(Arrays.toString(co)).append(","));
+//        s.append("\n");
+
+
         return s.toString();
     }
 
@@ -343,7 +372,7 @@ public class DonneesJeu {
         return planDeTravailVide;
     }
 
-    public boolean estPasAccessible(int i, int j){
+    public boolean estPasAccessible(int i, int j) {
         return ((i == 0 && j == 0 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null)
                 || (i == 0 && j == longueur - 1 && j - 1 >= 0 && objetsFixes[i][j - 1] != null && i + 1 < hauteur && objetsFixes[i + 1][j] != null)
                 || (i == hauteur - 1 && j == 0 && j + 1 < longueur && objetsFixes[i][j + 1] != null && i - 1 >= 0 && objetsFixes[i - 1][j] != null)

@@ -57,46 +57,44 @@ public class ClavierControlleur {
      * @param joueur  Joueur
      * @param plateau Plateau
      */
-    private Action handleHumainInput(KeyEvent key, Joueur joueur, PlateauVue plateau, DonneesJeu jeu) {
-        Action action = null;
+    private void handleHumainInput(KeyEvent key, Joueur joueur, PlateauVue plateau, DonneesJeu jeu) {
         switch (key.getCode()) {
             case Z:
-                action = Action.HAUT;
+                if (isLegal(Action.HAUT, joueur.getNumJoueur(), jeu))
+                    jeu.getActionsDuTour().ajouterAction(joueur, Action.HAUT);
                 break;
             case S:
-                action = Action.BAS;
+                if (isLegal(Action.BAS, joueur.getNumJoueur(), jeu))
+                    jeu.getActionsDuTour().ajouterAction(joueur, Action.BAS);
                 break;
             case Q:
-                action = Action.GAUCHE;
+                if (isLegal(Action.GAUCHE, joueur.getNumJoueur(), jeu))
+                    jeu.getActionsDuTour().ajouterAction(joueur, Action.GAUCHE);
                 break;
             case D:
-                action = Action.DROITE;
+                if (isLegal(Action.DROITE, joueur.getNumJoueur(), jeu))
+                    jeu.getActionsDuTour().ajouterAction(joueur, Action.DROITE);
                 break;
             case R:
-                action = Action.RIEN;
+                jeu.getActionsDuTour().ajouterAction(joueur, Action.RIEN);
             case E:
-                action = Action.UTILISER;
+                if (isLegal(Action.UTILISER, joueur.getNumJoueur(), jeu)) {
+                    jeu.getActionsDuTour().ajouterAction(joueur, Action.UTILISER);
 //                    int[] cible = joueur.getPositionCible();
 //                    Transformateur transformateur = (Transformateur) jeu.getObjetsFixes()[cible[0]][cible[1]];
 //                    plateau.genererTask(transformateur, jeu);
+                }
                 break;
             case SPACE:
-                action = Action.PRENDRE;
+                if (isLegal(Action.PRENDRE, joueur.getNumJoueur(), jeu)) {
+                    jeu.getActionsDuTour().ajouterAction(joueur, Action.PRENDRE);
+                } else if (isLegal(Action.POSER, joueur.getNumJoueur(), jeu)) {
+                    jeu.getActionsDuTour().ajouterAction(joueur, Action.POSER);
+                }
                 break;
             default:
                 break;
         }
-        if (action == Action.PRENDRE) {
-            if (isLegal(Action.PRENDRE, joueur.getNumJoueur(), jeu)) {
-                jeu.getActionsDuTour().ajouterAction(joueur, Action.PRENDRE);
-            } else if (isLegal(Action.POSER, joueur.getNumJoueur(), jeu)) {
-                jeu.getActionsDuTour().ajouterAction(joueur, Action.POSER);
-            }
-        }
-        if (action != null && isLegal(action, joueur.getNumJoueur(), jeu)) {
-            jeu.getActionsDuTour().ajouterAction(joueur, action);
-        }
-        return action;
     }
 
     public void lancerThreadIA(DonneesJeu jeu, PlateauVue plateau, HeaderVue header) {
@@ -144,6 +142,7 @@ public class ClavierControlleur {
                     e.printStackTrace();
                 }
             }
+            System.out.println("salu");
         }).start();
     }
 }

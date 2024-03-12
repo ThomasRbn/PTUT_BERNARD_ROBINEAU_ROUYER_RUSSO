@@ -41,6 +41,7 @@ public class BFS extends TreeSearchAC {
         while (!frontier.isEmpty() && (explored.size() < 5000)) {
             // Stratégie: BFS
             node = frontier.poll();
+//            System.out.println(node.getState());
 
 
             // Si le nœud contient un état but
@@ -53,16 +54,24 @@ public class BFS extends TreeSearchAC {
             } else {
                 // On ajoute l'état du nœud dans l'ensemble des nœuds explorés
                 explored.add(node.getState());
+//                                System.out.println("-----------------------------");
+//                System.out.println(node.getState());
 
                 // Les actions possibles depuis cet état
                 ArrayList<AlimentCoordonnees> alimentCoordonnees = problem.getAlimentCoordonnees(node.getState());
+//                                System.out.println(alimentCoordonnees);
+//                System.out.println("------------------------------");
 
                 // Pour chaque nœud enfant
                 for (AlimentCoordonnees a : alimentCoordonnees) {
+//                    System.out.println(a);
 
                     // Nœud enfant
                     SearchNodeAC child = SearchNodeAC.makeChildSearchNode(problem, node, a);
-
+                    double cout = child.getCost();
+//                    System.out.println("heuristie: "+child.getHeuristic());
+//                    System.out.println("Cout: +"+cout);
+//                    System.out.println(child.getState());
                     // S'il n'est pas dans la frontière et si son état n'a pas été visité
                     if (!frontier.contains(child) && !explored.contains(child.getState())) {
                         // L'insérer dans la frontière avec la priorité du coût

@@ -3,8 +3,8 @@ package com.overcooked.ptut.joueurs;
 import com.overcooked.ptut.joueurs.ia.algo.AStar;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
-import com.overcooked.ptut.joueurs.ia.problemes.OvercookedBasique;
-import com.overcooked.ptut.joueurs.ia.problemes.OvercookedBasiqueState;
+import com.overcooked.ptut.joueurs.ia.problemes.calculCheminVersionFictive.OvercookedBasique;
+import com.overcooked.ptut.joueurs.ia.problemes.calculCheminVersionFictive.OvercookedBasiqueState;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import java.util.ArrayList;
