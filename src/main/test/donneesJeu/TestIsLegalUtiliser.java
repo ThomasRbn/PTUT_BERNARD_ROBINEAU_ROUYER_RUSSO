@@ -12,7 +12,7 @@ import static com.overcooked.ptut.constructionCarte.GestionActions.isLegal;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class testIsLegalUtiliser {
+public class TestIsLegalUtiliser {
 
     DonneesJeu donneesJeu;
 

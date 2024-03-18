@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static com.overcooked.ptut.constructionCarte.ComparateurDonneesJeu.ComparerDonneesJeu;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class testCloneNiveau {
+public class TestCloneNiveau {
 
     DonneesJeu donneesJeu;
 
