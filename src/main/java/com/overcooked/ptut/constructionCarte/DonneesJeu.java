@@ -38,6 +38,7 @@ public class DonneesJeu {
     private ActionsDuTour actionsDuTour;
     private boolean jeuTermine;
     private List<int[]> coordonneesJoueurs;
+    private String nomFichier;
 
     /**
      * Constructeur de DonneesJeu
@@ -54,6 +55,7 @@ public class DonneesJeu {
             e.printStackTrace();
         }
         actionsDuTour = new ActionsDuTour(this);
+        nomFichier = chemin;
     }
 
     /**
@@ -443,6 +445,10 @@ public class DonneesJeu {
 
     public boolean isJeuTermine() {
         return jeuTermine;
+    }
+
+    public String getNomFichier() {
+        return nomFichier;
     }
 
     public DonneesJeu setJeuTermine(boolean jeuTermine) {
