@@ -8,10 +8,10 @@ import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
-import com.overcooked.ptut.joueurs.ia.problemes.planificateurSimple.AlgoPlanificationPrimaire;
-import com.overcooked.ptut.joueurs.ia.problemes.planificateurSimple.AlgoPlanificationPrimaireEtat;
 import com.overcooked.ptut.joueurs.ia.problemes.calculChemin.AlgoCalculChemin;
 import com.overcooked.ptut.joueurs.ia.problemes.calculChemin.AlgoCalculCheminState;
+import com.overcooked.ptut.joueurs.ia.problemes.planificateurSimple.AlgoPlanificationPrimaire;
+import com.overcooked.ptut.joueurs.ia.problemes.planificateurSimple.AlgoPlanificationPrimaireEtat;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
 import com.overcooked.ptut.recettes.aliment.Plat;
@@ -69,9 +69,9 @@ public class JoueurIA extends Joueur {
         }
 
         // Affichage listeActions
-        for(AlimentCoordonnees action : listeActions){
-            System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
-        }
+//        for(AlimentCoordonnees action : listeActions){
+//            System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
+//        }
 
         AlimentCoordonnees alimentCoordonnees = derniereSolution.getAlimentCoordonnees();
 

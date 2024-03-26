@@ -24,7 +24,6 @@ public class ImportCSV {
                 for (String cellule : ligne) {
                     System.out.print(cellule + "\t");
                 }
-                System.out.println();
             }
         } else {
             System.out.println("Le fichier CSV est vide ou n'a pas pu être lu.");

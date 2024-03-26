@@ -70,9 +70,9 @@ public class JoueurIADecentrV2 extends JoueurIA {
 
 
         // Affichage listeActions
-        for(AlimentCoordonnees action : listeActions){
-            System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
-        }
+//        for(AlimentCoordonnees action : listeActions){
+//            System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
+//        }
 
         AlimentCoordonnees alimentCoordonnees = derniereSolution.getAlimentCoordonnees();
 

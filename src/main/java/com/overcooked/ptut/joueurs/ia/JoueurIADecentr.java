@@ -66,7 +66,7 @@ public class JoueurIADecentr extends JoueurIA {
         // Affichage lisAction
         if (!lisAction.isEmpty()) {
             action = lisAction.getLast();
-            System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
+//            System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
         }
 
         // résoudre

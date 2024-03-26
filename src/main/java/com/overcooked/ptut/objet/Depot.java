@@ -52,7 +52,6 @@ public class Depot extends Bloc {
             for (Aliment aliment : plat.getRecettesComposees()) {
                 this.points += aliment.getEtat() + 1;
             }
-            System.out.println("Points : " + points);
         }
     }
 

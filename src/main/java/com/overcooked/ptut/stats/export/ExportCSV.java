@@ -1,42 +1,35 @@
 package com.overcooked.ptut.stats.export;
 
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
-import com.overcooked.ptut.stats.DonneesStats;
+import com.overcooked.ptut.stats.Duo;
+import com.overcooked.ptut.stats.strategieCollecte.StrategieCollecte;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Map;
 
 import static com.overcooked.ptut.MainCollecteStats.DUREE_PARTIE;
 
 public class ExportCSV {
 
-    public static void exportCSV(DonneesStats donneesStats) throws IOException {
-//        File fichier = new File("stats.csv");
-//        if (fichier.createNewFile()) {
-//            System.out.println("File created: " + fichier.getName());
-//            FileWriter writer = new FileWriter(fichier);
-//            String entete = "Strategie;Joueur1;Joueur2;Points";
-//            writer.write(entete + "\n");
-//            writer.close();
-//        } else {
-//            System.out.println("File already exists.");
-//        }
-//        FileWriter writer = new FileWriter(fichier, true);
-//        String ligne = donneesStats.getStrategieCollecte().getClass().getSimpleName() + ";" + donneesStats.getCombinaison().j1().getSimpleName() + ";" + donneesStats.getCombinaison().j2().getSimpleName() + ";" + donneesStats.getDonneesJeu().getDepot().getPoints();
-
+    public static void exportCSV(String fichierOrigine, StrategieCollecte collecte, String contexte, Map<Duo, Integer> stats) throws IOException {
         String[][] tableau;
-        System.out.println(donneesStats.getDonneesJeu().getNomFichier().split("/")[2]);
-        String fichierSortie = "Stats_" + donneesStats.getStrategieCollecte().getClass().getSimpleName() + "_" + donneesStats.getDonneesJeu().getNomFichier().split("/")[2].split("\\.")[0] + ".csv";
+        String fichierSortie = "stats/Stats_" + contexte + "_" + collecte.getClass().getSimpleName() + "_" + fichierOrigine.split("/")[2].split("\\.")[0] + ".csv";
         File fichier = new File(fichierSortie);
         if (fichier.createNewFile()) {
-            tableau = new String[][]{{"Points/" + DUREE_PARTIE + "s", "IA", "IADecentr", "IADecentrV2", "Automate"}, {"IA", "0", "0", "0", "0"}, {"IADecentr", "0", "0", "0", "0"}, {"IADecentrV2", "0", "0", "0", "0"}, {"Automate", "0", "0", "0", "0"}};
+            tableau = new String[][]{{contexte + "/" + DUREE_PARTIE + "s", "IA", "IADecentr", "IADecentrV2", "Automate"}, {"IA", "0", "0", "0", "0"}, {"IADecentr", "0", "0", "0", "0"}, {"IADecentrV2", "0", "0", "0", "0"}, {"Automate", "0", "0", "0", "0"}};
         } else {
             tableau = ImportCSV.lireCSV(fichierSortie);
         }
 
         assert tableau != null;
-        tableau[getCellule(donneesStats.getCombinaison().j1())][getCellule(donneesStats.getCombinaison().j2())] = String.valueOf(donneesStats.getDonneesJeu().getDepot().getPoints());
+
+        if (contexte.equals("Points")) {
+            stats.forEach((duo, points) -> tableau[getCellule(duo.j1())][getCellule(duo.j2())] = points.toString());
+        } else {
+            stats.forEach((duo, tours) -> tableau[getCellule(duo.j1())][getCellule(duo.j2())] = tours.toString());
+        }
 
         try {
             FileWriter writer = new FileWriter(fichierSortie);

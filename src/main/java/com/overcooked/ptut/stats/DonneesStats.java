@@ -4,20 +4,21 @@ import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
-import com.overcooked.ptut.stats.export.ExportCSV;
 import com.overcooked.ptut.stats.strategieCollecte.StrategieCollecte;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import static com.overcooked.ptut.MainCollecteStats.*;
+
 public class DonneesStats {
 
+    protected int nbTours = 0;
+    protected long[] tempsCalculs;
     private DonneesJeu donneesJeu;
     private Duo combinaison;
     private StrategieCollecte strategieCollecte;
-    protected int nbTours = 0;
-    protected long[] tempsCalculs;
+    private Thread thread;
 
     public DonneesStats(DonneesJeu jeu, StrategieCollecte strategieCollecte, Duo combinaison) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         this.donneesJeu = jeu;
@@ -55,16 +56,14 @@ public class DonneesStats {
                 donneesJeu.getDepot().viderDepot();
                 nbTours++;
                 if (strategieCollecte.getConditionArretSatisfaite()) {
-                    System.out.println("Fin de la partie " + nbTours + " tours réalisés");
-                    System.out.println("Nombre de pts réalisés : " + donneesJeu.getDepot().getPoints() + " points");
-                    try {
-                        ExportCSV.exportCSV(this);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    mapPoints.replace(combinaison, donneesJeu.getDepot().getPoints());
+                    mapTours.replace(combinaison, nbTours);
+                    thread.interrupt();
                 }
             }
         });
+        threads.add(thJ1);
+        thread = thJ1;
         thJ1.start();
     }
 
