@@ -2,7 +2,7 @@ package com.overcooked.ptut.joueurs.ia;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.ia.algo.AStar;
-import com.overcooked.ptut.joueurs.ia.algo.BFS;
+import com.overcooked.ptut.joueurs.ia.algo.UCS;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
@@ -56,12 +56,13 @@ public class JoueurIADecentrV2 extends JoueurIA {
 
         SearchProblemAC p = new AlgoPlanification(donneesJeu.getPlatsBut().getFirst(), numJoueur, donneesJeu);
         State s = new AlgoPlanificationEtat(donneesJeu, numJoueur);
-        BFS algo = new BFS(p, s);
+        UCS algo = new UCS(p, s);
 
         SearchNodeAC solution = algo.solve();
         SearchNodeAC derniereSolution = solution;
         List<AlimentCoordonnees> listeActions = new ArrayList<>();
         //Boucle pour récupéré le dernier Aliment coordonnee du resultat
+        if(solution == null) return Action.RIEN;
         while (solution.getAlimentCoordonnees() != null) {
             listeActions.add(solution.getAlimentCoordonnees());
             derniereSolution = solution;

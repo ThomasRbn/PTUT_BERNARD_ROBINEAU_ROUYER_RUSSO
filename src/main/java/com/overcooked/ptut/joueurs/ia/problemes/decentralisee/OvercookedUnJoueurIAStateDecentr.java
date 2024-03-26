@@ -2,18 +2,13 @@ package com.overcooked.ptut.joueurs.ia.problemes.decentralisee;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.constructionCarte.GestionActions;
-import com.overcooked.ptut.joueurs.Joueur;
-import com.overcooked.ptut.joueurs.ia.algo.BFS;
+import com.overcooked.ptut.joueurs.ia.algo.UCS;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.HasHeuristic;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
-import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
 import com.overcooked.ptut.recettes.aliment.Plat;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.overcooked.ptut.constructionCarte.ComparateurDonneesJeu.ComparerDonneesJeu;
 
@@ -72,7 +67,7 @@ public class OvercookedUnJoueurIAStateDecentr extends State implements HasHeuris
             //On calcule le cout de l'état courant pour chaque plat
             SearchProblemAC p = new CalculHeuristiquePlatDecentr(plat, numJoueur, donnees);
             State s = new CalculHeuristiquePlatStateDecentr(donnees, numJoueur);
-            BFS algo = new BFS(p, s);
+            UCS algo = new UCS(p, s);
             SearchNodeAC searchNodeAC = algo.solve();
             double cout;
             if (searchNodeAC != null) {

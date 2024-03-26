@@ -140,6 +140,7 @@ public class AlgoPlanificationEtat extends State {
             visitees.clear();
         } else if (Objects.equals(a.getNom(), "j")) {
             Joueur j = donneesJeu.getJoueur(numJoueur == 0? 1 : 0);
+            if(j.getInventaire() != null)
             visitees.add(j.getInventaire().getRecettesComposees().getFirst());
         } else {
             // Si l'action est lié à un plan de travail ou un transformateur, on vide ce dernier

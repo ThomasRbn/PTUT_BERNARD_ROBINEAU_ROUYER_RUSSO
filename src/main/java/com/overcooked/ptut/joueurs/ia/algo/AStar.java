@@ -5,10 +5,12 @@ import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNode;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.TreeSearch;
+import com.overcooked.ptut.joueurs.ia.problemes.calculChemin.AlgoCalculCheminState;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.PriorityQueue;
 
 public class AStar extends TreeSearch {
@@ -23,6 +25,9 @@ public class AStar extends TreeSearch {
         // Initialisation de la frontière avec une PriorityQueue basée sur le coût et l'heuristique
         frontier = new PriorityQueue<>(new SearchNodeComparator());
     }
+
+    int plusPetiteHeuristic = 9999;
+    SearchNode plusPetitNode = null;
 
 //    @Override
     public ArrayList<Action> solve() {
@@ -51,6 +56,7 @@ public class AStar extends TreeSearch {
             } else {
                 // On ajoute l'état du nœud dans l'ensemble des nœuds explorés
                 explored.add(node.getState());
+                if(node.getHeuristic() != -1 && node.getHeuristic()<plusPetiteHeuristic ) plusPetitNode = node;
 //                System.out.println("-----------------------------");
 //                System.out.println(node.getState());
 
@@ -96,8 +102,8 @@ public class AStar extends TreeSearch {
             }
         }
         System.out.println("Pas de solution trouvée.");
-        // Pas de solutions trouvées
-        return null;
+
+        return node.getPathFromRoot();
     }
 
     // Comparator par heuristique + cout

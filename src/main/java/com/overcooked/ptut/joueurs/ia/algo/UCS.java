@@ -12,7 +12,7 @@ import java.util.Comparator;
 import java.util.Optional;
 import java.util.PriorityQueue;
 
-public class BFS extends TreeSearchAC {
+public class UCS extends TreeSearchAC {
 
     /**
      * Crée un algorithme de recherche
@@ -20,7 +20,7 @@ public class BFS extends TreeSearchAC {
      * @param p Le problème à résoudre
      * @param s L'état initial
      */
-    public BFS(SearchProblemAC p, State s) {
+    public UCS(SearchProblemAC p, State s) {
         super(p, s);
         // Initialisation de la frontière avec une PriorityQueue basée sur le cout
         frontier = new PriorityQueue<>(new SearchNodeComparator());

@@ -3,7 +3,7 @@ package com.overcooked.ptut.joueurs.ia;
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.algo.AStar;
-import com.overcooked.ptut.joueurs.ia.algo.BFS;
+import com.overcooked.ptut.joueurs.ia.algo.UCS;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
@@ -53,7 +53,7 @@ public class JoueurIADecentr extends JoueurIA {
 
         SearchProblemAC prob = new CalculHeuristiquePlatDecentr(this.platsBut.getFirst(), numJoueur, this.donneesJeuClone);
         State state = new CalculHeuristiquePlatStateDecentr(this.donneesJeuClone, numJoueur);
-        BFS algo2 = new BFS(prob, state);
+        UCS algo2 = new UCS(prob, state);
         // résoudre
         SearchNodeAC sol = algo2.solve();
         List<AlimentCoordonnees> lisAction = new ArrayList<>();
@@ -89,7 +89,7 @@ public class JoueurIADecentr extends JoueurIA {
         int[] positionOtherJoueur = this.donneesJeuClone.getJoueur(numJoueurOther).getPosition();
         SearchProblemAC p = new CalculHeuristiquePlatDecentr(this.platsBut.getFirst(), numJoueurOther, this.donneesJeuClone);
         State s = new CalculHeuristiquePlatStateDecentr(this.donneesJeuClone, numJoueurOther);
-        BFS algo = new BFS(p, s);
+        UCS algo = new UCS(p, s);
         // résoudre
         SearchNodeAC solution = algo.solve();
         List<AlimentCoordonnees> listeActions = new ArrayList<>();

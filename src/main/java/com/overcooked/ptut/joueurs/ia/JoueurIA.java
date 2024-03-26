@@ -3,7 +3,7 @@ package com.overcooked.ptut.joueurs.ia;
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.algo.AStar;
-import com.overcooked.ptut.joueurs.ia.algo.BFS;
+import com.overcooked.ptut.joueurs.ia.algo.UCS;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
@@ -52,7 +52,7 @@ public class JoueurIA extends Joueur {
 
         SearchProblemAC p = new AlgoPlanificationPrimaire(donneesJeu.getPlatsBut().getFirst(), numJoueur, donneesJeu);
         State s = new AlgoPlanificationPrimaireEtat(donneesJeu, numJoueur);
-        BFS algo = new BFS(p, s);
+        UCS algo = new UCS(p, s);
 
         // résoudre
 //        ArrayList<Action> solution = algo.solve();

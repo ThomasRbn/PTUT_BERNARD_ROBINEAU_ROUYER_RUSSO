@@ -2,7 +2,7 @@ package com.overcooked.ptut.joueurs.ia.problemes.calculCheminV0;
 
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.constructionCarte.GestionActions;
-import com.overcooked.ptut.joueurs.ia.algo.BFS;
+import com.overcooked.ptut.joueurs.ia.algo.UCS;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.HasHeuristic;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
@@ -69,7 +69,7 @@ public class OvercookedUnJoueurIAState extends State implements HasHeuristic {
             //On calcule le cout de l'état courant pour chaque plat
             SearchProblemAC p = new AlgoPlanificationPrimaire(plat, numJoueur, donnees);
             State s = new AlgoPlanificationPrimaireEtat(donnees, numJoueur);
-            BFS algo = new BFS(p, s);
+            UCS algo = new UCS(p, s);
             SearchNodeAC searchNodeAC = algo.solve();
             double cout;
             if (searchNodeAC != null) {
