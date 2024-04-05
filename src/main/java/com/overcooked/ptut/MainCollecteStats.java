@@ -29,10 +29,9 @@ public class MainCollecteStats {
     public static List<Thread> threads = new ArrayList<>();
 
     public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        List<String> fichiers = List.of("niveaux/stats/niveau0.txt");
+        List<String> fichiers = List.of("niveaux/stats/niveau0.txt", "niveaux/stats/niveau4.txt");
         List<StrategieCollecte> strategieCollectes = new ArrayList<>() {{
             add(new CollecteSelonTemps());
-//            add(new CollecteSelonRecette());
         }};
 
         for (String nomFichier : fichiers) {

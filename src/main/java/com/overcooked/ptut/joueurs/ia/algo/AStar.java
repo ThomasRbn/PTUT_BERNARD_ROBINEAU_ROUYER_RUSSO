@@ -5,12 +5,10 @@ import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNode;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.TreeSearch;
-import com.overcooked.ptut.joueurs.ia.problemes.calculChemin.AlgoCalculCheminState;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Optional;
 import java.util.PriorityQueue;
 
 public class AStar extends TreeSearch {
@@ -101,7 +99,7 @@ public class AStar extends TreeSearch {
                 }
             }
         }
-        System.out.println("Pas de solution trouvée.");
+//        System.out.println("Pas de solution trouvée.");
 
         return node.getPathFromRoot();
     }

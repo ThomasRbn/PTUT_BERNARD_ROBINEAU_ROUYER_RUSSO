@@ -62,23 +62,30 @@ public class JoueurIA extends Joueur {
         SearchNodeAC derniereSolution = solution;
         List<AlimentCoordonnees> listeActions = new ArrayList<>();
         //Boucle pour récupéré le dernier Aliment coordonnee du resultat
-        while (solution.getAlimentCoordonnees() != null) {
-            listeActions.add(solution.getAlimentCoordonnees());
-            derniereSolution = solution;
-            solution = solution.getParent();
+        try {
+            while (solution.getAlimentCoordonnees() != null) {
+                listeActions.add(solution.getAlimentCoordonnees());
+                derniereSolution = solution;
+                solution = solution.getParent();
+            }
+        } catch (NullPointerException e) {
         }
+
 
         // Affichage listeActions
 //        for(AlimentCoordonnees action : listeActions){
 //            System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
 //        }
 
-        AlimentCoordonnees alimentCoordonnees = derniereSolution.getAlimentCoordonnees();
-
-        SearchProblem p2 = new AlgoCalculChemin();
-        State s2 = new AlgoCalculCheminState(donneesJeu, numJoueur, alimentCoordonnees.getAliment(), alimentCoordonnees.getCoordonnees());
-        AStar algoAstar = new AStar(p2, s2);
-        List<Action> listeAction = algoAstar.solve();
-        return listeAction == null? Action.RIEN: listeAction.getFirst();
+        try {
+            AlimentCoordonnees alimentCoordonnees = derniereSolution.getAlimentCoordonnees();
+            SearchProblem p2 = new AlgoCalculChemin();
+            State s2 = new AlgoCalculCheminState(donneesJeu, numJoueur, alimentCoordonnees.getAliment(), alimentCoordonnees.getCoordonnees());
+            AStar algoAstar = new AStar(p2, s2);
+            List<Action> listeAction = algoAstar.solve();
+            return listeAction == null ? Action.RIEN : listeAction.getFirst();
+        } catch (NullPointerException e) {
+        }
+        return Action.RIEN;
     }
 }

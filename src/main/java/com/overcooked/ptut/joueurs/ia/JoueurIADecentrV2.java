@@ -63,10 +63,13 @@ public class JoueurIADecentrV2 extends JoueurIA {
         List<AlimentCoordonnees> listeActions = new ArrayList<>();
         //Boucle pour récupéré le dernier Aliment coordonnee du resultat
         if(solution == null) return Action.RIEN;
-        while (solution.getAlimentCoordonnees() != null) {
-            listeActions.add(solution.getAlimentCoordonnees());
-            derniereSolution = solution;
-            solution = solution.getParent();
+        try {
+            while (solution.getAlimentCoordonnees() != null) {
+                listeActions.add(solution.getAlimentCoordonnees());
+                derniereSolution = solution;
+                solution = solution.getParent();
+            }
+        } catch (NullPointerException e) {
         }
 
 
@@ -75,12 +78,17 @@ public class JoueurIADecentrV2 extends JoueurIA {
 //            System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
 //        }
 
-        AlimentCoordonnees alimentCoordonnees = derniereSolution.getAlimentCoordonnees();
+        try {
+            AlimentCoordonnees alimentCoordonnees = derniereSolution.getAlimentCoordonnees();
 
-        SearchProblem p2 = new AlgoCalculChemin();
-        State s2 = new AlgoCalculCheminState(donneesJeu, numJoueur, alimentCoordonnees.getAliment(), alimentCoordonnees.getCoordonnees());
-        AStar algoAstar = new AStar(p2, s2);
-        List<Action> listeAction = algoAstar.solve();
-        return listeAction == null || listeAction.isEmpty() ? Action.RIEN: listeAction.getFirst();
+            SearchProblem p2 = new AlgoCalculChemin();
+            State s2 = new AlgoCalculCheminState(donneesJeu, numJoueur, alimentCoordonnees.getAliment(), alimentCoordonnees.getCoordonnees());
+            AStar algoAstar = new AStar(p2, s2);
+            List<Action> listeAction = algoAstar.solve();
+            return listeAction == null || listeAction.isEmpty() ? Action.RIEN: listeAction.getFirst();
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
+            // Si on ne trouve pas d'action de l'autre joueur, on fait une action par défaut
+            return Action.RIEN;
+        }
     }
 }

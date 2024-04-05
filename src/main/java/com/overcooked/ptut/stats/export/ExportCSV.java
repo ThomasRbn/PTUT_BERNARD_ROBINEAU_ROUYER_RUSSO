@@ -23,12 +23,13 @@ public class ExportCSV {
             tableau = ImportCSV.lireCSV(fichierSortie);
         }
 
+
         assert tableau != null;
 
         if (contexte.equals("Points")) {
-            stats.forEach((duo, points) -> tableau[getCellule(duo.j1())][getCellule(duo.j2())] = points.toString());
+            stats.forEach((duo, points) -> tableau[getCellule(duo.j1())][getCellule(duo.j2())] = Integer.parseInt(tableau[getCellule(duo.j1())][getCellule(duo.j2())]) != 0 ? tableau[getCellule(duo.j1())][getCellule(duo.j2())] : points.toString());
         } else {
-            stats.forEach((duo, tours) -> tableau[getCellule(duo.j1())][getCellule(duo.j2())] = tours.toString());
+            stats.forEach((duo, tours) -> tableau[getCellule(duo.j1())][getCellule(duo.j2())] = Integer.parseInt(tableau[getCellule(duo.j1())][getCellule(duo.j2())]) != 0 ? tableau[getCellule(duo.j1())][getCellule(duo.j2())] : tours.toString());
         }
 
         try {
