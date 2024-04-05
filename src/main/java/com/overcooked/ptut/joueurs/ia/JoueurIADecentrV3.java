@@ -3,7 +3,7 @@ package com.overcooked.ptut.joueurs.ia;
 import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.Joueur;
 import com.overcooked.ptut.joueurs.ia.algo.AStar;
-import com.overcooked.ptut.joueurs.ia.algo.BFS;
+import com.overcooked.ptut.joueurs.ia.algo.UCS;
 import com.overcooked.ptut.joueurs.ia.framework.common.State;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchNodeAC;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
@@ -49,7 +49,7 @@ public class JoueurIADecentrV3 extends JoueurIA {
         SearchProblemAC p = new CalculHeuristiquePlatDecentr(donneesJeuClone.getPlatsBut().getFirst(), numJoueur, donneesJeuClone);
         State s = new CalculHeuristiquePlatStateDecentr(donneesJeuClone, numJoueur);
 
-        BFS algo = new BFS(p, s);
+        UCS algo = new UCS(p, s);
 
         // résoudre
 //        ArrayList<Action> solution = algo.solve();
@@ -64,10 +64,6 @@ public class JoueurIADecentrV3 extends JoueurIA {
         }
 
         // Affichage listeActions
-        for (AlimentCoordonnees action : listeActions) {
-            System.out.println(action);
-            System.out.println(action.getAliment().getEtatNom() + " " + action.getCoordonnees()[0] + " " + action.getCoordonnees()[1]);
-        }
         genererAutresJoueurs(numJoueur);
 
         this.elementCible = listeActions.getLast();
@@ -95,7 +91,7 @@ public class JoueurIADecentrV3 extends JoueurIA {
         int[] positionOtherJoueur = this.donneesJeuClone.getJoueur(numJoueurOther).getPosition();
         SearchProblemAC p = new CalculHeuristiquePlatDecentr(this.platsBut.getFirst(), numJoueurOther, this.donneesJeuClone);
         State s = new CalculHeuristiquePlatStateDecentr(this.donneesJeuClone, numJoueurOther);
-        BFS algo = new BFS(p, s);
+        UCS algo = new UCS(p, s);
         // résoudre
         SearchNodeAC solution = algo.solve();
         List<AlimentCoordonnees> listeActions = new ArrayList<>();
@@ -109,7 +105,6 @@ public class JoueurIADecentrV3 extends JoueurIA {
             action = listeActions.getLast();
         }
         if (action != null) {
-            System.out.println("Suppression de : " + action.getAliment().getEtatNom());
             supprimerElementLisAction(action.getAliment());
         }
         //listeActions.forEach(System.out::println);
