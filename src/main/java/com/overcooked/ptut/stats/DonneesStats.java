@@ -70,20 +70,4 @@ public class DonneesStats {
     public DonneesJeu getDonneesJeu() {
         return donneesJeu;
     }
-
-    public Duo getCombinaison() {
-        return combinaison;
-    }
-
-    public StrategieCollecte getStrategieCollecte() {
-        return strategieCollecte;
-    }
-
-    public int getNbTours() {
-        return nbTours;
-    }
-
-    public long[] getTempsCalculs() {
-        return tempsCalculs;
-    }
 }
