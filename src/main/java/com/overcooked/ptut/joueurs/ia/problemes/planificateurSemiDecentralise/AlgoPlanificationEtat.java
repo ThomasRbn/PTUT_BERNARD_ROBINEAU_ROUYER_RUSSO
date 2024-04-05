@@ -60,7 +60,7 @@ public class AlgoPlanificationEtat extends State {
         coutTot = 0;
     }
 
-    public AlgoPlanificationEtat(DonneesJeu donneesJeu, List<Aliment> visiteesAncien, int[] coordonneesActuelles, int coutTot, boolean doitEtreTransformer) {
+    public AlgoPlanificationEtat(DonneesJeu donneesJeu, List<Aliment> visiteesAncien, int[] coordonneesActuelles, int coutTot, boolean doitEtreTransformer, int numJoueur) {
         this.donneesJeu = new DonneesJeu(donneesJeu);
         this.visitees = new ArrayList<>();
         for (Aliment aliment : visiteesAncien) {
@@ -69,11 +69,12 @@ public class AlgoPlanificationEtat extends State {
         this.coordonneesActuelles = coordonneesActuelles.clone();
         this.coutTot = coutTot;
         this.doitEtreTransformer = doitEtreTransformer;
+        this.numJoueur = numJoueur;
     }
 
     @Override
     protected State cloneState() {
-        return new AlgoPlanificationEtat(donneesJeu, visitees, coordonneesActuelles, coutTot, doitEtreTransformer);
+        return new AlgoPlanificationEtat(donneesJeu, visitees, coordonneesActuelles, coutTot, doitEtreTransformer, numJoueur);
     }
 
     @Override
