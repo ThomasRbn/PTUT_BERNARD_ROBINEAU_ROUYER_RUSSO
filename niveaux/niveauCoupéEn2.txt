@@ -2,6 +2,6 @@ XSXXXTX
 C..C..C
 X..X..X
 XJ.P.JX
-XDPXPXX
+XDPXXXX
 -
 T 3, S 3
