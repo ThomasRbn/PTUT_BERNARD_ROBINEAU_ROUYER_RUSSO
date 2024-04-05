@@ -97,7 +97,7 @@ public class AStarDecentr extends TreeSearch {
                 }
             }
         }
-        System.out.println("Pas de solution trouvée.");
+//        System.out.println("Pas de solution trouvée.");
         // Pas de solutions trouvées
         return null;
     }
