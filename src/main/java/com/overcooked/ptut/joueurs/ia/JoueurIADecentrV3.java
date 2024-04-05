@@ -116,6 +116,10 @@ public class JoueurIADecentrV3 extends JoueurIA {
     }
 
     public void supprimerElementLisAction(Aliment aliment) {
-        listeActions.removeIf(alimentCoordonnees -> alimentCoordonnees.getAliment().equals(aliment));
+        listeActions.removeIf(alimentCoordonnees -> conditionSuppressionElement(aliment, alimentCoordonnees));
+    }
+
+    private static boolean conditionSuppressionElement(Aliment aliment, AlimentCoordonnees alimentCoordonnees) {
+        return alimentCoordonnees.getAliment().equals(aliment);
     }
 }
