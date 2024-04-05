@@ -119,7 +119,7 @@ public class ClavierControlleur {
                 }
                 while (!jeu.getActionsDuTour().isTourTermine()) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(250);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -137,7 +137,7 @@ public class ClavierControlleur {
                 };
                 animationTimer.start();
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -6,6 +6,7 @@ import com.overcooked.ptut.joueurs.autonome.JoueurAutoN4;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
 import com.overcooked.ptut.joueurs.ia.JoueurIADecentr;
 import com.overcooked.ptut.joueurs.ia.JoueurIADecentrV2;
+import com.overcooked.ptut.joueurs.ia.JoueurIADecentrV3;
 import com.overcooked.ptut.stats.DonneesStats;
 import com.overcooked.ptut.stats.Duo;
 import com.overcooked.ptut.stats.strategieCollecte.CollecteSelonTemps;
@@ -40,6 +41,7 @@ public class MainCollecteStats {
                     add(JoueurIA.class);
                     add(JoueurIADecentr.class);
                     add(JoueurIADecentrV2.class);
+                    add(JoueurIADecentrV3.class);
                     add(getAutomate(nomFichier));
                 }};
 
