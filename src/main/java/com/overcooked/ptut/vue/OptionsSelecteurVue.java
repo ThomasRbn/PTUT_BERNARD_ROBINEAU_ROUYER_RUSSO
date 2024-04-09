@@ -46,9 +46,8 @@ public class OptionsSelecteurVue extends VBox {
             comboBox.getItems().add("AutoN0");
             comboBox.getItems().add("AutoN4");
             comboBox.getItems().add("IADecentralisee");
-            comboBox.getItems().add("IADecentrv2");
-            comboBox.getItems().add("IADecentraliseeV3");
             comboBox.getItems().add("Planif-CalculChemin");
+            comboBox.getItems().add("IADecentraliseeV3");
             this.getChildren().add(comboBox);
             comboList.add(comboBox);
             this.setAlignment(Pos.CENTER);
@@ -97,8 +96,10 @@ public class OptionsSelecteurVue extends VBox {
                             jeu.getJoueurs().add(new JoueurIADecentrV2(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
                     case "IADecentraliseeV3" ->
                             jeu.getJoueurs().add(new JoueurIADecentrV3(jeu.getCoordonneesJoueurs().get(i)[0], jeu.getCoordonneesJoueurs().get(i)[1]));
+                    default -> throw new UnsupportedOperationException("IA non supportée");
                 }
                 jeu.getJoueur(i).setNumJoueur(i);
+                System.out.println(jeu.getJoueur(i).getNumJoueur());
             }
 
             int duree = Integer.parseInt(dureeJeu.getText());

@@ -85,6 +85,7 @@ public class JoueurIA extends Joueur {
             List<Action> listeAction = algoAstar.solve();
             return listeAction == null ? Action.RIEN : listeAction.getFirst();
         } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
         }
         return Action.RIEN;
     }
