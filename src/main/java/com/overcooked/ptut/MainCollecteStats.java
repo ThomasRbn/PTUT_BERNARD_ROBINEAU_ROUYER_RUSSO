@@ -4,7 +4,6 @@ import com.overcooked.ptut.constructionCarte.DonneesJeu;
 import com.overcooked.ptut.joueurs.autonome.JoueurAutoN0;
 import com.overcooked.ptut.joueurs.autonome.JoueurAutoN4;
 import com.overcooked.ptut.joueurs.ia.JoueurIA;
-import com.overcooked.ptut.joueurs.ia.JoueurIADecentr;
 import com.overcooked.ptut.joueurs.ia.JoueurIADecentrV2;
 import com.overcooked.ptut.joueurs.ia.JoueurIADecentrV3;
 import com.overcooked.ptut.stats.DonneesStats;
@@ -53,10 +52,7 @@ public class MainCollecteStats {
 
                             mapTours.put(combinaison, new HashSet<>());
                             mapPoints.put(combinaison, new HashSet<>());
-                            if (combinaison.j1().equals(JoueurIA.class) && combinaison.j2().equals(JoueurIADecentr.class)
-                                    || combinaison.j1().equals(JoueurIADecentr.class) && combinaison.j2().equals(JoueurIA.class)
-                                    || combinaison.j1().equals(JoueurIA.class) && combinaison.j2().equals(JoueurIADecentrV2.class)
-                                    || combinaison.j1().equals(JoueurAutoN0.class) && combinaison.j2().equals(JoueurAutoN0.class)
+                            if (combinaison.j1().equals(JoueurAutoN0.class) && combinaison.j2().equals(JoueurAutoN0.class)
                                     || combinaison.j1().equals(JoueurAutoN4.class) && combinaison.j2().equals(JoueurAutoN4.class)) {
                                 mapTours.get(combinaison).add(-1);
                                 mapPoints.get(combinaison).add(-1);

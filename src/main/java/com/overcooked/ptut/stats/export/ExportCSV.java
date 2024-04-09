@@ -19,7 +19,7 @@ public class ExportCSV {
         String fichierSortie = "stats/Stats_" + contexte + "_" + collecte.getSimpleName() + "_" + fichierOrigine.split("/")[2].split("\\.")[0] + ".csv";
         File fichier = new File(fichierSortie);
         if (fichier.createNewFile()) {
-            tableau = new String[][]{{contexte + "/" + DUREE_PARTIE + "s", "IA", "IADecentr", "IADecentrV2", "IADecentrV3", "Automate"}, {"IA", "0", "0", "0", "0", "0"}, {"IADecentr", "0", "0", "0", "0", "0"}, {"IADecentrV2", "0", "0", "0", "0", "0"}, {"IADecentrV3", "0", "0", "0", "0", "0"}, {"Automate", "0", "0", "0", "0", "0"}};
+            tableau = new String[][]{{contexte + "/" + DUREE_PARTIE + "s", "IA", "IADecentrV2", "IADecentrV3", "Automate"}, {"IA", "0", "0", "0", "0"}, {"IADecentrV2", "0", "0", "0", "0"}, {"IADecentrV3", "0", "0", "0", "0"}, {"Automate", "0", "0", "0", "0"}};
         } else {
             tableau = ImportCSV.lireCSV(fichierSortie);
         }
@@ -54,10 +54,9 @@ public class ExportCSV {
     public static int getCellule(Class<? extends JoueurIA> j) {
         return switch (j.getSimpleName()) {
             case "JoueurIA" -> 1;
-            case "JoueurIADecentr" -> 2;
-            case "JoueurIADecentrV2" -> 3;
-            case "JoueurIADecentrV3" -> 4;
-            default -> 5;
+            case "JoueurIADecentrV2" -> 2;
+            case "JoueurIADecentrV3" -> 3;
+            default -> 4;
         };
     }
 
