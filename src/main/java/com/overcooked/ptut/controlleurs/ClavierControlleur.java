@@ -142,7 +142,6 @@ public class ClavierControlleur {
                     e.printStackTrace();
                 }
             }
-            System.out.println("salu");
         }).start();
     }
 }
