@@ -8,6 +8,7 @@ import com.overcooked.ptut.stats.strategieCollecte.StrategieCollecte;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Set;
 
 import static com.overcooked.ptut.MainCollecteStats.*;
 
@@ -20,10 +21,10 @@ public class DonneesStats {
     private StrategieCollecte strategieCollecte;
     private Thread thread;
 
-    public DonneesStats(DonneesJeu jeu, StrategieCollecte strategieCollecte, Duo combinaison) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public DonneesStats(DonneesJeu jeu, Class<? extends StrategieCollecte> strategieCollecte, Duo combinaison) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         this.donneesJeu = jeu;
         this.combinaison = combinaison;
-        this.strategieCollecte = strategieCollecte;
+        this.strategieCollecte = strategieCollecte.getDeclaredConstructor().newInstance();
         this.tempsCalculs = new long[2];
         jeu.getJoueurs().add(combinaison.j1().getDeclaredConstructor(int.class, int.class).newInstance(jeu.getCoordonneesJoueurs().getFirst()[0], jeu.getCoordonneesJoueurs().getFirst()[1]));
         jeu.getJoueurs().add(combinaison.j2().getDeclaredConstructor(int.class, int.class).newInstance(jeu.getCoordonneesJoueurs().getLast()[0], jeu.getCoordonneesJoueurs().getLast()[1]));
@@ -32,39 +33,49 @@ public class DonneesStats {
     }
 
     public void lancerPartie() {
+        threadOccupe = true;
         System.out.println("Lancement de la partie avec les joueurs " + combinaison.j1().getSimpleName() + " et " + combinaison.j2().getSimpleName());
-        strategieCollecte.initierTemps();
-        List<Joueur> joueursIA = donneesJeu.getJoueurs().stream().filter(joueur -> joueur instanceof JoueurIA).toList();
-        Thread thJ1 = new Thread(() -> {
+        List<Joueur> joueursIA = donneesJeu.getJoueurs().stream().filter(JoueurIA.class::isInstance).toList();
+        thread = new Thread(() -> {
+            strategieCollecte.initierTemps();
             Action actionIA;
             while (!strategieCollecte.getConditionArretSatisfaite()) {
                 for (Joueur joueur : joueursIA) {
                     long start = System.nanoTime();
                     actionIA = joueur.demanderAction(donneesJeu);
+//                    System.out.println(actionIA);
                     long end = System.nanoTime();
                     tempsCalculs[joueur.getNumJoueur()] += end - start;
-
                     donneesJeu.getActionsDuTour().ajouterAction(joueur, actionIA);
                 }
                 while (!donneesJeu.getActionsDuTour().isTourTermine()) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(250);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
                 donneesJeu.getDepot().viderDepot();
                 nbTours++;
+//                System.out.println(nbTours);
+//                System.out.println(strategieCollecte.getConditionArretSatisfaite());
                 if (strategieCollecte.getConditionArretSatisfaite()) {
-                    mapPoints.replace(combinaison, donneesJeu.getDepot().getPoints());
-                    mapTours.replace(combinaison, nbTours);
-                    thread.interrupt();
+                    System.out.println(donneesJeu.getDepot().getPoints() + " points pour " + combinaison);
+                    System.out.println(nbTours + " tours pour " + combinaison);
+
+                    Set<Integer> tours = mapTours.get(combinaison);
+                    tours.add(nbTours);
+                    mapTours.replace(combinaison, tours);
+                    Set<Integer> points = mapPoints.get(combinaison);
+                    points.add(donneesJeu.getDepot().getPoints());
+                    mapPoints.replace(combinaison, points);
+                    Thread.currentThread().interrupt();
+                    threadOccupe = false;
                 }
             }
+            threadOccupe = false;
         });
-        threads.add(thJ1);
-        thread = thJ1;
-        thJ1.start();
+        thread.start();
     }
 
     public DonneesJeu getDonneesJeu() {

@@ -10,11 +10,8 @@ import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblem;
 import com.overcooked.ptut.joueurs.ia.framework.recherche.SearchProblemAC;
 import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIAv2;
 import com.overcooked.ptut.joueurs.ia.problemes.OvercookedUnJoueurIAv2State;
-import com.overcooked.ptut.joueurs.ia.problemes.calculCheminV0.OvercookedUnJoueurIA;
 import com.overcooked.ptut.joueurs.ia.problemes.decentralisee.CalculHeuristiquePlatDecentr;
 import com.overcooked.ptut.joueurs.ia.problemes.decentralisee.CalculHeuristiquePlatStateDecentr;
-import com.overcooked.ptut.joueurs.ia.problemes.decentralisee.OvercookedUnJoueurIADecentr;
-import com.overcooked.ptut.joueurs.ia.problemes.decentralisee.OvercookedUnJoueurIAStateDecentr;
 import com.overcooked.ptut.joueurs.utilitaire.Action;
 import com.overcooked.ptut.joueurs.utilitaire.AlimentCoordonnees;
 import com.overcooked.ptut.recettes.aliment.Aliment;
@@ -39,6 +36,10 @@ public class JoueurIADecentrV3 extends JoueurIA {
         super(x, y, inventaire, direction, numJoueur);
     }
 
+    private static boolean conditionSuppressionElement(Aliment aliment, AlimentCoordonnees alimentCoordonnees) {
+        return alimentCoordonnees.getAliment().equals(aliment);
+    }
+
     // Utilisera Problème
     @Override
     public Action demanderAction(DonneesJeu donneesJeu) {
@@ -58,15 +59,21 @@ public class JoueurIADecentrV3 extends JoueurIA {
         SearchNodeAC derniereSolution = solution;
         this.listeActions = new ArrayList<>();
         //Boucle pour récupéré le dernier Aliment coordonnee du resultat
-        while (solution.getAlimentCoordonnees() != null) {
-            listeActions.add(solution.getAlimentCoordonnees());
-            solution = solution.getParent();
+        try {
+            while (solution.getAlimentCoordonnees() != null) {
+                listeActions.add(solution.getAlimentCoordonnees());
+                solution = solution.getParent();
+            }
+        } catch (Exception ignored) {
         }
 
         // Affichage listeActions
         genererAutresJoueurs(numJoueur);
 
-        this.elementCible = listeActions.getLast();
+        try {
+            this.elementCible = listeActions.getLast();
+        } catch (Exception e) {
+        }
 
         SearchProblem p2 = new OvercookedUnJoueurIAv2();
         State s2 = new OvercookedUnJoueurIAv2State(donneesJeuClone, numJoueur, elementCible.getAliment(), elementCible.getCoordonnees());
@@ -112,9 +119,5 @@ public class JoueurIADecentrV3 extends JoueurIA {
 
     public void supprimerElementLisAction(Aliment aliment) {
         listeActions.removeIf(alimentCoordonnees -> conditionSuppressionElement(aliment, alimentCoordonnees));
-    }
-
-    private static boolean conditionSuppressionElement(Aliment aliment, AlimentCoordonnees alimentCoordonnees) {
-        return alimentCoordonnees.getAliment().equals(aliment);
     }
 }
