@@ -22,8 +22,10 @@ et il suffit de sélectionner le niveau que l'on veut jouer. Ensuite, un deuxiè
 type de joueurs. Voici les différents types de joueurs disponibles :
 - Humain : le joueur est un humain, et il peut jouer avec les touches du clavier.
 - IA : le joueur est un agent artificiel, et il joue en suivant une stratégie définie.
-- IADecentralisee : le joueur est un agent artificiel, et il joue en suivant une stratégie définie. Cette stratégie est décentralisée, c'est-à-dire que chaque agent prend ses décisions de manière indépendante.
-- AutoN4: Le joueur va suivre un pattern prédéfini pour jouer. Il ne prend pas de décision et ne prend pas en compte l'état du jeu. Il fonctionne uniquement sur le niveau 4.
+- IADecentralisee : le joueur est un agent artificiel décentalisé, et il joue en suivant une stratégie définie. Cette stratégie est décentralisée, c'est-à-dire que chaque agent prend ses décisions de manière indépendante. Son temps de calcul est plus long, mais il est plus polyvalent.
+- IADecentraliséeV3 : le joueur est un agent artificiel décentralisé plus rapide, mais moins polyvalent.
+- Planif-CalculChemin : le joueur est un agent artificiel décentralisé plus avancé, qui prend en compte différemment les intentions de l'autre joueur.
+  - AutoN4: Le joueur va suivre un pattern prédéfini pour jouer. Il ne prend pas de décision et ne prend pas en compte l'état du jeu. Il fonctionne uniquement sur le niveau 4.
 
 Il faut remplir le champ de texte avec la durée en secondes souhaitée pour la partie, puis cliquer sur le bouton "Valider".
 La partie va ensuite se lancer avec les paramètres fournis précédemment.
